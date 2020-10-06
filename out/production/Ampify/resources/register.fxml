@@ -17,7 +17,7 @@
     <rowConstraints>
         <RowConstraints />
     </rowConstraints>
-    <AnchorPane id="anchorPane1" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../sample/style.css">
+    <AnchorPane id="anchorPane1" prefHeight="720.0" prefWidth="1280.0" stylesheets="@style.css">
         <AnchorPane id="overlayAnchorPane" prefHeight="720.0" prefWidth="1280.0">
             <Text fill="WHITE" layoutX="544.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sign Up">
                 <font>

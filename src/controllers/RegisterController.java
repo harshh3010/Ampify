@@ -28,7 +28,7 @@ public class RegisterController {
 
     public void loginButtonClicked(ActionEvent actionEvent) throws IOException {
         // Scene to be displayed
-        Parent loginScreenParent = FXMLLoader.load(getClass().getResource("../sample/login.fxml"));
+        Parent loginScreenParent = FXMLLoader.load(getClass().getResource("../resources/login.fxml"));
         Scene loginScreenScene = new Scene(loginScreenParent);
 
         // Getting the current stage window
