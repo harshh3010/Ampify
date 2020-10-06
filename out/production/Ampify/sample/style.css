@@ -1,0 +1,12 @@
+#anchorPane1{
+    -fx-background-image: url("images/headphones.jpg");
+    -fx-background-size: 100%;
+}
+
+#overlayAnchorPane{
+    -fx-background-color:  rgba(52, 152, 219,.6);
+}
+
+#loginPane{
+    -fx-background-color:  rgba(255, 255, 255,.8);
+}
