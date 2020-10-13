@@ -1,6 +1,8 @@
 package model;
 
-public class UserAuth {
+import java.io.Serializable;
+
+public class UserAuth implements Serializable {
 
     private String email;
     private String password;
