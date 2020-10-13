@@ -1,3 +1,5 @@
+package mainClass;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -6,9 +8,12 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
+    public static String serverIp = "localhost";
+    public static int serverPort = 50000;
+
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("resources/fxml/login.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/resources/fxml/login.fxml"));
         primaryStage.setTitle("Ampify-Player");
         primaryStage.setScene(new Scene(root, 1280, 720));
         primaryStage.show();
