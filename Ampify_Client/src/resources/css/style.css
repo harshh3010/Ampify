@@ -4,9 +4,17 @@
 }
 
 #overlayAnchorPane{
-    -fx-background-color:  rgba(52, 152, 219,.6);
+    -fx-background-color:  rgba(52, 152, 219,0.6);
+}
+
+#overlayAnchorPane2{
+    -fx-background-color:  linear-gradient(to top right , rgba(0, 0, 0,1) , rgba(52, 152, 219,0.3) 90%);
 }
 
 #loginPane{
     -fx-background-color:  rgba(255, 255, 255,.8);
+}
+
+#bottomControlBar{
+    -fx-background-color:  rgba(0, 0, 0,.2);
 }

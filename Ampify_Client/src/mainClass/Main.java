@@ -13,7 +13,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/resources/fxml/login.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/resources/fxml/home.fxml"));
         primaryStage.setTitle("Ampify-Player");
         primaryStage.setScene(new Scene(root, 1280, 720));
         primaryStage.show();
