@@ -7,26 +7,15 @@
     </content>
     <orderEntry type="jdk" jdkName="15" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module-library" exported="">
+    <orderEntry type="library" name="javafx-swt" level="project" />
+    <orderEntry type="library" name="jfoenix-9.0.10" level="project" />
+    <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Desktop/Softablitz/jfoenix-9.0.10 (1).jar!/" />
+          <root url="jar://C:/Program Files/Java/mysql-connector-java-5.1.49/mysql-connector-java-5.1.49-bin.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library>
-        <CLASSES>
-          <root url="file://C:/JavaFX SDK/javafx-sdk-15/lib" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="file://C:/JavaFX SDK/javafx-sdk-15/lib" />
-        </SOURCES>
-        <jarDirectory url="file://C:/JavaFX SDK/javafx-sdk-15/lib" recursive="false" />
-        <jarDirectory url="file://C:/JavaFX SDK/javafx-sdk-15/lib" recursive="false" type="SOURCES" />
       </library>
     </orderEntry>
   </component>

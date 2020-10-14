@@ -1,7 +1,9 @@
 package serverClasses;
 
+import serverClasses.requests.LoginRequest;
 import serverClasses.requests.SignUpRequest;
 import services.SignUp;
+import services.Login;
 import utilities.ServerRequest;
 
 import java.io.*;
@@ -44,6 +46,11 @@ public class HandleClientRequest implements Runnable {
                 if (request.equals(String.valueOf(ServerRequest.SIGNUP_REQUEST))) {
                     SignUpRequest signUpRequest = (SignUpRequest) object;
                     oos.writeObject(new SignUp().registerUser(signUpRequest));
+                    oos.flush();
+                }
+                if (request.equals(String.valueOf(ServerRequest.LOGIN_REQUEST))) {
+                    LoginRequest loginRequest = (LoginRequest) object;
+                    oos.writeObject(new Login().userLogin(loginRequest));
                     oos.flush();
                 }
 
