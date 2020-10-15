@@ -32,6 +32,7 @@ public class LoginController {
                 @Override
                 public void run() {
                     try{
+                        System.out.print("jj");
                         Socket socket = new Socket(Main.serverIp, Main.serverPort);
                         UserAuth userAuth = new UserAuth(email,pass);
                         LoginRequest loginrequest = new LoginRequest(userAuth);
@@ -50,12 +51,12 @@ public class LoginController {
                                 public void run() {
                                     // TODO: DISPLAY Login SUCCESS
                                     System.out.println("Logged in successfully");
-                                    /*try {
+                                    try{
                                         // TODO: DISPLAY Userprofile page
-                                        //root = FXMLLoader.load(getClass().getResource("/gui/studentportal.fxml"));
+                                        goToLanguageScreen(actionEvent);
                                     }catch(IOException e){
                                         e.printStackTrace();
-                                    }*/
+                                    }
 
 
                                 }
@@ -115,5 +116,18 @@ public class LoginController {
         // Setting the new scene in the window
         window.setScene(registerScreenScene);
         window.show();
+    }
+    private void goToLanguageScreen(ActionEvent actionEvent) throws IOException {
+        // Scene to be displayed
+        Parent languageChoiceScreenParent = FXMLLoader.load(getClass().getResource("/resources/fxml/languageChoice.fxml"));
+        Scene languageChoiceScreenScene = new Scene(languageChoiceScreenParent);
+
+        // Getting the current stage window
+        Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+
+        // Setting the new scene in the window
+        window.setScene(languageChoiceScreenScene);
+        window.show();
+
     }
 }

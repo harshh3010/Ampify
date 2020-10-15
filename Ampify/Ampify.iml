@@ -7,15 +7,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module-library" exported="">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../Softablitz/mysql-connector-java-5.1.49/mysql-connector-java-5.1.49-bin.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
     <orderEntry type="module-library">
       <library>
         <CLASSES>
@@ -25,7 +16,5 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="jfoenix-9.0.101" level="project" />
-    <orderEntry type="library" name="javafx-swt1" level="project" />
   </component>
 </module>
