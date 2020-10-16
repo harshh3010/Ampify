@@ -2,7 +2,18 @@
     -fx-background-image: url("../images/headphones.jpg");
     -fx-background-size: 100%;
 }
+#tableLanguage1{
+    -fx-background-color: rgba(0,0,0,0.6);
 
+}
+#tablecol1{
+    -fx-background-color: rgba(52,152,219,0.6);
+}
+#search1{
+    -fx-background-color: rgba(0,0,0,0.2);
+    -fx-border-color: rgba(52,152,219,1);
+    -fx-border-radius: 20px;
+}
 #overlayAnchorPane{
     -fx-background-color:  rgba(52, 152, 219,.6);
 }
@@ -10,3 +21,4 @@
 #loginPane{
     -fx-background-color:  rgba(255, 255, 255,.8);
 }
+

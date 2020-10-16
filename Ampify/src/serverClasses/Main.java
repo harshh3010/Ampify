@@ -15,13 +15,13 @@ public class Main {
         Socket socket;
 
         try {
-            serverSocket = new ServerSocket(50000);
+            serverSocket = new ServerSocket(50002);
             System.out.println("server started");
         } catch (IOException e) {
             e.printStackTrace();
             return;
         }
-
+System.out.print("kkk");
         while (true) {
             try {
                 socket = serverSocket.accept();

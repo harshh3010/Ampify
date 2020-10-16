@@ -1,7 +1,11 @@
 package serverClasses;
 
+import serverClasses.requests.GenresFetchRequest;
+import serverClasses.requests.LanguageFetchRequest;
 import serverClasses.requests.LoginRequest;
 import serverClasses.requests.SignUpRequest;
+import services.GenresShow;
+import services.LanguageShow;
 import services.SignUp;
 import services.Login;
 import utilities.ServerRequest;
@@ -49,8 +53,22 @@ public class HandleClientRequest implements Runnable {
                     oos.flush();
                 }
                 if (request.equals(String.valueOf(ServerRequest.LOGIN_REQUEST))) {
-                    LoginRequest loginRequest = (LoginRequest) object;
-                    oos.writeObject(new Login().userLogin(loginRequest));
+                    LoginRequest log = (LoginRequest) object;
+                    oos.writeObject(new Login().userLogin(log));
+                    oos.flush();
+                }
+
+                if (request.equals(String.valueOf(ServerRequest.LANGUAGE_SHOW))) {
+                        System.out.print("hii");
+                    LanguageFetchRequest lang = (LanguageFetchRequest) object;
+                    oos.writeObject(new LanguageShow().show(lang));
+                    oos.flush();
+                }
+
+                if (request.equals(String.valueOf(ServerRequest.GENRES_SHOW))) {
+                    System.out.print("hii");
+                    GenresFetchRequest obj = (GenresFetchRequest) object;
+                    oos.writeObject(new GenresShow().genresshow(obj));
                     oos.flush();
                 }
 
