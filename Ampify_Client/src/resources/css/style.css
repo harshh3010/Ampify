@@ -6,13 +6,17 @@
     -fx-background-color: rgba(0,0,0,0.6);
 
 }
-#tablecol1{
-    -fx-background-color: rgba(52,152,219,0.6);
-}
-#search1{
-    -fx-background-color: rgba(0,0,0,0.2);
-    -fx-border-color: rgba(52,152,219,1);
-    -fx-border-radius: 20px;
+
+#searchBar{
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: rgba(255,255,255,.5);
+    -fx-background-color: rgba(255,255,255,.1) ;
+    -fx-background-insets: 0, 0 0 1 0 ;
+    -fx-background-radius: 30 ;
+    -fx-border-color : transparent;
+    -fx-padding: 7;
+    -fx-text-box-border: transparent;
+    -fx-focus-color: transparent;
 }
 #overlayAnchorPane{
     -fx-background-color:  rgba(52, 152, 219,.6);

@@ -14,7 +14,7 @@ import model.User;
 import model.UserAuth;
 import serverClasses.requests.LoginRequest;
 import utilities.LoginStatus;
-import utilities.Status;
+
 import java.io.*;
 import java.net.Socket;
 
@@ -119,7 +119,7 @@ public class LoginController {
     }
     private void goToLanguageScreen(ActionEvent actionEvent) throws IOException {
         // Scene to be displayed
-        Parent languageChoiceScreenParent = FXMLLoader.load(getClass().getResource("/resources/fxml/languageChoice.fxml"));
+        Parent languageChoiceScreenParent = FXMLLoader.load(getClass().getResource("/resources/fxml/choicesScreen.fxml"));
         Scene languageChoiceScreenScene = new Scene(languageChoiceScreenParent);
 
         // Getting the current stage window

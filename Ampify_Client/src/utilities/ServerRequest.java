@@ -6,6 +6,7 @@ public enum ServerRequest {
     LOGIN_REQUEST("1"),
     LANGUAGE_SHOW("3"),
     GENRES_SHOW("4"),
+    SUBMIT_CHOICES("5"),
     ;
 
     ServerRequest(String s) {
