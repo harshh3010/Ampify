@@ -2,9 +2,17 @@
     -fx-background-image: url("../images/headphones.jpg");
     -fx-background-size: 100%;
 }
-#tableLanguage1{
-    -fx-background-color: rgba(0,0,0,0.6);
 
+#overlayAnchorPane{
+    -fx-background-color:  rgba(52, 152, 219,.6);
+}
+
+#overlayAnchorPane2{
+    -fx-background-color:  linear-gradient(to top right , rgba(0, 0, 0,0.7) 40% , rgba(52, 152, 219,0.25) 100%);
+}
+
+#loginPane{
+    -fx-background-color:  rgba(255, 255, 255,.8);
 }
 
 #searchBar{
@@ -18,11 +26,28 @@
     -fx-text-box-border: transparent;
     -fx-focus-color: transparent;
 }
-#overlayAnchorPane{
-    -fx-background-color:  rgba(52, 152, 219,.6);
+
+.list-view {
+    -fx-background-color: transparent;
 }
 
-#loginPane{
-    -fx-background-color:  rgba(255, 255, 255,.8);
+.list-view .list-cell:hover {
+    -fx-background-color: rgba(255,255,255,0.1);
 }
 
+.list-view .list-cell:selected {
+    -fx-background-color: rgba(255,255,255,0.2);
+}
+
+.list-view .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+}
+
+.list-view .label {
+    -fx-text-fill: white;
+}
+
+.jfx-rippler {
+    -jfx-rippler-fill: rgb(52, 152, 219);
+}
