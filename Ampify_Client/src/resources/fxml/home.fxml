@@ -97,20 +97,20 @@
                                                                 <Font size="26.0" />
                                                             </font>
                                                         </Label>
-                                          <ScrollPane fitToHeight="true" maxHeight="1.7976931348623157E308" pannable="true" vbarPolicy="NEVER">
-                                             <content>
-                                                              <HBox fx:id="musicCardHBox" maxHeight="1.7976931348623157E308" spacing="20.0" />
-                                             </content>
-                                             <VBox.margin>
-                                                <Insets />
-                                             </VBox.margin>
-                                             <padding>
-                                                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-                                             </padding>
-                                             <cursor>
-                                                <Cursor fx:constant="HAND" />
-                                             </cursor>
-                                          </ScrollPane>
+                                                        <ScrollPane fitToHeight="true" maxHeight="1.7976931348623157E308" pannable="true" vbarPolicy="NEVER">
+                                                            <content>
+                                                                <HBox fx:id="musicCardHBox" maxHeight="1.7976931348623157E308" spacing="20.0" />
+                                                            </content>
+                                                            <VBox.margin>
+                                                                <Insets />
+                                                            </VBox.margin>
+                                                            <padding>
+                                                                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                                                            </padding>
+                                                            <cursor>
+                                                                <Cursor fx:constant="HAND" />
+                                                            </cursor>
+                                                        </ScrollPane>
                                                         <Label text="Popular Artists" textFill="WHITE">
                                                             <font>
                                                                 <Font size="26.0" />
@@ -147,7 +147,7 @@
                     </tabs>
                 </JFXTabPane>
                 <JFXTextField id="searchBar" focusColor="#ffffff00" layoutX="265.0" layoutY="25.0" prefHeight="33.0" prefWidth="651.0" promptText="Search music, artists, albums and more" unFocusColor="#ffffff00" />
-                <Label layoutX="1081.0" layoutY="29.0" text="Harsh Gyanchandani" textFill="WHITE">
+                <Label fx:id="userEmailLabel" layoutX="1081.0" layoutY="29.0" text="abc@example.com" textFill="WHITE">
                     <font>
                         <Font size="16.0" />
                     </font>

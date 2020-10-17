@@ -4,7 +4,7 @@
 }
 
 #overlayAnchorPane{
-    -fx-background-color:  rgba(52, 152, 219,.6);
+    -fx-background-color:  rgba(52, 152, 219,0.6);
 }
 
 #overlayAnchorPane2{
@@ -13,6 +13,43 @@
 
 #loginPane{
     -fx-background-color:  rgba(255, 255, 255,.8);
+}
+
+#searchBar{
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: rgba(255,255,255,.5);
+    -fx-background-color: rgba(255,255,255,.1) ;
+    -fx-background-insets: 0, 0 0 1 0 ;
+    -fx-background-radius: 30 ;
+    -fx-border-color : transparent;
+    -fx-padding: 7;
+    -fx-text-box-border: transparent;
+    -fx-focus-color: transparent;
+}
+
+.list-view {
+    -fx-background-color: transparent;
+}
+
+.list-view .list-cell:hover {
+    -fx-background-color: rgba(255,255,255,0.1);
+}
+
+.list-view .list-cell:selected {
+    -fx-background-color: rgba(255,255,255,0.2);
+}
+
+.list-view .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+}
+
+.list-view .label {
+    -fx-text-fill: white;
+}
+
+.jfx-rippler {
+    -jfx-rippler-fill: rgb(52, 152, 219);
 }
 
 #bottomControlBar{
@@ -36,18 +73,6 @@
 
 .tab:selected .tab-label{
     -fx-text-fill: #ffffff;
-}
-
-#searchBar {
-    -fx-text-fill: white;
-    -fx-prompt-text-fill: rgba(255,255,255,.5);
-    -fx-background-color: rgba(255,255,255,.1) ;
-    -fx-background-insets: 0, 0 0 1 0 ;
-    -fx-background-radius: 30 ;
-    -fx-border-color : transparent;
-    -fx-padding: 7;
-    -fx-text-box-border: transparent;
-    -fx-focus-color: transparent;
 }
 
 .scroll-pane {
@@ -97,29 +122,4 @@
 
 #musicCardOverlay{
     -fx-background-color:  linear-gradient(rgba(0, 0, 0,0) , rgba(0,0,0,.6));
-}
-
-.list-view {
-    -fx-background-color: transparent;
-}
-
-.list-view .list-cell:hover {
-    -fx-background-color: rgba(255,255,255,0.1);
-}
-
-.list-view .list-cell:selected {
-    -fx-background-color: rgba(255,255,255,0.2);
-}
-
-.list-view .list-cell {
-    -fx-background-color: transparent;
-    -fx-text-fill: white;
-}
-
-.list-view .label {
-    -fx-text-fill: white;
-}
-
-.jfx-rippler {
-    -jfx-rippler-fill: rgb(52, 152, 219);
 }

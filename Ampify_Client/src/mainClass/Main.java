@@ -26,7 +26,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/resources/fxml/choicesScreen.fxml"));
+        Parent root;
 
         Preferences pref;
         pref = Preferences.userNodeForPackage(LoginController.class);
@@ -38,16 +38,23 @@ public class Main extends Application {
             if (email == null) {
                 // Login info not present
                 root = FXMLLoader.load(getClass().getResource("/resources/fxml/login.fxml"));
+                goToScreen(primaryStage, root);
             } else {
                 // Login info present
                 // Save email in UserApi class
                 UserApi userApi = UserApi.getInstance();
                 userApi.setEmail(email);
+                System.out.println(email);
+                root = FXMLLoader.load(getClass().getResource("/resources/fxml/home.fxml"));
+                goToScreen(primaryStage, root);
             }
         } else {
             root = FXMLLoader.load(getClass().getResource("/resources/fxml/login.fxml"));
+            goToScreen(primaryStage, root);
         }
+    }
 
+    public void goToScreen(Stage primaryStage, Parent root) {
         primaryStage.setTitle("Ampify-Player");
         primaryStage.setScene(new Scene(root, 1280, 720));
         primaryStage.show();
