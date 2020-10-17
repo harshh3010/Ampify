@@ -13,6 +13,8 @@ import model.Genres;
 import model.Language;
 import serverClasses.requests.GenresFetchRequest;
 import serverClasses.requests.LanguageFetchRequest;
+import serverClasses.requests.SubmitChoicesRequest;
+import utilities.Status;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -32,10 +34,8 @@ public class ChoiceController implements Initializable {
     private List<Language> languages;
     private List<Genres> genres;
 
-    public ChoiceController() {
-    }
-
-
+    private ObjectOutputStream oos = Main.userOutputStream;
+    private ObjectInputStream ois = Main.userInputStream;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -46,10 +46,6 @@ public class ChoiceController implements Initializable {
         new Thread(new Runnable() {
             @Override
             public void run() {
-
-                ObjectOutputStream oos = Main.userOutputStream;
-                ObjectInputStream ois = Main.userInputStream;
-
                 // Fetching the languages from the sever
                 try {
                     LanguageFetchRequest languageFetchRequest = new LanguageFetchRequest();
@@ -100,12 +96,25 @@ public class ChoiceController implements Initializable {
         List<String> selectedLanguages = languageList.getSelectionModel().getSelectedItems();
         List<String> selectedGenres = genreList.getSelectionModel().getSelectedItems();
 
-        for(String s : selectedLanguages){
-            System.out.println(s);
-        }
+        // Sending selected choices to the server
+        try{
+            SubmitChoicesRequest submitChoicesRequest = new SubmitChoicesRequest(
+                    selectedLanguages,
+                    selectedGenres,
+                    selectedGenres  // TODO: CHANGE TO ARTISTS
+            );
+            oos.writeObject(submitChoicesRequest);
+            oos.flush();
 
-        for(String s : selectedGenres){
-            System.out.println(s);
+            String response = (String) ois.readObject();
+            if (response.equals(Status.SUCCESS)){
+                System.out.println("Saved choices");
+            }else{
+                System.out.println("Error saving the choices");
+            }
+
+        }catch (Exception e){
+            System.out.println(e);
         }
     }
 }

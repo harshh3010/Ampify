@@ -1,9 +1,6 @@
 package serverClasses;
 
-import serverClasses.requests.GenresFetchRequest;
-import serverClasses.requests.LanguageFetchRequest;
-import serverClasses.requests.LoginRequest;
-import serverClasses.requests.SignUpRequest;
+import serverClasses.requests.*;
 import services.GenresShow;
 import services.LanguageShow;
 import services.SignUp;
@@ -70,6 +67,11 @@ public class HandleClientRequest implements Runnable {
                     GenresFetchRequest obj = (GenresFetchRequest) object;
                     oos.writeObject(new GenresShow().genresshow(obj));
                     oos.flush();
+                }
+
+                if(request.equals((String.valueOf(ServerRequest.SUBMIT_CHOICES)))){
+                    SubmitChoicesRequest submitChoicesRequest = (SubmitChoicesRequest) object;
+
                 }
 
             }catch (StreamCorruptedException e){
