@@ -18,6 +18,7 @@ import utilities.UserApi;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.prefs.Preferences;
 
 public class LoginController {
     volatile User check;
@@ -54,8 +55,15 @@ public class LoginController {
                                     System.out.println("Logged in successfully");
                                     try {
                                         // TODO: DISPLAY Userprofile page
+                                        // Saving login info in UserApi class
                                         UserApi userApi = UserApi.getInstance();
                                         userApi.setEmail(email);
+
+                                        // Saving login info in local storage
+                                        Preferences preferences = Preferences.userNodeForPackage(LoginController.class);
+                                        preferences.put("isLoggedIn","TRUE");
+                                        preferences.put("email",userApi.getEmail());
+
                                         goToLanguageScreen(actionEvent);
                                     } catch (IOException e) {
                                         e.printStackTrace();
