@@ -76,9 +76,15 @@ public class HandleClientRequest implements Runnable {
                     oos.flush();
                 }
 
-                if(request.equals((String.valueOf(ServerRequest.SUBMIT_CHOICES)))){
+                if(request.equals(String.valueOf(ServerRequest.SUBMIT_CHOICES))){
                     SubmitChoicesRequest submitChoicesRequest = (SubmitChoicesRequest) object;
                     oos.writeObject(new SubmitChoices().saveChoices(submitChoicesRequest));
+                    oos.flush();
+                }
+
+                if(request.equals(String.valueOf(ServerRequest.GET_CHOICES))){
+                    ChoicesFetchRequest choicesFetchRequest = (ChoicesFetchRequest) object;
+                    oos.writeObject(AmpifyServices.getUserChoices(choicesFetchRequest));
                     oos.flush();
                 }
 

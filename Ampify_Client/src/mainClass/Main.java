@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import model.User;
+import serverClasses.requests.ChoicesFetchRequest;
 import utilities.UserApi;
 
 import java.net.Socket;
@@ -44,7 +45,23 @@ public class Main extends Application {
                 // Save email in UserApi class
                 UserApi userApi = UserApi.getInstance();
                 userApi.setEmail(email);
-                System.out.println(email);
+
+                try {
+                    // Fetching user's choices from the database
+                    ChoicesFetchRequest choicesFetchRequest = new ChoicesFetchRequest(userApi.getEmail());
+                    userOutputStream.writeObject(choicesFetchRequest);
+                    userOutputStream.flush();
+                    choicesFetchRequest = (ChoicesFetchRequest) userInputStream.readObject();
+
+                    // Saving user's choices in UserApi class
+                    userApi.setLikedLanguages(choicesFetchRequest.getLanguageList());
+                    userApi.setLikedGenres(choicesFetchRequest.getGenresList());
+                    userApi.setLikedArtists(choicesFetchRequest.getArtistList());
+
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
                 root = FXMLLoader.load(getClass().getResource("/resources/fxml/home.fxml"));
                 goToScreen(primaryStage, root);
             }
