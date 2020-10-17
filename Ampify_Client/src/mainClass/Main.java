@@ -54,6 +54,9 @@ public class Main extends Application {
         }
     }
 
+    /*
+    Function to redirect to another screen
+     */
     public void goToScreen(Stage primaryStage, Parent root) {
         primaryStage.setTitle("Ampify-Player");
         primaryStage.setScene(new Scene(root, 1280, 720));
