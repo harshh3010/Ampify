@@ -2,16 +2,19 @@ package mainClass;
 
 import controllers.LoginController;
 import javafx.application.Application;
+import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import model.Language;
 import model.User;
 import serverClasses.requests.ChoicesFetchRequest;
 import utilities.UserApi;
 
 import java.net.Socket;
 import java.io.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.prefs.Preferences;
 
 public class Main extends Application {
@@ -47,18 +50,29 @@ public class Main extends Application {
                 userApi.setEmail(email);
 
                 try {
+
+                    userSocket = new Socket(serverIp, serverPort);
+                    userOutputStream = new ObjectOutputStream(userSocket.getOutputStream());
+                    userInputStream = new ObjectInputStream(userSocket.getInputStream());
+
                     // Fetching user's choices from the database
                     ChoicesFetchRequest choicesFetchRequest = new ChoicesFetchRequest(userApi.getEmail());
                     userOutputStream.writeObject(choicesFetchRequest);
                     userOutputStream.flush();
                     choicesFetchRequest = (ChoicesFetchRequest) userInputStream.readObject();
 
-                    // Saving user's choices in UserApi class
-                    userApi.setLikedLanguages(choicesFetchRequest.getLanguageList());
-                    userApi.setLikedGenres(choicesFetchRequest.getGenresList());
-                    userApi.setLikedArtists(choicesFetchRequest.getArtistList());
+                    if(choicesFetchRequest != null){
+                        // Saving user's choices in UserApi class
+                        userApi.setLikedLanguages(choicesFetchRequest.getLanguageList());
+                        userApi.setLikedGenres(choicesFetchRequest.getGenresList());
+                        userApi.setLikedArtists(choicesFetchRequest.getArtistList());
 
-                }catch (Exception e){
+                        System.out.println("Hope iss baar error ni aaye 🥺");
+                    }else{
+                        System.out.println("Error aaya xD");
+                    }
+
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
