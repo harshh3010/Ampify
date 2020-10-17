@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXProgressBar?>
+<?import com.jfoenix.controls.JFXTabPane?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="anchorPane1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.HomeController">
+    <children>
+        <AnchorPane id="overlayAnchorPane2" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../css/style.css">
+            <children>
+                <Pane prefHeight="720.0" prefWidth="240.0" />
+                <Pane prefHeight="720.0" prefWidth="240.0" style="-fx-background-color: ;">
+                    <children>
+                        <Label layoutX="25.0" layoutY="22.0" prefHeight="30.0" prefWidth="191.0" text="Playlist" textFill="WHITE">
+                            <font>
+                                <Font size="24.0" />
+                            </font>
+                        </Label>
+                        <JFXButton alignment="TOP_LEFT" layoutX="25.0" layoutY="70.0" prefHeight="25.0" prefWidth="191.0" text="My Playlist" textFill="WHITE" />
+                        <JFXButton alignment="TOP_LEFT" layoutX="25.0" layoutY="95.0" prefHeight="25.0" prefWidth="191.0" text="Liked Songs" textFill="WHITE" />
+                        <JFXButton alignment="TOP_LEFT" layoutX="25.0" layoutY="120.0" prefHeight="25.0" prefWidth="191.0" text="Recommended" textFill="WHITE" />
+                        <Label layoutX="25.0" layoutY="173.0" prefHeight="30.0" prefWidth="191.0" text="Now Playing" textFill="WHITE">
+                            <font>
+                                <Font size="24.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </Pane>
+                <Pane id="bottomControlBar" layoutY="620.0" prefHeight="100.0" prefWidth="1280.0">
+                    <children>
+                        <ImageView fitHeight="56.0" fitWidth="56.0" layoutX="84.0" layoutY="22.0" pickOnBounds="true">
+                            <image>
+                                <Image url="@../images/music-1.jpg" />
+                            </image>
+                        </ImageView>
+                        <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="38.0" layoutY="38.0" pickOnBounds="true">
+                            <image>
+                                <Image url="@../Icons/musical-note.png" />
+                            </image>
+                        </ImageView>
+                        <Label layoutX="160.0" layoutY="25.0" text="Music Name" textFill="WHITE">
+                            <font>
+                                <Font size="18.0" />
+                            </font>
+                        </Label>
+                        <Label layoutX="160.0" layoutY="54.0" text="Artist Name" textFill="#ffffff79" />
+                        <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="397.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../Icons/play-button.png" />
+                            </image>
+                        </ImageView>
+                        <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="358.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../Icons/previous.png" />
+                            </image>
+                        </ImageView>
+                        <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="438.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../Icons/next.png" />
+                            </image>
+                        </ImageView>
+                        <JFXProgressBar layoutX="614.0" layoutY="53.0" prefHeight="4.0" prefWidth="508.0" progress="0.54" />
+                        <Label layoutX="571.0" layoutY="46.0" text="2:10" textFill="WHITE" />
+                        <Label layoutX="1135.0" layoutY="46.0" text="4:01" textFill="WHITE" />
+                        <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="1210.0" layoutY="43.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../Icons/volume-down.png" />
+                            </image>
+                        </ImageView>
+                    </children>
+                </Pane>
+                <JFXTabPane id="tabPane" layoutX="265.0" layoutY="79.0" prefHeight="532.0" prefWidth="976.0" style="-fx-background-color: transparent;">
+                    <tabs>
+                        <Tab id="tab" text="Discover">
+                            <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="331.0" prefWidth="443.0">
+                                    <children>
+                                        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" layoutX="55.0" layoutY="51.0" prefHeight="230.0" prefWidth="217.0" style="-fx-background-color: transparent;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                            <content>
+                                                <VBox>
+                                                    <children>
+                                                        <Label text="Recently Played" textFill="WHITE">
+                                                            <font>
+                                                                <Font size="26.0" />
+                                                            </font>
+                                                        </Label>
+                                          <ScrollPane fitToHeight="true" maxHeight="1.7976931348623157E308" pannable="true" vbarPolicy="NEVER">
+                                             <content>
+                                                              <HBox fx:id="musicCardHBox" maxHeight="1.7976931348623157E308" spacing="20.0" />
+                                             </content>
+                                             <VBox.margin>
+                                                <Insets />
+                                             </VBox.margin>
+                                             <padding>
+                                                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                                             </padding>
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
+                                          </ScrollPane>
+                                                        <Label text="Popular Artists" textFill="WHITE">
+                                                            <font>
+                                                                <Font size="26.0" />
+                                                            </font>
+                                                        </Label>
+                                                        <HBox prefHeight="200.0" />
+                                                        <Label text="Trending Today" textFill="WHITE">
+                                                            <font>
+                                                                <Font size="26.0" />
+                                                            </font>
+                                                        </Label>
+                                                        <HBox prefHeight="200.0" />
+                                                    </children>
+                                                </VBox>
+                                            </content>
+                                            <padding>
+                                                <Insets top="10.0" />
+                                            </padding>
+                                        </ScrollPane>
+                                    </children>
+                                </AnchorPane>
+                            </content>
+                        </Tab>
+                        <Tab text="My Library">
+                            <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                            </content>
+                        </Tab>
+                        <Tab id="tab" text="My Parties">
+                            <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                            </content>
+                        </Tab>
+                    </tabs>
+                </JFXTabPane>
+                <JFXTextField id="searchBar" focusColor="#ffffff00" layoutX="265.0" layoutY="25.0" prefHeight="33.0" prefWidth="651.0" promptText="Search music, artists, albums and more" unFocusColor="#ffffff00" />
+                <Label layoutX="1081.0" layoutY="29.0" text="Harsh Gyanchandani" textFill="WHITE">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Label>
+            </children>
+        </AnchorPane>
+    </children>
+</AnchorPane>
