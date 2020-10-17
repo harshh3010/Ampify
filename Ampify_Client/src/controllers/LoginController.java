@@ -14,6 +14,7 @@ import model.User;
 import model.UserAuth;
 import serverClasses.requests.LoginRequest;
 import utilities.LoginStatus;
+import utilities.UserApi;
 
 import java.io.*;
 import java.net.Socket;
@@ -31,38 +32,38 @@ public class LoginController {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    try{
+                    try {
                         System.out.print("jj");
                         Socket socket = new Socket(Main.serverIp, Main.serverPort);
-                        UserAuth userAuth = new UserAuth(email,pass);
+                        UserAuth userAuth = new UserAuth(email, pass);
                         LoginRequest loginrequest = new LoginRequest(userAuth);
                         ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
                         oos.writeObject(loginrequest);
                         oos.flush();
                         ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
                         check = (User) ois.readObject();
-                        if(check.getUserLoginStatus().equals(String.valueOf(LoginStatus.SUCCESS))){
-                            Main.userSocket=socket;
-                            Main.user=check;
-                            Main.userInputStream=ois;
-                            Main.userOutputStream=oos;
+                        if (check.getUserLoginStatus().equals(String.valueOf(LoginStatus.SUCCESS))) {
+                            Main.userSocket = socket;
+                            Main.user = check;
+                            Main.userInputStream = ois;
+                            Main.userOutputStream = oos;
                             Platform.runLater(new Runnable() {
                                 @Override
                                 public void run() {
                                     // TODO: DISPLAY Login SUCCESS
                                     System.out.println("Logged in successfully");
-                                    try{
+                                    try {
                                         // TODO: DISPLAY Userprofile page
+                                        UserApi userApi = UserApi.getInstance();
+                                        userApi.setEmail(email);
                                         goToLanguageScreen(actionEvent);
-                                    }catch(IOException e){
+                                    } catch (IOException e) {
                                         e.printStackTrace();
                                     }
-
-
                                 }
                             });
 
-                        }else if(check.getUserLoginStatus().equals(String.valueOf(LoginStatus.WRONG_CREDENTIALS))) {
+                        } else if (check.getUserLoginStatus().equals(String.valueOf(LoginStatus.WRONG_CREDENTIALS))) {
                             Platform.runLater(new Runnable() {
                                 @Override
                                 public void run() {
@@ -70,7 +71,7 @@ public class LoginController {
                                     System.out.println("WRONG_CREDENTIALS");
                                 }
                             });
-                        }else if(check.getUserLoginStatus().equals(String.valueOf(LoginStatus.NO_SUCH_USER))) {
+                        } else if (check.getUserLoginStatus().equals(String.valueOf(LoginStatus.NO_SUCH_USER))) {
                             Platform.runLater(new Runnable() {
                                 @Override
                                 public void run() {
@@ -78,7 +79,7 @@ public class LoginController {
                                     System.out.println("NO_SUCH_USER");
                                 }
                             });
-                        }else{
+                        } else {
                             Platform.runLater(new Runnable() {
                                 @Override
                                 public void run() {
@@ -89,7 +90,7 @@ public class LoginController {
                         }
 
 
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         System.out.println(e);
                     }
                 }
@@ -97,8 +98,7 @@ public class LoginController {
 //
 
 
-
-    } else {
+        } else {
             // TODO: DISPLAY ERROR DIALOG
             System.out.println("Fill details");
         }
@@ -117,6 +117,7 @@ public class LoginController {
         window.setScene(registerScreenScene);
         window.show();
     }
+
     private void goToLanguageScreen(ActionEvent actionEvent) throws IOException {
         // Scene to be displayed
         Parent languageChoiceScreenParent = FXMLLoader.load(getClass().getResource("/resources/fxml/choicesScreen.fxml"));

@@ -4,7 +4,7 @@ import utilities.ServerRequest;
 
 import java.io.Serializable;
 
-public class ArtistFetchRequest implements Serializable{
+public class ArtistFetchRequest implements Serializable {
 
     /*private String artistName;
     private String artistImageURL;

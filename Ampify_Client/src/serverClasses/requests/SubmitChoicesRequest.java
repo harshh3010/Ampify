@@ -1,45 +1,58 @@
 package serverClasses.requests;
 
+import model.Artist;
+import model.Genres;
+import model.Language;
 import utilities.ServerRequest;
 
 import java.io.Serializable;
 import java.util.List;
 
 public class SubmitChoicesRequest implements Serializable {
-    private List<String> selectedLanguages;
-    private List<String> selectedGenres;
-    private List<String> selectedArtists;
+    private String email;
+    private List<Language> selectedLanguages;
+    private List<Genres> selectedGenres;
+    private List<Artist> selectedArtists;
 
     public SubmitChoicesRequest() {
     }
 
-    public SubmitChoicesRequest(List<String> selectedLanguages, List<String> selectedGenres, List<String> selectedArtists) {
+    public SubmitChoicesRequest(String email, List<Language> selectedLanguages, List<Genres> selectedGenres, List<Artist> selectedArtists) {
+        this.email = email;
         this.selectedLanguages = selectedLanguages;
         this.selectedGenres = selectedGenres;
         this.selectedArtists = selectedArtists;
     }
 
-    public List<String> getSelectedLanguages() {
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public List<Language> getSelectedLanguages() {
         return selectedLanguages;
     }
 
-    public void setSelectedLanguages(List<String> selectedLanguages) {
+    public void setSelectedLanguages(List<Language> selectedLanguages) {
         this.selectedLanguages = selectedLanguages;
     }
 
-    public List<String> getSelectedGenres() {
+    public List<Genres> getSelectedGenres() {
         return selectedGenres;
     }
 
-    public void setSelectedGenres(List<String> selectedGenres) {
+    public void setSelectedGenres(List<Genres> selectedGenres) {
         this.selectedGenres = selectedGenres;
     }
 
-    public List<String> getSelectedArtists() {
+    public List<Artist> getSelectedArtists() {
         return selectedArtists;
     }
 
-    public void setSelectedArtists(List<String> selectedArtists) {
+    public void setSelectedArtists(List<Artist> selectedArtists) {
         this.selectedArtists = selectedArtists;
     }
 

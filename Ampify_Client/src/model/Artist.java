@@ -1,47 +1,57 @@
 package model;
+
 import java.io.Serializable;
 
-public class Artist implements Serializable{
+public class Artist implements Serializable {
 
     private String artistName;
     private String artistImageURL;
     private int artistID;
     private double artistRating;
-    public Artist()
-    {
+
+    public Artist() {
 
     }
-    public String getArtistName(){
 
-        return  artistName;
-    }
-    public String getArtistImageURL(){
+    public String getArtistName() {
 
-        return  artistImageURL;
+        return artistName;
     }
-    public int getArtistID(){
 
-        return  artistID;
-    }
-    public double getArtistRating(){
+    public String getArtistImageURL() {
 
-        return  artistRating;
+        return artistImageURL;
     }
-    public void setArtistName(String artistName){
 
-        this.artistName=artistName;
-    }
-    public void setArtistImageURL(String artistImageURL){
+    public int getArtistID() {
 
-        this.artistImageURL=artistImageURL;
+        return artistID;
     }
-    public void setArtistID(int artistID){
 
-        this.artistID=artistID;
+    public double getArtistRating() {
+
+        return artistRating;
     }
-    public void setArtistRating(double artistRating){
-        this.artistRating=artistRating;
+
+    public void setArtistName(String artistName) {
+
+        this.artistName = artistName;
     }
+
+    public void setArtistImageURL(String artistImageURL) {
+
+        this.artistImageURL = artistImageURL;
+    }
+
+    public void setArtistID(int artistID) {
+
+        this.artistID = artistID;
+    }
+
+    public void setArtistRating(double artistRating) {
+        this.artistRating = artistRating;
+    }
+
     @Override
     public String toString() {
         return this.artistName;

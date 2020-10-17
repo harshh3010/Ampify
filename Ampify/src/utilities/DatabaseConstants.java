@@ -11,4 +11,13 @@ public class DatabaseConstants {
     public  static final String AUTH_TABLE_NAME = "user_auth";
     public static final String AUTH_TABLE_COL_EMAIL = "email";
     public static final String AUTH_TABLE_COL_PASS = "password";
+
+    // USER DETAILS TABLE
+    public static final String USER_DETAILS_TABLE = "user_details";
+    public static final String USER_DETAILS_COL_EMAIL = "email";
+    public static final String USER_DETAILS_COL_ARTIST = "artist";
+    public static final String USER_DETAILS_COL_LANGUAGE = "language";
+    public static final String USER_DETAILS_COL_GENRE = "genre";
+    public static final String USER_DETAILS_COL_LIKED = "likedSong";
+    public static final String USER_DETAILS_COL_PLAYLIST = "playlist";
 }

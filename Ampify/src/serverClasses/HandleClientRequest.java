@@ -71,7 +71,6 @@ public class HandleClientRequest implements Runnable {
                     oos.flush();
                 }
                 if (request.equals(String.valueOf(ServerRequest.ARTIST_SHOW))) {
-
                     ArtistFetchRequest art = (ArtistFetchRequest) object;
                     oos.writeObject(new ArtistShow().artistshow(art));
                     oos.flush();
@@ -79,7 +78,8 @@ public class HandleClientRequest implements Runnable {
 
                 if(request.equals((String.valueOf(ServerRequest.SUBMIT_CHOICES)))){
                     SubmitChoicesRequest submitChoicesRequest = (SubmitChoicesRequest) object;
-
+                    oos.writeObject(new SubmitChoices().saveChoices(submitChoicesRequest));
+                    oos.flush();
                 }
 
             }catch (StreamCorruptedException e){
