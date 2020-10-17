@@ -20,4 +20,12 @@ public class DatabaseConstants {
     public static final String USER_DETAILS_COL_GENRE = "genre";
     public static final String USER_DETAILS_COL_LIKED = "likedSong";
     public static final String USER_DETAILS_COL_PLAYLIST = "playlist";
+
+    // ARTIST TABLE
+    public static final String ARTIST_TABLE = "artist";
+    public static final String ARTIST_COL_ID = "IDartist";
+    public static final String ARTIST_COL_NAME = "artistName";
+    public static final String ARTIST_COL_IMAGE = "artistImageURL";
+    public static final String ARTIST_COL_RATING = "artistRating";
+
 }

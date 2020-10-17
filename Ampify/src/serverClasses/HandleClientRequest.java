@@ -1,12 +1,8 @@
 package serverClasses;
 
 import serverClasses.requests.*;
-import services.GenresShow;
-import services.LanguageShow;
-import services.SignUp;
-import services.Login;
-import serverClasses.requests.*;
 import services.*;
+import utilities.ArtistsFetchType;
 import utilities.ServerRequest;
 
 import java.io.*;
@@ -35,57 +31,71 @@ public class HandleClientRequest implements Runnable {
         while (true) {
             Object object = null;
             try {
-                try{
+                try {
                     object = ois.readObject();
-                }catch (EOFException e){
+                } catch (EOFException e) {
                     System.out.println("Client disconnected");
                     break;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
-                String request = (String) object.toString();
+                assert object != null;
+                String request = object.toString();
 
                 if (request.equals(String.valueOf(ServerRequest.SIGNUP_REQUEST))) {
                     SignUpRequest signUpRequest = (SignUpRequest) object;
-                    oos.writeObject(new SignUp().registerUser(signUpRequest));
+                    oos.writeObject(AmpifyServices.registerUser(signUpRequest));
                     oos.flush();
                 }
                 if (request.equals(String.valueOf(ServerRequest.LOGIN_REQUEST))) {
                     LoginRequest log = (LoginRequest) object;
-                    oos.writeObject(new Login().userLogin(log));
+                    oos.writeObject(AmpifyServices.userLogin(log));
                     oos.flush();
                 }
 
                 if (request.equals(String.valueOf(ServerRequest.LANGUAGE_SHOW))) {
-                        System.out.print("hii");
+                    System.out.print("hii");
                     LanguageFetchRequest lang = (LanguageFetchRequest) object;
-                    oos.writeObject(new LanguageShow().show(lang));
+                    oos.writeObject(AmpifyServices.showAllLanguages(lang));
                     oos.flush();
                 }
 
                 if (request.equals(String.valueOf(ServerRequest.GENRES_SHOW))) {
                     System.out.print("hii");
                     GenresFetchRequest obj = (GenresFetchRequest) object;
-                    oos.writeObject(new GenresShow().genresshow(obj));
+                    oos.writeObject(AmpifyServices.showAllGenres(obj));
                     oos.flush();
                 }
                 if (request.equals(String.valueOf(ServerRequest.ARTIST_SHOW))) {
                     ArtistFetchRequest art = (ArtistFetchRequest) object;
-                    oos.writeObject(new ArtistShow().artistshow(art));
-                    oos.flush();
+
+                    if(art.getType().equals(String.valueOf(ArtistsFetchType.ALL))){
+                        oos.writeObject(AmpifyServices.showAllArtists(art));
+                        oos.flush();
+                    }else if(art.getType().equals(String.valueOf(ArtistsFetchType.TOP))){
+                        oos.writeObject(AmpifyServices.showTopArtists(art));
+                        oos.flush();
+                    }
+
                 }
 
-                if(request.equals((String.valueOf(ServerRequest.SUBMIT_CHOICES)))){
+                if (request.equals(String.valueOf(ServerRequest.SUBMIT_CHOICES))) {
                     SubmitChoicesRequest submitChoicesRequest = (SubmitChoicesRequest) object;
-                    oos.writeObject(new SubmitChoices().saveChoices(submitChoicesRequest));
+                    oos.writeObject(AmpifyServices.saveChoices(submitChoicesRequest));
                     oos.flush();
                 }
 
-            }catch (StreamCorruptedException e){
+                if (request.equals(String.valueOf(ServerRequest.GET_CHOICES))) {
+                    ChoicesFetchRequest choicesFetchRequest = (ChoicesFetchRequest) object;
+                    oos.writeObject(AmpifyServices.getUserChoices(choicesFetchRequest));
+                    oos.flush();
+                }
+
+            } catch (StreamCorruptedException e) {
                 try {
-                    ois=new ObjectInputStream(socket.getInputStream());
-                    oos=new ObjectOutputStream(socket.getOutputStream());
+                    ois = new ObjectInputStream(socket.getInputStream());
+                    oos = new ObjectOutputStream(socket.getOutputStream());
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }

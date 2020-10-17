@@ -8,7 +8,7 @@ public enum ServerRequest {
     GENRES_SHOW("4"),
     ARTIST_SHOW("5"),
     SUBMIT_CHOICES("6"),
-    GET_CHOICES("7"),       //TODO
+    GET_CHOICES("7"),
     GET_TOP_ARTISTS("8"),   // TODO
     GET_TOP_SONGS("9"),     // TODO
     GET_FAVOURITE_SONGS("10"),
