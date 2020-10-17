@@ -7,6 +7,7 @@ public class Artist implements Serializable{
     private String artistImageURL;
     private int artistID;
     private double artistRating;
+
     public Artist()
     {
 

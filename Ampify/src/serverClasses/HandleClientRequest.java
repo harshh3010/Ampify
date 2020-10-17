@@ -5,6 +5,8 @@ import services.GenresShow;
 import services.LanguageShow;
 import services.SignUp;
 import services.Login;
+import serverClasses.requests.*;
+import services.*;
 import utilities.ServerRequest;
 
 import java.io.*;
@@ -66,6 +68,12 @@ public class HandleClientRequest implements Runnable {
                     System.out.print("hii");
                     GenresFetchRequest obj = (GenresFetchRequest) object;
                     oos.writeObject(new GenresShow().genresshow(obj));
+                    oos.flush();
+                }
+                if (request.equals(String.valueOf(ServerRequest.ARTIST_SHOW))) {
+
+                    ArtistFetchRequest art = (ArtistFetchRequest) object;
+                    oos.writeObject(new ArtistShow().artistshow(art));
                     oos.flush();
                 }
 
