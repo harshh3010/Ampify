@@ -15,6 +15,7 @@ import serverClasses.requests.ArtistFetchRequest;
 import serverClasses.requests.GenresFetchRequest;
 import serverClasses.requests.LanguageFetchRequest;
 import serverClasses.requests.SubmitChoicesRequest;
+import utilities.ArtistsFetchType;
 import utilities.Status;
 import utilities.UserApi;
 
@@ -79,7 +80,7 @@ public class ChoiceController implements Initializable {
                 }
 
                 try {
-                    ArtistFetchRequest artistsFetchRequest = new ArtistFetchRequest();
+                    ArtistFetchRequest artistsFetchRequest = new ArtistFetchRequest(String.valueOf(ArtistsFetchType.ALL));
                     oos.writeObject(artistsFetchRequest);
                     oos.flush();
                     ObjectInputStream ois = Main.userInputStream;

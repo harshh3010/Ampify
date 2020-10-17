@@ -2,19 +2,16 @@ package mainClass;
 
 import controllers.LoginController;
 import javafx.application.Application;
-import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import model.Language;
 import model.User;
 import serverClasses.requests.ChoicesFetchRequest;
 import utilities.UserApi;
 
 import java.net.Socket;
 import java.io.*;
-import java.util.concurrent.CompletableFuture;
 import java.util.prefs.Preferences;
 
 public class Main extends Application {
