@@ -95,6 +95,19 @@ public class LanguageController implements Initializable {
         window.setScene(registerScreenScene);
         window.show();
     }
+    public void onArtistClicked(ActionEvent actionEvent) throws IOException {
+
+        // Scene to be displayed
+        Parent registerScreenParent1 = FXMLLoader.load(getClass().getResource("/resources/fxml/artistChoice.fxml"));
+        Scene registerScreenScene1 = new Scene(registerScreenParent1);
+
+        // Getting the current stage window
+        Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+
+        // Setting the new scene in the window
+        window.setScene(registerScreenScene1);
+        window.show();
+    }
 
 
 }

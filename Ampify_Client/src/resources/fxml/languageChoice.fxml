@@ -27,6 +27,7 @@
         </columns>
       </TableView>
       <TextField id="search1" layoutX="799.0" layoutY="104.0" prefHeight="47.0" prefWidth="272.0" promptText="Search your Language" />
-      <Button id="genresBTN" layoutX="956.0" layoutY="545.0" onAction="#onGenresClicked" mnemonicParsing="false" prefHeight="31.0" prefWidth="116.0" text="Select genres" />
+      <Button id="genresBTN" layoutX="956.0" layoutY="545.0" mnemonicParsing="false" onAction="#onGenresClicked" prefHeight="31.0" prefWidth="116.0" text="Select genres" />
+      <Button id="artistBTN" layoutX="956.0" layoutY="587.0" mnemonicParsing="false" onAction="#onArtistClicked" prefHeight="31.0" prefWidth="116.0" text="Select artist" />
    </children>
 </AnchorPane>
