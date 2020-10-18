@@ -16,16 +16,16 @@ public class Main {
 
         try {
             serverSocket = new ServerSocket(50002);
-            System.out.println("server started");
+            System.out.println("SERVER STARTED...\nWAITING FOR CLIENTS...");
         } catch (IOException e) {
             e.printStackTrace();
             return;
         }
-System.out.print("kkk");
+
         while (true) {
             try {
                 socket = serverSocket.accept();
-                System.out.println("client connected");
+                System.out.println("CLIENT CONNECTED");
                 Thread t = new Thread(new HandleClientRequest(socket));
                 t.start();  //starting new thread to handle client request
             } catch (IOException e) {

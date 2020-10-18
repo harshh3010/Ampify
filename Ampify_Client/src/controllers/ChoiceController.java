@@ -5,8 +5,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.SelectionMode;
+import javafx.stage.Stage;
 import mainClass.Main;
 import model.Artist;
 import model.Genres;
@@ -19,6 +24,7 @@ import utilities.ArtistsFetchType;
 import utilities.Status;
 import utilities.UserApi;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.URL;
@@ -133,7 +139,10 @@ public class ChoiceController implements Initializable {
                 userApi.setLikedLanguages(selectedLanguages);
                 System.out.println("Saved choices");
 
+                goToHomeScreen(actionEvent);
+
             } else {
+                // TODO: DISPLAY ERROR
                 // Failure when saving choices
                 System.out.println("Error saving the choices");
             }
@@ -141,5 +150,18 @@ public class ChoiceController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void goToHomeScreen(ActionEvent actionEvent) throws IOException {
+        // Scene to be displayed
+        Parent languageChoiceScreenParent = FXMLLoader.load(getClass().getResource("/resources/fxml/home.fxml"));
+        Scene languageChoiceScreenScene = new Scene(languageChoiceScreenParent);
+
+        // Getting the current stage window
+        Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+
+        // Setting the new scene in the window
+        window.setScene(languageChoiceScreenScene);
+        window.show();
     }
 }

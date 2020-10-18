@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import mainClass.Main;
 import model.User;
 import model.UserAuth;
+import serverClasses.requests.ChoicesFetchRequest;
 import serverClasses.requests.LoginRequest;
 import utilities.LoginStatus;
 import utilities.UserApi;
@@ -61,11 +62,37 @@ public class LoginController {
 
                                         // Saving login info in local storage
                                         Preferences preferences = Preferences.userNodeForPackage(LoginController.class);
-                                        preferences.put("isLoggedIn","TRUE");
-                                        preferences.put("email",userApi.getEmail());
+                                        preferences.put("isLoggedIn", "TRUE");
+                                        preferences.put("email", userApi.getEmail());
 
-                                        goToLanguageScreen(actionEvent);
-                                    } catch (IOException e) {
+                                        try {
+
+                                            // Fetching user's choices from the database
+                                            ChoicesFetchRequest choicesFetchRequest = new ChoicesFetchRequest(userApi.getEmail());
+                                            oos.writeObject(choicesFetchRequest);
+                                            oos.flush();
+                                            choicesFetchRequest = (ChoicesFetchRequest) ois.readObject();
+
+                                            if (choicesFetchRequest != null
+                                                    && !choicesFetchRequest.getArtistList().isEmpty()
+                                                    && !choicesFetchRequest.getLanguageList().isEmpty()
+                                                    && !choicesFetchRequest.getGenresList().isEmpty()
+                                            ) {
+                                                // Saving user's choices in UserApi class
+                                                userApi.setLikedLanguages(choicesFetchRequest.getLanguageList());
+                                                userApi.setLikedGenres(choicesFetchRequest.getGenresList());
+                                                userApi.setLikedArtists(choicesFetchRequest.getArtistList());
+
+                                                goToHomeScreen(actionEvent);
+                                            } else {
+                                                goToDetailsScreen(actionEvent);
+                                            }
+
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+
+                                    } catch (Exception e) {
                                         e.printStackTrace();
                                     }
                                 }
@@ -105,7 +132,6 @@ public class LoginController {
             }).start();
 //
 
-
         } else {
             // TODO: DISPLAY ERROR DIALOG
             System.out.println("Fill details");
@@ -126,7 +152,7 @@ public class LoginController {
         window.show();
     }
 
-    private void goToLanguageScreen(ActionEvent actionEvent) throws IOException {
+    private void goToDetailsScreen(ActionEvent actionEvent) throws IOException {
         // Scene to be displayed
         Parent languageChoiceScreenParent = FXMLLoader.load(getClass().getResource("/resources/fxml/choicesScreen.fxml"));
         Scene languageChoiceScreenScene = new Scene(languageChoiceScreenParent);
@@ -137,6 +163,18 @@ public class LoginController {
         // Setting the new scene in the window
         window.setScene(languageChoiceScreenScene);
         window.show();
+    }
 
+    private void goToHomeScreen(ActionEvent actionEvent) throws IOException {
+        // Scene to be displayed
+        Parent languageChoiceScreenParent = FXMLLoader.load(getClass().getResource("/resources/fxml/home.fxml"));
+        Scene languageChoiceScreenScene = new Scene(languageChoiceScreenParent);
+
+        // Getting the current stage window
+        Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+
+        // Setting the new scene in the window
+        window.setScene(languageChoiceScreenScene);
+        window.show();
     }
 }

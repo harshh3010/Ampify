@@ -159,41 +159,64 @@ public class AmpifyServices {
 
         // Saving user choices in the database
         try {
-            // Query to insert data in user details table
-            String query = "INSERT INTO " + DatabaseConstants.USER_DETAILS_TABLE +
+            // Query to insert user's chosen languages in table
+            String query1 = "INSERT INTO " + DatabaseConstants.USER_CHOICE_LANGUAGE_TABLE +
                     "(" +
-                    DatabaseConstants.USER_DETAILS_COL_EMAIL + "," +
-                    DatabaseConstants.USER_DETAILS_COL_ARTIST + "," +
-                    DatabaseConstants.USER_DETAILS_COL_LANGUAGE + "," +
-                    DatabaseConstants.USER_DETAILS_COL_GENRE + "," +
-                    DatabaseConstants.USER_DETAILS_COL_LIKED + "," +
-                    DatabaseConstants.USER_DETAILS_COL_PLAYLIST +
-                    ") VALUES(?,?,?,?,?,?);";
+                    DatabaseConstants.USER_CHOICE_LANGUAGE_COL_EMAIL + "," +
+                    DatabaseConstants.USER_CHOICE_LANGUAGE_COL_NAME +
+                    ") VALUES(?,?);";
 
-            PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
+            // Query to insert user's chosen genres in table
+            String query2 = "INSERT INTO " + DatabaseConstants.USER_CHOICE_GENRES_TABLE +
+                    "(" +
+                    DatabaseConstants.USER_CHOICE_GENRES_COL_EMAIL + "," +
+                    DatabaseConstants.USER_CHOICE_GENRES_COL_NAME +
+                    ") VALUES(?,?);";
 
-            // Looping through list to insert all records in database
+            // Query to insert user's chosen artists in table
+            String query3 = "INSERT INTO " + DatabaseConstants.USER_CHOICE_ARTIST_TABLE +
+                    "(" +
+                    DatabaseConstants.USER_CHOICE_ARTIST_COL_EMAIL + "," +
+                    DatabaseConstants.USER_CHOICE_ARTIST_COL_ARTIST_ID +
+                    ") VALUES(?,?);";
+
+            PreparedStatement preparedStatement1 = Main.connection.prepareStatement(query1);
+            PreparedStatement preparedStatement2 = Main.connection.prepareStatement(query2);
+            PreparedStatement preparedStatement3 = Main.connection.prepareStatement(query3);
+
+            // Looping through lists to insert all records in database
             for (Language language : submitChoicesRequest.getSelectedLanguages()) {
-                for (Genres genre : submitChoicesRequest.getSelectedGenres()) {
-                    for (Artist artist : submitChoicesRequest.getSelectedArtists()) {
 
-                        // Inserting values in prepared statement
-                        preparedStatement.setString(1, submitChoicesRequest.getEmail());
-                        preparedStatement.setInt(2, artist.getArtistID());
-                        preparedStatement.setString(3, language.getLanguage());
-                        preparedStatement.setString(4, genre.getGenres());
-                        preparedStatement.setInt(5, 0);
-                        preparedStatement.setInt(6, 0);
+                // Inserting values in prepared statement
+                preparedStatement1.setString(1, submitChoicesRequest.getEmail());
+                preparedStatement1.setString(2, language.getLanguage());
 
-                        // Adding statement to batch of statements to be executed
-                        preparedStatement.addBatch();
-                    }
-                }
+                // Adding statement to batch of statements to be executed
+                preparedStatement1.addBatch();
             }
+            for (Genres genre : submitChoicesRequest.getSelectedGenres()) {
+                // Inserting values in prepared statement
+                preparedStatement2.setString(1, submitChoicesRequest.getEmail());
+                preparedStatement2.setString(2, genre.getGenres());
+                // Adding statement to batch of statements to be executed
+                preparedStatement2.addBatch();
+            }
+            for (Artist artist : submitChoicesRequest.getSelectedArtists()) {
 
+                // Inserting values in prepared statement
+                preparedStatement3.setString(1, submitChoicesRequest.getEmail());
+                preparedStatement3.setInt(2, artist.getArtistID());
+
+                // Adding statement to batch of statements to be executed
+                preparedStatement3.addBatch();
+            }
             try {
+
                 // Executing the prepared batch of statements and returning success result
-                preparedStatement.executeBatch();
+                preparedStatement1.executeBatch();
+                preparedStatement2.executeBatch();
+                preparedStatement3.executeBatch();
+
                 return String.valueOf(Status.SUCCESS);
             } catch (SQLException e) {
                 // Displaying error in case of failure
@@ -220,14 +243,14 @@ public class AmpifyServices {
 
         // Fetching languages from database
         try {
-            String query = "SELECT DISTINCT " + DatabaseConstants.USER_DETAILS_COL_LANGUAGE +
-                    " FROM " + DatabaseConstants.USER_DETAILS_TABLE +
-                    " WHERE " + DatabaseConstants.USER_DETAILS_COL_EMAIL + " = \"" + choicesFetchRequest.getEmail() + "\";";
+            String query = "SELECT DISTINCT " + DatabaseConstants.USER_CHOICE_LANGUAGE_COL_NAME +
+                    " FROM " + DatabaseConstants.USER_CHOICE_LANGUAGE_TABLE +
+                    " WHERE " + DatabaseConstants.USER_CHOICE_LANGUAGE_COL_EMAIL + " = \"" + choicesFetchRequest.getEmail() + "\";";
             PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Language language = new Language();
-                language.setLanguage(resultSet.getString(DatabaseConstants.USER_DETAILS_COL_LANGUAGE));
+                language.setLanguage(resultSet.getString(DatabaseConstants.USER_CHOICE_LANGUAGE_COL_NAME));
                 languageList.add(language);
             }
             result.setLanguageList(languageList);
@@ -237,14 +260,14 @@ public class AmpifyServices {
 
         // Fetching genres from database
         try {
-            String query = "SELECT DISTINCT " + DatabaseConstants.USER_DETAILS_COL_GENRE +
-                    " FROM " + DatabaseConstants.USER_DETAILS_TABLE +
-                    " WHERE " + DatabaseConstants.USER_DETAILS_COL_EMAIL + " = \"" + choicesFetchRequest.getEmail() + "\";";
+            String query = "SELECT DISTINCT " + DatabaseConstants.USER_CHOICE_GENRES_COL_NAME +
+                    " FROM " + DatabaseConstants.USER_CHOICE_GENRES_TABLE +
+                    " WHERE " + DatabaseConstants.USER_CHOICE_GENRES_COL_EMAIL + " = \"" + choicesFetchRequest.getEmail() + "\";";
             PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Genres genre = new Genres();
-                genre.setGenres(resultSet.getString(DatabaseConstants.USER_DETAILS_COL_GENRE));
+                genre.setGenres(resultSet.getString(DatabaseConstants.USER_CHOICE_GENRES_COL_NAME));
                 genreList.add(genre);
             }
             result.setGenresList(genreList);
@@ -259,9 +282,9 @@ public class AmpifyServices {
                     "A." + DatabaseConstants.ARTIST_COL_NAME + "," +
                     "A." + DatabaseConstants.ARTIST_COL_IMAGE + "," +
                     "A." + DatabaseConstants.ARTIST_COL_RATING + " " +
-                    "FROM " + DatabaseConstants.ARTIST_TABLE + " A," + DatabaseConstants.USER_DETAILS_TABLE + " U " +
-                    "WHERE U." + DatabaseConstants.USER_DETAILS_COL_ARTIST + " = A." + DatabaseConstants.ARTIST_COL_ID + " " +
-                    "AND U." + DatabaseConstants.USER_DETAILS_COL_EMAIL + " = \"" + choicesFetchRequest.getEmail() + "\" " +
+                    "FROM " + DatabaseConstants.ARTIST_TABLE + " A," + DatabaseConstants.USER_CHOICE_ARTIST_TABLE + " U " +
+                    "WHERE U." + DatabaseConstants.USER_CHOICE_ARTIST_COL_ARTIST_ID + " = A." + DatabaseConstants.ARTIST_COL_ID + " " +
+                    "AND U." + DatabaseConstants.USER_CHOICE_ARTIST_COL_EMAIL + " = \"" + choicesFetchRequest.getEmail() + "\" " +
                     "GROUP BY " + DatabaseConstants.ARTIST_COL_ID + ";";
             PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -276,10 +299,6 @@ public class AmpifyServices {
             result.setArtistList(artistList);
         } catch (SQLException e) {
             e.printStackTrace();
-        }
-
-        for (Artist artist : result.getArtistList()) {
-            System.out.println(artist.getArtistName());
         }
 
         return result;

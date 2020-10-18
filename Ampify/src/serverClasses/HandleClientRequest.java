@@ -26,7 +26,7 @@ public class HandleClientRequest implements Runnable {
 
     @Override
     public void run() {
-        System.out.println(socket.getInetAddress().getHostAddress());
+        System.out.println("CLIENT IP ADDRESS: " + socket.getInetAddress().getHostAddress());
 
         while (true) {
             Object object = null;
@@ -34,7 +34,7 @@ public class HandleClientRequest implements Runnable {
                 try {
                     object = ois.readObject();
                 } catch (EOFException e) {
-                    System.out.println("Client disconnected");
+                    System.out.println("CLIENT DISCONNECTED");
                     break;
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -55,14 +55,12 @@ public class HandleClientRequest implements Runnable {
                 }
 
                 if (request.equals(String.valueOf(ServerRequest.LANGUAGE_SHOW))) {
-                    System.out.print("hii");
                     LanguageFetchRequest lang = (LanguageFetchRequest) object;
                     oos.writeObject(AmpifyServices.showAllLanguages(lang));
                     oos.flush();
                 }
 
                 if (request.equals(String.valueOf(ServerRequest.GENRES_SHOW))) {
-                    System.out.print("hii");
                     GenresFetchRequest obj = (GenresFetchRequest) object;
                     oos.writeObject(AmpifyServices.showAllGenres(obj));
                     oos.flush();
