@@ -12,15 +12,6 @@ public class DatabaseConstants {
     public static final String AUTH_TABLE_COL_EMAIL = "email";
     public static final String AUTH_TABLE_COL_PASS = "password";
 
-    // USER DETAILS TABLE
-    public static final String USER_DETAILS_TABLE = "user_details";
-    public static final String USER_DETAILS_COL_EMAIL = "email";
-    public static final String USER_DETAILS_COL_ARTIST = "artist";
-    public static final String USER_DETAILS_COL_LANGUAGE = "language";
-    public static final String USER_DETAILS_COL_GENRE = "genre";
-    public static final String USER_DETAILS_COL_LIKED = "likedSong";
-    public static final String USER_DETAILS_COL_PLAYLIST = "playlist";
-
     // ARTIST TABLE
     public static final String ARTIST_TABLE = "artist";
     public static final String ARTIST_COL_ID = "IDartist";
@@ -28,4 +19,26 @@ public class DatabaseConstants {
     public static final String ARTIST_COL_IMAGE = "artistImageURL";
     public static final String ARTIST_COL_RATING = "artistRating";
 
+    // LANGUAGE TABLE
+    public static final String LANGUAGE_TABLE = "Language";
+    public static final String LANGUAGE_COL_NAME = "languageName";
+
+    // GENRE TABLE
+    public static final String GENRES_TABLE = "Genres";
+    public static final String GENRES_COL_NAME = "genresName";
+
+    // ARTISTS CHOICE TABLE
+    public static final String USER_CHOICE_ARTIST_TABLE = "userChoice_artist";
+    public static final String USER_CHOICE_ARTIST_COL_EMAIL = "user_email";
+    public static final String USER_CHOICE_ARTIST_COL_ARTIST_ID = "user_artistID";
+
+    // LANGUAGES CHOICE TABLE
+    public static final String USER_CHOICE_LANGUAGE_TABLE = "userChoice_language";
+    public static final String USER_CHOICE_LANGUAGE_COL_EMAIL = "useremail";
+    public static final String USER_CHOICE_LANGUAGE_COL_NAME = "user_language";
+
+    // GENRES CHOICE TABLE
+    public static final String USER_CHOICE_GENRES_TABLE = "userChoice_genres";
+    public static final String USER_CHOICE_GENRES_COL_EMAIL = "user_email";
+    public static final String USER_CHOICE_GENRES_COL_NAME = "user_genres";
 }
