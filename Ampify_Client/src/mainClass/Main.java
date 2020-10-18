@@ -36,7 +36,7 @@ public class Main extends Application {
         if (isLoggedIn.equals("TRUE")) {
             // User already logged in
             String email = pref.get("email", null);
-            if (email == null) {
+            if (email == null || email.isEmpty()) {
                 // Login info not present
                 root = FXMLLoader.load(getClass().getResource("/resources/fxml/login.fxml"));
                 goToScreen(primaryStage, root);
@@ -58,15 +58,20 @@ public class Main extends Application {
                     userOutputStream.flush();
                     choicesFetchRequest = (ChoicesFetchRequest) userInputStream.readObject();
 
-                    if(choicesFetchRequest != null){
+                    if (choicesFetchRequest != null
+                            && !choicesFetchRequest.getArtistList().isEmpty()
+                            && !choicesFetchRequest.getLanguageList().isEmpty()
+                            && !choicesFetchRequest.getGenresList().isEmpty()
+                    ) {
                         // Saving user's choices in UserApi class
                         userApi.setLikedLanguages(choicesFetchRequest.getLanguageList());
                         userApi.setLikedGenres(choicesFetchRequest.getGenresList());
                         userApi.setLikedArtists(choicesFetchRequest.getArtistList());
 
                         System.out.println("Hope iss baar error ni aaye 🥺");
-                    }else{
-                        System.out.println("Error aaya xD");
+                    } else {
+                        root = FXMLLoader.load(getClass().getResource("/resources/fxml/choicesScreen.fxml"));
+                        goToScreen(primaryStage,root);
                     }
 
                 } catch (Exception e) {
