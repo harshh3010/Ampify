@@ -15,8 +15,11 @@ import javafx.scene.Node;
 import javafx.stage.Stage;
 import mainClass.Main;
 import model.Artist;
+import model.Song;
 import serverClasses.requests.ArtistFetchRequest;
+import serverClasses.requests.SongFetchRequest;
 import utilities.ArtistsFetchType;
+import utilities.SongFetchType;
 import utilities.UserApi;
 
 import java.io.IOException;
@@ -69,6 +72,24 @@ public class HomeController implements Initializable {
             }
 
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        try {
+            //fetching top songs based on the rating
+            SongFetchRequest songFetchRequest = new SongFetchRequest(String.valueOf(SongFetchType.TOP));
+            oos.writeObject(songFetchRequest);
+            oos.flush();
+            ObjectInputStream ois = Main.userInputStream;
+            List<Song> topSongs = (List<Song>) ois.readObject();
+            //iterating the topSongs
+            for(Song songs:topSongs){
+                System.out.println(songs.getSongName()+" "+songs.getAlbumID()+" "+songs.getSongLyricsURL());
+            }
+
+        } catch (Exception e) {
+            //printing errors if any
             e.printStackTrace();
         }
     }

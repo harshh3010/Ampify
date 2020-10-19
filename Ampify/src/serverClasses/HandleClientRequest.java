@@ -4,6 +4,7 @@ import serverClasses.requests.*;
 import services.*;
 import utilities.ArtistsFetchType;
 import utilities.ServerRequest;
+import utilities.SongFetchType;
 
 import java.io.*;
 import java.net.Socket;
@@ -78,6 +79,7 @@ public class HandleClientRequest implements Runnable {
 
                 }
 
+
                 if (request.equals(String.valueOf(ServerRequest.SUBMIT_CHOICES))) {
                     SubmitChoicesRequest submitChoicesRequest = (SubmitChoicesRequest) object;
                     oos.writeObject(AmpifyServices.saveChoices(submitChoicesRequest));
@@ -88,6 +90,18 @@ public class HandleClientRequest implements Runnable {
                     ChoicesFetchRequest choicesFetchRequest = (ChoicesFetchRequest) object;
                     oos.writeObject(AmpifyServices.getUserChoices(choicesFetchRequest));
                     oos.flush();
+                }
+
+                //if request is to fetch songs!!
+                if (request.equals(String.valueOf(ServerRequest.SONG_SHOW))) {
+                    SongFetchRequest songType = (SongFetchRequest) object;
+
+                    //if request is to display top songs
+                    if(songType.getType().equals(String.valueOf(SongFetchType.TOP))){
+                        oos.writeObject(AmpifyServices.showTopSongs(songType));
+                        oos.flush();
+                    }
+
                 }
 
             } catch (StreamCorruptedException e) {
