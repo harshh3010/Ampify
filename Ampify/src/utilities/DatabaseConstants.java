@@ -41,4 +41,19 @@ public class DatabaseConstants {
     public static final String USER_CHOICE_GENRES_TABLE = "userChoice_genres";
     public static final String USER_CHOICE_GENRES_COL_EMAIL = "user_email";
     public static final String USER_CHOICE_GENRES_COL_NAME = "user_genres";
+
+    //SONG TABLE
+    public static final String SONG_TABLE = "songs";
+    public static final String SONG_COL_ID = "IDsong";
+    public static final String SONG_COL_NAME = "songName";
+    public static final String SONG_COL_ARTISTID = "IDartist";
+    public static final String SONG_COL_LANGUAGE = "languages";
+    public static final String SONG_COL_GENRES = "genre";
+    public static final String SONG_COL_MUSIC_URL = "musicURL";
+    public static final String SONG_COL_LYRICS_URL = "lyricsURL";
+    public static final String SONG_COL_IMAGE_URL = "imageURL";
+    public static final String SONG_COL_ALBUMID = "IDalbum";
+    public static final String SONG_COL_RELEASE_DATE = "releaseDate";
+    public static final String SONG_COL_RATING = "rating";
+
 }

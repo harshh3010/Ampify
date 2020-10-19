@@ -345,8 +345,8 @@ public class AmpifyServices {
     * */
     public static List<Song> showTopSongs(SongFetchRequest songFetchRequest){
         String query="Select * " +
-                "FROM songs " +
-                "ORDER BY rating DESC";
+                "FROM "+DatabaseConstants.SONG_TABLE +
+                " ORDER BY "+DatabaseConstants.SONG_COL_RATING+" DESC;";
         List<Song> topSongList=new ArrayList<>();
         try {
             PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
@@ -377,5 +377,47 @@ public class AmpifyServices {
 
         return  topSongList;
     }
+
+
+    /*
+     * To return top songs to UI!!!
+     * */
+    public static List<Song> showSongsOfParticularArtist(SongFetchRequest songFetchRequest){
+
+        int artistID= songFetchRequest.getArtistID();
+        String query="Select * " +
+                "FROM "+DatabaseConstants.SONG_TABLE+
+                " WHERE IDartist ="+artistID+";";
+        List<Song> songListOfArtist=new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            Song songSet;
+            while (resultSet.next()) {
+                songSet = new Song();
+                songSet.setSongID(resultSet.getInt(1));
+                songSet.setSongName(resultSet.getString(2));
+                songSet.setArtistID(resultSet.getInt(3));
+                songSet.setLanguage(resultSet.getString(4));
+                songSet.setGenre(resultSet.getString(5));
+                songSet.setSongURL(resultSet.getString(6));
+                songSet.setSongLyricsURL(resultSet.getString(7));
+                songSet.setSongImageURL(resultSet.getString(8));
+                songSet.setAlbumID(resultSet.getInt(9));
+                songSet.setReleaseDate(resultSet.getString(10));
+                songSet.setSongRating(resultSet.getDouble(11));
+                //adding this song object to list of song type
+                songListOfArtist.add(songSet);
+            }
+            return  songListOfArtist;
+        } catch (SQLException e) {
+            //displaying error if occured *_*
+            e.printStackTrace();
+        }
+
+        return  songListOfArtist;
+    }
+
 
 }

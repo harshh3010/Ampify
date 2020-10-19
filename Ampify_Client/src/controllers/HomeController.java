@@ -67,6 +67,7 @@ public class HomeController implements Initializable {
             ObjectInputStream ois = Main.userInputStream;
             List<Artist> artists = (List<Artist>) ois.readObject();
 
+            System.out.println("!!!TOP ARTISTS\n \n");
             for(Artist artist:artists){
                 System.out.println(artist.getArtistName());
             }
@@ -76,6 +77,10 @@ public class HomeController implements Initializable {
         }
 
 
+        /*
+        *for fetching top songs
+        */
+
         try {
             //fetching top songs based on the rating
             SongFetchRequest songFetchRequest = new SongFetchRequest(String.valueOf(SongFetchType.TOP));
@@ -84,7 +89,34 @@ public class HomeController implements Initializable {
             ObjectInputStream ois = Main.userInputStream;
             List<Song> topSongs = (List<Song>) ois.readObject();
             //iterating the topSongs
+            System.out.println("\n\n!!!TOP Songs\n \n");
             for(Song songs:topSongs){
+                System.out.println(songs.getSongName()+" "+songs.getAlbumID()+" "+songs.getSongLyricsURL());
+            }
+
+        } catch (Exception e) {
+            //printing errors if any
+            e.printStackTrace();
+        }
+
+
+
+        System.out.print("!!!");
+        System.out.println("\n\nParticular Artist Songs\n\n");
+        /*
+         *for fetching songs of particular artist
+         */
+        try {
+            //fetching songs of a particular artist based on the rating
+            //TODO : GIVE ARTIST ID USING getArtistID of artist class for artist which is selected
+            System.out.println("Songs of idartist::");
+            SongFetchRequest songFetchArtistRequest = new SongFetchRequest(String.valueOf(SongFetchType.SONGS_OF_PARTICULAR_ARTIST),3);
+            oos.writeObject(songFetchArtistRequest);
+            oos.flush();
+            ObjectInputStream ois = Main.userInputStream;
+            List<Song> songsOfParticularArtist = (List<Song>) ois.readObject();
+            //iterating the topSongs
+            for(Song songs:songsOfParticularArtist){
                 System.out.println(songs.getSongName()+" "+songs.getAlbumID()+" "+songs.getSongLyricsURL());
             }
 

@@ -95,10 +95,13 @@ public class HandleClientRequest implements Runnable {
                 //if request is to fetch songs!!
                 if (request.equals(String.valueOf(ServerRequest.SONG_SHOW))) {
                     SongFetchRequest songType = (SongFetchRequest) object;
-
                     //if request is to display top songs
                     if(songType.getType().equals(String.valueOf(SongFetchType.TOP))){
                         oos.writeObject(AmpifyServices.showTopSongs(songType));
+                        oos.flush();
+                    }//if request is to display songs of particular artist
+                    else if(songType.getType().equals(String.valueOf(SongFetchType.SONGS_OF_PARTICULAR_ARTIST))){
+                        oos.writeObject(AmpifyServices.showSongsOfParticularArtist(songType));
                         oos.flush();
                     }
 
