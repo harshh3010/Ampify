@@ -11,6 +11,7 @@ public enum ServerRequest {
     GET_CHOICES("7"),
     SONG_SHOW("8"),
     ALBUM_SHOW("9"),
+    PLAY_SONG("10"),//rn im using this for updating history TODO PLAY SONGS *_*
     GET_TOP_ARTISTS("8"),   // TODO
     GET_TOP_SONGS("9"),     // TODO
     GET_FAVOURITE_SONGS("10"),

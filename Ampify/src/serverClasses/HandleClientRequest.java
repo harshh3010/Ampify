@@ -122,6 +122,14 @@ public class HandleClientRequest implements Runnable {
 
                 }
 
+                //if request is to play songs
+                if(request.equals((String.valueOf(ServerRequest.PLAY_SONG))))
+                {
+                    PlaySongRequest playSong=(PlaySongRequest)object;
+                    oos.writeObject(AmpifyServices.playSongAddHistory(playSong));
+                    oos.flush();
+                }
+
             } catch (StreamCorruptedException e) {
                 try {
                     ois = new ObjectInputStream(socket.getInputStream());

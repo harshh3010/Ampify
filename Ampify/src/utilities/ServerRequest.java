@@ -11,14 +11,16 @@ public enum ServerRequest {
     GET_CHOICES("7"),
     SONG_SHOW("8"),
     ALBUM_SHOW("9"),
+    PLAY_SONG("10"),//rn im using this for updating history TODO PLAY SONGS *_*
     GET_TOP_ARTISTS("8"),   // Done
     GET_TOP_SONGS("9"),     // Done
+    GET_TOP_ALBUMS("13"),   // done
+    GET_ALL_ALBUMS("15"),   //done
     GET_FAVOURITE_SONGS("10"),
     GET_TRENDING_SONGS("12"),
     GET_PLAYLISTS("11"),
-    GET_TOP_ALBUMS("13"),       // TODO
     GET_RECOMMENDED_SONGS("14"),    //TODO
-    GET_ALL_ALBUMS("15"),   //TODO
+
     ;
 
     ServerRequest(String s) {

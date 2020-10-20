@@ -6,10 +6,12 @@ import model.Artist;
 import model.Song;
 import serverClasses.requests.AlbumFetchRequest;
 import serverClasses.requests.ArtistFetchRequest;
+import serverClasses.requests.PlaySongRequest;
 import serverClasses.requests.SongFetchRequest;
 import utilities.ArtistsAlbumFetchType;
 import utilities.SongFetchType;
-
+import java.sql.Timestamp;
+import java.util.Date;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -88,4 +90,25 @@ public class AmpifyServices {
 
         return (List<Song>) ois.readObject();
     }
+/*
+* Function to add to history table a particular song played by user and sets is_playing attribute of a song to true
+* */
+    public static PlaySongRequest playSong(String email,int songID) throws IOException, ClassNotFoundException {
+
+        Date date= new Date();
+        //getTime() returns current time in milliseconds
+        long time = date.getTime();
+        //Passed the milliseconds to constructor of Timestamp class
+        Timestamp timePlayed = new Timestamp(time);
+
+        PlaySongRequest playSongRequest = new PlaySongRequest(email,songID,timePlayed);
+        oos.writeObject(playSongRequest);
+        oos.flush();
+        ois = Main.userInputStream;
+        return (PlaySongRequest)ois.readObject();
+
+
+    }
+
+
 }

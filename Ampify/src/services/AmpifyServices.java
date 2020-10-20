@@ -10,6 +10,7 @@ import utilities.Status;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -491,7 +492,31 @@ public class AmpifyServices {
 
         return  songListOfAlbum;
     }
+/**
+ * To add the played song to history table and set is_playing to true
+ * */
+    public static PlaySongRequest playSongAddHistory(PlaySongRequest playSong){
+            PlaySongRequest playSongRequest=new PlaySongRequest();
+            String query = "INSERT INTO " + DatabaseConstants.USER_HISTORY_TABLE +
+                    "(" + DatabaseConstants.USER_HISTORY_COL_EMAIL +
+                    "," + DatabaseConstants.USER_HISTORY_COL_SONGID +
+                    "," + DatabaseConstants.USER_HISTORY_COL_TIMEPLAYED +
+                    ") values(?,?,?);";
+            try {
+                PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
+                preparedStatement.setString(1, playSong.getUserEmail());
+                preparedStatement.setInt(2, playSong.getSongID());
+                preparedStatement.setTimestamp(3,playSong.getTimePlayed());
+                preparedStatement.executeUpdate();
+                playSongRequest.setIs_playing(true);
+                return playSongRequest;
 
 
-
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return playSongRequest;
+    }
 }
+
+
