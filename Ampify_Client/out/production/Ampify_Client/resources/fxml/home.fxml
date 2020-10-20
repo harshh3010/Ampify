@@ -2,19 +2,12 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXProgressBar?>
-<?import com.jfoenix.controls.JFXTabPane?>
 <?import com.jfoenix.controls.JFXTextField?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Tab?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane id="anchorPane1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.HomeController">
@@ -82,70 +75,74 @@
                         </ImageView>
                     </children>
                 </Pane>
-                <JFXTabPane id="tabPane" layoutX="265.0" layoutY="79.0" prefHeight="532.0" prefWidth="976.0" style="-fx-background-color: transparent;">
-                    <tabs>
-                        <Tab id="tab" text="Discover">
-                            <content>
-                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="331.0" prefWidth="443.0">
-                                    <children>
-                                        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" layoutX="55.0" layoutY="51.0" prefHeight="230.0" prefWidth="217.0" style="-fx-background-color: transparent;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                            <content>
-                                                <VBox>
-                                                    <children>
-                                                        <Label text="Recently Played" textFill="WHITE">
-                                                            <font>
-                                                                <Font size="26.0" />
-                                                            </font>
-                                                        </Label>
-                                                        <ScrollPane fitToHeight="true" maxHeight="1.7976931348623157E308" pannable="true" vbarPolicy="NEVER">
-                                                            <content>
-                                                                <HBox fx:id="musicCardHBox" maxHeight="1.7976931348623157E308" spacing="20.0" />
-                                                            </content>
-                                                            <VBox.margin>
-                                                                <Insets />
-                                                            </VBox.margin>
-                                                            <padding>
-                                                                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-                                                            </padding>
-                                                            <cursor>
-                                                                <Cursor fx:constant="HAND" />
-                                                            </cursor>
-                                                        </ScrollPane>
-                                                        <Label text="Popular Artists" textFill="WHITE">
-                                                            <font>
-                                                                <Font size="26.0" />
-                                                            </font>
-                                                        </Label>
-                                                        <HBox prefHeight="200.0" />
-                                                        <Label text="Trending Today" textFill="WHITE">
-                                                            <font>
-                                                                <Font size="26.0" />
-                                                            </font>
-                                                        </Label>
-                                                        <HBox prefHeight="200.0" />
-                                                    </children>
-                                                </VBox>
-                                            </content>
-                                            <padding>
-                                                <Insets top="10.0" />
-                                            </padding>
-                                        </ScrollPane>
-                                    </children>
-                                </AnchorPane>
-                            </content>
-                        </Tab>
-                        <Tab text="My Library">
-                            <content>
-                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                            </content>
-                        </Tab>
-                        <Tab id="tab" text="My Parties">
-                            <content>
-                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                            </content>
-                        </Tab>
-                    </tabs>
-                </JFXTabPane>
+            <Pane fx:id="displayPane" layoutX="265.0" layoutY="79.0">
+               <children>
+<!--                      <JFXTabPane id="tabPane" prefHeight="532.0" prefWidth="976.0" style="-fx-background-color: transparent;">-->
+<!--                          <tabs>-->
+<!--                              <Tab id="tab" text="Discover">-->
+<!--                                  <content>-->
+<!--                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="331.0" prefWidth="443.0">-->
+<!--                                          <children>-->
+<!--                                              <ScrollPane fitToWidth="true" hbarPolicy="NEVER" layoutX="55.0" layoutY="51.0" prefHeight="230.0" prefWidth="217.0" style="-fx-background-color: transparent;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">-->
+<!--                                                  <content>-->
+<!--                                                      <VBox>-->
+<!--                                                          <children>-->
+<!--                                                              <Label text="Recently Played" textFill="WHITE">-->
+<!--                                                                  <font>-->
+<!--                                                                      <Font size="26.0" />-->
+<!--                                                                  </font>-->
+<!--                                                              </Label>-->
+<!--                                                              <ScrollPane fitToHeight="true" maxHeight="1.7976931348623157E308" pannable="true" vbarPolicy="NEVER">-->
+<!--                                                                  <content>-->
+<!--                                                                      <HBox fx:id="musicCardHBox" maxHeight="1.7976931348623157E308" spacing="20.0" />-->
+<!--                                                                  </content>-->
+<!--                                                                  <VBox.margin>-->
+<!--                                                                      <Insets />-->
+<!--                                                                  </VBox.margin>-->
+<!--                                                                  <padding>-->
+<!--                                                                      <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />-->
+<!--                                                                  </padding>-->
+<!--                                                                  <cursor>-->
+<!--                                                                      <Cursor fx:constant="HAND" />-->
+<!--                                                                  </cursor>-->
+<!--                                                              </ScrollPane>-->
+<!--                                                              <Label text="Popular Artists" textFill="WHITE">-->
+<!--                                                                  <font>-->
+<!--                                                                      <Font size="26.0" />-->
+<!--                                                                  </font>-->
+<!--                                                              </Label>-->
+<!--                                                <JFXListView fx:id="popularArtistsListView" fixedCellSize="0.0" maxHeight="210.0" minHeight="210.0" orientation="HORIZONTAL" prefHeight="210.0" />-->
+<!--                                                              <Label text="Trending Today" textFill="WHITE">-->
+<!--                                                                  <font>-->
+<!--                                                                      <Font size="26.0" />-->
+<!--                                                                  </font>-->
+<!--                                                              </Label>-->
+<!--                                                              <HBox prefHeight="200.0" />-->
+<!--                                                          </children>-->
+<!--                                                      </VBox>-->
+<!--                                                  </content>-->
+<!--                                                  <padding>-->
+<!--                                                      <Insets top="10.0" />-->
+<!--                                                  </padding>-->
+<!--                                              </ScrollPane>-->
+<!--                                          </children>-->
+<!--                                      </AnchorPane>-->
+<!--                                  </content>-->
+<!--                              </Tab>-->
+<!--                              <Tab text="My Library">-->
+<!--                                  <content>-->
+<!--                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />-->
+<!--                                  </content>-->
+<!--                              </Tab>-->
+<!--                              <Tab id="tab" text="My Parties">-->
+<!--                                  <content>-->
+<!--                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />-->
+<!--                                  </content>-->
+<!--                              </Tab>-->
+<!--                          </tabs>-->
+<!--                      </JFXTabPane>-->
+               </children>
+            </Pane>
                 <JFXTextField id="searchBar" focusColor="#ffffff00" layoutX="265.0" layoutY="25.0" prefHeight="33.0" prefWidth="651.0" promptText="Search music, artists, albums and more" unFocusColor="#ffffff00" />
                 <Label fx:id="userEmailLabel" layoutX="1038.0" layoutY="29.0" text="abc@example.com" textFill="WHITE">
                     <font>

@@ -19,6 +19,9 @@ public class ArtistCellFactory implements Callback<ListView<Artist>, ListCell<Ar
     @Override
     public ListCell<Artist> call(ListView<Artist> param) {
         return new ArtistCellController(displayPane);
+
     }
 }
+
+
 

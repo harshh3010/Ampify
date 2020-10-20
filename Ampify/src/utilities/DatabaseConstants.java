@@ -64,4 +64,11 @@ public class DatabaseConstants {
     public static final String SONG_COL_RELEASE_DATE = "releaseDate";
     public static final String SONG_COL_RATING = "rating";
 
+    //USER HISTORY TABLE
+    public static final String USER_HISTORY_TABLE = "user_history";
+    public static final String USER_HISTORY_COL_EMAIL = "user_email";
+    public static final String USER_HISTORY_COL_SONGID = "song_id";
+    public static final String USER_HISTORY_COL_TIMEPLAYED = "time_played";
+
+
 }

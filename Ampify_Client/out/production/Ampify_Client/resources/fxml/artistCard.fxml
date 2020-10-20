@@ -1,22 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListCell?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="200.0" maxWidth="200.0" minHeight="200.0" minWidth="200.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <AnchorPane maxHeight="120.0" maxWidth="200.0" minHeight="120.0" minWidth="200.0" prefHeight="120.0" prefWidth="200.0" style="-fx-background-color: red;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0" />
-      <Label layoutX="82.0" layoutY="24.0" text="This Is">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Label>
-      <Label layoutX="49.0" layoutY="41.0" text="Artist Name">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </Label>
-   </children>
-</AnchorPane>
+<fx:root maxHeight="200.0" maxWidth="200.0" minHeight="200.0" minWidth="200.0" prefHeight="200.0" prefWidth="200.0" type="javafx.scene.control.ListCell" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <graphic>
+      <AnchorPane fx:id="mainCard" prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <Label fx:id="nameLabel" layoutX="79.0" layoutY="89.0" text="Label" />
+         </children>
+      </AnchorPane>
+   </graphic>
+</fx:root>
