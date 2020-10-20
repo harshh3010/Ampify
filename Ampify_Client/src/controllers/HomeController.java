@@ -40,6 +40,7 @@ public class HomeController implements Initializable {
     private HBox musicCardHBox;
     UserApi userApi = UserApi.getInstance();
 
+
     private ObjectOutputStream oos = Main.userOutputStream;
     private ObjectInputStream ois = Main.userInputStream;
 
@@ -108,7 +109,7 @@ public class HomeController implements Initializable {
             //iterating the topSongs
             System.out.println("\n\n!!!TOP Songs\n \n");
             for(Song songs:topSongs){
-                System.out.println(songs.getSongName()+" "+songs.getAlbumID()+" "+songs.getSongLyricsURL());
+                System.out.println(songs.getSongName()+" "+songs.getArtistID()+" "+songs.getSongLyricsURL());
             }
 
         } catch (Exception e) {
@@ -124,17 +125,40 @@ public class HomeController implements Initializable {
          *for fetching songs of particular artist
          */
         try {
-            //fetching songs of a particular artist based on the rating
+            //fetching songs of a particular artist
             //TODO : GIVE ARTIST ID USING getArtistID of artist class for artist which is selected
             System.out.println("Songs of idartist::");
-            SongFetchRequest songFetchArtistRequest = new SongFetchRequest(String.valueOf(SongFetchType.SONGS_OF_PARTICULAR_ARTIST),3);
+            SongFetchRequest songFetchArtistRequest = new SongFetchRequest(String.valueOf(SongFetchType.SONGS_OF_PARTICULAR_ARTIST),1);
             oos.writeObject(songFetchArtistRequest);
             oos.flush();
             ObjectInputStream ois = Main.userInputStream;
             List<Song> songsOfParticularArtist = (List<Song>) ois.readObject();
             //iterating the topSongs
             for(Song songs:songsOfParticularArtist){
-                System.out.println(songs.getSongName()+" "+songs.getAlbumID()+" "+songs.getSongLyricsURL());
+                System.out.println(songs.getSongName()+" "+songs.getArtistID());
+            }
+
+        } catch (Exception e) {
+            //printing errors if any
+            e.printStackTrace();
+        }
+
+
+        /*
+         *for fetching songs of particular album
+         */
+        try {
+            //fetching songs of a particular album
+            //TODO : GIVE Album ID USING getAlbumID of artist class for artist which is selected
+            System.out.println("Songs of album::");
+            SongFetchRequest songFetchArtistRequest = new SongFetchRequest(String.valueOf(SongFetchType.SONGS_OF_PARTICULAR_ALBUM),11);
+            oos.writeObject(songFetchArtistRequest);
+            oos.flush();
+            ObjectInputStream ois = Main.userInputStream;
+            List<Song> songsOfParticularAlbum = (List<Song>) ois.readObject();
+            //iterating the topSongs
+            for(Song songs:songsOfParticularAlbum){
+                System.out.println(songs.getSongName()+" "+songs.getAlbumID());
             }
 
         } catch (Exception e) {

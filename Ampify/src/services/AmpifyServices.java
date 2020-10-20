@@ -412,11 +412,11 @@ public class AmpifyServices {
 
 
     /*
-     * To return top songs to UI!!!
+     * To return songs of particular artist to UI!!!
      * */
     public static List<Song> showSongsOfParticularArtist(SongFetchRequest songFetchRequest){
 
-        int artistID= songFetchRequest.getArtistID();
+        int artistID= songFetchRequest.getID();
         String query="Select * " +
                 "FROM "+DatabaseConstants.SONG_TABLE+
                 " WHERE IDartist ="+artistID+";";
@@ -450,6 +450,48 @@ public class AmpifyServices {
 
         return  songListOfArtist;
     }
+
+
+    /*
+     * To return  songs of aprticular album to UI!!!
+     * */
+    public static List<Song> showSongsOfParticularAlbum(SongFetchRequest songFetchRequest){
+
+        int albumID= songFetchRequest.getID();
+        String query="Select * " +
+                "FROM "+DatabaseConstants.SONG_TABLE+
+                " WHERE "+DatabaseConstants.SONG_COL_ALBUMID +"="+albumID+";";
+        List<Song> songListOfAlbum=new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            Song songSet;
+            while (resultSet.next()) {
+                songSet = new Song();
+                songSet.setSongID(resultSet.getInt(1));
+                songSet.setSongName(resultSet.getString(2));
+                songSet.setArtistID(resultSet.getInt(3));
+                songSet.setLanguage(resultSet.getString(4));
+                songSet.setGenre(resultSet.getString(5));
+                songSet.setSongURL(resultSet.getString(6));
+                songSet.setSongLyricsURL(resultSet.getString(7));
+                songSet.setSongImageURL(resultSet.getString(8));
+                songSet.setAlbumID(resultSet.getInt(9));
+                songSet.setReleaseDate(resultSet.getString(10));
+                songSet.setSongRating(resultSet.getDouble(11));
+                //adding this song object to list of song type
+                songListOfAlbum.add(songSet);
+            }
+            return  songListOfAlbum;
+        } catch (SQLException e) {
+            //displaying error if occured *_*
+            e.printStackTrace();
+        }
+
+        return  songListOfAlbum;
+    }
+
 
 
 }
