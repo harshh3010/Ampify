@@ -9,8 +9,10 @@ public enum ServerRequest {
     ARTIST_SHOW("5"),
     SUBMIT_CHOICES("6"),
     GET_CHOICES("7"),
-    GET_TOP_ARTISTS("8"),   // TODO
-    GET_TOP_SONGS("9"),     // TODO
+    SONG_SHOW("8"),
+    ALBUM_SHOW("9"),
+    GET_TOP_ARTISTS("8"),   // Done
+    GET_TOP_SONGS("9"),     // Done
     GET_FAVOURITE_SONGS("10"),
     GET_TRENDING_SONGS("12"),
     GET_PLAYLISTS("11"),
