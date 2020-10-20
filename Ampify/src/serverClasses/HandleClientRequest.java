@@ -2,8 +2,9 @@ package serverClasses;
 
 import serverClasses.requests.*;
 import services.*;
-import utilities.ArtistsFetchType;
+import utilities.ArtistsAlbumFetchType;
 import utilities.ServerRequest;
+import utilities.SongFetchType;
 
 import java.io.*;
 import java.net.Socket;
@@ -68,15 +69,27 @@ public class HandleClientRequest implements Runnable {
                 if (request.equals(String.valueOf(ServerRequest.ARTIST_SHOW))) {
                     ArtistFetchRequest art = (ArtistFetchRequest) object;
 
-                    if(art.getType().equals(String.valueOf(ArtistsFetchType.ALL))){
+                    if(art.getType().equals(String.valueOf(ArtistsAlbumFetchType.ALL))){
                         oos.writeObject(AmpifyServices.showAllArtists(art));
                         oos.flush();
-                    }else if(art.getType().equals(String.valueOf(ArtistsFetchType.TOP))){
+                    }else if(art.getType().equals(String.valueOf(ArtistsAlbumFetchType.TOP))){
                         oos.writeObject(AmpifyServices.showTopArtists(art));
                         oos.flush();
                     }
 
                 }
+
+                if (request.equals(String.valueOf(ServerRequest.ALBUM_SHOW))) {
+                    AlbumFetchRequest album = (AlbumFetchRequest) object;
+
+                    if(album.getType().equals(String.valueOf(ArtistsAlbumFetchType.TOP))){
+                        oos.writeObject(AmpifyServices.showTopAlbums(album));
+                        oos.flush();
+                    }
+
+                }
+
+
 
                 if (request.equals(String.valueOf(ServerRequest.SUBMIT_CHOICES))) {
                     SubmitChoicesRequest submitChoicesRequest = (SubmitChoicesRequest) object;
@@ -88,6 +101,25 @@ public class HandleClientRequest implements Runnable {
                     ChoicesFetchRequest choicesFetchRequest = (ChoicesFetchRequest) object;
                     oos.writeObject(AmpifyServices.getUserChoices(choicesFetchRequest));
                     oos.flush();
+                }
+
+                //if request is to fetch songs!!
+                if (request.equals(String.valueOf(ServerRequest.SONG_SHOW))) {
+                    SongFetchRequest songType = (SongFetchRequest) object;
+                    //if request is to display top songs
+                    if(songType.getType().equals(String.valueOf(SongFetchType.TOP))){
+                        oos.writeObject(AmpifyServices.showTopSongs(songType));
+                        oos.flush();
+                    }//if request is to display songs of particular artist
+                    else if(songType.getType().equals(String.valueOf(SongFetchType.SONGS_OF_PARTICULAR_ARTIST))){
+                        oos.writeObject(AmpifyServices.showSongsOfParticularArtist(songType));
+                        oos.flush();
+                    }//if request is to display songs of particular album
+                    else if(songType.getType().equals(String.valueOf(SongFetchType.SONGS_OF_PARTICULAR_ALBUM))){
+                        oos.writeObject(AmpifyServices.showSongsOfParticularAlbum(songType));
+                        oos.flush();
+                    }
+
                 }
 
             } catch (StreamCorruptedException e) {
