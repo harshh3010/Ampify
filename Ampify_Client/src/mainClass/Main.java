@@ -17,7 +17,7 @@ import java.util.prefs.Preferences;
 public class Main extends Application {
 
     public static String serverIp = "localhost";
-    public static int serverPort = 50002;
+    public static int serverPort = 50000;
 
     public static Socket userSocket;
     public static ObjectOutputStream userOutputStream;
