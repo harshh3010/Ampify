@@ -2,15 +2,22 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="530.0" prefWidth="975.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ArtistScreenController">
     <children>
       <JFXButton fx:id="backButton" layoutX="8.0" layoutY="8.0" onAction="#onBackClicked" text="Go Back" textFill="WHITE" />
-        <Label fx:id="nameLabel" layoutX="67.0" layoutY="53.0" text="Label" textFill="WHITE">
+        <Label fx:id="nameLabel" layoutX="23.0" layoutY="235.0" text="Label" textFill="WHITE">
          <font>
             <Font name="System Bold" size="20.0" />
          </font></Label>
+      <ImageView fx:id="imageView" fitHeight="180.0" fitWidth="180.0" layoutX="23.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true" />
+      <Label fx:id="ratingLabel" layoutX="24.0" layoutY="265.0" text="Label" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
     </children>
 </Pane>
