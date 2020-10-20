@@ -15,7 +15,7 @@ public class Main {
         Socket socket;
 
         try {
-            serverSocket = new ServerSocket(50000);
+            serverSocket = new ServerSocket(50004);
             System.out.println("SERVER STARTED...\nWAITING FOR CLIENTS...");
         } catch (IOException e) {
             e.printStackTrace();

@@ -17,7 +17,7 @@ import java.util.prefs.Preferences;
 public class Main extends Application {
 
     public static String serverIp = "localhost";
-    public static int serverPort = 50000;
+    public static int serverPort = 50004;
 
     public static Socket userSocket;
     public static ObjectOutputStream userOutputStream;
@@ -27,6 +27,11 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
+        userSocket = new Socket(serverIp, serverPort);
+        userOutputStream = new ObjectOutputStream(userSocket.getOutputStream());
+        userInputStream = new ObjectInputStream(userSocket.getInputStream());
+
         Parent root;
 
         Preferences pref;
@@ -47,11 +52,6 @@ public class Main extends Application {
                 userApi.setEmail(email);
 
                 try {
-
-                    userSocket = new Socket(serverIp, serverPort);
-                    userOutputStream = new ObjectOutputStream(userSocket.getOutputStream());
-                    userInputStream = new ObjectInputStream(userSocket.getInputStream());
-
                     // Fetching user's choices from the database
                     ChoicesFetchRequest choicesFetchRequest = new ChoicesFetchRequest(userApi.getEmail());
                     userOutputStream.writeObject(choicesFetchRequest);
@@ -71,7 +71,7 @@ public class Main extends Application {
                         System.out.println("Hope iss baar error ni aaye 🥺");
                     } else {
                         root = FXMLLoader.load(getClass().getResource("/resources/fxml/choicesScreen.fxml"));
-                        goToScreen(primaryStage,root);
+                        goToScreen(primaryStage, root);
                     }
 
                 } catch (Exception e) {
