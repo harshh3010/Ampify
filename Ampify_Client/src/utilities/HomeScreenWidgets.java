@@ -4,4 +4,5 @@ import javafx.scene.layout.Pane;
 
 public class HomeScreenWidgets {
     public static Pane displayPane;
+    public static Pane bottomPane;
 }

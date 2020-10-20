@@ -2,6 +2,7 @@ package controllers;
 
 import CellFactories.ArtistCellFactory;
 import Services.AmpifyServices;
+import Services.MediaPlayerService;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
 import javafx.beans.Observable;
@@ -46,6 +47,8 @@ public class HomeController implements Initializable {
     @FXML
     public Pane displayPane;
     @FXML
+    public Pane bottomPane;
+    @FXML
     UserApi userApi = UserApi.getInstance();
 
 
@@ -58,11 +61,22 @@ public class HomeController implements Initializable {
         displayUserData();
 
         HomeScreenWidgets.displayPane = displayPane;
+        HomeScreenWidgets.bottomPane = bottomPane;
+
         try{
             Pane newPane =  FXMLLoader.load(getClass().getResource("/resources/fxml/homeContentsPane.fxml"));
             displayPane.getChildren().add(newPane);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+        if(MediaPlayerService.previousSong != null){
+            try {
+                Pane mediaController = FXMLLoader.load(getClass().getResource("/resources/fxml/mediaPlayer.fxml"));
+                bottomPane.getChildren().add(mediaController);
+            }catch (IOException e){
+                e.printStackTrace();
+            }
         }
 
         // Displaying top albums

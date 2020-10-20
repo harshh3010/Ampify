@@ -1,21 +1,25 @@
 package controllers;
 
+import CellFactories.SongCellFactory;
+import Services.AmpifyServices;
+import com.jfoenix.controls.JFXListView;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import model.Artist;
+import model.Song;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.List;
 
-public class ArtistScreenController implements Initializable {
 
+public class ArtistScreenController {
 
     private Artist artist;
     private Pane homePageDisplayPane;
@@ -26,11 +30,8 @@ public class ArtistScreenController implements Initializable {
     public Label ratingLabel;
     @FXML
     public Label nameLabel;
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-    }
+    @FXML
+    public JFXListView<Song> songListView;
 
     public void saveArtistDetails(Artist artist, Pane homePageDisplayPane) {
         this.artist = artist;
@@ -41,8 +42,15 @@ public class ArtistScreenController implements Initializable {
         imageView.setImage(new Image(artist.getArtistImageURL()));
         imageView.setPreserveRatio(false);
 //        imageView.setStyle("-fx-background-image: url(\"" + artist.getArtistImageURL() + "\"); -fx-background-size: cover;");
-    }
 
+        try {
+            List<Song> songList = AmpifyServices.getSongsOfArtist(artist.getArtistID());
+            songListView.setItems(FXCollections.observableArrayList(songList));
+            songListView.setCellFactory(new SongCellFactory());
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void onBackClicked(ActionEvent actionEvent) {
         try {

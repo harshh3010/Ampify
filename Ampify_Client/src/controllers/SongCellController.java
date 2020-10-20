@@ -1,37 +1,33 @@
 package controllers;
 
+import Services.MediaPlayerService;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
+
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import model.Artist;
+import model.Song;
+import utilities.HomeScreenWidgets;
 
 import java.io.IOException;
 
-public class ArtistCellController extends ListCell<Artist> {
+public class SongCellController extends ListCell<Song> {
 
     @FXML
     private Label nameLabel;
-    @FXML
-    private AnchorPane mainCard;
 
-    // Display pane of home screen
-    private Pane displayPane;
-
-    public ArtistCellController(Pane displayPane) {
-        this.displayPane = displayPane;
+    public SongCellController() {
         loadFXML();
     }
 
     private void loadFXML() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/fxml/artistCard.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/fxml/songCard.fxml"));
             loader.setController(this);
             loader.setRoot(this);
             loader.load();
@@ -41,32 +37,28 @@ public class ArtistCellController extends ListCell<Artist> {
     }
 
     @Override
-    protected void updateItem(Artist artist, boolean b) {
-        super.updateItem(artist, b);
+    protected void updateItem(Song song, boolean b) {
+        super.updateItem(song, b);
+
 
         if (b) {
             setText(null);
             setContentDisplay(ContentDisplay.TEXT_ONLY);
         } else {
-            nameLabel.setText(artist.getArtistName());
-            mainCard.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            nameLabel.setText(song.getSongName());
+            this.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
                     if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
                         if (mouseEvent.getClickCount() == 2) {
+                            MediaPlayerService.currentSong = song;
                             try {
-                                // Move to artist screen on double click
-                                FXMLLoader loader =  new FXMLLoader(getClass().getResource("/resources/fxml/artistScreen.fxml"));
-                                Pane newLoadedPane = loader.load();
-                                ArtistScreenController artistScreenController = loader.getController();
-                                artistScreenController.saveArtistDetails(artist,displayPane);
-                                displayPane.getChildren().remove(0);
-                                displayPane.getChildren().add(newLoadedPane);
-
+                                Pane mediaController = FXMLLoader.load(getClass().getResource("/resources/fxml/mediaPlayer.fxml"));
+                                HomeScreenWidgets.bottomPane.getChildren().clear();
+                                HomeScreenWidgets.bottomPane.getChildren().add(mediaController);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
-
                         }
                     }
                 }
@@ -74,4 +66,5 @@ public class ArtistCellController extends ListCell<Artist> {
             setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         }
     }
+
 }
