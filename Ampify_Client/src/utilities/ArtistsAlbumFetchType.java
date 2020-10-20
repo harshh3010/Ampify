@@ -1,12 +1,12 @@
 package utilities;
 
-public enum ArtistsFetchType {
+public enum ArtistsAlbumFetchType {
 
     ALL("0"),
     TOP("1"),
     ;
 
-    ArtistsFetchType(String s) {
+    ArtistsAlbumFetchType(String s) {
         s.toString();
     }
 }

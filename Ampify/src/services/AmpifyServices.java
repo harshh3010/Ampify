@@ -341,6 +341,38 @@ public class AmpifyServices {
 
 
     /*
+     * To return top albums to UI!!!
+     * */
+    public static List<Album> showTopAlbums(AlbumFetchRequest albumFetchRequest){
+        String query="Select * " +
+                "FROM "+DatabaseConstants.ALBUM_TABLE +
+                " ORDER BY "+DatabaseConstants.ALBUM_COL_RATING+" DESC;";
+        List<Album> topAlbumList=new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            Album albumSet;
+            while (resultSet.next()) {
+                albumSet = new Album();
+                albumSet.setAlbumID(resultSet.getInt(1));
+                albumSet.setAlbumName(resultSet.getString(2));
+                albumSet.setReleaseDate(resultSet.getString(3));
+                albumSet.setRating(resultSet.getDouble(4));
+                //adding this song object to list of song type
+                topAlbumList.add(albumSet);
+            }
+            return  topAlbumList;
+        } catch (SQLException e) {
+            //displaying error if occured *_*
+            e.printStackTrace();
+        }
+
+        return  topAlbumList;
+    }
+
+
+    /*
     * To return top songs to UI!!!
     * */
     public static List<Song> showTopSongs(SongFetchRequest songFetchRequest){

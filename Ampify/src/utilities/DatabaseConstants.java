@@ -19,6 +19,14 @@ public class DatabaseConstants {
     public static final String ARTIST_COL_IMAGE = "artistImageURL";
     public static final String ARTIST_COL_RATING = "artistRating";
 
+    // ALBUM TABLE
+    public static final String ALBUM_TABLE = "albums";
+    public static final String ALBUM_COL_ID = "IDalbum";
+    public static final String ALBUM_COL_NAME = "albumName";
+    public static final String ALBUM_COL_RELEASEDATE = "albumReleaseDate";
+    public static final String ALBUM_COL_RATING = "albumRating";
+
+
     // LANGUAGE TABLE
     public static final String LANGUAGE_TABLE = "Language";
     public static final String LANGUAGE_COL_NAME = "languageName";

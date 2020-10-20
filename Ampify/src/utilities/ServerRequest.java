@@ -10,6 +10,7 @@ public enum ServerRequest {
     SUBMIT_CHOICES("6"),
     GET_CHOICES("7"),
     SONG_SHOW("8"),
+    ALBUM_SHOW("9"),
     GET_TOP_ARTISTS("8"),   // Done
     GET_TOP_SONGS("9"),     // Done
     GET_FAVOURITE_SONGS("10"),

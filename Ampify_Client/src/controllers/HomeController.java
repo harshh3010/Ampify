@@ -1,8 +1,6 @@
 package controllers;
 
 import com.jfoenix.controls.JFXButton;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,11 +12,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.Node;
 import javafx.stage.Stage;
 import mainClass.Main;
+import model.Album;
 import model.Artist;
 import model.Song;
+import serverClasses.requests.AlbumFetchRequest;
 import serverClasses.requests.ArtistFetchRequest;
 import serverClasses.requests.SongFetchRequest;
-import utilities.ArtistsFetchType;
+import utilities.ArtistsAlbumFetchType;
 import utilities.SongFetchType;
 import utilities.UserApi;
 
@@ -59,9 +59,9 @@ public class HomeController implements Initializable {
                 e.printStackTrace();
             }
         }
-
+//fetching top artists
         try {
-            ArtistFetchRequest artistsFetchRequest = new ArtistFetchRequest(String.valueOf(ArtistsFetchType.TOP));
+            ArtistFetchRequest artistsFetchRequest = new ArtistFetchRequest(String.valueOf(ArtistsAlbumFetchType.TOP));
             oos.writeObject(artistsFetchRequest);
             oos.flush();
             ObjectInputStream ois = Main.userInputStream;
@@ -70,6 +70,23 @@ public class HomeController implements Initializable {
             System.out.println("!!!TOP ARTISTS\n \n");
             for(Artist artist:artists){
                 System.out.println(artist.getArtistName());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+//fetching top albums
+        try {
+            AlbumFetchRequest albumFetchRequest = new AlbumFetchRequest(String.valueOf(ArtistsAlbumFetchType.TOP));
+            oos.writeObject(albumFetchRequest);
+            oos.flush();
+            ObjectInputStream ois = Main.userInputStream;
+            List<Album> topAlbums = (List<Album>) ois.readObject();
+            //iterating the topAlbums
+            System.out.println("!!!TOP Albums\n \n");
+            for(Album album:topAlbums){
+                System.out.println(album.getAlbumName());
             }
 
         } catch (Exception e) {

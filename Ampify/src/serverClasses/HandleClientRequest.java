@@ -2,7 +2,7 @@ package serverClasses;
 
 import serverClasses.requests.*;
 import services.*;
-import utilities.ArtistsFetchType;
+import utilities.ArtistsAlbumFetchType;
 import utilities.ServerRequest;
 import utilities.SongFetchType;
 
@@ -69,15 +69,26 @@ public class HandleClientRequest implements Runnable {
                 if (request.equals(String.valueOf(ServerRequest.ARTIST_SHOW))) {
                     ArtistFetchRequest art = (ArtistFetchRequest) object;
 
-                    if(art.getType().equals(String.valueOf(ArtistsFetchType.ALL))){
+                    if(art.getType().equals(String.valueOf(ArtistsAlbumFetchType.ALL))){
                         oos.writeObject(AmpifyServices.showAllArtists(art));
                         oos.flush();
-                    }else if(art.getType().equals(String.valueOf(ArtistsFetchType.TOP))){
+                    }else if(art.getType().equals(String.valueOf(ArtistsAlbumFetchType.TOP))){
                         oos.writeObject(AmpifyServices.showTopArtists(art));
                         oos.flush();
                     }
 
                 }
+
+                if (request.equals(String.valueOf(ServerRequest.ALBUM_SHOW))) {
+                    AlbumFetchRequest album = (AlbumFetchRequest) object;
+
+                    if(album.getType().equals(String.valueOf(ArtistsAlbumFetchType.TOP))){
+                        oos.writeObject(AmpifyServices.showTopAlbums(album));
+                        oos.flush();
+                    }
+
+                }
+
 
 
                 if (request.equals(String.valueOf(ServerRequest.SUBMIT_CHOICES))) {
