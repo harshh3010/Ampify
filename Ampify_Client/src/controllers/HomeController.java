@@ -1,22 +1,31 @@
 package controllers;
 
+import CellFactories.ArtistCellFactory;
 import Services.AmpifyServices;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXListView;
+import javafx.beans.Observable;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.Node;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import mainClass.Main;
 import model.Album;
 import model.Artist;
 import model.Song;
 import serverClasses.requests.SongFetchRequest;
+import utilities.HomeScreenWidgets;
 import utilities.SongFetchType;
 import utilities.UserApi;
 
@@ -35,7 +44,8 @@ public class HomeController implements Initializable {
     @FXML
     public JFXButton logoutButton;
     @FXML
-    private HBox musicCardHBox;
+    public Pane displayPane;
+    @FXML
     UserApi userApi = UserApi.getInstance();
 
 
@@ -47,26 +57,11 @@ public class HomeController implements Initializable {
 
         displayUserData();
 
-        // TODO: Recently played music
-        Node[] nodes = new Node[10];
-        for (int i = 0; i < nodes.length; i++) {
-            try {
-                nodes[i] = FXMLLoader.load(getClass().getResource("/resources/fxml/music_card.fxml"));
-                musicCardHBox.getChildren().add(nodes[i]);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        // Displaying top artists
-        try {
-            System.out.println("TOP ARTISTS: ");
-            List<Artist> artists = AmpifyServices.getTopArtists();
-            for (Artist artist : artists) {
-                System.out.println(artist.getArtistName());
-            }
-            System.out.println();
-        } catch (IOException | ClassNotFoundException e) {
+        HomeScreenWidgets.displayPane = displayPane;
+        try{
+            Pane newPane =  FXMLLoader.load(getClass().getResource("/resources/fxml/homeContentsPane.fxml"));
+            displayPane.getChildren().add(newPane);
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -87,7 +82,7 @@ public class HomeController implements Initializable {
             System.out.println("TOP SONGS: ");
             List<Song> songs = AmpifyServices.getTopSongs();
             for (Song song : songs) {
-                System.out.println(song.getSongName());
+                System.out.println(song.getSongURL());
             }
             System.out.println();
         } catch (IOException | ClassNotFoundException e) {

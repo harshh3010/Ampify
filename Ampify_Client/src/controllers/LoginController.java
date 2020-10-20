@@ -154,14 +154,14 @@ public class LoginController {
 
     private void goToDetailsScreen(ActionEvent actionEvent) throws IOException {
         // Scene to be displayed
-        Parent languageChoiceScreenParent = FXMLLoader.load(getClass().getResource("/resources/fxml/choicesScreen.fxml"));
-        Scene languageChoiceScreenScene = new Scene(languageChoiceScreenParent);
+        Parent detailsScreenParent = FXMLLoader.load(getClass().getResource("/resources/fxml/choicesScreen.fxml"));
+        Scene detailsScreenScene = new Scene(detailsScreenParent);
 
-        // Getting the current stage window
+        // Getting the current stage window 
         Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
 
         // Setting the new scene in the window
-        window.setScene(languageChoiceScreenScene);
+        window.setScene(detailsScreenScene);
         window.show();
     }
 
