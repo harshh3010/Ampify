@@ -8,7 +8,7 @@
 * [ Features ](#features)
 * [Instructions to run](#installation)
 * [Contributors](contributors)
-<hr>
+
 # <a name="features"></a>Features
 * A user can login / register.
 * New users choose the languages, artists and genres they like.
@@ -24,8 +24,7 @@ adjust volume, length of the song in front of each song.etc.
 * Filters for searching songs (like album, artist, etc.).
 * Display lyrics of songs.
 * Search for users and create a group.
-* Have group playlists where each member can add their music.
-
+* Have group playlists where each member can add their music
 
 # <a name="installation"></a>Instructions to run
 * .import mysql-connector-java-5.1.46.jar, javafx.media.jar and Jfoenix.jar from into the library of IDE.
