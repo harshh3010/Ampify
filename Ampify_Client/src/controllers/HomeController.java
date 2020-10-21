@@ -97,7 +97,7 @@ public class HomeController implements Initializable {
             System.out.println("TOP SONGS: ");
             List<Song> songs = AmpifyServices.getTopSongs();
             for (Song song : songs) {
-                System.out.println(song.getSongURL());
+                System.out.println(song.getSongName()+" "+song.getSongURL()+" "+song.getArtistName());
             }
             System.out.println();
         } catch (IOException | ClassNotFoundException e) {
@@ -109,7 +109,7 @@ public class HomeController implements Initializable {
         //TODO PLAY SONG TASK AND GIVE SONG ID []
         try {
 
-            PlaySongRequest song = AmpifyServices.playSong(userApi.getEmail(), 3);
+            PlaySongRequest song = AmpifyServices.playSong( 3);
             if (song.isIs_playing()==true)
             System.out.println("\n\nEnjoy your song!!");
             else

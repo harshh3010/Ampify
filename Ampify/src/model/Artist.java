@@ -8,6 +8,13 @@ public class Artist implements Serializable{
     private int artistID;
     private double artistRating;
 
+    public Artist(int artistID,String artistName, String artistImageURL,  double artistRating) {
+        this.artistName = artistName;
+        this.artistImageURL = artistImageURL;
+        this.artistID = artistID;
+        this.artistRating = artistRating;
+    }
+
     public Artist()
     {
 

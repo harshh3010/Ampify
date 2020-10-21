@@ -45,6 +45,9 @@ public class ArtistScreenController {
 
         try {
             List<Song> songList = AmpifyServices.getSongsOfArtist(artist.getArtistID());
+            for (Song song : songList) {
+                System.out.println(song.getSongName()+" "+song.getSongURL()+" "+song.getArtistName());
+            }
             songListView.setItems(FXCollections.observableArrayList(songList));
             songListView.setCellFactory(new SongCellFactory());
         } catch (IOException | ClassNotFoundException e) {
