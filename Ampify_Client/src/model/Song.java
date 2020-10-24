@@ -1,8 +1,11 @@
 package model;
 
+
+
 import java.io.Serializable;
 
 public class Song implements Serializable {
+
     private int songID;
     private String songName;
     private String songImageURL;
@@ -14,6 +17,15 @@ public class Song implements Serializable {
     private String language;
     private String genre;
     private String releaseDate;
+    private String artistName;
+
+    public String getArtistName() {
+        return artistName;
+    }
+
+    public void setArtistName(String artistName) {
+        this.artistName = artistName;
+    }
 
     public String getLanguage() {
         return language;
@@ -112,3 +124,4 @@ public class Song implements Serializable {
 
 
 }
+

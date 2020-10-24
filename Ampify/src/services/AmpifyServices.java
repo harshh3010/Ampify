@@ -380,14 +380,28 @@ public class AmpifyServices {
         String query="Select * " +
                 "FROM "+DatabaseConstants.SONG_TABLE +
                 " ORDER BY "+DatabaseConstants.SONG_COL_RATING+" DESC;";
+        String query1;
+
         List<Song> topSongList=new ArrayList<>();
         try {
             PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
 
             ResultSet resultSet = preparedStatement.executeQuery();
             Song songSet;
+
             while (resultSet.next()) {
                 songSet = new Song();
+                query1="SELECT * FROM "+DatabaseConstants.ARTIST_TABLE+" WHERE "+DatabaseConstants.ARTIST_COL_ID+" ="+resultSet.getInt(3)+";";
+                PreparedStatement preparedStatement2=Main.connection.prepareStatement(query1);
+                ResultSet resultSet2 = preparedStatement2.executeQuery();
+
+                while (resultSet2.next())
+                {
+                    songSet.setArtistName(resultSet2.getString(2));
+                }
+
+
+
                 songSet.setSongID(resultSet.getInt(1));
                 songSet.setSongName(resultSet.getString(2));
                 songSet.setArtistID(resultSet.getInt(3));
@@ -399,6 +413,12 @@ public class AmpifyServices {
                 songSet.setAlbumID(resultSet.getInt(9));
                 songSet.setReleaseDate(resultSet.getString(10));
                 songSet.setSongRating(resultSet.getDouble(11));
+
+
+
+
+
+
                 //adding this song object to list of song type
                 topSongList.add(songSet);
             }
@@ -421,6 +441,7 @@ public class AmpifyServices {
         String query="Select * " +
                 "FROM "+DatabaseConstants.SONG_TABLE+
                 " WHERE IDartist ="+artistID+";";
+        String query1;
         List<Song> songListOfArtist=new ArrayList<>();
         try {
             PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
@@ -429,6 +450,14 @@ public class AmpifyServices {
             Song songSet;
             while (resultSet.next()) {
                 songSet = new Song();
+                query1="SELECT * FROM "+DatabaseConstants.ARTIST_TABLE+" WHERE "+DatabaseConstants.ARTIST_COL_ID+" ="+resultSet.getInt(3)+";";
+                PreparedStatement preparedStatement2=Main.connection.prepareStatement(query1);
+                ResultSet resultSet2 = preparedStatement2.executeQuery();
+
+                while (resultSet2.next())
+                {
+                    songSet.setArtistName(resultSet2.getString(2));
+                }
                 songSet.setSongID(resultSet.getInt(1));
                 songSet.setSongName(resultSet.getString(2));
                 songSet.setArtistID(resultSet.getInt(3));
@@ -440,6 +469,7 @@ public class AmpifyServices {
                 songSet.setAlbumID(resultSet.getInt(9));
                 songSet.setReleaseDate(resultSet.getString(10));
                 songSet.setSongRating(resultSet.getDouble(11));
+
                 //adding this song object to list of song type
                 songListOfArtist.add(songSet);
             }
@@ -462,6 +492,7 @@ public class AmpifyServices {
         String query="Select * " +
                 "FROM "+DatabaseConstants.SONG_TABLE+
                 " WHERE "+DatabaseConstants.SONG_COL_ALBUMID +"="+albumID+";";
+        String query1;
         List<Song> songListOfAlbum=new ArrayList<>();
         try {
             PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
@@ -470,6 +501,15 @@ public class AmpifyServices {
             Song songSet;
             while (resultSet.next()) {
                 songSet = new Song();
+                query1="SELECT * FROM "+DatabaseConstants.ARTIST_TABLE+" WHERE "+DatabaseConstants.ARTIST_COL_ID+" ="+resultSet.getInt(3)+";";
+                PreparedStatement preparedStatement2=Main.connection.prepareStatement(query1);
+                ResultSet resultSet2 = preparedStatement2.executeQuery();
+
+                while (resultSet2.next())
+                {
+                    songSet.setArtistName(resultSet2.getString(2));
+
+                }
                 songSet.setSongID(resultSet.getInt(1));
                 songSet.setSongName(resultSet.getString(2));
                 songSet.setArtistID(resultSet.getInt(3));
