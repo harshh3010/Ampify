@@ -373,23 +373,22 @@ public class AmpifyServices {
     }
 
 
-
     /*
      * To return top songs to UI!!!
      * */
-    public static List<Song> showTopSongs(SongFetchRequest songFetchRequest){
-        int offset=songFetchRequest.getOffset();
-        int rowcount=songFetchRequest.getRowcount();
-        String query="SELECT artist.artistName,songs.songName," +
+    public static List<Song> showTopSongs(SongFetchRequest songFetchRequest) {
+        int offset = songFetchRequest.getOffset();
+        int rowcount = songFetchRequest.getRowcount();
+        String query = "SELECT artist.artistName,songs.songName," +
                 "songs.languages,songs.genre,songs.musicURL, songs.lyricsURL," +
                 "songs.imageURL,songs.releaseDate,songs.rating," +
                 "songs.IDartist,songs.IDalbum,songs.IDsong " +
                 "FROM artist " +
                 "INNER JOIN songs ON artist.IDartist = songs.IDartist " +
-                "LIMIT "+offset+" , "+rowcount+";";
+                "LIMIT " + offset + " , " + rowcount + ";";
 
 
-        List<Song> topSongList=new ArrayList<>();
+        List<Song> topSongList = new ArrayList<>();
         try {
             PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
 
@@ -414,35 +413,34 @@ public class AmpifyServices {
                 //adding this song object to list of song type
                 topSongList.add(songSet);
             }
-            return  topSongList;
+            return topSongList;
         } catch (SQLException e) {
             //displaying error if occured *_*
             e.printStackTrace();
         }
 
-        return  topSongList;
+        return topSongList;
     }
 
 
     /*
      * To return songs of particular artist to UI!!!
      * */
-    public static List<Song> showSongsOfParticularArtist(SongFetchRequest songFetchRequest){
-        int offset=songFetchRequest.getOffset();
-        int artistID= songFetchRequest.getID();
-        int rowcount=songFetchRequest.getRowcount();
-        String query="SELECT artist.artistName,songs.songName," +
+    public static List<Song> showSongsOfParticularArtist(SongFetchRequest songFetchRequest) {
+        int offset = songFetchRequest.getOffset();
+        int artistID = songFetchRequest.getID();
+        int rowcount = songFetchRequest.getRowcount();
+        String query = "SELECT artist.artistName,songs.songName," +
                 "songs.languages,songs.genre,songs.musicURL, songs.lyricsURL," +
                 "songs.imageURL,songs.releaseDate,songs.rating," +
                 "songs.IDartist,songs.IDalbum,songs.IDsong " +
                 "FROM artist " +
                 "INNER JOIN songs ON artist.IDartist = songs.IDartist " +
-                "WHERE artist.IDartist =\""+artistID+"\" " +
-                "LIMIT "+offset+" , "+rowcount+";";
+                "WHERE artist.IDartist =\"" + artistID + "\" " +
+                "LIMIT " + offset + " , " + rowcount + ";";
 
 
-
-        List<Song> songListOfArtist=new ArrayList<>();
+        List<Song> songListOfArtist = new ArrayList<>();
         try {
             PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
 
@@ -467,13 +465,13 @@ public class AmpifyServices {
                 //adding this song object to list of song type
                 songListOfArtist.add(songSet);
             }
-            return  songListOfArtist;
+            return songListOfArtist;
         } catch (SQLException e) {
             //displaying error if occured *_*
             e.printStackTrace();
         }
 
-        return  songListOfArtist;
+        return songListOfArtist;
     }
 
 
@@ -483,20 +481,19 @@ public class AmpifyServices {
     public static List<Song> showSongsOfParticularAlbum(SongFetchRequest songFetchRequest) {
 
         int albumID = songFetchRequest.getID();
-        int offset=songFetchRequest.getOffset();
-        int rowcount=songFetchRequest.getRowcount();
-        String query="SELECT artist.artistName,songs.songName," +
+        int offset = songFetchRequest.getOffset();
+        int rowcount = songFetchRequest.getRowcount();
+        String query = "SELECT artist.artistName,songs.songName," +
                 "songs.languages,songs.genre,songs.musicURL, songs.lyricsURL," +
                 "songs.imageURL,songs.releaseDate,songs.rating," +
                 "songs.IDartist,songs.IDalbum,songs.IDsong " +
                 "FROM artist " +
                 "INNER JOIN songs ON artist.IDartist = songs.IDartist " +
-                "WHERE artist.IDartist =\""+albumID+"\" " +
-                "LIMIT "+offset+" , "+rowcount+";";
+                "WHERE artist.IDartist =\"" + albumID + "\" " +
+                "LIMIT " + offset + " , " + rowcount + ";";
 
 
-
-        List<Song> songListOfAlbum=new ArrayList<>();
+        List<Song> songListOfAlbum = new ArrayList<>();
         try {
             PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
 
