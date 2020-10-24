@@ -106,17 +106,17 @@ public class HomeController implements Initializable {
 
 
 
-        //TODO PLAY SONG TASK AND GIVE SONG ID []
-        try {
-
-            PlaySongRequest song = AmpifyServices.playSong(userApi.getEmail(), 3);
-            if (song.isIs_playing()==true)
-            System.out.println("\n\nEnjoy your song!!");
-            else
-                System.out.println("Sad reacts");
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+//        TODO PLAY SONG TASK AND GIVE SONG ID []
+//        try {
+//
+//            PlaySongRequest song = AmpifyServices.playSong(userApi.getEmail(), 3);
+//            if (song.isIs_playing()==true)
+//            System.out.println("\n\nEnjoy your song!!");
+//            else
+//                System.out.println("Sad reacts");
+//        } catch (IOException | ClassNotFoundException e) {
+//            e.printStackTrace();
+//        }
 
     }
 
