@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListCell?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<fx:root prefHeight="50.0" prefWidth="600.0" type="javafx.scene.control.ListCell" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root prefHeight="50.0" prefWidth="600.0" stylesheets="@../css/style.css" type="javafx.scene.control.ListCell" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <graphic>
       <AnchorPane prefHeight="44.0" prefWidth="594.0">
          <children>
-            <Label fx:id="nameLabel" layoutX="14.0" layoutY="5.0" prefHeight="34.0" prefWidth="563.0" text="Song name" textFill="WHITE">
+            <Label fx:id="nameLabel" layoutX="14.0" layoutY="5.0" prefHeight="34.0" prefWidth="511.0" text="Song name" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
             </Label>
+            <JFXButton fx:id="menuButton" layoutX="525.0" layoutY="10.0" text="Like" textFill="WHITE" />
          </children>
       </AnchorPane>
    </graphic>

@@ -4,23 +4,23 @@ public enum ServerRequest {
 
     SIGNUP_REQUEST("0"),
     LOGIN_REQUEST("1"),
-    LANGUAGE_SHOW("3"),
-    GENRES_SHOW("4"),
-    ARTIST_SHOW("5"),
-    SUBMIT_CHOICES("6"),
-    GET_CHOICES("7"),
-    SONG_SHOW("8"),
-    ALBUM_SHOW("9"),
-    PLAY_SONG("10"),//rn im using this for updating history TODO PLAY SONGS *_*
-    GET_TOP_ARTISTS("8"),   // Done
-    GET_TOP_SONGS("9"),     // Done
-    GET_TOP_ALBUMS("13"),   // done
-    GET_ALL_ALBUMS("15"),   //done
-    GET_FAVOURITE_SONGS("10"),
-    GET_TRENDING_SONGS("12"),
-    GET_PLAYLISTS("11"),
-    GET_RECOMMENDED_SONGS("14"),    //TODO
-
+    LANGUAGE_SHOW("2"),
+    GENRES_SHOW("3"),
+    ARTIST_SHOW("4"),
+    SUBMIT_CHOICES("5"),
+    GET_CHOICES("6"),
+    SONG_SHOW("7"),
+    ALBUM_SHOW("8"),
+    PLAY_SONG("9"),// TODO PLAY SONGS *_*
+    UPDATE_HISTORY("10"),
+    GET_TOP_ARTISTS("11"),   // TODO
+    GET_TOP_SONGS("12"),     // TODO
+    GET_FAVOURITE_SONGS("13"),
+    GET_PLAYLISTS("14"),
+    GET_TRENDING_SONGS("15"),
+    GET_TOP_ALBUMS("16"),       // TODO
+    GET_RECOMMENDED_SONGS("17"),    //TODO
+    GET_ALL_ALBUMS("18"),   //TODO
     ;
 
     ServerRequest(String s) {

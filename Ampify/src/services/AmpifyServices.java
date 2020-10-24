@@ -344,11 +344,11 @@ public class AmpifyServices {
     /*
      * To return top albums to UI!!!
      * */
-    public static List<Album> showTopAlbums(AlbumFetchRequest albumFetchRequest){
-        String query="Select * " +
-                "FROM "+DatabaseConstants.ALBUM_TABLE +
-                " ORDER BY "+DatabaseConstants.ALBUM_COL_RATING+" DESC;";
-        List<Album> topAlbumList=new ArrayList<>();
+    public static List<Album> showTopAlbums(AlbumFetchRequest albumFetchRequest) {
+        String query = "Select * " +
+                "FROM " + DatabaseConstants.ALBUM_TABLE +
+                " ORDER BY " + DatabaseConstants.ALBUM_COL_RATING + " DESC;";
+        List<Album> topAlbumList = new ArrayList<>();
         try {
             PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
 
@@ -363,26 +363,26 @@ public class AmpifyServices {
                 //adding this song object to list of song type
                 topAlbumList.add(albumSet);
             }
-            return  topAlbumList;
+            return topAlbumList;
         } catch (SQLException e) {
             //displaying error if occured *_*
             e.printStackTrace();
         }
 
-        return  topAlbumList;
+        return topAlbumList;
     }
 
 
     /*
-    * To return top songs to UI!!!
-    * */
-    public static List<Song> showTopSongs(SongFetchRequest songFetchRequest){
-        String query="Select * " +
-                "FROM "+DatabaseConstants.SONG_TABLE +
-                " ORDER BY "+DatabaseConstants.SONG_COL_RATING+" DESC;";
+     * To return top songs to UI!!!
+     * */
+    public static List<Song> showTopSongs(SongFetchRequest songFetchRequest) {
+        String query = "Select * " +
+                "FROM " + DatabaseConstants.SONG_TABLE +
+                " ORDER BY " + DatabaseConstants.SONG_COL_RATING + " DESC;";
         String query1;
 
-        List<Song> topSongList=new ArrayList<>();
+        List<Song> topSongList = new ArrayList<>();
         try {
             PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
 
@@ -391,15 +391,13 @@ public class AmpifyServices {
 
             while (resultSet.next()) {
                 songSet = new Song();
-                query1="SELECT * FROM "+DatabaseConstants.ARTIST_TABLE+" WHERE "+DatabaseConstants.ARTIST_COL_ID+" ="+resultSet.getInt(3)+";";
-                PreparedStatement preparedStatement2=Main.connection.prepareStatement(query1);
+                query1 = "SELECT * FROM " + DatabaseConstants.ARTIST_TABLE + " WHERE " + DatabaseConstants.ARTIST_COL_ID + " =" + resultSet.getInt(3) + ";";
+                PreparedStatement preparedStatement2 = Main.connection.prepareStatement(query1);
                 ResultSet resultSet2 = preparedStatement2.executeQuery();
 
-                while (resultSet2.next())
-                {
+                while (resultSet2.next()) {
                     songSet.setArtistName(resultSet2.getString(2));
                 }
-
 
 
                 songSet.setSongID(resultSet.getInt(1));
@@ -415,34 +413,30 @@ public class AmpifyServices {
                 songSet.setSongRating(resultSet.getDouble(11));
 
 
-
-
-
-
                 //adding this song object to list of song type
                 topSongList.add(songSet);
             }
-            return  topSongList;
+            return topSongList;
         } catch (SQLException e) {
             //displaying error if occured *_*
             e.printStackTrace();
         }
 
-        return  topSongList;
+        return topSongList;
     }
 
 
     /*
      * To return songs of particular artist to UI!!!
      * */
-    public static List<Song> showSongsOfParticularArtist(SongFetchRequest songFetchRequest){
+    public static List<Song> showSongsOfParticularArtist(SongFetchRequest songFetchRequest) {
 
-        int artistID= songFetchRequest.getID();
-        String query="Select * " +
-                "FROM "+DatabaseConstants.SONG_TABLE+
-                " WHERE IDartist ="+artistID+";";
+        int artistID = songFetchRequest.getID();
+        String query = "Select * " +
+                "FROM " + DatabaseConstants.SONG_TABLE +
+                " WHERE IDartist =" + artistID + ";";
         String query1;
-        List<Song> songListOfArtist=new ArrayList<>();
+        List<Song> songListOfArtist = new ArrayList<>();
         try {
             PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
 
@@ -450,12 +444,11 @@ public class AmpifyServices {
             Song songSet;
             while (resultSet.next()) {
                 songSet = new Song();
-                query1="SELECT * FROM "+DatabaseConstants.ARTIST_TABLE+" WHERE "+DatabaseConstants.ARTIST_COL_ID+" ="+resultSet.getInt(3)+";";
-                PreparedStatement preparedStatement2=Main.connection.prepareStatement(query1);
+                query1 = "SELECT * FROM " + DatabaseConstants.ARTIST_TABLE + " WHERE " + DatabaseConstants.ARTIST_COL_ID + " =" + resultSet.getInt(3) + ";";
+                PreparedStatement preparedStatement2 = Main.connection.prepareStatement(query1);
                 ResultSet resultSet2 = preparedStatement2.executeQuery();
 
-                while (resultSet2.next())
-                {
+                while (resultSet2.next()) {
                     songSet.setArtistName(resultSet2.getString(2));
                 }
                 songSet.setSongID(resultSet.getInt(1));
@@ -473,27 +466,27 @@ public class AmpifyServices {
                 //adding this song object to list of song type
                 songListOfArtist.add(songSet);
             }
-            return  songListOfArtist;
+            return songListOfArtist;
         } catch (SQLException e) {
             //displaying error if occured *_*
             e.printStackTrace();
         }
 
-        return  songListOfArtist;
+        return songListOfArtist;
     }
 
 
     /*
      * To return  songs of aprticular album to UI!!!
      * */
-    public static List<Song> showSongsOfParticularAlbum(SongFetchRequest songFetchRequest){
+    public static List<Song> showSongsOfParticularAlbum(SongFetchRequest songFetchRequest) {
 
-        int albumID= songFetchRequest.getID();
-        String query="Select * " +
-                "FROM "+DatabaseConstants.SONG_TABLE+
-                " WHERE "+DatabaseConstants.SONG_COL_ALBUMID +"="+albumID+";";
+        int albumID = songFetchRequest.getID();
+        String query = "Select * " +
+                "FROM " + DatabaseConstants.SONG_TABLE +
+                " WHERE " + DatabaseConstants.SONG_COL_ALBUMID + "=" + albumID + ";";
         String query1;
-        List<Song> songListOfAlbum=new ArrayList<>();
+        List<Song> songListOfAlbum = new ArrayList<>();
         try {
             PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
 
@@ -501,12 +494,11 @@ public class AmpifyServices {
             Song songSet;
             while (resultSet.next()) {
                 songSet = new Song();
-                query1="SELECT * FROM "+DatabaseConstants.ARTIST_TABLE+" WHERE "+DatabaseConstants.ARTIST_COL_ID+" ="+resultSet.getInt(3)+";";
-                PreparedStatement preparedStatement2=Main.connection.prepareStatement(query1);
+                query1 = "SELECT * FROM " + DatabaseConstants.ARTIST_TABLE + " WHERE " + DatabaseConstants.ARTIST_COL_ID + " =" + resultSet.getInt(3) + ";";
+                PreparedStatement preparedStatement2 = Main.connection.prepareStatement(query1);
                 ResultSet resultSet2 = preparedStatement2.executeQuery();
 
-                while (resultSet2.next())
-                {
+                while (resultSet2.next()) {
                     songSet.setArtistName(resultSet2.getString(2));
 
                 }
@@ -524,38 +516,36 @@ public class AmpifyServices {
                 //adding this song object to list of song type
                 songListOfAlbum.add(songSet);
             }
-            return  songListOfAlbum;
+            return songListOfAlbum;
         } catch (SQLException e) {
             //displaying error if occured *_*
             e.printStackTrace();
         }
 
-        return  songListOfAlbum;
+        return songListOfAlbum;
     }
-/**
- * To add the played song to history table and set is_playing to true
- * */
-    public static PlaySongRequest playSongAddHistory(PlaySongRequest playSong){
-            PlaySongRequest playSongRequest=new PlaySongRequest();
-            String query = "INSERT INTO " + DatabaseConstants.USER_HISTORY_TABLE +
-                    "(" + DatabaseConstants.USER_HISTORY_COL_EMAIL +
-                    "," + DatabaseConstants.USER_HISTORY_COL_SONGID +
-                    "," + DatabaseConstants.USER_HISTORY_COL_TIMEPLAYED +
-                    ") values(?,?,?);";
-            try {
-                PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
-                preparedStatement.setString(1, playSong.getUserEmail());
-                preparedStatement.setInt(2, playSong.getSongID());
-                preparedStatement.setTimestamp(3,playSong.getTimePlayed());
-                preparedStatement.executeUpdate();
-                playSongRequest.setIs_playing(true);
-                return playSongRequest;
 
+    /**
+     * To add the played song to history table and set is_playing to true
+     */
+    public static String playSongAddHistory(AddToHistoryRequest addToHistoryRequest) {
 
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            return playSongRequest;
+        String query = "INSERT INTO " + DatabaseConstants.USER_HISTORY_TABLE +
+                "(" + DatabaseConstants.USER_HISTORY_COL_EMAIL +
+                "," + DatabaseConstants.USER_HISTORY_COL_SONGID +
+                "," + DatabaseConstants.USER_HISTORY_COL_TIMEPLAYED +
+                ") values(?,?,?);";
+        try {
+            PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
+            preparedStatement.setString(1, addToHistoryRequest.getUserEmail());
+            preparedStatement.setInt(2, addToHistoryRequest.getSongId());
+            preparedStatement.setTimestamp(3, addToHistoryRequest.getTimestamp());
+            preparedStatement.executeUpdate();
+            return String.valueOf(Status.SUCCESS);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return String.valueOf(Status.FAILED);
     }
 }
 
