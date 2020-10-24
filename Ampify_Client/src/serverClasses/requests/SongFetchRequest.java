@@ -6,14 +6,29 @@ import java.io.Serializable;
 
 public class SongFetchRequest implements Serializable {
 
-    private String type;
+    private String type;//any kind of fetching request this is must to be known
     private int ID;
-    private int offset;
-    private int rowcount;
+    private int offset;//any kind of fetching request this is must to be known
+    private int rowcount;//any kind of fetching request this is must to be known
+    private String email;
 
-    public int getRowcount() {
-        return rowcount;
+    /**
+     * this constructor invoked when we want to fetch recommended songs for user!!
+     * @param type
+     * @param email
+     * @param offset
+     * @param rowcount
+     */
+    public SongFetchRequest(String type,String email,int offset,int rowcount) {
+        this.email=email;
+        this.type=type;
+        this.offset=offset;
+        this.rowcount=rowcount;
     }
+
+    /**
+     * this constructor invoked when we want to fetch top songs based on rating !!
+     */
 
     public SongFetchRequest(String type, int offset, int rowcount)
     {
@@ -23,7 +38,7 @@ public class SongFetchRequest implements Serializable {
     }
 
 
-    //when u want to fetch songs of particular id
+    //when u want to fetch songs of particular id(whether artist or album )
     //TODO Particulr ALBUM ID SONGS CAN ALSO BE ACCESSED THRU THIS CONSTRUCTOR *_*
     public SongFetchRequest(String type, int ID,int offset,int rowcount) {
         this.type = type;
@@ -33,6 +48,13 @@ public class SongFetchRequest implements Serializable {
     }
     public int getID() {
         return ID;
+    }
+    public String getEmail() {
+        return email;
+    }
+
+    public int getRowcount() {
+        return rowcount;
     }
 
     public void setArtistID(int ID) {

@@ -26,6 +26,7 @@ public class AmpifyServices {
     public static int offsetSongOfParticularArtist=0;
     public static int offsetSongOfParticularAlbum=0;
     public static  int rowcount=10;
+    public static int offsetUserChoiceSongs=0;
 
     /*
     Function to get a list of top artists
@@ -66,8 +67,9 @@ public class AmpifyServices {
     }
 
 
-    /*
+    /**
     Function to fetch songs of a particular artist
+     *also pass the offset coz server needs to know from which row number it has to start its job
      */
     public static List<Song> getSongsOfArtist(int artistId) throws IOException, ClassNotFoundException {
 
@@ -79,14 +81,32 @@ public class AmpifyServices {
     }
 
 
-    /*
+    /**
     Function to fetch songs of a particular album
+     *also pass the offset coz server needs to know from which row number it has to start its job
      */
     public static List<Song> getSongsOfAlbum(int albumId) throws IOException, ClassNotFoundException {
 
         SongFetchRequest songFetchArtistRequest = new SongFetchRequest(String.valueOf(SongFetchType.SONGS_OF_PARTICULAR_ALBUM), albumId,offsetSongOfParticularAlbum,rowcount);
         oos.writeObject(songFetchArtistRequest);
         oos.flush();
+
+        return (List<Song>) ois.readObject();
+    }
+
+
+    /**
+    Function to fetch songs of user choice
+     *we pass row count , offset specific to this kind of fetching request
+     * defined above
+     *
+    */
+    public static List<Song> getUserChoiceSongs() throws IOException, ClassNotFoundException {
+
+        SongFetchRequest songFetchRequest = new SongFetchRequest(String.valueOf(SongFetchType.SONGS_OF_USER_CHOICE), userApi.getEmail(),offsetUserChoiceSongs,rowcount);
+        oos.writeObject(songFetchRequest);
+        oos.flush();
+        ois = Main.userInputStream;
 
         return (List<Song>) ois.readObject();
     }
