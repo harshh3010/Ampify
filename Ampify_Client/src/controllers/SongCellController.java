@@ -1,22 +1,16 @@
 /*
 Controller class for song card
- */
+*/
 
 package controllers;
 
-import Services.AmpifyServices;
 import Services.MediaPlayerService;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
-import javafx.scene.media.MediaPlayer;
 import model.Song;
-import utilities.HomeScreenWidgets;
-import utilities.Status;
 
 import java.io.IOException;
 
@@ -59,11 +53,11 @@ public class SongCellController extends ListCell<Song> {
         MenuItem item3 = new MenuItem("Add to Queue");
 
         // Setting action events for menu items
-        item1.setOnAction(actionEvent -> System.out.println("Add to favs"));
+        item1.setOnAction(actionEvent -> System.out.println("Add to favourites"));
         item2.setOnAction(actionEvent -> System.out.println("Add to playlist"));
         item3.setOnAction(actionEvent -> {
             System.out.println("Add to Queue");
-            MediaPlayerService.currentPlaylist.add(song);
+            MediaPlayerService.currentPlaylist.addLast(song);
         });
 
         // Adding the items in menu
@@ -94,16 +88,16 @@ public class SongCellController extends ListCell<Song> {
             setUpMenuButton(song);
 
             // Adding action event to play a song on double click
-            this.setOnMouseClicked(new EventHandler<>() {
-                @Override
-                public void handle(MouseEvent mouseEvent) {
-                    if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {   // Play only when LMB is clicked
-                        if (mouseEvent.getClickCount() == 2) {  // Play only in case of double click
+            this.setOnMouseClicked(mouseEvent -> {
+                if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {   // Play only when LMB is clicked
+                    if (mouseEvent.getClickCount() == 2) {  // Play only in case of double click
 
-                            // Setting current song of media player to the selected song
-//                            MediaPlayerService.currentSong = song;
+                        // Setting current song of media player to the selected song
+                        MediaPlayerService.currentPlaylist.clear();
+                        MediaPlayerService.currentPlaylist.addLast(song);
 
-                        }
+                        MediaPlayerService.playSong(song);
+
                     }
                 }
             });
