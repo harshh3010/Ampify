@@ -373,16 +373,23 @@ public class AmpifyServices {
     }
 
 
+
     /*
      * To return top songs to UI!!!
      * */
-    public static List<Song> showTopSongs(SongFetchRequest songFetchRequest) {
-        String query = "Select * " +
-                "FROM " + DatabaseConstants.SONG_TABLE +
-                " ORDER BY " + DatabaseConstants.SONG_COL_RATING + " DESC;";
-        String query1;
+    public static List<Song> showTopSongs(SongFetchRequest songFetchRequest){
+        int offset=songFetchRequest.getOffset();
+        int rowcount=songFetchRequest.getRowcount();
+        String query="SELECT artist.artistName,songs.songName," +
+                "songs.languages,songs.genre,songs.musicURL, songs.lyricsURL," +
+                "songs.imageURL,songs.releaseDate,songs.rating," +
+                "songs.IDartist,songs.IDalbum,songs.IDsong " +
+                "FROM artist " +
+                "INNER JOIN songs ON artist.IDartist = songs.IDartist " +
+                "LIMIT "+offset+" , "+rowcount+";";
 
-        List<Song> topSongList = new ArrayList<>();
+
+        List<Song> topSongList=new ArrayList<>();
         try {
             PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
 
@@ -391,88 +398,82 @@ public class AmpifyServices {
 
             while (resultSet.next()) {
                 songSet = new Song();
-                query1 = "SELECT * FROM " + DatabaseConstants.ARTIST_TABLE + " WHERE " + DatabaseConstants.ARTIST_COL_ID + " =" + resultSet.getInt(3) + ";";
-                PreparedStatement preparedStatement2 = Main.connection.prepareStatement(query1);
-                ResultSet resultSet2 = preparedStatement2.executeQuery();
-
-                while (resultSet2.next()) {
-                    songSet.setArtistName(resultSet2.getString(2));
-                }
-
-
-                songSet.setSongID(resultSet.getInt(1));
-                songSet.setSongName(resultSet.getString(2));
-                songSet.setArtistID(resultSet.getInt(3));
-                songSet.setLanguage(resultSet.getString(4));
-                songSet.setGenre(resultSet.getString(5));
-                songSet.setSongURL(resultSet.getString(6));
-                songSet.setSongLyricsURL(resultSet.getString(7));
-                songSet.setSongImageURL(resultSet.getString(8));
-                songSet.setAlbumID(resultSet.getInt(9));
-                songSet.setReleaseDate(resultSet.getString(10));
-                songSet.setSongRating(resultSet.getDouble(11));
-
-
+                songSet.setSongID(resultSet.getInt(DatabaseConstants.SONG_COL_ID));
+                songSet.setSongName(resultSet.getString(DatabaseConstants.SONG_COL_NAME));
+                songSet.setArtistID(resultSet.getInt(DatabaseConstants.SONG_COL_ARTISTID));
+                songSet.setLanguage(resultSet.getString(DatabaseConstants.SONG_COL_LANGUAGE));
+                songSet.setGenre(resultSet.getString(DatabaseConstants.SONG_COL_GENRES));
+                songSet.setSongURL(resultSet.getString(DatabaseConstants.SONG_COL_MUSIC_URL));
+                songSet.setSongLyricsURL(resultSet.getString(DatabaseConstants.SONG_COL_LYRICS_URL));
+                songSet.setSongImageURL(resultSet.getString(DatabaseConstants.SONG_COL_IMAGE_URL));
+                songSet.setAlbumID(resultSet.getInt(DatabaseConstants.SONG_COL_ALBUMID));
+                songSet.setReleaseDate(resultSet.getString(DatabaseConstants.SONG_COL_RELEASE_DATE));
+                songSet.setSongRating(resultSet.getDouble(DatabaseConstants.SONG_COL_RATING));
+                songSet.setArtistName(resultSet.getString(DatabaseConstants.ARTIST_COL_NAME));
+                System.out.println(resultSet.getString(DatabaseConstants.ARTIST_COL_NAME));
                 //adding this song object to list of song type
                 topSongList.add(songSet);
             }
-            return topSongList;
+            return  topSongList;
         } catch (SQLException e) {
             //displaying error if occured *_*
             e.printStackTrace();
         }
 
-        return topSongList;
+        return  topSongList;
     }
 
 
     /*
      * To return songs of particular artist to UI!!!
      * */
-    public static List<Song> showSongsOfParticularArtist(SongFetchRequest songFetchRequest) {
+    public static List<Song> showSongsOfParticularArtist(SongFetchRequest songFetchRequest){
+        int offset=songFetchRequest.getOffset();
+        int artistID= songFetchRequest.getID();
+        int rowcount=songFetchRequest.getRowcount();
+        String query="SELECT artist.artistName,songs.songName," +
+                "songs.languages,songs.genre,songs.musicURL, songs.lyricsURL," +
+                "songs.imageURL,songs.releaseDate,songs.rating," +
+                "songs.IDartist,songs.IDalbum,songs.IDsong " +
+                "FROM artist " +
+                "INNER JOIN songs ON artist.IDartist = songs.IDartist " +
+                "WHERE artist.IDartist =\""+artistID+"\" " +
+                "LIMIT "+offset+" , "+rowcount+";";
 
-        int artistID = songFetchRequest.getID();
-        String query = "Select * " +
-                "FROM " + DatabaseConstants.SONG_TABLE +
-                " WHERE IDartist =" + artistID + ";";
-        String query1;
-        List<Song> songListOfArtist = new ArrayList<>();
+
+
+        List<Song> songListOfArtist=new ArrayList<>();
         try {
             PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
 
             ResultSet resultSet = preparedStatement.executeQuery();
             Song songSet;
+
             while (resultSet.next()) {
                 songSet = new Song();
-                query1 = "SELECT * FROM " + DatabaseConstants.ARTIST_TABLE + " WHERE " + DatabaseConstants.ARTIST_COL_ID + " =" + resultSet.getInt(3) + ";";
-                PreparedStatement preparedStatement2 = Main.connection.prepareStatement(query1);
-                ResultSet resultSet2 = preparedStatement2.executeQuery();
-
-                while (resultSet2.next()) {
-                    songSet.setArtistName(resultSet2.getString(2));
-                }
-                songSet.setSongID(resultSet.getInt(1));
-                songSet.setSongName(resultSet.getString(2));
-                songSet.setArtistID(resultSet.getInt(3));
-                songSet.setLanguage(resultSet.getString(4));
-                songSet.setGenre(resultSet.getString(5));
-                songSet.setSongURL(resultSet.getString(6));
-                songSet.setSongLyricsURL(resultSet.getString(7));
-                songSet.setSongImageURL(resultSet.getString(8));
-                songSet.setAlbumID(resultSet.getInt(9));
-                songSet.setReleaseDate(resultSet.getString(10));
-                songSet.setSongRating(resultSet.getDouble(11));
-
+                songSet.setSongID(resultSet.getInt(DatabaseConstants.SONG_COL_ID));
+                songSet.setSongName(resultSet.getString(DatabaseConstants.SONG_COL_NAME));
+                songSet.setArtistID(resultSet.getInt(DatabaseConstants.SONG_COL_ARTISTID));
+                songSet.setLanguage(resultSet.getString(DatabaseConstants.SONG_COL_LANGUAGE));
+                songSet.setGenre(resultSet.getString(DatabaseConstants.SONG_COL_GENRES));
+                songSet.setSongURL(resultSet.getString(DatabaseConstants.SONG_COL_MUSIC_URL));
+                songSet.setSongLyricsURL(resultSet.getString(DatabaseConstants.SONG_COL_LYRICS_URL));
+                songSet.setSongImageURL(resultSet.getString(DatabaseConstants.SONG_COL_IMAGE_URL));
+                songSet.setAlbumID(resultSet.getInt(DatabaseConstants.SONG_COL_ALBUMID));
+                songSet.setReleaseDate(resultSet.getString(DatabaseConstants.SONG_COL_RELEASE_DATE));
+                songSet.setSongRating(resultSet.getDouble(DatabaseConstants.SONG_COL_RATING));
+                songSet.setArtistName(resultSet.getString(DatabaseConstants.ARTIST_COL_NAME));
+                System.out.println(resultSet.getString(DatabaseConstants.ARTIST_COL_NAME));
                 //adding this song object to list of song type
                 songListOfArtist.add(songSet);
             }
-            return songListOfArtist;
+            return  songListOfArtist;
         } catch (SQLException e) {
             //displaying error if occured *_*
             e.printStackTrace();
         }
 
-        return songListOfArtist;
+        return  songListOfArtist;
     }
 
 
@@ -482,37 +483,41 @@ public class AmpifyServices {
     public static List<Song> showSongsOfParticularAlbum(SongFetchRequest songFetchRequest) {
 
         int albumID = songFetchRequest.getID();
-        String query = "Select * " +
-                "FROM " + DatabaseConstants.SONG_TABLE +
-                " WHERE " + DatabaseConstants.SONG_COL_ALBUMID + "=" + albumID + ";";
-        String query1;
-        List<Song> songListOfAlbum = new ArrayList<>();
+        int offset=songFetchRequest.getOffset();
+        int rowcount=songFetchRequest.getRowcount();
+        String query="SELECT artist.artistName,songs.songName," +
+                "songs.languages,songs.genre,songs.musicURL, songs.lyricsURL," +
+                "songs.imageURL,songs.releaseDate,songs.rating," +
+                "songs.IDartist,songs.IDalbum,songs.IDsong " +
+                "FROM artist " +
+                "INNER JOIN songs ON artist.IDartist = songs.IDartist " +
+                "WHERE artist.IDartist =\""+albumID+"\" " +
+                "LIMIT "+offset+" , "+rowcount+";";
+
+
+
+        List<Song> songListOfAlbum=new ArrayList<>();
         try {
             PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
 
             ResultSet resultSet = preparedStatement.executeQuery();
             Song songSet;
+
             while (resultSet.next()) {
                 songSet = new Song();
-                query1 = "SELECT * FROM " + DatabaseConstants.ARTIST_TABLE + " WHERE " + DatabaseConstants.ARTIST_COL_ID + " =" + resultSet.getInt(3) + ";";
-                PreparedStatement preparedStatement2 = Main.connection.prepareStatement(query1);
-                ResultSet resultSet2 = preparedStatement2.executeQuery();
-
-                while (resultSet2.next()) {
-                    songSet.setArtistName(resultSet2.getString(2));
-
-                }
-                songSet.setSongID(resultSet.getInt(1));
-                songSet.setSongName(resultSet.getString(2));
-                songSet.setArtistID(resultSet.getInt(3));
-                songSet.setLanguage(resultSet.getString(4));
-                songSet.setGenre(resultSet.getString(5));
-                songSet.setSongURL(resultSet.getString(6));
-                songSet.setSongLyricsURL(resultSet.getString(7));
-                songSet.setSongImageURL(resultSet.getString(8));
-                songSet.setAlbumID(resultSet.getInt(9));
-                songSet.setReleaseDate(resultSet.getString(10));
-                songSet.setSongRating(resultSet.getDouble(11));
+                songSet.setSongID(resultSet.getInt(DatabaseConstants.SONG_COL_ID));
+                songSet.setSongName(resultSet.getString(DatabaseConstants.SONG_COL_NAME));
+                songSet.setArtistID(resultSet.getInt(DatabaseConstants.SONG_COL_ARTISTID));
+                songSet.setLanguage(resultSet.getString(DatabaseConstants.SONG_COL_LANGUAGE));
+                songSet.setGenre(resultSet.getString(DatabaseConstants.SONG_COL_GENRES));
+                songSet.setSongURL(resultSet.getString(DatabaseConstants.SONG_COL_MUSIC_URL));
+                songSet.setSongLyricsURL(resultSet.getString(DatabaseConstants.SONG_COL_LYRICS_URL));
+                songSet.setSongImageURL(resultSet.getString(DatabaseConstants.SONG_COL_IMAGE_URL));
+                songSet.setAlbumID(resultSet.getInt(DatabaseConstants.SONG_COL_ALBUMID));
+                songSet.setReleaseDate(resultSet.getString(DatabaseConstants.SONG_COL_RELEASE_DATE));
+                songSet.setSongRating(resultSet.getDouble(DatabaseConstants.SONG_COL_RATING));
+                songSet.setArtistName(resultSet.getString(DatabaseConstants.ARTIST_COL_NAME));
+                System.out.println(resultSet.getString(DatabaseConstants.ARTIST_COL_NAME));
                 //adding this song object to list of song type
                 songListOfAlbum.add(songSet);
             }

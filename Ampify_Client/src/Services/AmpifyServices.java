@@ -22,6 +22,10 @@ public class AmpifyServices {
     private static ObjectOutputStream oos = Main.userOutputStream;
     private static ObjectInputStream ois = Main.userInputStream;
     private static UserApi userApi = UserApi.getInstance();
+    public static int offsetTopsong=0;
+    public static int offsetSongOfParticularArtist=0;
+    public static int offsetSongOfParticularAlbum=0;
+    public static  int rowcount=10;
 
     /*
     Function to get a list of top artists
@@ -54,7 +58,7 @@ public class AmpifyServices {
      */
     public static List<Song> getTopSongs() throws IOException, ClassNotFoundException {
 
-        SongFetchRequest songFetchRequest = new SongFetchRequest(String.valueOf(SongFetchType.TOP));
+        SongFetchRequest songFetchRequest = new SongFetchRequest(String.valueOf(SongFetchType.TOP),offsetTopsong,rowcount);
         oos.writeObject(songFetchRequest);
         oos.flush();
 
@@ -67,7 +71,7 @@ public class AmpifyServices {
      */
     public static List<Song> getSongsOfArtist(int artistId) throws IOException, ClassNotFoundException {
 
-        SongFetchRequest songFetchArtistRequest = new SongFetchRequest(String.valueOf(SongFetchType.SONGS_OF_PARTICULAR_ARTIST), artistId);
+        SongFetchRequest songFetchArtistRequest = new SongFetchRequest(String.valueOf(SongFetchType.SONGS_OF_PARTICULAR_ARTIST), artistId,offsetSongOfParticularArtist,rowcount);
         oos.writeObject(songFetchArtistRequest);
         oos.flush();
 
@@ -80,7 +84,7 @@ public class AmpifyServices {
      */
     public static List<Song> getSongsOfAlbum(int albumId) throws IOException, ClassNotFoundException {
 
-        SongFetchRequest songFetchArtistRequest = new SongFetchRequest(String.valueOf(SongFetchType.SONGS_OF_PARTICULAR_ALBUM), albumId);
+        SongFetchRequest songFetchArtistRequest = new SongFetchRequest(String.valueOf(SongFetchType.SONGS_OF_PARTICULAR_ALBUM), albumId,offsetSongOfParticularAlbum,rowcount);
         oos.writeObject(songFetchArtistRequest);
         oos.flush();
 

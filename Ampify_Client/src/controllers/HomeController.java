@@ -97,9 +97,22 @@ public class HomeController implements Initializable {
             System.out.println("TOP SONGS: ");
             List<Song> songs = AmpifyServices.getTopSongs();
             for (Song song : songs) {
-                System.out.println(song.getSongURL());
+                System.out.println(song.getSongID()+" " +song.getSongURL());
             }
             System.out.println();
+            AmpifyServices.offsetTopsong+=AmpifyServices.rowcount;
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            System.out.println("TOP SONGS: ");
+            List<Song> songs = AmpifyServices.getTopSongs();
+            for (Song song : songs) {
+                System.out.println(song.getSongID()+" " +song.getSongURL());
+            }
+            System.out.println();
+            AmpifyServices.offsetTopsong+=AmpifyServices.rowcount;
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
