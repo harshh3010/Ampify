@@ -13,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
+import model.Song;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -38,14 +39,23 @@ public class MediaPlayerController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        if (MediaPlayerService.currentSong != null) {
-            Media media = new Media(MediaPlayerService.currentSong.getSongURL());
+//        if (MediaPlayerService.currentSong != null) {
+//            Media media = new Media(MediaPlayerService.currentSong.getSongURL());
+//            mediaPlayer = new MediaPlayer(media);
+//            mediaPlayer.setAutoPlay(true);
+//            songNameLabel.setText(MediaPlayerService.currentSong.getSongName());
+//            // TODO: DISPLAY CURRENT SONG INFO
+//        } else if (MediaPlayerService.previousSong != null) {
+//            // TODO: DISPLAY PREVIOUS SONG INFO
+//            songNameLabel.setText(MediaPlayerService.previousSong.getSongName());
+//        }
+
+        if (!MediaPlayerService.currentPlaylist.isEmpty()) {
+            Media media = new Media(MediaPlayerService.currentPlaylist.peek().getSongURL());
             mediaPlayer = new MediaPlayer(media);
             mediaPlayer.setAutoPlay(true);
-            songNameLabel.setText(MediaPlayerService.currentSong.getSongName());
-            // TODO: DISPLAY CURRENT SONG INFO
+            songNameLabel.setText(MediaPlayerService.currentPlaylist.peek().getSongName());
         } else if (MediaPlayerService.previousSong != null) {
-            // TODO: DISPLAY PREVIOUS SONG INFO
             songNameLabel.setText(MediaPlayerService.previousSong.getSongName());
         }
 
@@ -92,10 +102,22 @@ public class MediaPlayerController implements Initializable {
         mediaPlayer.setCycleCount(repeat ? MediaPlayer.INDEFINITE : 1);
         mediaPlayer.setOnEndOfMedia(new Runnable() {
             public void run() {
-                if (!repeat) {
-                    playButton.setText("Play");
-                    stopRequested = true;
-                    atEndOfMedia = true;
+
+                if (MediaPlayerService.currentPlaylist.size() > 1) {
+                    Song song = MediaPlayerService.currentPlaylist.remove();
+                    MediaPlayerService.currentPlaylist.add(song);
+                    assert MediaPlayerService.currentPlaylist.peek() != null;
+                    Media media = new Media(MediaPlayerService.currentPlaylist.peek().getSongURL());
+                    mediaPlayer = new MediaPlayer(media);
+                    mediaPlayer.setAutoPlay(true);
+                    assert MediaPlayerService.currentPlaylist.peek() != null;
+                    songNameLabel.setText(MediaPlayerService.currentPlaylist.peek().getSongName());
+                } else {
+                    if (!repeat) {
+                        playButton.setText("Play");
+                        stopRequested = true;
+                        atEndOfMedia = true;
+                    }
                 }
             }
         });
@@ -104,18 +126,16 @@ public class MediaPlayerController implements Initializable {
 
     protected void updateValues() {
         if (currentTimeLabel != null && mediaPlayerSlider != null) {
-            Platform.runLater(new Runnable() {
-                public void run() {
-                    Duration currentTime = mediaPlayer.getCurrentTime();
-                    currentTimeLabel.setText(formatTime(currentTime, duration));
-                    totalTimeLabel.setText(formatTotalTime(duration));
-                    mediaPlayerSlider.setDisable(duration.isUnknown());
-                    if (!mediaPlayerSlider.isDisabled()
-                            && duration.greaterThan(Duration.ZERO)
-                            && !mediaPlayerSlider.isValueChanging()) {
-                        mediaPlayerSlider.setValue(currentTime.divide(duration).toMillis()
-                                * 100.0);
-                    }
+            Platform.runLater(() -> {
+                Duration currentTime = mediaPlayer.getCurrentTime();
+                currentTimeLabel.setText(formatTime(currentTime, duration));
+                totalTimeLabel.setText(formatTotalTime(duration));
+                mediaPlayerSlider.setDisable(duration.isUnknown());
+                if (!mediaPlayerSlider.isDisabled()
+                        && duration.greaterThan(Duration.ZERO)
+                        && !mediaPlayerSlider.isValueChanging()) {
+                    mediaPlayerSlider.setValue(currentTime.divide(duration).toMillis()
+                            * 100.0);
                 }
             });
         }

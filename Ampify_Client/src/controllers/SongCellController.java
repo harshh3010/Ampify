@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.MediaPlayer;
 import model.Song;
 import utilities.HomeScreenWidgets;
 import utilities.Status;
@@ -47,7 +48,7 @@ public class SongCellController extends ListCell<Song> {
     /*
     Function to setup the menu to be displayed on click of menuButton
      */
-    private void setUpMenuButton() {
+    private void setUpMenuButton(Song song) {
 
         // Creating the context menu
         ContextMenu contextMenu = new ContextMenu();
@@ -60,7 +61,10 @@ public class SongCellController extends ListCell<Song> {
         // Setting action events for menu items
         item1.setOnAction(actionEvent -> System.out.println("Add to favs"));
         item2.setOnAction(actionEvent -> System.out.println("Add to playlist"));
-        item3.setOnAction(actionEvent -> System.out.println("Add to Queue"));
+        item3.setOnAction(actionEvent -> {
+            System.out.println("Add to Queue");
+            MediaPlayerService.currentPlaylist.add(song);
+        });
 
         // Adding the items in menu
         contextMenu.getItems().add(item1);
@@ -87,7 +91,7 @@ public class SongCellController extends ListCell<Song> {
             nameLabel.setText(song.getSongName());
 
             // Setting up the popup menu
-            setUpMenuButton();
+            setUpMenuButton(song);
 
             // Adding action event to play a song on double click
             this.setOnMouseClicked(new EventHandler<>() {
@@ -97,25 +101,8 @@ public class SongCellController extends ListCell<Song> {
                         if (mouseEvent.getClickCount() == 2) {  // Play only in case of double click
 
                             // Setting current song of media player to the selected song
-                            MediaPlayerService.currentSong = song;
+//                            MediaPlayerService.currentSong = song;
 
-                            try {
-                                // Loading the media player controls at the bottom of home screen
-                                Pane mediaController = FXMLLoader.load(getClass().getResource("/resources/fxml/mediaPlayer.fxml"));
-                                HomeScreenWidgets.bottomPane.getChildren().clear();
-                                HomeScreenWidgets.bottomPane.getChildren().add(mediaController);
-
-                                // Updating the history of user in database
-                                String res = AmpifyServices.addSongToHistory(song.getSongID());
-                                if (res.equals(String.valueOf(Status.SUCCESS))) {
-                                    System.out.println("Song added to history");
-                                } else {
-                                    System.out.println("Song NOT added to history");
-                                }
-
-                            } catch (IOException | ClassNotFoundException e) {
-                                e.printStackTrace();
-                            }
                         }
                     }
                 }
