@@ -5,10 +5,7 @@ import model.Album;
 import model.Artist;
 import model.Song;
 import model.UserAuth;
-import serverClasses.requests.AlbumFetchRequest;
-import serverClasses.requests.ArtistFetchRequest;
-import serverClasses.requests.PlaySongRequest;
-import serverClasses.requests.SongFetchRequest;
+import serverClasses.requests.*;
 import utilities.ArtistsAlbumFetchType;
 import utilities.SongFetchType;
 import utilities.UserApi;
@@ -34,7 +31,6 @@ public class AmpifyServices {
         ArtistFetchRequest artistsFetchRequest = new ArtistFetchRequest(String.valueOf(ArtistsAlbumFetchType.TOP));
         oos.writeObject(artistsFetchRequest);
         oos.flush();
-        ois = Main.userInputStream;
 
         return (List<Artist>) ois.readObject();
     }
@@ -48,7 +44,6 @@ public class AmpifyServices {
         AlbumFetchRequest albumFetchRequest = new AlbumFetchRequest(String.valueOf(ArtistsAlbumFetchType.TOP));
         oos.writeObject(albumFetchRequest);
         oos.flush();
-        ois = Main.userInputStream;
 
         return (List<Album>) ois.readObject();
     }
@@ -62,7 +57,6 @@ public class AmpifyServices {
         SongFetchRequest songFetchRequest = new SongFetchRequest(String.valueOf(SongFetchType.TOP));
         oos.writeObject(songFetchRequest);
         oos.flush();
-        ois = Main.userInputStream;
 
         return (List<Song>) ois.readObject();
     }
@@ -76,7 +70,6 @@ public class AmpifyServices {
         SongFetchRequest songFetchArtistRequest = new SongFetchRequest(String.valueOf(SongFetchType.SONGS_OF_PARTICULAR_ARTIST), artistId);
         oos.writeObject(songFetchArtistRequest);
         oos.flush();
-        ois = Main.userInputStream;
 
         return (List<Song>) ois.readObject();
     }
@@ -90,7 +83,6 @@ public class AmpifyServices {
         SongFetchRequest songFetchArtistRequest = new SongFetchRequest(String.valueOf(SongFetchType.SONGS_OF_PARTICULAR_ALBUM), albumId);
         oos.writeObject(songFetchArtistRequest);
         oos.flush();
-        ois = Main.userInputStream;
 
         return (List<Song>) ois.readObject();
     }
@@ -98,7 +90,7 @@ public class AmpifyServices {
     /*
      * Function to add to history table a particular song played by user and sets is_playing attribute of a song to true
      * */
-    public static PlaySongRequest playSong(int songID) throws IOException, ClassNotFoundException {
+    public static String addSongToHistory(int songID) throws IOException, ClassNotFoundException {
 
         Date date = new Date();
         //getTime() returns current time in milliseconds
@@ -106,12 +98,11 @@ public class AmpifyServices {
         //Passed the milliseconds to constructor of Timestamp class
         Timestamp timePlayed = new Timestamp(time);
 
-        PlaySongRequest playSongRequest = new PlaySongRequest(userApi.getEmail(), songID, timePlayed);
-        oos.writeObject(playSongRequest);
+        AddToHistoryRequest addToHistoryRequest = new AddToHistoryRequest(songID, userApi.getEmail(), timePlayed);
+        oos.writeObject(addToHistoryRequest);
         oos.flush();
-        ois = Main.userInputStream;
-        return (PlaySongRequest) ois.readObject();
 
+        return (String) ois.readObject();
     }
 
 

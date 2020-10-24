@@ -123,3 +123,9 @@
 #musicCardOverlay{
     -fx-background-color:  linear-gradient(rgba(0, 0, 0,0) , rgba(0,0,0,.6));
 }
+
+#songMenuButton{
+    -fx-background-image: url("../Icons/menu.png");
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
