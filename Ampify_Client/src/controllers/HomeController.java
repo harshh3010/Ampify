@@ -2,8 +2,8 @@ package controllers;
 
 import Services.MediaPlayerService;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXListView;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import model.Song;
 import utilities.HomeScreenWidgets;
 import utilities.UserApi;
 
@@ -22,15 +23,11 @@ import java.util.prefs.Preferences;
 
 public class HomeController implements Initializable {
 
-    @FXML
     public Label userEmailLabel;
-    @FXML
     public JFXButton logoutButton;
-    @FXML
     public Pane displayPane;
-    @FXML
     public Pane bottomPane;
-    @FXML
+    public JFXListView<Song> nowPlayingList;
     UserApi userApi = UserApi.getInstance();
 
     @Override
@@ -40,6 +37,7 @@ public class HomeController implements Initializable {
 
         HomeScreenWidgets.displayPane = displayPane;
         HomeScreenWidgets.bottomPane = bottomPane;
+        HomeScreenWidgets.nowPlayingList = nowPlayingList;
 
         try {
             Pane newPane = FXMLLoader.load(getClass().getResource("/resources/fxml/homeContentsPane.fxml"));
@@ -89,6 +87,8 @@ public class HomeController implements Initializable {
     }
 
     public void onLogoutClicked(ActionEvent actionEvent) throws IOException {
+
+        // TODO: STOP MEDIA PLAYER ON LOGOUT
 
         // Removing user's info from UserApi class
         UserApi userApi = UserApi.getInstance();

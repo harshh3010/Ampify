@@ -1,17 +1,22 @@
 package controllers;
 
+import CellFactories.SongsQueueCellFactory;
 import Services.MediaPlayerService;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSlider;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 import model.Song;
+import utilities.HomeScreenWidgets;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class MediaPlayerController implements Initializable {
@@ -46,6 +51,11 @@ public class MediaPlayerController implements Initializable {
             // Displaying the song info in UI
             assert MediaPlayerService.currentPlaylist.peekFirst() != null;
             songNameLabel.setText(MediaPlayerService.currentPlaylist.peekFirst().getSongName());
+
+            // Displaying the songs in queue on home screen
+            List<Song> list = new ArrayList<>(MediaPlayerService.currentPlaylist);
+            HomeScreenWidgets.nowPlayingList.setItems(FXCollections.observableArrayList(list));
+            HomeScreenWidgets.nowPlayingList.setCellFactory(new SongsQueueCellFactory());
 
         } else if (MediaPlayerService.previousSong != null) {
 

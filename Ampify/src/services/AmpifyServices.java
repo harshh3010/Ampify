@@ -462,6 +462,7 @@ public class AmpifyServices {
                 songSet.setSongRating(resultSet.getDouble(DatabaseConstants.SONG_COL_RATING));
                 songSet.setArtistName(resultSet.getString(DatabaseConstants.ARTIST_COL_NAME));
                 System.out.println(resultSet.getString(DatabaseConstants.ARTIST_COL_NAME));
+
                 //adding this song object to list of song type
                 songListOfArtist.add(songSet);
             }

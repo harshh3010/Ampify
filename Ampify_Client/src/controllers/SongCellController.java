@@ -4,15 +4,20 @@ Controller class for song card
 
 package controllers;
 
+import CellFactories.SongsQueueCellFactory;
 import Services.MediaPlayerService;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import model.Song;
+import utilities.HomeScreenWidgets;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SongCellController extends ListCell<Song> {
 
@@ -58,6 +63,11 @@ public class SongCellController extends ListCell<Song> {
         item3.setOnAction(actionEvent -> {
             System.out.println("Add to Queue");
             MediaPlayerService.currentPlaylist.addLast(song);
+
+            // Displaying the songs in queue on home screen
+            List<Song> list = new ArrayList<>(MediaPlayerService.currentPlaylist);
+            HomeScreenWidgets.nowPlayingList.setItems(FXCollections.observableArrayList(list));
+            HomeScreenWidgets.nowPlayingList.setCellFactory(new SongsQueueCellFactory());
         });
 
         // Adding the items in menu
