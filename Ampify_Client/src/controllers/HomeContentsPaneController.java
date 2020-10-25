@@ -23,9 +23,11 @@ public class HomeContentsPaneController implements Initializable {
     public JFXListView<Song> recentlyPlayedListView;
     public JFXListView<Song> recentlyAddedListView;
     public JFXListView<Song> recommendedSongsListView;
+    public JFXListView<Song> topSongsListView;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         // Displaying top artists
         try {
             List<Artist> artists = AmpifyServices.getTopArtists();
@@ -45,12 +47,21 @@ public class HomeContentsPaneController implements Initializable {
         }
 
         /*
-        Displaying recommended songs to the user (Based on choice of Artists, Languages, Genres
+        Displaying recommended songs to the user (Based on choice of Artists, Languages, Genres)
          */
-        try{
+        try {
             List<Song> songs = AmpifyServices.getUserChoiceSongs();
             recommendedSongsListView.setItems(FXCollections.observableArrayList(songs));
             recommendedSongsListView.setCellFactory(new MusicCardFactory());
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        // Displaying the top(10) songs to the user
+        try{
+            List<Song> songs = AmpifyServices.getTopSongs();
+            topSongsListView.setItems(FXCollections.observableArrayList(songs));
+            topSongsListView.setCellFactory(new MusicCardFactory());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }

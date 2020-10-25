@@ -4,7 +4,6 @@ import Services.AmpifyServices;
 import Services.MediaPlayerService;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
-import com.sun.media.jfxmedia.MediaPlayer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -50,9 +49,10 @@ public class HomeController implements Initializable {
             e.printStackTrace();
         }
 
-        try{
+
+        // Displaying the last played song in bottomPane
+        try {
             MediaPlayerService.previousSong = AmpifyServices.getUserLastPlayedSong();
-            System.out.println("Last played loaded");
             if (MediaPlayerService.previousSong != null) {
                 try {
                     Pane mediaController = FXMLLoader.load(getClass().getResource("/resources/fxml/mediaPlayer.fxml"));
@@ -61,7 +61,6 @@ public class HomeController implements Initializable {
                     e.printStackTrace();
                 }
             }
-
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -88,42 +87,6 @@ public class HomeController implements Initializable {
             }
             System.out.println();
             AmpifyServices.offsetTopsong += AmpifyServices.rowcount;
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-
-        /*
-          fetching songs based on user's preferences!!!!
-          jst for testing placed this calling function here, will be set to apt place later on
-         */
-        try {
-            AmpifyServices.offsetUserChoiceSongs = 0;
-            System.out.println("\nRecommended songs SONGS: ");
-            List<Song> songs = AmpifyServices.getUserChoiceSongs();
-            for (Song song : songs) {
-                System.out.println(song.getSongName() + " " + song.getSongURL() + " " + song.getArtistName());
-            }
-            System.out.println();
-            //we need to increase/decrease as per load more or back clicked
-            AmpifyServices.offsetTopsong += AmpifyServices.rowcount;
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        /*
-          get recent added songs(released 5 days back)!!
-          * jst for testing placed this calling function here, will be set to apt place later on
-         */
-        try {
-            AmpifyServices.offsetRecentSongs = 0;
-            System.out.println("\nRecent added SONGS: ");
-            List<Song> songs = AmpifyServices.getRecentSongs();
-            for (Song song : songs) {
-                System.out.println(song.getSongName() + " " + song.getSongURL() + " " + song.getArtistName());
-            }
-            AmpifyServices.offsetRecentSongs += AmpifyServices.rowcount;
-            System.out.println();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
