@@ -23,7 +23,7 @@ import java.util.Date;
  */
 public class AmpifyServices {
 
-    /*
+    /**
     Function to register user
     */
     public static String registerUser(SignUpRequest signUpRequest) {
@@ -41,7 +41,7 @@ public class AmpifyServices {
     }
 
 
-    /*
+    /**
     Function to login user
     */
     public static User userLogin(LoginRequest LoginRequest) {
@@ -78,7 +78,7 @@ public class AmpifyServices {
     }
 
 
-    /*
+    /**
     Function to get all artists from database
     */
     public static List<Artist> showAllArtists(ArtistFetchRequest artistFetchRequest) {
@@ -106,7 +106,7 @@ public class AmpifyServices {
     }
 
 
-    /*
+    /**
     Function to get all genres from database
      */
     public static List<Genres> showAllGenres(GenresFetchRequest genresRequest) {
@@ -130,7 +130,7 @@ public class AmpifyServices {
     }
 
 
-    /*
+    /**
     Function to get all languages from database
      */
     public static List<Language> showAllLanguages(LanguageFetchRequest languageRequest) {
@@ -154,7 +154,7 @@ public class AmpifyServices {
     }
 
 
-    /*
+    /**
     Function to save user choices for genres, languages, artists in the database
     */
     public static String saveChoices(SubmitChoicesRequest submitChoicesRequest) {
@@ -862,6 +862,48 @@ public class AmpifyServices {
 
         return  recentlyPlayedSongs;
     }
+
+    /**
+     * function to return history of user
+     * no of times a song played and blah blah....
+     * @param fetchUserHistoryRequest
+     * @return
+     */
+    public static List<UserHistory> showUserHistory(FetchUserHistoryRequest fetchUserHistoryRequest) {
+        String email = fetchUserHistoryRequest.getEmail();
+        int offset = fetchUserHistoryRequest.getOffset();
+        int rowcount = fetchUserHistoryRequest.getRowcount();
+        List<UserHistory> userHistoryList = new ArrayList<>();
+        String query = "SELECT songs.IDsong,songs.songName,MAX(user_history.time_played),COUNT(user_history.song_ID)" +
+                " FROM songs" +
+                " INNER JOIN user_history ON songs.IDsong=user_history.song_ID" +
+                " WHERE user_history.user_email=\""+email+"\" " +
+                " GROUP BY songs.IDsong" +
+                " ORDER BY MAX(user_history.time_played) DESC " +
+                " LIMIT "+offset+","+rowcount+";";
+        UserHistory userHistory;
+
+        try {
+            PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                userHistory=new UserHistory();
+                userHistory.setSongId(resultSet.getInt(1));
+                userHistory.setSongName(resultSet.getString(2));
+                userHistory.setTimePlayed(resultSet.getTimestamp(3));
+                userHistory.setNumberOfTimesPlayed(resultSet.getInt(4));
+                userHistoryList.add(userHistory);
+            }
+            return userHistoryList;
+        } catch (SQLException e) {
+            //displaying error if occured *_*
+            e.printStackTrace();
+
+
+        }
+        return userHistoryList;
+    }
+
 
 
 

@@ -13,6 +13,7 @@ public enum ServerRequest {
     ALBUM_SHOW("8"),
     PLAY_SONG("9"),// TODO PLAY SONGS *_*
     UPDATE_HISTORY("10"),
+    FETCH_USER_HISTORY("20"),
     GET_TOP_ARTISTS("11"),   // TODO
     GET_TOP_SONGS("12"),     // TODO
     GET_FAVOURITE_SONGS("13"),
