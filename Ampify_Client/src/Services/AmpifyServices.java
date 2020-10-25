@@ -19,14 +19,14 @@ public class AmpifyServices {
     private static ObjectOutputStream oos = Main.userOutputStream;
     private static ObjectInputStream ois = Main.userInputStream;
     private static UserApi userApi = UserApi.getInstance();
-    public static int offsetTopsong=0;
-    public static int offsetSongOfParticularArtist=0;
-    public static int offsetSongOfParticularAlbum=0;
-    public static  int rowcount=10;
-    public static int offsetUserChoiceSongs=0;
-    public static int offsetRecentAddedSongs=0;
-    public static int offsetUserRecentlyPlayedSong=0;
-    public static int offsetUserHistory=0;
+    public static int offsetTopsong = 0;
+    public static int offsetSongOfParticularArtist = 0;
+    public static int offsetSongOfParticularAlbum = 0;
+    public static int rowcount = 10;
+    public static int offsetUserChoiceSongs = 0;
+    public static int offsetRecentAddedSongs = 0;
+    public static int offsetUserRecentlyPlayedSong = 0;
+    public static int offsetUserHistory = 0;
 
     /*
     Function to get a list of top artists
@@ -172,15 +172,15 @@ public class AmpifyServices {
 
         return (String) ois.readObject();
     }
+
     /**
-     Function to fetch user history
-     *we pass email of user logged in
+     * Function to fetch user history
+     * we pass email of user logged in
      * also offset to manage the number of rows to be queried passed( defined above)
-     *
      */
     public static List<UserHistory> getUserHistory() throws IOException, ClassNotFoundException {
 
-        FetchUserHistoryRequest fetchUserHistory = new FetchUserHistoryRequest(userApi.getEmail(),offsetUserChoiceSongs,rowcount);
+        FetchUserHistoryRequest fetchUserHistory = new FetchUserHistoryRequest(userApi.getEmail(), offsetUserChoiceSongs, rowcount);
         oos.writeObject(fetchUserHistory);
         oos.flush();
         ois = Main.userInputStream;
