@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minWidth="600.0" prefHeight="530.0" prefWidth="975.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.HomeContentsPaneController">
+<AnchorPane minWidth="600.0" prefHeight="530.0" prefWidth="975.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.HomeContentsPaneController">
     <JFXTabPane id="tabPane" prefHeight="530.0" prefWidth="975.0" style="-fx-background-color: transparent;">
         <tabs>
             <Tab id="tab" text="Discover">
@@ -47,7 +47,7 @@
                                                     <Font size="26.0" />
                                                 </font>
                                             </Label>
-                                            <JFXListView fx:id="popularArtistsListView" fixedCellSize="0.0" maxHeight="210.0" minHeight="210.0" orientation="HORIZONTAL" prefHeight="210.0" />
+                                            <JFXListView fx:id="popularArtistsListView" fixedCellSize="0.0" maxHeight="210.0" minHeight="210.0" orientation="HORIZONTAL" prefHeight="210.0" VBox.vgrow="NEVER" />
                                             <Label text="Trending Today" textFill="WHITE">
                                                 <font>
                                                     <Font size="26.0" />

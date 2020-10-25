@@ -15,20 +15,12 @@
                 <Pane prefHeight="720.0" prefWidth="240.0" />
                 <Pane prefHeight="720.0" prefWidth="240.0" style="-fx-background-color: ;">
                     <children>
-                        <Label layoutX="25.0" layoutY="22.0" prefHeight="30.0" prefWidth="191.0" text="Playlist" textFill="WHITE">
+                        <Label layoutX="25.0" layoutY="30.0" prefHeight="30.0" prefWidth="191.0" text="Now Playing" textFill="WHITE">
                             <font>
                                 <Font size="24.0" />
                             </font>
                         </Label>
-                        <JFXButton alignment="TOP_LEFT" layoutX="25.0" layoutY="70.0" prefHeight="25.0" prefWidth="191.0" text="My Playlist" textFill="WHITE" />
-                        <JFXButton alignment="TOP_LEFT" layoutX="25.0" layoutY="95.0" prefHeight="25.0" prefWidth="191.0" text="Liked Songs" textFill="WHITE" />
-                        <JFXButton alignment="TOP_LEFT" layoutX="25.0" layoutY="120.0" prefHeight="25.0" prefWidth="191.0" text="Recommended" textFill="WHITE" />
-                        <Label layoutX="25.0" layoutY="173.0" prefHeight="30.0" prefWidth="191.0" text="Now Playing" textFill="WHITE">
-                            <font>
-                                <Font size="24.0" />
-                            </font>
-                        </Label>
-                  <JFXListView fx:id="nowPlayingList" layoutX="20.0" layoutY="215.0" prefHeight="389.0" prefWidth="200.0" />
+                  <JFXListView fx:id="nowPlayingList" layoutX="20.0" layoutY="77.0" prefHeight="527.0" prefWidth="200.0" />
                     </children>
                 </Pane>
                 <Pane id="bottomControlBar" fx:id="bottomPane" layoutY="620.0" prefHeight="100.0" prefWidth="1280.0" />

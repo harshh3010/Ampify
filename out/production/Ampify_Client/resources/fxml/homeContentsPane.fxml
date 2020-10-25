@@ -47,7 +47,7 @@
                                                     <Font size="26.0" />
                                                 </font>
                                             </Label>
-                                            <JFXListView fx:id="popularArtistsListView" fixedCellSize="0.0" maxHeight="210.0" minHeight="210.0" orientation="HORIZONTAL" prefHeight="210.0" />
+                                            <JFXListView fx:id="popularArtistsListView" fixedCellSize="0.0" maxHeight="210.0" minHeight="210.0" orientation="HORIZONTAL" prefHeight="210.0" VBox.vgrow="NEVER" />
                                             <Label text="Trending Today" textFill="WHITE">
                                                 <font>
                                                     <Font size="26.0" />
