@@ -33,6 +33,7 @@ public class HomeContentsPaneController implements Initializable {
 
         // Displaying top artists
         try {
+            System.out.println("Works1");
             List<Artist> artists = AmpifyServices.getTopArtists();
             popularArtistsListView.setItems(FXCollections.observableArrayList(artists));
             popularArtistsListView.setCellFactory(new ArtistCellFactory(HomeScreenWidgets.displayPane));
@@ -40,9 +41,20 @@ public class HomeContentsPaneController implements Initializable {
             e.printStackTrace();
         }
 
+        // Displaying recently played songs
+        try {
+            System.out.println("Works2");
+            List<Song> songs = AmpifyServices.getUserRecentlyPlayedSong();
+            recentlyPlayedListView.setItems(FXCollections.observableArrayList((songs)));
+            recentlyPlayedListView.setCellFactory(new MusicCardFactory());
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
         // Displaying recently added songs
         try {
-            List<Song> songs = AmpifyServices.getRecentSongs();
+            System.out.println("Works3");
+            List<Song> songs = AmpifyServices.getRecentAddedSongs();
             recentlyAddedListView.setItems(FXCollections.observableArrayList(songs));
             recentlyAddedListView.setCellFactory(new MusicCardFactory());
         } catch (IOException | ClassNotFoundException e) {
@@ -61,7 +73,7 @@ public class HomeContentsPaneController implements Initializable {
         }
 
         // Displaying the top(10) songs to the user
-        try{
+        try {
             List<Song> songs = AmpifyServices.getTopSongs();
             topSongsListView.setItems(FXCollections.observableArrayList(songs));
             topSongsListView.setCellFactory(new MusicCardFactory());
@@ -70,7 +82,7 @@ public class HomeContentsPaneController implements Initializable {
         }
 
         // Displaying top albums to the user
-        try{
+        try {
             List<Album> albums = AmpifyServices.getTopAlbums();
             topAlbumsListView.setItems(FXCollections.observableArrayList(albums));
             topAlbumsListView.setCellFactory(new AlbumCardFactory());

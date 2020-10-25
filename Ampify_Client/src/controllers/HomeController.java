@@ -43,6 +43,7 @@ public class HomeController implements Initializable {
         HomeScreenWidgets.nowPlayingList = nowPlayingList;
 
         try {
+            System.out.println("Works1");
             Pane newPane = FXMLLoader.load(getClass().getResource("/resources/fxml/homeContentsPane.fxml"));
             displayPane.getChildren().add(newPane);
         } catch (IOException e) {
@@ -52,6 +53,7 @@ public class HomeController implements Initializable {
 
         // Displaying the last played song in bottomPane
         try {
+            System.out.println("Works2");
             MediaPlayerService.previousSong = AmpifyServices.getUserLastPlayedSong();
             if (MediaPlayerService.previousSong != null) {
                 try {
@@ -65,31 +67,6 @@ public class HomeController implements Initializable {
             e.printStackTrace();
         }
 
-        // Displaying top albums
-        try {
-            AmpifyServices.offsetTopsong = 0;
-            System.out.println("TOP ALBUMS: ");
-            List<Album> albums = AmpifyServices.getTopAlbums();
-            for (Album album : albums) {
-                System.out.println(album.getAlbumName());
-            }
-            System.out.println();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        // Displaying Top Songs
-        try {
-            System.out.println("TOP SONGS: ");
-            List<Song> songs = AmpifyServices.getTopSongs();
-            for (Song song : songs) {
-                System.out.println(song.getSongID() + " " + song.getSongURL());
-            }
-            System.out.println();
-            AmpifyServices.offsetTopsong += AmpifyServices.rowcount;
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
     }
 
     private void displayUserData() {
