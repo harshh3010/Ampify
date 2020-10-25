@@ -22,14 +22,9 @@ public class HomeContentsPaneController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Displaying top artists
         try {
-            System.out.println("TOP ARTISTS: ");
             List<Artist> artists = AmpifyServices.getTopArtists();
             popularArtistsListView.setItems(FXCollections.observableArrayList(artists));
             popularArtistsListView.setCellFactory(new ArtistCellFactory(HomeScreenWidgets.displayPane));
-            for (Artist artist : artists) {
-                System.out.println(artist.getArtistName());
-            }
-            System.out.println();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }

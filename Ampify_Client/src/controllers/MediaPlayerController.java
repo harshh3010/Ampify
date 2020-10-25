@@ -1,126 +1,141 @@
 package controllers;
 
+import CellFactories.SongsQueueCellFactory;
 import Services.MediaPlayerService;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSlider;
 import javafx.application.Platform;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
+import javafx.collections.FXCollections;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
+import model.Song;
+import utilities.HomeScreenWidgets;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class MediaPlayerController implements Initializable {
 
-    private MediaPlayer mediaPlayer;
-    private Duration duration;
-    private final boolean repeat = false;
-    private boolean stopRequested = false;
-    private boolean atEndOfMedia = false;
-
-    @FXML
+    // UI Controls
     public JFXButton playButton;
-    @FXML
     public Label currentTimeLabel;
-    @FXML
     public JFXSlider mediaPlayerSlider;
     public Label artistNameLabel;
     public Label songNameLabel;
     public Label totalTimeLabel;
 
+    // Media player implementation
+    private MediaPlayer mediaPlayer;
+    private Duration duration;
+    private boolean stopRequested = false;
+    private boolean atEndOfMedia = false;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        if (MediaPlayerService.currentSong != null) {
-            Media media = new Media(MediaPlayerService.currentSong.getSongURL());
+        /*
+        Initialize media player
+        */
+        if (!MediaPlayerService.currentPlaylist.isEmpty()) {
+
+            // Get the url of first song in current playlist for playing
+            Media media = new Media(MediaPlayerService.currentPlaylist.peekFirst().getSongURL());
             mediaPlayer = new MediaPlayer(media);
             mediaPlayer.setAutoPlay(true);
-            songNameLabel.setText(MediaPlayerService.currentSong.getSongName());
-            // TODO: DISPLAY CURRENT SONG INFO
+
+            // Displaying the song info in UI
+            assert MediaPlayerService.currentPlaylist.peekFirst() != null;
+            songNameLabel.setText(MediaPlayerService.currentPlaylist.peekFirst().getSongName());
+
+            // Displaying the songs in queue on home screen
+            List<Song> list = new ArrayList<>(MediaPlayerService.currentPlaylist);
+            HomeScreenWidgets.nowPlayingList.setItems(FXCollections.observableArrayList(list));
+            HomeScreenWidgets.nowPlayingList.setCellFactory(new SongsQueueCellFactory());
+
         } else if (MediaPlayerService.previousSong != null) {
-            // TODO: DISPLAY PREVIOUS SONG INFO
+
+            // If current playlist is empty display the info of last played song in UI
             songNameLabel.setText(MediaPlayerService.previousSong.getSongName());
+
         }
 
-        mediaPlayerSlider.valueProperty().addListener(new InvalidationListener() {
-            @Override
-            public void invalidated(Observable observable) {
-                if (mediaPlayerSlider.isValueChanging()) {
-                    mediaPlayer.seek(duration.multiply(mediaPlayerSlider.getValue() / 100.0));
-                }
+        // Adding the seek functionality using a slider
+        mediaPlayerSlider.valueProperty().addListener(observable -> {
+            if (mediaPlayerSlider.isValueChanging()) {
+                mediaPlayer.seek(duration.multiply(mediaPlayerSlider.getValue() / 100.0));
             }
         });
 
-        mediaPlayer.currentTimeProperty().addListener(new InvalidationListener() {
-            public void invalidated(Observable ov) {
-                updateValues();
+        // Adding a listener to time to update the user of song progress
+        mediaPlayer.currentTimeProperty().addListener(ov -> updateValues());
+
+        // On Play
+        mediaPlayer.setOnPlaying(() -> {
+            if (stopRequested) {
+                mediaPlayer.pause();
+                stopRequested = false;
+            } else {
+                playButton.setText("Pause");
             }
         });
 
-        mediaPlayer.setOnPlaying(new Runnable() {
-            public void run() {
-                if (stopRequested) {
-                    mediaPlayer.pause();
-                    stopRequested = false;
-                } else {
-                    playButton.setText("Pause");
-                }
-            }
+        // On Pause
+        mediaPlayer.setOnPaused(() -> {
+            System.out.println("onPaused");
+            playButton.setText("Play");
         });
 
-        mediaPlayer.setOnPaused(new Runnable() {
-            public void run() {
-                System.out.println("onPaused");
-                playButton.setText("Play");
-            }
+        // On loading media from url
+        mediaPlayer.setOnReady(() -> {
+            duration = mediaPlayer.getMedia().getDuration();
+            updateValues();
         });
 
-        mediaPlayer.setOnReady(new Runnable() {
-            public void run() {
-                duration = mediaPlayer.getMedia().getDuration();
-                updateValues();
-            }
-        });
+        // Function which will be called after end of media
+        mediaPlayer.setOnEndOfMedia(() -> {
 
-        mediaPlayer.setCycleCount(repeat ? MediaPlayer.INDEFINITE : 1);
-        mediaPlayer.setOnEndOfMedia(new Runnable() {
-            public void run() {
-                if (!repeat) {
-                    playButton.setText("Play");
-                    stopRequested = true;
-                    atEndOfMedia = true;
-                }
+            if (MediaPlayerService.currentPlaylist.size() > 1) {
+
+                // If there are more songs in the current playlist, then play them in loop
+                Song song = MediaPlayerService.currentPlaylist.removeFirst();
+                MediaPlayerService.currentPlaylist.addLast(song);
+                MediaPlayerService.playSong(song);
+
+            } else {
+
+                // If there is only one song in current queue, then play it in loop
+                assert MediaPlayerService.currentPlaylist.peekFirst() != null;
+                MediaPlayerService.playSong(MediaPlayerService.currentPlaylist.peekFirst());
+
             }
         });
     }
 
 
+    // Function to update the progress of media in the UI
     protected void updateValues() {
         if (currentTimeLabel != null && mediaPlayerSlider != null) {
-            Platform.runLater(new Runnable() {
-                public void run() {
-                    Duration currentTime = mediaPlayer.getCurrentTime();
-                    currentTimeLabel.setText(formatTime(currentTime, duration));
-                    totalTimeLabel.setText(formatTotalTime(duration));
-                    mediaPlayerSlider.setDisable(duration.isUnknown());
-                    if (!mediaPlayerSlider.isDisabled()
-                            && duration.greaterThan(Duration.ZERO)
-                            && !mediaPlayerSlider.isValueChanging()) {
-                        mediaPlayerSlider.setValue(currentTime.divide(duration).toMillis()
-                                * 100.0);
-                    }
+            Platform.runLater(() -> {
+                Duration currentTime = mediaPlayer.getCurrentTime();
+                currentTimeLabel.setText(formatTime(currentTime, duration));
+                totalTimeLabel.setText(formatTotalTime(duration));
+                mediaPlayerSlider.setDisable(duration.isUnknown());
+                if (!mediaPlayerSlider.isDisabled()
+                        && duration.greaterThan(Duration.ZERO)
+                        && !mediaPlayerSlider.isValueChanging()) {
+                    mediaPlayerSlider.setValue(currentTime.divide(duration).toMillis()
+                            * 100.0);
                 }
             });
         }
     }
 
+    // Function to format the current time and display it in label
     private static String formatTime(Duration elapsed, Duration duration) {
         int intElapsed = (int) Math.floor(elapsed.toSeconds());
         int elapsedHours = intElapsed / (60 * 60);
@@ -152,6 +167,7 @@ public class MediaPlayerController implements Initializable {
         }
     }
 
+    // Function to format total duration and display it in label
     private String formatTotalTime(Duration duration) {
         if (duration.greaterThan(Duration.ZERO)) {
             int intDuration = (int) Math.floor(duration.toSeconds());
@@ -174,7 +190,8 @@ public class MediaPlayerController implements Initializable {
         return "00 : 00";
     }
 
-    public void onPlayButtonClicked(ActionEvent actionEvent) {
+    // Adding the play/pause button functionality
+    public void onPlayButtonClicked() {
         MediaPlayer.Status status = mediaPlayer.getStatus();
 
         if (status == MediaPlayer.Status.UNKNOWN || status == MediaPlayer.Status.HALTED) {
@@ -185,7 +202,7 @@ public class MediaPlayerController implements Initializable {
         if (status == MediaPlayer.Status.PAUSED
                 || status == MediaPlayer.Status.READY
                 || status == MediaPlayer.Status.STOPPED) {
-            // rewind the movie if we're sitting at the end
+            // rewind the media if we're sitting at the end
             if (atEndOfMedia) {
                 mediaPlayer.seek(mediaPlayer.getStartTime());
                 atEndOfMedia = false;

@@ -1,23 +1,23 @@
 /*
 Controller class for song card
- */
+*/
 
 package controllers;
 
-import Services.AmpifyServices;
+import CellFactories.SongsQueueCellFactory;
 import Services.MediaPlayerService;
-import javafx.event.EventHandler;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import model.Song;
 import utilities.HomeScreenWidgets;
-import utilities.Status;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SongCellController extends ListCell<Song> {
 
@@ -47,7 +47,7 @@ public class SongCellController extends ListCell<Song> {
     /*
     Function to setup the menu to be displayed on click of menuButton
      */
-    private void setUpMenuButton() {
+    private void setUpMenuButton(Song song) {
 
         // Creating the context menu
         ContextMenu contextMenu = new ContextMenu();
@@ -58,9 +58,17 @@ public class SongCellController extends ListCell<Song> {
         MenuItem item3 = new MenuItem("Add to Queue");
 
         // Setting action events for menu items
-        item1.setOnAction(actionEvent -> System.out.println("Add to favs"));
+        item1.setOnAction(actionEvent -> System.out.println("Add to favourites"));
         item2.setOnAction(actionEvent -> System.out.println("Add to playlist"));
-        item3.setOnAction(actionEvent -> System.out.println("Add to Queue"));
+        item3.setOnAction(actionEvent -> {
+            System.out.println("Add to Queue");
+            MediaPlayerService.currentPlaylist.addLast(song);
+
+            // Displaying the songs in queue on home screen
+            List<Song> list = new ArrayList<>(MediaPlayerService.currentPlaylist);
+            HomeScreenWidgets.nowPlayingList.setItems(FXCollections.observableArrayList(list));
+            HomeScreenWidgets.nowPlayingList.setCellFactory(new SongsQueueCellFactory());
+        });
 
         // Adding the items in menu
         contextMenu.getItems().add(item1);
@@ -87,36 +95,19 @@ public class SongCellController extends ListCell<Song> {
             nameLabel.setText(song.getSongName());
 
             // Setting up the popup menu
-            setUpMenuButton();
+            setUpMenuButton(song);
 
             // Adding action event to play a song on double click
-            this.setOnMouseClicked(new EventHandler<>() {
-                @Override
-                public void handle(MouseEvent mouseEvent) {
-                    if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {   // Play only when LMB is clicked
-                        if (mouseEvent.getClickCount() == 2) {  // Play only in case of double click
+            this.setOnMouseClicked(mouseEvent -> {
+                if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {   // Play only when LMB is clicked
+                    if (mouseEvent.getClickCount() == 2) {  // Play only in case of double click
 
-                            // Setting current song of media player to the selected song
-                            MediaPlayerService.currentSong = song;
+                        // Setting current song of media player to the selected song
+                        MediaPlayerService.currentPlaylist.clear();
+                        MediaPlayerService.currentPlaylist.addLast(song);
 
-                            try {
-                                // Loading the media player controls at the bottom of home screen
-                                Pane mediaController = FXMLLoader.load(getClass().getResource("/resources/fxml/mediaPlayer.fxml"));
-                                HomeScreenWidgets.bottomPane.getChildren().clear();
-                                HomeScreenWidgets.bottomPane.getChildren().add(mediaController);
+                        MediaPlayerService.playSong(song);
 
-                                // Updating the history of user in database
-                                String res = AmpifyServices.addSongToHistory(song.getSongID());
-                                if (res.equals(String.valueOf(Status.SUCCESS))) {
-                                    System.out.println("Song added to history");
-                                } else {
-                                    System.out.println("Song NOT added to history");
-                                }
-
-                            } catch (IOException | ClassNotFoundException e) {
-                                e.printStackTrace();
-                            }
-                        }
                     }
                 }
             });
