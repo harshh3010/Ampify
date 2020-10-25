@@ -59,8 +59,20 @@ public class MediaPlayerController implements Initializable {
 
         } else if (MediaPlayerService.previousSong != null) {
 
-            // If current playlist is empty display the info of last played song in UI
+            // Get the url of previous song
+            Media media = new Media(MediaPlayerService.previousSong.getSongURL());
+            mediaPlayer = new MediaPlayer(media);
+
+            // Not to play the song until user clicks play
+            mediaPlayer.setAutoPlay(false);
+
+            // Displaying the song info in UI
             songNameLabel.setText(MediaPlayerService.previousSong.getSongName());
+
+            // Displaying the songs in queue on home screen
+            List<Song> list = new ArrayList<>(MediaPlayerService.currentPlaylist);
+            HomeScreenWidgets.nowPlayingList.setItems(FXCollections.observableArrayList(list));
+            HomeScreenWidgets.nowPlayingList.setCellFactory(new SongsQueueCellFactory());
 
         }
 
