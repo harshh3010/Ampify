@@ -109,7 +109,6 @@ public class HomeController implements Initializable {
 
         if (HomeScreenWidgets.currentDisplayPage != HomeScreenDisplays.HISTORY_PAGE) {
             try {
-                // Move to artist screen on double click
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/fxml/historyScreen.fxml"));
                 Pane newLoadedPane = loader.load();
                 displayPane.getChildren().clear();
@@ -125,7 +124,6 @@ public class HomeController implements Initializable {
     public void onHomeButtonClicked(ActionEvent actionEvent) {
         if (HomeScreenWidgets.currentDisplayPage != HomeScreenDisplays.MAIN_PAGE) {
             try {
-                // Move to artist screen on double click
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/fxml/homeContentsPane.fxml"));
                 Pane newLoadedPane = loader.load();
                 displayPane.getChildren().clear();

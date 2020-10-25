@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXListView?>
 <?import com.jfoenix.controls.JFXTabPane?>
 <?import javafx.geometry.Insets?>
@@ -7,6 +8,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -21,11 +23,20 @@
                                 <content>
                                     <VBox>
                                         <children>
-                                            <Label text="Recently Played" textFill="WHITE">
-                                                <font>
-                                                    <Font size="26.0" />
-                                                </font>
-                                            </Label>
+                                 <HBox alignment="BASELINE_LEFT">
+                                    <children>
+                                                  <Label text="Recently Played" textFill="WHITE">
+                                                      <font>
+                                                          <Font size="26.0" />
+                                                      </font>
+                                                  </Label>
+                                       <JFXButton alignment="CENTER" onAction="#onViewAllRecentlyPlayed" text="View All" textFill="WHITE">
+                                          <font>
+                                             <Font size="16.0" />
+                                          </font>
+                                       </JFXButton>
+                                    </children>
+                                 </HBox>
                                             <JFXListView fx:id="recentlyPlayedListView" maxHeight="210.0" minHeight="210.0" orientation="HORIZONTAL" prefHeight="210.0" VBox.vgrow="NEVER" />
                                             <Label text="Popular Artists" textFill="WHITE">
                                                 <font>
@@ -33,11 +44,20 @@
                                                 </font>
                                             </Label>
                                             <JFXListView fx:id="popularArtistsListView" fixedCellSize="0.0" maxHeight="210.0" minHeight="210.0" orientation="HORIZONTAL" prefHeight="210.0" VBox.vgrow="NEVER" />
-                                            <Label text="Recently Added" textFill="WHITE">
-                                                <font>
-                                                    <Font size="26.0" />
-                                                </font>
-                                            </Label>
+                                 <HBox alignment="BASELINE_LEFT">
+                                    <children>
+                                                  <Label text="Recently Added" textFill="WHITE">
+                                                      <font>
+                                                          <Font size="26.0" />
+                                                      </font>
+                                                  </Label>
+                                       <JFXButton onAction="#onViewAllRecentlyAdded" textFill="WHITE">
+                                          <font>
+                                             <Font size="16.0" />
+                                          </font>
+                                       </JFXButton>
+                                    </children>
+                                 </HBox>
                                             <JFXListView fx:id="recentlyAddedListView" maxHeight="210.0" minHeight="210.0" orientation="HORIZONTAL" prefHeight="210.0" VBox.vgrow="NEVER" />
                                             <Label text="Made For You" textFill="WHITE">
                                                 <font>

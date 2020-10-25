@@ -6,11 +6,15 @@ import CellFactories.MusicCardFactory;
 import Services.AmpifyServices;
 import com.jfoenix.controls.JFXListView;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import model.Album;
 import model.Artist;
 import model.Song;
+import utilities.HomeScreenDisplays;
 import utilities.HomeScreenWidgets;
 
 import java.io.IOException;
@@ -51,7 +55,7 @@ public class HomeContentsPaneController implements Initializable {
 
         // Displaying recently added songs
         try {
-            List<Song> songs = AmpifyServices.getRecentAddedSongs();
+            List<Song> songs = AmpifyServices.getRecentAddedSongs(0,10);
             recentlyAddedListView.setItems(FXCollections.observableArrayList(songs));
             recentlyAddedListView.setCellFactory(new MusicCardFactory());
         } catch (IOException | ClassNotFoundException e) {
@@ -83,6 +87,38 @@ public class HomeContentsPaneController implements Initializable {
             topAlbumsListView.setItems(FXCollections.observableArrayList(albums));
             topAlbumsListView.setCellFactory(new AlbumCardFactory());
         } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    // Called when view all button for recently played songs clicked
+    public void onViewAllRecentlyPlayed(ActionEvent actionEvent) {
+
+        // Redirect the user to history screen
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/fxml/historyScreen.fxml"));
+            Pane newLoadedPane = loader.load();
+            HomeScreenWidgets.displayPane.getChildren().clear();
+            HomeScreenWidgets.displayPane.getChildren().add(newLoadedPane);
+            HomeScreenWidgets.currentDisplayPage = HomeScreenDisplays.HISTORY_PAGE;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    // Called when view all button for recently added songs clicked
+    public void onViewAllRecentlyAdded(ActionEvent actionEvent) {
+
+        // Redirect the user to recently added songs screen
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/fxml/recentlyAddedScreen.fxml"));
+            Pane newLoadedPane = loader.load();
+            HomeScreenWidgets.displayPane.getChildren().clear();
+            HomeScreenWidgets.displayPane.getChildren().add(newLoadedPane);
+            HomeScreenWidgets.currentDisplayPage = HomeScreenDisplays.RECENTLY_ADDED_PAGE;
+        } catch (IOException e) {
             e.printStackTrace();
         }
 

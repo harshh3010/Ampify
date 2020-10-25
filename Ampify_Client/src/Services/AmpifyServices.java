@@ -146,8 +146,8 @@ public class AmpifyServices {
     /**
      * Function to fetch recent songs(released 5 days back!!)
      */
-    public static List<Song> getRecentAddedSongs() throws IOException, ClassNotFoundException {
-        SongFetchRequest songFetchRequest = new SongFetchRequest(String.valueOf(SongFetchType.RECENT_ADDED_SONGS), offsetRecentAddedSongs, rowcount);
+    public static List<Song> getRecentAddedSongs(int offset,int rowCount) throws IOException, ClassNotFoundException {
+        SongFetchRequest songFetchRequest = new SongFetchRequest(String.valueOf(SongFetchType.RECENT_ADDED_SONGS), offset, rowCount);
         oos.writeObject(songFetchRequest);
         oos.flush();
         ois = Main.userInputStream;
