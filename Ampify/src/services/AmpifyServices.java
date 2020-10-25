@@ -24,8 +24,8 @@ import java.util.Date;
 public class AmpifyServices {
 
     /**
-    Function to register user
-    */
+     * Function to register user
+     */
     public static String registerUser(SignUpRequest signUpRequest) {
         String query = "INSERT INTO " + DatabaseConstants.AUTH_TABLE_NAME + "(" + DatabaseConstants.AUTH_TABLE_COL_EMAIL + "," + DatabaseConstants.AUTH_TABLE_COL_PASS + ") values(?,?);";
         try {
@@ -42,8 +42,8 @@ public class AmpifyServices {
 
 
     /**
-    Function to login user
-    */
+     * Function to login user
+     */
     public static User userLogin(LoginRequest LoginRequest) {
         String query = "Select * from " + DatabaseConstants.AUTH_TABLE_NAME + " where " + DatabaseConstants.AUTH_TABLE_COL_EMAIL + "=?;";
         User user = new User();
@@ -79,8 +79,8 @@ public class AmpifyServices {
 
 
     /**
-    Function to get all artists from database
-    */
+     * Function to get all artists from database
+     */
     public static List<Artist> showAllArtists(ArtistFetchRequest artistFetchRequest) {
         String query = "Select * from artist;";
         List<Artist> artistList = new ArrayList<>();
@@ -107,7 +107,7 @@ public class AmpifyServices {
 
 
     /**
-    Function to get all genres from database
+     * Function to get all genres from database
      */
     public static List<Genres> showAllGenres(GenresFetchRequest genresRequest) {
         String query = "Select * from Genres;";
@@ -131,7 +131,7 @@ public class AmpifyServices {
 
 
     /**
-    Function to get all languages from database
+     * Function to get all languages from database
      */
     public static List<Language> showAllLanguages(LanguageFetchRequest languageRequest) {
         String query = "Select * from Language;";
@@ -155,8 +155,8 @@ public class AmpifyServices {
 
 
     /**
-    Function to save user choices for genres, languages, artists in the database
-    */
+     * Function to save user choices for genres, languages, artists in the database
+     */
     public static String saveChoices(SubmitChoicesRequest submitChoicesRequest) {
 
         // Saving user choices in the database
@@ -377,24 +377,23 @@ public class AmpifyServices {
     }
 
 
-
     /*
      * To return top songs to UI!!!
      * */
-    public static List<Song> showTopSongs(SongFetchRequest songFetchRequest){
-        int offset=songFetchRequest.getOffset();
-        int rowcount=songFetchRequest.getRowcount();
-        String query="SELECT artist.artistName,songs.songName," +
+    public static List<Song> showTopSongs(SongFetchRequest songFetchRequest) {
+        int offset = songFetchRequest.getOffset();
+        int rowcount = songFetchRequest.getRowcount();
+        String query = "SELECT artist.artistName,songs.songName," +
                 "songs.languages,songs.genre,songs.musicURL, songs.lyricsURL," +
                 "songs.imageURL,songs.releaseDate,songs.rating," +
                 "songs.IDartist,songs.IDalbum,songs.IDsong " +
                 "FROM artist " +
                 "INNER JOIN songs ON artist.IDartist = songs.IDartist " +
-                " ORDER BY songs.IDsong  "+
-                "LIMIT "+offset+" , "+rowcount+";";
+                " ORDER BY songs.IDsong  " +
+                "LIMIT " + offset + " , " + rowcount + ";";
 
 
-        List<Song> topSongList=new ArrayList<>();
+        List<Song> topSongList = new ArrayList<>();
         try {
             PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
 
@@ -419,35 +418,34 @@ public class AmpifyServices {
                 //adding this song object to list of song type
                 topSongList.add(songSet);
             }
-            return  topSongList;
+            return topSongList;
         } catch (SQLException e) {
             //displaying error if occured *_*
             e.printStackTrace();
         }
 
-        return  topSongList;
+        return topSongList;
     }
 
 
     /*
      * To return songs of particular artist to UI!!!
      * */
-    public static List<Song> showSongsOfParticularArtist(SongFetchRequest songFetchRequest){
-        int offset=songFetchRequest.getOffset();
-        int artistID= songFetchRequest.getID();
-        int rowcount=songFetchRequest.getRowcount();
-        String query="SELECT artist.artistName,songs.songName," +
+    public static List<Song> showSongsOfParticularArtist(SongFetchRequest songFetchRequest) {
+        int offset = songFetchRequest.getOffset();
+        int artistID = songFetchRequest.getID();
+        int rowcount = songFetchRequest.getRowcount();
+        String query = "SELECT artist.artistName,songs.songName," +
                 "songs.languages,songs.genre,songs.musicURL, songs.lyricsURL," +
                 "songs.imageURL,songs.releaseDate,songs.rating," +
                 "songs.IDartist,songs.IDalbum,songs.IDsong " +
                 "FROM artist " +
                 "INNER JOIN songs ON artist.IDartist = songs.IDartist " +
-                "WHERE artist.IDartist =\""+artistID+"\" " +
-                "LIMIT "+offset+" , "+rowcount+";";
+                "WHERE artist.IDartist =\"" + artistID + "\" " +
+                "LIMIT " + offset + " , " + rowcount + ";";
 
 
-
-        List<Song> songListOfArtist=new ArrayList<>();
+        List<Song> songListOfArtist = new ArrayList<>();
         try {
             PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
 
@@ -472,13 +470,13 @@ public class AmpifyServices {
                 //adding this song object to list of song type
                 songListOfArtist.add(songSet);
             }
-            return  songListOfArtist;
+            return songListOfArtist;
         } catch (SQLException e) {
             //displaying error if occured *_*
             e.printStackTrace();
         }
 
-        return  songListOfArtist;
+        return songListOfArtist;
     }
 
 
@@ -488,20 +486,19 @@ public class AmpifyServices {
     public static List<Song> showSongsOfParticularAlbum(SongFetchRequest songFetchRequest) {
 
         int albumID = songFetchRequest.getID();
-        int offset=songFetchRequest.getOffset();
-        int rowcount=songFetchRequest.getRowcount();
-        String query="SELECT artist.artistName,songs.songName," +
+        int offset = songFetchRequest.getOffset();
+        int rowcount = songFetchRequest.getRowcount();
+        String query = "SELECT artist.artistName,songs.songName," +
                 "songs.languages,songs.genre,songs.musicURL, songs.lyricsURL," +
                 "songs.imageURL,songs.releaseDate,songs.rating," +
                 "songs.IDartist,songs.IDalbum,songs.IDsong " +
                 "FROM artist " +
                 "INNER JOIN songs ON artist.IDartist = songs.IDartist " +
-                "WHERE artist.IDartist =\""+albumID+"\" " +
-                "LIMIT "+offset+" , "+rowcount+";";
+                "WHERE artist.IDartist =\"" + albumID + "\" " +
+                "LIMIT " + offset + " , " + rowcount + ";";
 
 
-
-        List<Song> songListOfAlbum=new ArrayList<>();
+        List<Song> songListOfAlbum = new ArrayList<>();
         try {
             PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
 
@@ -561,18 +558,18 @@ public class AmpifyServices {
     /**
      * fetching user choice songs
      * * ordered by song ID ascending order
-     *      * rows fetched = rowcount
-     * */
+     * * rows fetched = rowcount
+     */
 
 
     public static List<Song> showSongsOfUserChoice(SongFetchRequest songFetchRequest) {
 
-        String languagest="";
-        String genrest="";
-        String artistst="";
-        int offset=songFetchRequest.getOffset();
-        int rowcount=songFetchRequest.getRowcount();
-        List<Song> userchoiceSong=new ArrayList<>();
+        String languagest = "";
+        String genrest = "";
+        String artistst = "";
+        int offset = songFetchRequest.getOffset();
+        int rowcount = songFetchRequest.getRowcount();
+        List<Song> userchoiceSong = new ArrayList<>();
 
         /**
          * Fetching user preferred languages from database
@@ -584,10 +581,10 @@ public class AmpifyServices {
             PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                languagest+="\""+resultSet.getString(DatabaseConstants.USER_CHOICE_LANGUAGE_COL_NAME)+"\" , ";
+                languagest += "\"" + resultSet.getString(DatabaseConstants.USER_CHOICE_LANGUAGE_COL_NAME) + "\" , ";
             }
-            if(languagest.length()>2)
-                languagest=languagest.substring(0,languagest.length()-2);
+            if (languagest.length() > 2)
+                languagest = languagest.substring(0, languagest.length() - 2);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -604,10 +601,10 @@ public class AmpifyServices {
             PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                genrest+="\""+resultSet.getString(DatabaseConstants.USER_CHOICE_GENRES_COL_NAME)+"\" , ";
+                genrest += "\"" + resultSet.getString(DatabaseConstants.USER_CHOICE_GENRES_COL_NAME) + "\" , ";
             }
-            if(genrest.length()>2)
-                genrest=genrest.substring(0,genrest.length()-2);
+            if (genrest.length() > 2)
+                genrest = genrest.substring(0, genrest.length() - 2);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -627,11 +624,11 @@ public class AmpifyServices {
             PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                int id=resultSet.getInt(1);
-                artistst+="\""+Integer.toString(id)+"\" , ";
+                int id = resultSet.getInt(1);
+                artistst += "\"" + Integer.toString(id) + "\" , ";
             }
-            if(artistst.length()>2)
-                artistst=artistst.substring(0,artistst.length()-2);
+            if (artistst.length() > 2)
+                artistst = artistst.substring(0, artistst.length() - 2);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -641,25 +638,24 @@ public class AmpifyServices {
         System.out.println(artistst);
         //TODO USE INNER JOIN ;THIS IS SOMETHING NOT TO BE DONE BUT TAKEN LITE FOR NOW!
         // :(
-        try{
+        try {
 
-            String query2="SELECT DISTINCT * FROM "+DatabaseConstants.SONG_TABLE+
-                    " WHERE "+ DatabaseConstants.SONG_COL_LANGUAGE+" IN  ("+languagest+
-                    ") OR "+DatabaseConstants.SONG_COL_GENRES+" IN ("+genrest+
-                    ") OR "+DatabaseConstants.SONG_COL_ARTISTID+" IN ("+artistst+ ") " +
-                    " ORDER BY songs.IDsong  "+
-                    "LIMIT "+offset+" , "+rowcount+";";
+            String query2 = "SELECT DISTINCT * FROM " + DatabaseConstants.SONG_TABLE +
+                    " WHERE " + DatabaseConstants.SONG_COL_LANGUAGE + " IN  (" + languagest +
+                    ") OR " + DatabaseConstants.SONG_COL_GENRES + " IN (" + genrest +
+                    ") OR " + DatabaseConstants.SONG_COL_ARTISTID + " IN (" + artistst + ") " +
+                    " ORDER BY songs.IDsong  " +
+                    "LIMIT " + offset + " , " + rowcount + ";";
             PreparedStatement preparedStatement = Main.connection.prepareStatement(query2);
             ResultSet resultSet = preparedStatement.executeQuery();
             Song songSet;
             String query1;
             while (resultSet.next()) {
                 songSet = new Song();
-                query1="SELECT * FROM "+DatabaseConstants.ARTIST_TABLE+" WHERE "+DatabaseConstants.ARTIST_COL_ID+" ="+resultSet.getInt(3)+";";
-                PreparedStatement preparedStatement2=Main.connection.prepareStatement(query1);
+                query1 = "SELECT * FROM " + DatabaseConstants.ARTIST_TABLE + " WHERE " + DatabaseConstants.ARTIST_COL_ID + " =" + resultSet.getInt(3) + ";";
+                PreparedStatement preparedStatement2 = Main.connection.prepareStatement(query1);
                 ResultSet resultSet2 = preparedStatement2.executeQuery();
-                while (resultSet2.next())
-                {
+                while (resultSet2.next()) {
                     songSet.setArtistName(resultSet2.getString(2));
                 }
                 songSet.setSongID(resultSet.getInt(1));
@@ -689,10 +685,10 @@ public class AmpifyServices {
      * To return  recent added songs(5 days back) to the server!!!
      * will be ordered by release Date
      * no of rows to be queried controlled using rowcount
-     * */
-    public static List<Song> showRecentAddedSongs(SongFetchRequest songFetchRequest){
-        int rowcount=songFetchRequest.getRowcount();
-        int offset=songFetchRequest.getOffset();
+     */
+    public static List<Song> showRecentAddedSongs(SongFetchRequest songFetchRequest) {
+        int rowcount = songFetchRequest.getRowcount();
+        int offset = songFetchRequest.getOffset();
         Timestamp timestamp = new Timestamp(new Date().getTime());
         System.out.println(timestamp);
 
@@ -703,19 +699,19 @@ public class AmpifyServices {
         cal.add(Calendar.DAY_OF_MONTH, -5);
         timestamp = new Timestamp(cal.getTime().getTime());
 
-        String query="SELECT artist.artistName,songs.songName," +
+        String query = "SELECT artist.artistName,songs.songName," +
                 "songs.languages,songs.genre,songs.musicURL, songs.lyricsURL," +
                 "songs.imageURL,songs.releaseDate,songs.rating," +
                 "songs.IDartist,songs.IDalbum,songs.IDsong " +
                 "FROM artist " +
                 "INNER JOIN songs ON artist.IDartist = songs.IDartist " +
-                " WHERE songs.releaseDate > \" "+timestamp+"\" " +
-                " ORDER BY songs.releaseDate DESC  "+
-                "LIMIT "+offset+" , "+rowcount+" ;";
+                " WHERE songs.releaseDate > \" " + timestamp + "\" " +
+                " ORDER BY songs.releaseDate DESC  " +
+                "LIMIT " + offset + " , " + rowcount + " ;";
 
 
         String query1;
-        List<Song> recentSongList=new ArrayList<>();
+        List<Song> recentSongList = new ArrayList<>();
         try {
             PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
 
@@ -740,39 +736,36 @@ public class AmpifyServices {
                 //adding this song object to list of song type
                 recentSongList.add(songSet);
             }
-            return  recentSongList;
+            return recentSongList;
         } catch (SQLException e) {
             //displaying error if occured *_*
             e.printStackTrace();
         }
 
-        return  recentSongList;
+        return recentSongList;
     }
 
     /**
      * function for returning back recently played song by the user
+     *
      * @param songFetchRequest
      * @return
      */
 
-    public static Song showLastPlayedSong(SongFetchRequest songFetchRequest){
-        String email=songFetchRequest.getEmail();
-        System.out.print(email+" :)");
+    public static Song showLastPlayedSong(SongFetchRequest songFetchRequest) {
+        String email = songFetchRequest.getEmail();
+        System.out.print(email + " :)");
 
-        String query="SELECT artist.artistName,songs.songName," +
+        String query = "SELECT artist.artistName,songs.songName," +
                 "songs.languages,songs.genre,songs.musicURL, songs.lyricsURL," +
                 "songs.imageURL,songs.releaseDate,songs.rating," +
                 "songs.IDartist,songs.IDalbum,songs.IDsong " +
                 "FROM songs " +
                 "INNER JOIN artist ON  songs.IDartist=artist.IDartist " +
-                "INNER JOIN user_history ON songs.IDsong=user_history.song_ID "+
-                " WHERE user_history.user_email =\""+email+"\" " +
+                "INNER JOIN user_history ON songs.IDsong=user_history.song_ID " +
+                " WHERE user_history.user_email =\"" + email + "\" " +
                 " ORDER BY user_history.time_played DESC " +
-                " LIMIT 0,1;" ;
-
-
-
-
+                " LIMIT 0,1;";
 
 
         Song songSet = new Song();
@@ -798,40 +791,41 @@ public class AmpifyServices {
                 songSet.setSongRating(resultSet.getDouble(DatabaseConstants.SONG_COL_RATING));
                 songSet.setArtistName(resultSet.getString(DatabaseConstants.ARTIST_COL_NAME));
             }
-            return  songSet;
+            return songSet;
         } catch (SQLException e) {
             //displaying error if occured *_*
             e.printStackTrace();
         }
 
-        return  songSet;
+        return songSet;
     }
 
     /**
      * function to return back list of recently played songs by a particular user!!
      * query size limited by rowcount!!
+     *
      * @param songFetchRequest
      * @return
      */
-    public static List<Song> showRecentlyPlayedSong(SongFetchRequest songFetchRequest){
-        String email=songFetchRequest.getEmail();
-        System.out.print(email+" :)");
-        int rowcount=songFetchRequest.getRowcount();
-        int offset=songFetchRequest.getOffset();
+    public static List<Song> showRecentlyPlayedSong(SongFetchRequest songFetchRequest) {
+        String email = songFetchRequest.getEmail();
+        System.out.print(email + " :)");
+        int rowcount = songFetchRequest.getRowcount();
+        int offset = songFetchRequest.getOffset();
 
-        String query="SELECT  artist.artistName,songs.songName," +
+        String query = "SELECT  artist.artistName,songs.songName," +
                 "songs.languages,songs.genre,songs.musicURL, songs.lyricsURL," +
                 "songs.imageURL,songs.releaseDate,songs.rating," +
                 "songs.IDartist,songs.IDalbum,songs.IDsong " +
                 "FROM songs " +
                 "INNER JOIN artist ON  songs.IDartist=artist.IDartist " +
-                "INNER JOIN user_history ON songs.IDsong=user_history.song_ID "+
-                " WHERE user_history.user_email =\""+email+"\" " +
+                "INNER JOIN user_history ON songs.IDsong=user_history.song_ID " +
+                " WHERE user_history.user_email =\"" + email + "\" " +
                 " GROUP BY user_history.SONG_ID  " +
                 " ORDER BY MAX(user_history.time_played) DESC " +
-                "LIMIT "+offset+" , "+rowcount+" ;";
-        Song songSet ;
-        List<Song> recentlyPlayedSongs=new ArrayList<>();
+                "LIMIT " + offset + " , " + rowcount + " ;";
+        Song songSet;
+        List<Song> recentlyPlayedSongs = new ArrayList<>();
         try {
             PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
 
@@ -855,18 +849,19 @@ public class AmpifyServices {
                 songSet.setArtistName(resultSet.getString(DatabaseConstants.ARTIST_COL_NAME));
                 recentlyPlayedSongs.add(songSet);
             }
-            return  recentlyPlayedSongs;
+            return recentlyPlayedSongs;
         } catch (SQLException e) {
             //displaying error if occured *_*
             e.printStackTrace();
         }
 
-        return  recentlyPlayedSongs;
+        return recentlyPlayedSongs;
     }
 
     /**
      * function to return history of user
      * no of times a song played and blah blah....
+     *
      * @param fetchUserHistoryRequest
      * @return
      */
@@ -878,17 +873,17 @@ public class AmpifyServices {
         String query = "SELECT songs.IDsong,songs.songName,MAX(user_history.time_played),COUNT(user_history.song_ID)" +
                 " FROM songs" +
                 " INNER JOIN user_history ON songs.IDsong=user_history.song_ID" +
-                " WHERE user_history.user_email=\""+email+"\" " +
+                " WHERE user_history.user_email=\"" + email + "\" " +
                 " GROUP BY songs.IDsong" +
                 " ORDER BY MAX(user_history.time_played) DESC " +
-                " LIMIT "+offset+","+rowcount+";";
+                " LIMIT " + offset + "," + rowcount + ";";
         UserHistory userHistory;
 
         try {
             PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                userHistory=new UserHistory();
+                userHistory = new UserHistory();
                 userHistory.setSongId(resultSet.getInt(1));
                 userHistory.setSongName(resultSet.getString(2));
                 userHistory.setTimePlayed(resultSet.getTimestamp(3));
@@ -904,8 +899,6 @@ public class AmpifyServices {
         }
         return userHistoryList;
     }
-
-
 
 
 }
