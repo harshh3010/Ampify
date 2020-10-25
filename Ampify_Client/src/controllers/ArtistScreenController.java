@@ -14,6 +14,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import model.Artist;
 import model.Song;
+import utilities.HomeScreenDisplays;
+import utilities.HomeScreenWidgets;
 
 import java.io.IOException;
 import java.util.List;
@@ -60,6 +62,8 @@ public class ArtistScreenController {
             Pane newPane = FXMLLoader.load(getClass().getResource("/resources/fxml/homeContentsPane.fxml"));
             homePageDisplayPane.getChildren().remove(0);
             homePageDisplayPane.getChildren().add(newPane);
+
+            HomeScreenWidgets.currentDisplayPage = HomeScreenDisplays.MAIN_PAGE;
         } catch (IOException e) {
             e.printStackTrace();
         }

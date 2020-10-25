@@ -11,6 +11,8 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import model.Artist;
+import utilities.HomeScreenDisplays;
+import utilities.HomeScreenWidgets;
 
 import java.io.IOException;
 
@@ -69,6 +71,8 @@ public class ArtistCellController extends ListCell<Artist> {
                 public void handle(MouseEvent mouseEvent) {
                     if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {   // Ensuring LMB is clicked
                         if (mouseEvent.getClickCount() == 2) {  // Ensuring its a double click
+
+
                             try {
                                 // Move to artist screen on double click
                                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/fxml/artistScreen.fxml"));
@@ -77,7 +81,7 @@ public class ArtistCellController extends ListCell<Artist> {
                                 artistScreenController.saveArtistDetails(artist, displayPane);
                                 displayPane.getChildren().remove(0);
                                 displayPane.getChildren().add(newLoadedPane);
-
+                                HomeScreenWidgets.currentDisplayPage = HomeScreenDisplays.ARTIST_PAGE;
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }

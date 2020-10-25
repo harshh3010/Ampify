@@ -178,9 +178,9 @@ public class AmpifyServices {
      * we pass email of user logged in
      * also offset to manage the number of rows to be queried passed( defined above)
      */
-    public static List<UserHistory> getUserHistory() throws IOException, ClassNotFoundException {
+    public static List<UserHistory> getUserHistory(int offset,int rowCount) throws IOException, ClassNotFoundException {
 
-        FetchUserHistoryRequest fetchUserHistory = new FetchUserHistoryRequest(userApi.getEmail(), offsetUserChoiceSongs, rowcount);
+        FetchUserHistoryRequest fetchUserHistory = new FetchUserHistoryRequest(userApi.getEmail(), offset, rowCount);
         oos.writeObject(fetchUserHistory);
         oos.flush();
         ois = Main.userInputStream;

@@ -14,6 +14,7 @@ import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import model.Song;
+import utilities.HomeScreenDisplays;
 import utilities.HomeScreenWidgets;
 import utilities.UserApi;
 
@@ -43,7 +44,9 @@ public class HomeController implements Initializable {
         try {
             System.out.println("Works1");
             Pane newPane = FXMLLoader.load(getClass().getResource("/resources/fxml/homeContentsPane.fxml"));
+            displayPane.getChildren().clear();
             displayPane.getChildren().add(newPane);
+            HomeScreenWidgets.currentDisplayPage = HomeScreenDisplays.MAIN_PAGE;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -100,5 +103,37 @@ public class HomeController implements Initializable {
         // Setting the new scene in the window
         window.setScene(loginScreenScene);
         window.show();
+    }
+
+    public void historyButtonAction(ActionEvent actionEvent) {
+
+        if (HomeScreenWidgets.currentDisplayPage != HomeScreenDisplays.HISTORY_PAGE) {
+            try {
+                // Move to artist screen on double click
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/fxml/historyScreen.fxml"));
+                Pane newLoadedPane = loader.load();
+                displayPane.getChildren().clear();
+                displayPane.getChildren().add(newLoadedPane);
+                HomeScreenWidgets.currentDisplayPage = HomeScreenDisplays.HISTORY_PAGE;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    public void onHomeButtonClicked(ActionEvent actionEvent) {
+        if (HomeScreenWidgets.currentDisplayPage != HomeScreenDisplays.MAIN_PAGE) {
+            try {
+                // Move to artist screen on double click
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/fxml/homeContentsPane.fxml"));
+                Pane newLoadedPane = loader.load();
+                displayPane.getChildren().clear();
+                displayPane.getChildren().add(newLoadedPane);
+                HomeScreenWidgets.currentDisplayPage = HomeScreenDisplays.MAIN_PAGE;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
