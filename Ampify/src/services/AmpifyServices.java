@@ -819,7 +819,7 @@ public class AmpifyServices {
         int rowcount=songFetchRequest.getRowcount();
         int offset=songFetchRequest.getOffset();
 
-        String query="SELECT artist.artistName,songs.songName," +
+        String query="SELECT  artist.artistName,songs.songName," +
                 "songs.languages,songs.genre,songs.musicURL, songs.lyricsURL," +
                 "songs.imageURL,songs.releaseDate,songs.rating," +
                 "songs.IDartist,songs.IDalbum,songs.IDsong " +
@@ -827,7 +827,8 @@ public class AmpifyServices {
                 "INNER JOIN artist ON  songs.IDartist=artist.IDartist " +
                 "INNER JOIN user_history ON songs.IDsong=user_history.song_ID "+
                 " WHERE user_history.user_email =\""+email+"\" " +
-                " ORDER BY user_history.time_played DESC " +
+                " GROUP BY user_history.SONG_ID  " +
+                " ORDER BY MAX(user_history.time_played) DESC " +
                 "LIMIT "+offset+" , "+rowcount+" ;";
         Song songSet ;
         List<Song> recentlyPlayedSongs=new ArrayList<>();
