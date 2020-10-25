@@ -4,7 +4,6 @@ import mainClass.Main;
 import model.Album;
 import model.Artist;
 import model.Song;
-import model.UserAuth;
 import serverClasses.requests.*;
 import utilities.ArtistsAlbumFetchType;
 import utilities.SongFetchType;

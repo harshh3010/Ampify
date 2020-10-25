@@ -1,5 +1,6 @@
 package controllers;
 
+import CellFactories.AlbumCardFactory;
 import CellFactories.ArtistCellFactory;
 import CellFactories.MusicCardFactory;
 import Services.AmpifyServices;
@@ -7,6 +8,7 @@ import com.jfoenix.controls.JFXListView;
 import javafx.collections.FXCollections;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.HBox;
+import model.Album;
 import model.Artist;
 import model.Song;
 import utilities.HomeScreenWidgets;
@@ -24,6 +26,7 @@ public class HomeContentsPaneController implements Initializable {
     public JFXListView<Song> recentlyAddedListView;
     public JFXListView<Song> recommendedSongsListView;
     public JFXListView<Song> topSongsListView;
+    public JFXListView<Album> topAlbumsListView;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -62,6 +65,15 @@ public class HomeContentsPaneController implements Initializable {
             List<Song> songs = AmpifyServices.getTopSongs();
             topSongsListView.setItems(FXCollections.observableArrayList(songs));
             topSongsListView.setCellFactory(new MusicCardFactory());
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        // Displaying top albums to the user
+        try{
+            List<Album> albums = AmpifyServices.getTopAlbums();
+            topAlbumsListView.setItems(FXCollections.observableArrayList(albums));
+            topAlbumsListView.setCellFactory(new AlbumCardFactory());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }

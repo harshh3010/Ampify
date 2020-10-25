@@ -58,6 +58,12 @@
                                     </font>
                                  </Label>
                                  <JFXListView fx:id="topSongsListView" maxHeight="210.0" minHeight="210.0" orientation="HORIZONTAL" prefHeight="210.0" />
+                                 <Label text="Best of Albums" textFill="WHITE">
+                                    <font>
+                                       <Font size="26.0" />
+                                    </font>
+                                 </Label>
+                                 <JFXListView fx:id="topAlbumsListView" maxHeight="210.0" minHeight="210.0" orientation="HORIZONTAL" prefHeight="210.0" />
                                         </children>
                                     </VBox>
                                 </content>
