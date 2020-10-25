@@ -57,9 +57,9 @@ public class AmpifyServices {
     /*
     Function to get top songs
      */
-    public static List<Song> getTopSongs() throws IOException, ClassNotFoundException {
+    public static List<Song> getTopSongs(int offset,int rowCount) throws IOException, ClassNotFoundException {
 
-        SongFetchRequest songFetchRequest = new SongFetchRequest(String.valueOf(SongFetchType.TOP), offsetTopsong, rowcount);
+        SongFetchRequest songFetchRequest = new SongFetchRequest(String.valueOf(SongFetchType.TOP), offset, rowCount);
         oos.writeObject(songFetchRequest);
         oos.flush();
 

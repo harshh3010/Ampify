@@ -75,7 +75,7 @@ public class HomeContentsPaneController implements Initializable {
 
         // Displaying the top(10) songs to the user
         try {
-            List<Song> songs = AmpifyServices.getTopSongs();
+            List<Song> songs = AmpifyServices.getTopSongs(0,10);
             topSongsListView.setItems(FXCollections.observableArrayList(songs));
             topSongsListView.setCellFactory(new MusicCardFactory());
         } catch (IOException | ClassNotFoundException e) {
@@ -136,6 +136,24 @@ public class HomeContentsPaneController implements Initializable {
             Pane newLoadedPane = loader.load();
             SongsListScreenController songsListScreenController = loader.getController();
             songsListScreenController.getFetchType(SongListType.RECOMMENDED_SONGS);
+            HomeScreenWidgets.displayPane.getChildren().clear();
+            HomeScreenWidgets.displayPane.getChildren().add(newLoadedPane);
+            HomeScreenWidgets.currentDisplayPage = HomeScreenDisplays.SONG_LIST_PAGE;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    // Called when view all button for top songs clicked
+    public void onViewAllTopSongs(ActionEvent actionEvent) {
+
+        // Redirect the user to top songs screen
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/fxml/songsListScreen.fxml"));
+            Pane newLoadedPane = loader.load();
+            SongsListScreenController songsListScreenController = loader.getController();
+            songsListScreenController.getFetchType(SongListType.TOP_SONGS);
             HomeScreenWidgets.displayPane.getChildren().clear();
             HomeScreenWidgets.displayPane.getChildren().add(newLoadedPane);
             HomeScreenWidgets.currentDisplayPage = HomeScreenDisplays.SONG_LIST_PAGE;

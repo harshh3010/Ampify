@@ -27,6 +27,7 @@ public class SongsListScreenController implements Initializable {
     @FXML
     public Label displayLabel;
 
+    // This will decide which songs are to be displayed
     private SongListType songListType;
 
     // Offset and row count to fetch a bunch of records from server
@@ -41,6 +42,15 @@ public class SongsListScreenController implements Initializable {
         // Setting the rowCount to 10, i.e loading 10 items at a time
         rowCount = 10;
 
+        // Displaying text in the label according to type of request
+        if (songListType == SongListType.RECENTLY_ADDED_SONGS) {
+            displayLabel.setText("Newly added");
+        } else if (songListType == SongListType.RECOMMENDED_SONGS) {
+            displayLabel.setText("Recommended Songs");
+        } else if (songListType == SongListType.TOP_SONGS) {
+            displayLabel.setText("Top Songs");
+        }
+
         // Loading the first batch
         loadItems();
 
@@ -54,13 +64,15 @@ public class SongsListScreenController implements Initializable {
     // Function to load data from the server
     private void loadItems() {
 
-        // Loading songs from the server
+        // Loading songs from the server based on type of request made
         try {
             List<Song> songs = new ArrayList<>();
             if (songListType == SongListType.RECENTLY_ADDED_SONGS) {
                 songs = AmpifyServices.getRecentAddedSongs(offset, rowCount);
             } else if (songListType == SongListType.RECOMMENDED_SONGS) {
                 songs = AmpifyServices.getUserChoiceSongs(offset, rowCount);
+            } else if (songListType == SongListType.TOP_SONGS) {
+                songs = AmpifyServices.getTopSongs(offset, rowCount);
             }
             songListView.setItems(FXCollections.observableArrayList(songs));
             songListView.setCellFactory(new SongCellFactory());

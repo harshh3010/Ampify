@@ -81,11 +81,20 @@
                                                     <Insets bottom="8.0" />
                                                 </padding>
                                             </JFXListView>
-                                            <Label text="Top Songs" textFill="WHITE">
-                                                <font>
-                                                    <Font size="26.0" />
-                                                </font>
-                                            </Label>
+                                 <HBox alignment="BASELINE_LEFT">
+                                    <children>
+                                                  <Label text="Top Songs" textFill="WHITE">
+                                                      <font>
+                                                          <Font size="26.0" />
+                                                      </font>
+                                                  </Label>
+                                       <JFXButton onAction="#onViewAllTopSongs" text="View All" textFill="WHITE">
+                                          <font>
+                                             <Font size="16.0" />
+                                          </font>
+                                       </JFXButton>
+                                    </children>
+                                 </HBox>
                                             <JFXListView fx:id="topSongsListView" maxHeight="210.0" minHeight="210.0" orientation="HORIZONTAL" prefHeight="210.0" />
                                             <Label text="Best of Albums" textFill="WHITE">
                                                 <font>
