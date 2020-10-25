@@ -7,26 +7,33 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import model.Song;
+import serverClasses.requests.SongListType;
 import utilities.HomeScreenDisplays;
 import utilities.HomeScreenWidgets;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class RecentlyAddedScreenController implements Initializable {
+public class SongsListScreenController implements Initializable {
 
     @FXML
     public JFXListView<Song> songListView;
+    @FXML
+    public Label displayLabel;
+
+    private SongListType songListType;
 
     // Offset and row count to fetch a bunch of records from server
     private int offset, rowCount;
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void getFetchType(SongListType songListType) {
+        this.songListType = songListType;
 
         // Initially setting the offset to 0
         offset = 0;
@@ -36,14 +43,25 @@ public class RecentlyAddedScreenController implements Initializable {
 
         // Loading the first batch
         loadItems();
+
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
     }
 
     // Function to load data from the server
-    private void loadItems(){
+    private void loadItems() {
 
         // Loading songs from the server
-        try{
-            List<Song> songs = AmpifyServices.getRecentAddedSongs(offset,rowCount);
+        try {
+            List<Song> songs = new ArrayList<>();
+            if (songListType == SongListType.RECENTLY_ADDED_SONGS) {
+                songs = AmpifyServices.getRecentAddedSongs(offset, rowCount);
+            } else if (songListType == SongListType.RECOMMENDED_SONGS) {
+                songs = AmpifyServices.getUserChoiceSongs(offset, rowCount);
+            }
             songListView.setItems(FXCollections.observableArrayList(songs));
             songListView.setCellFactory(new SongCellFactory());
         } catch (IOException | ClassNotFoundException e) {

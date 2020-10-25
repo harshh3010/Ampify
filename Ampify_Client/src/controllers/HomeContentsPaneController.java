@@ -14,6 +14,7 @@ import javafx.scene.layout.Pane;
 import model.Album;
 import model.Artist;
 import model.Song;
+import serverClasses.requests.SongListType;
 import utilities.HomeScreenDisplays;
 import utilities.HomeScreenWidgets;
 
@@ -65,7 +66,7 @@ public class HomeContentsPaneController implements Initializable {
 
         // Displaying recommended songs to the user (Based on choice of Artists, Languages, Genres)
         try {
-            List<Song> songs = AmpifyServices.getUserChoiceSongs();
+            List<Song> songs = AmpifyServices.getUserChoiceSongs(0,10);
             recommendedSongsListView.setItems(FXCollections.observableArrayList(songs));
             recommendedSongsListView.setCellFactory(new MusicCardFactory());
         } catch (IOException | ClassNotFoundException e) {
@@ -113,11 +114,31 @@ public class HomeContentsPaneController implements Initializable {
 
         // Redirect the user to recently added songs screen
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/fxml/recentlyAddedScreen.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/fxml/songsListScreen.fxml"));
             Pane newLoadedPane = loader.load();
+            SongsListScreenController songsListScreenController = loader.getController();
+            songsListScreenController.getFetchType(SongListType.RECENTLY_ADDED_SONGS);
             HomeScreenWidgets.displayPane.getChildren().clear();
             HomeScreenWidgets.displayPane.getChildren().add(newLoadedPane);
-            HomeScreenWidgets.currentDisplayPage = HomeScreenDisplays.RECENTLY_ADDED_PAGE;
+            HomeScreenWidgets.currentDisplayPage = HomeScreenDisplays.SONG_LIST_PAGE;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    // Called when view all button for recommended songs clicked
+    public void onViewAllRecommendedSongs(ActionEvent actionEvent) {
+
+        // Redirect the user to recommended songs screen
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/fxml/songsListScreen.fxml"));
+            Pane newLoadedPane = loader.load();
+            SongsListScreenController songsListScreenController = loader.getController();
+            songsListScreenController.getFetchType(SongListType.RECOMMENDED_SONGS);
+            HomeScreenWidgets.displayPane.getChildren().clear();
+            HomeScreenWidgets.displayPane.getChildren().add(newLoadedPane);
+            HomeScreenWidgets.currentDisplayPage = HomeScreenDisplays.SONG_LIST_PAGE;
         } catch (IOException e) {
             e.printStackTrace();
         }

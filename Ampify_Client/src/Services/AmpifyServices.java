@@ -100,9 +100,9 @@ public class AmpifyServices {
      * we pass row count , offset specific to this kind of fetching request
      * defined above
      */
-    public static List<Song> getUserChoiceSongs() throws IOException, ClassNotFoundException {
+    public static List<Song> getUserChoiceSongs(int offset,int rowCount) throws IOException, ClassNotFoundException {
 
-        SongFetchRequest songFetchRequest = new SongFetchRequest(String.valueOf(SongFetchType.SONGS_OF_USER_CHOICE), userApi.getEmail(), offsetUserChoiceSongs, rowcount);
+        SongFetchRequest songFetchRequest = new SongFetchRequest(String.valueOf(SongFetchType.SONGS_OF_USER_CHOICE), userApi.getEmail(), offset, rowCount);
         oos.writeObject(songFetchRequest);
         oos.flush();
         ois = Main.userInputStream;

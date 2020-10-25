@@ -51,7 +51,7 @@
                                                           <Font size="26.0" />
                                                       </font>
                                                   </Label>
-                                       <JFXButton onAction="#onViewAllRecentlyAdded" textFill="WHITE">
+                                       <JFXButton onAction="#onViewAllRecentlyAdded" text="View All" textFill="WHITE">
                                           <font>
                                              <Font size="16.0" />
                                           </font>
@@ -59,11 +59,20 @@
                                     </children>
                                  </HBox>
                                             <JFXListView fx:id="recentlyAddedListView" maxHeight="210.0" minHeight="210.0" orientation="HORIZONTAL" prefHeight="210.0" VBox.vgrow="NEVER" />
-                                            <Label text="Made For You" textFill="WHITE">
-                                                <font>
-                                                    <Font size="26.0" />
-                                                </font>
-                                            </Label>
+                                 <HBox alignment="BASELINE_LEFT">
+                                    <children>
+                                                  <Label text="Made For You" textFill="WHITE">
+                                                      <font>
+                                                          <Font size="26.0" />
+                                                      </font>
+                                                  </Label>
+                                       <JFXButton onAction="#onViewAllRecommendedSongs" text="View All" textFill="WHITE">
+                                          <font>
+                                             <Font size="16.0" />
+                                          </font>
+                                       </JFXButton>
+                                    </children>
+                                 </HBox>
                                             <JFXListView fx:id="recommendedSongsListView" fixedCellSize="0.0" maxHeight="215.0" minHeight="215.0" orientation="HORIZONTAL" prefHeight="215.0">
                                                 <VBox.margin>
                                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
