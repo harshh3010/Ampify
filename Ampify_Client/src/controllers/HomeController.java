@@ -140,13 +140,29 @@ public class HomeController implements Initializable {
          * * jst for testing placed this calling function here, will be set to apt place later on
          */
         try {
-            AmpifyServices.offsetRecentSongs=0;
+            AmpifyServices.offsetRecentAddedSongs=0;
             System.out.println("\nRecent added SONGS: ");
-            List<Song> songs = AmpifyServices.getRecentSongs();
+            List<Song> songs = AmpifyServices.getRecentAddedSongs();
             for (Song song : songs) {
                 System.out.println(song.getSongName()+" "+song.getSongURL()+" "+song.getArtistName());
             }
-            AmpifyServices.offsetRecentSongs+=AmpifyServices.rowcount;
+            AmpifyServices.offsetRecentAddedSongs+=AmpifyServices.rowcount;
+            System.out.println();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        /**
+         * get recent played song songs!!
+         * * jst for testing placed this calling function here, will be set to apt place later on
+         */
+        try {
+            AmpifyServices.offsetUserChoiceSongs=0;
+            System.out.println("\nRecent played SONGS: ");
+            List<Song> songs = AmpifyServices.getUserRecentlyPlayedSong();
+            for (Song song : songs) {
+                System.out.println(song.getSongName()+" "+song.getSongURL()+" "+song.getArtistName());
+            }
+            AmpifyServices.offsetUserChoiceSongs+=AmpifyServices.rowcount;
             System.out.println();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();

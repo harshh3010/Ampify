@@ -690,7 +690,7 @@ public class AmpifyServices {
      * will be ordered by release Date
      * no of rows to be queried controlled using rowcount
      * */
-    public static List<Song> showRecentSongs(SongFetchRequest songFetchRequest){
+    public static List<Song> showRecentAddedSongs(SongFetchRequest songFetchRequest){
         int rowcount=songFetchRequest.getRowcount();
         int offset=songFetchRequest.getOffset();
         Timestamp timestamp = new Timestamp(new Date().getTime());
@@ -749,6 +749,11 @@ public class AmpifyServices {
         return  recentSongList;
     }
 
+    /**
+     * function for returning back recently played song by the user
+     * @param songFetchRequest
+     * @return
+     */
 
     public static Song showLastPlayedSong(SongFetchRequest songFetchRequest){
         String email=songFetchRequest.getEmail();
@@ -801,6 +806,63 @@ public class AmpifyServices {
 
         return  songSet;
     }
+
+    /**
+     * function to return back list of recently played songs by a particular user!!
+     * query size limited by rowcount!!
+     * @param songFetchRequest
+     * @return
+     */
+    public static List<Song> showRecentlyPlayedSong(SongFetchRequest songFetchRequest){
+        String email=songFetchRequest.getEmail();
+        System.out.print(email+" :)");
+        int rowcount=songFetchRequest.getRowcount();
+        int offset=songFetchRequest.getOffset();
+
+        String query="SELECT artist.artistName,songs.songName," +
+                "songs.languages,songs.genre,songs.musicURL, songs.lyricsURL," +
+                "songs.imageURL,songs.releaseDate,songs.rating," +
+                "songs.IDartist,songs.IDalbum,songs.IDsong " +
+                "FROM songs " +
+                "INNER JOIN artist ON  songs.IDartist=artist.IDartist " +
+                "INNER JOIN user_history ON songs.IDsong=user_history.song_ID "+
+                " WHERE user_history.user_email =\""+email+"\" " +
+                " ORDER BY user_history.time_played DESC " +
+                "LIMIT "+offset+" , "+rowcount+" ;";
+        Song songSet ;
+        List<Song> recentlyPlayedSongs=new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+
+            while (resultSet.next()) {
+                songSet = new Song();
+                System.out.print(">> ");
+                songSet.setSongID(resultSet.getInt(DatabaseConstants.SONG_COL_ID));
+                songSet.setSongName(resultSet.getString(DatabaseConstants.SONG_COL_NAME));
+                songSet.setArtistID(resultSet.getInt(DatabaseConstants.SONG_COL_ARTISTID));
+                songSet.setLanguage(resultSet.getString(DatabaseConstants.SONG_COL_LANGUAGE));
+                songSet.setGenre(resultSet.getString(DatabaseConstants.SONG_COL_GENRES));
+                songSet.setSongURL(resultSet.getString(DatabaseConstants.SONG_COL_MUSIC_URL));
+                songSet.setSongLyricsURL(resultSet.getString(DatabaseConstants.SONG_COL_LYRICS_URL));
+                songSet.setSongImageURL(resultSet.getString(DatabaseConstants.SONG_COL_IMAGE_URL));
+                songSet.setAlbumID(resultSet.getInt(DatabaseConstants.SONG_COL_ALBUMID));
+                songSet.setReleaseDate(resultSet.getString(DatabaseConstants.SONG_COL_RELEASE_DATE));
+                songSet.setSongRating(resultSet.getDouble(DatabaseConstants.SONG_COL_RATING));
+                songSet.setArtistName(resultSet.getString(DatabaseConstants.ARTIST_COL_NAME));
+                recentlyPlayedSongs.add(songSet);
+            }
+            return  recentlyPlayedSongs;
+        } catch (SQLException e) {
+            //displaying error if occured *_*
+            e.printStackTrace();
+        }
+
+        return  recentlyPlayedSongs;
+    }
+
 
 
 }
