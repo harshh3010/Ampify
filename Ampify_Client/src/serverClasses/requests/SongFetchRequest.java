@@ -13,6 +13,16 @@ public class SongFetchRequest implements Serializable {
     private String email;
 
     /**
+     * this constructor's purpose : when want to get details of last played song for a particular user
+     * @param type
+     */
+
+    public SongFetchRequest(String type,String email) {
+        this.type = type;
+        this.email=email;
+    }
+
+    /**
      * this constructor invoked when we want to fetch recommended songs for user!!
      * @param type
      * @param email

@@ -112,6 +112,21 @@ public class AmpifyServices {
         return (List<Song>) ois.readObject();
     }
 
+    /**
+     Function to fetch last played song of user
+     *we pass email of the current user logged in
+     * taken from UserApi saved instance
+     * * */
+    public static Song getUserLastPlayedSong() throws IOException, ClassNotFoundException {
+
+        SongFetchRequest songFetchRequest = new SongFetchRequest(String.valueOf(SongFetchType.LAST_PLAYED_SONG), userApi.getEmail());
+        oos.writeObject(songFetchRequest);
+        oos.flush();
+        ois = Main.userInputStream;
+
+        return (Song)ois.readObject();
+    }
+
 
     /**
 Function to fetch recent songs(released 5 days back!!)

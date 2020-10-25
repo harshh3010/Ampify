@@ -390,6 +390,7 @@ public class AmpifyServices {
                 "songs.IDartist,songs.IDalbum,songs.IDsong " +
                 "FROM artist " +
                 "INNER JOIN songs ON artist.IDartist = songs.IDartist " +
+                " ORDER BY songs.IDsong  "+
                 "LIMIT "+offset+" , "+rowcount+";";
 
 
@@ -414,7 +415,7 @@ public class AmpifyServices {
                 songSet.setReleaseDate(resultSet.getString(DatabaseConstants.SONG_COL_RELEASE_DATE));
                 songSet.setSongRating(resultSet.getDouble(DatabaseConstants.SONG_COL_RATING));
                 songSet.setArtistName(resultSet.getString(DatabaseConstants.ARTIST_COL_NAME));
-                System.out.println(resultSet.getString(DatabaseConstants.ARTIST_COL_NAME));
+
                 //adding this song object to list of song type
                 topSongList.add(songSet);
             }
@@ -735,7 +736,7 @@ public class AmpifyServices {
                 songSet.setReleaseDate(resultSet.getString(DatabaseConstants.SONG_COL_RELEASE_DATE));
                 songSet.setSongRating(resultSet.getDouble(DatabaseConstants.SONG_COL_RATING));
                 songSet.setArtistName(resultSet.getString(DatabaseConstants.ARTIST_COL_NAME));
-                System.out.println(resultSet.getString(DatabaseConstants.ARTIST_COL_NAME));
+
                 //adding this song object to list of song type
                 recentSongList.add(songSet);
             }
@@ -747,6 +748,60 @@ public class AmpifyServices {
 
         return  recentSongList;
     }
+
+
+    public static Song showLastPlayedSong(SongFetchRequest songFetchRequest){
+        String email=songFetchRequest.getEmail();
+        System.out.print(email+" :)");
+
+        String query="SELECT artist.artistName,songs.songName," +
+                "songs.languages,songs.genre,songs.musicURL, songs.lyricsURL," +
+                "songs.imageURL,songs.releaseDate,songs.rating," +
+                "songs.IDartist,songs.IDalbum,songs.IDsong " +
+                "FROM songs " +
+                "INNER JOIN artist ON  songs.IDartist=artist.IDartist " +
+                "INNER JOIN user_history ON songs.IDsong=user_history.song_ID "+
+                " WHERE user_history.user_email =\""+email+"\" " +
+                " ORDER BY user_history.time_played DESC " +
+                " LIMIT 0,1;" ;
+
+
+
+
+
+
+        Song songSet = new Song();
+
+        try {
+            PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+
+            while (resultSet.next()) {
+                System.out.print(">> ");
+                songSet.setSongID(resultSet.getInt(DatabaseConstants.SONG_COL_ID));
+                songSet.setSongName(resultSet.getString(DatabaseConstants.SONG_COL_NAME));
+                songSet.setArtistID(resultSet.getInt(DatabaseConstants.SONG_COL_ARTISTID));
+                songSet.setLanguage(resultSet.getString(DatabaseConstants.SONG_COL_LANGUAGE));
+                songSet.setGenre(resultSet.getString(DatabaseConstants.SONG_COL_GENRES));
+                songSet.setSongURL(resultSet.getString(DatabaseConstants.SONG_COL_MUSIC_URL));
+                songSet.setSongLyricsURL(resultSet.getString(DatabaseConstants.SONG_COL_LYRICS_URL));
+                songSet.setSongImageURL(resultSet.getString(DatabaseConstants.SONG_COL_IMAGE_URL));
+                songSet.setAlbumID(resultSet.getInt(DatabaseConstants.SONG_COL_ALBUMID));
+                songSet.setReleaseDate(resultSet.getString(DatabaseConstants.SONG_COL_RELEASE_DATE));
+                songSet.setSongRating(resultSet.getDouble(DatabaseConstants.SONG_COL_RATING));
+                songSet.setArtistName(resultSet.getString(DatabaseConstants.ARTIST_COL_NAME));
+            }
+            return  songSet;
+        } catch (SQLException e) {
+            //displaying error if occured *_*
+            e.printStackTrace();
+        }
+
+        return  songSet;
+    }
+
 
 }
 

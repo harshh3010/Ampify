@@ -71,6 +71,22 @@ public class HomeController implements Initializable {
             e.printStackTrace();
         }
 
+        /**
+         * getting last played song of user
+          */
+
+        try {
+            System.out.println("Last played SONG: ");
+            Song song = AmpifyServices.getUserLastPlayedSong();
+
+                System.out.println(song.getSongName()+" " +song.getSongURL());
+
+            System.out.println();
+
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
         // Displaying Top Songs
         try {
             System.out.println("TOP SONGS: ");
