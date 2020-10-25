@@ -4,9 +4,11 @@ public enum SongFetchType {
 
 
     TOP("0"),
-    RECOMMENDED_SONGS("1"),
+    SONGS_OF_USER_CHOICE("1"),
     SONGS_OF_PARTICULAR_ARTIST("3"),
     SONGS_OF_PARTICULAR_ALBUM("4"),
+    RECENT_SONGS("5"),
+    LAST_PLAYED_SONG("6"),
     ;
 
     SongFetchType(String s) {

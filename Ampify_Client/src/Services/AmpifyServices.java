@@ -26,6 +26,8 @@ public class AmpifyServices {
     public static int offsetSongOfParticularArtist=0;
     public static int offsetSongOfParticularAlbum=0;
     public static  int rowcount=10;
+    public static int offsetUserChoiceSongs=0;
+    public static int offsetRecentSongs=0;
 
     /*
     Function to get a list of top artists
@@ -66,8 +68,9 @@ public class AmpifyServices {
     }
 
 
-    /*
+    /**
     Function to fetch songs of a particular artist
+     *also pass the offset coz server needs to know from which row number it has to start its job
      */
     public static List<Song> getSongsOfArtist(int artistId) throws IOException, ClassNotFoundException {
 
@@ -79,8 +82,9 @@ public class AmpifyServices {
     }
 
 
-    /*
+    /**
     Function to fetch songs of a particular album
+     *also pass the offset coz server needs to know from which row number it has to start its job
      */
     public static List<Song> getSongsOfAlbum(int albumId) throws IOException, ClassNotFoundException {
 
@@ -91,7 +95,51 @@ public class AmpifyServices {
         return (List<Song>) ois.readObject();
     }
 
-    /*
+
+    /**
+    Function to fetch songs of user choice
+     *we pass row count , offset specific to this kind of fetching request
+     * defined above
+     *
+    */
+    public static List<Song> getUserChoiceSongs() throws IOException, ClassNotFoundException {
+
+        SongFetchRequest songFetchRequest = new SongFetchRequest(String.valueOf(SongFetchType.SONGS_OF_USER_CHOICE), userApi.getEmail(),offsetUserChoiceSongs,rowcount);
+        oos.writeObject(songFetchRequest);
+        oos.flush();
+        ois = Main.userInputStream;
+
+        return (List<Song>) ois.readObject();
+    }
+
+    /**
+     Function to fetch last played song of user
+     *we pass email of the current user logged in
+     * taken from UserApi saved instance
+     * * */
+    public static Song getUserLastPlayedSong() throws IOException, ClassNotFoundException {
+
+        SongFetchRequest songFetchRequest = new SongFetchRequest(String.valueOf(SongFetchType.LAST_PLAYED_SONG), userApi.getEmail());
+        oos.writeObject(songFetchRequest);
+        oos.flush();
+        ois = Main.userInputStream;
+
+        return (Song)ois.readObject();
+    }
+
+
+    /**
+Function to fetch recent songs(released 5 days back!!)
+ */
+    public static List<Song> getRecentSongs() throws IOException, ClassNotFoundException {
+        SongFetchRequest songFetchRequest = new SongFetchRequest(String.valueOf(SongFetchType.RECENT_SONGS),offsetRecentSongs,rowcount);
+        oos.writeObject(songFetchRequest);
+        oos.flush();
+        ois = Main.userInputStream;
+
+        return (List<Song>) ois.readObject();
+    }
+    /**
      * Function to add to history table a particular song played by user and sets is_playing attribute of a song to true
      * */
     public static String addSongToHistory(int songID) throws IOException, ClassNotFoundException {
