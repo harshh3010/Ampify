@@ -146,6 +146,12 @@ public class HandleClientRequest implements Runnable {
                     oos.flush();
                 }
 
+                if (request.equals((String.valueOf(ServerRequest.FETCH_USER_HISTORY)))) {
+                    FetchUserHistoryRequest fetchUserHistoryRequest = (FetchUserHistoryRequest) object;
+                    oos.writeObject(AmpifyServices.showUserHistory(fetchUserHistoryRequest));
+                    oos.flush();
+                }
+
 
             } catch (StreamCorruptedException e) {
                 try {

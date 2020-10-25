@@ -15,6 +15,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import model.Album;
 import model.Song;
+import model.UserHistory;
 import utilities.HomeScreenWidgets;
 import utilities.UserApi;
 
@@ -83,6 +84,23 @@ public class HomeController implements Initializable {
 
             System.out.println();
 
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+        /** Displaying user history
+         * * jst for testing placed this calling function here, will be set to apt place later on
+         */
+        try {
+
+            System.out.println("history:::: ");
+            List<UserHistory> history = AmpifyServices.getUserHistory();
+            for (UserHistory obj : history) {
+                System.out.println(obj.getSongName()+" " +obj.getNumberOfTimesPlayed()+" "+obj.getTimePlayed());
+            }
+            System.out.println();
+            AmpifyServices.offsetUserHistory+=AmpifyServices.rowcount;
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }

@@ -1,10 +1,7 @@
 package Services;
 
 import mainClass.Main;
-import model.Album;
-import model.Artist;
-import model.Song;
-import model.UserAuth;
+import model.*;
 import serverClasses.requests.*;
 import utilities.ArtistsAlbumFetchType;
 import utilities.SongFetchType;
@@ -29,6 +26,7 @@ public class AmpifyServices {
     public static int offsetUserChoiceSongs=0;
     public static int offsetRecentAddedSongs=0;
     public static int offsetUserRecentlyPlayedSong=0;
+    public static int offsetUserHistory=0;
 
     /*
     Function to get a list of top artists
@@ -170,6 +168,21 @@ Function to fetch recent songs(released 5 days back!!)
         oos.flush();
 
         return (String) ois.readObject();
+    }
+    /**
+     Function to fetch user history
+     *we pass email of user logged in
+     * also offset to manage the number of rows to be queried passed( defined above)
+     *
+     */
+    public static List<UserHistory> getUserHistory() throws IOException, ClassNotFoundException {
+
+        FetchUserHistoryRequest fetchUserHistory = new FetchUserHistoryRequest(userApi.getEmail(),offsetUserChoiceSongs,rowcount);
+        oos.writeObject(fetchUserHistory);
+        oos.flush();
+        ois = Main.userInputStream;
+
+        return (List<UserHistory>) ois.readObject();
     }
 
 
