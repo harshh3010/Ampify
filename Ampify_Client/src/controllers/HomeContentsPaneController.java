@@ -33,7 +33,6 @@ public class HomeContentsPaneController implements Initializable {
 
         // Displaying top artists
         try {
-            System.out.println("Works1");
             List<Artist> artists = AmpifyServices.getTopArtists();
             popularArtistsListView.setItems(FXCollections.observableArrayList(artists));
             popularArtistsListView.setCellFactory(new ArtistCellFactory(HomeScreenWidgets.displayPane));
@@ -43,7 +42,6 @@ public class HomeContentsPaneController implements Initializable {
 
         // Displaying recently played songs
         try {
-            System.out.println("Works2");
             List<Song> songs = AmpifyServices.getUserRecentlyPlayedSong();
             recentlyPlayedListView.setItems(FXCollections.observableArrayList((songs)));
             recentlyPlayedListView.setCellFactory(new MusicCardFactory());
@@ -53,7 +51,6 @@ public class HomeContentsPaneController implements Initializable {
 
         // Displaying recently added songs
         try {
-            System.out.println("Works3");
             List<Song> songs = AmpifyServices.getRecentAddedSongs();
             recentlyAddedListView.setItems(FXCollections.observableArrayList(songs));
             recentlyAddedListView.setCellFactory(new MusicCardFactory());
@@ -61,9 +58,8 @@ public class HomeContentsPaneController implements Initializable {
             e.printStackTrace();
         }
 
-        /*
-        Displaying recommended songs to the user (Based on choice of Artists, Languages, Genres)
-         */
+
+        // Displaying recommended songs to the user (Based on choice of Artists, Languages, Genres)
         try {
             List<Song> songs = AmpifyServices.getUserChoiceSongs();
             recommendedSongsListView.setItems(FXCollections.observableArrayList(songs));

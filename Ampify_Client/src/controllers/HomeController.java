@@ -13,14 +13,12 @@ import javafx.scene.control.Label;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import model.Album;
 import model.Song;
 import utilities.HomeScreenWidgets;
 import utilities.UserApi;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
 
@@ -50,7 +48,6 @@ public class HomeController implements Initializable {
             e.printStackTrace();
         }
 
-
         // Displaying the last played song in bottomPane
         try {
             System.out.println("Works2");
@@ -66,7 +63,6 @@ public class HomeController implements Initializable {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-
     }
 
     private void displayUserData() {

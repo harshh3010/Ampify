@@ -22,115 +22,120 @@ import java.net.Socket;
 import java.util.prefs.Preferences;
 
 public class LoginController {
+
     volatile User check;
     @FXML
     private TextField emailTF, passwordTF;
 
+    // This function will be called on clicking the sign in button
     public void onSignInClicked(ActionEvent actionEvent) {
 
+        // Getting the email and password input by the user
         String email = emailTF.getText().trim();
         String pass = passwordTF.getText();
+
+        // Checking the validity of email and password
         if (!email.isEmpty() && !pass.isEmpty()) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        System.out.print("jj");
-                        Socket socket = new Socket(Main.serverIp, Main.serverPort);
-                        UserAuth userAuth = new UserAuth(email, pass);
-                        LoginRequest loginrequest = new LoginRequest(userAuth);
-                        ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
-                        oos.writeObject(loginrequest);
-                        oos.flush();
-                        ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
-                        check = (User) ois.readObject();
-                        if (check.getUserLoginStatus().equals(String.valueOf(LoginStatus.SUCCESS))) {
-                            Main.userSocket = socket;
-                            Main.user = check;
-                            Main.userInputStream = ois;
-                            Main.userOutputStream = oos;
-                            Platform.runLater(new Runnable() {
-                                @Override
-                                public void run() {
-                                    // TODO: DISPLAY Login SUCCESS
-                                    System.out.println("Logged in successfully");
-                                    try {
-                                        // TODO: DISPLAY Userprofile page
-                                        // Saving login info in UserApi class
-                                        UserApi userApi = UserApi.getInstance();
-                                        userApi.setEmail(email);
 
-                                        // Saving login info in local storage
-                                        Preferences preferences = Preferences.userNodeForPackage(LoginController.class);
-                                        preferences.put("isLoggedIn", "TRUE");
-                                        preferences.put("email", userApi.getEmail());
+            // Running a new thread to login the user if credentials are valid
+            new Thread(() -> {
 
-                                        try {
+                try {
 
-                                            // Fetching user's choices from the database
-                                            ChoicesFetchRequest choicesFetchRequest = new ChoicesFetchRequest(userApi.getEmail());
-                                            oos.writeObject(choicesFetchRequest);
-                                            oos.flush();
-                                            choicesFetchRequest = (ChoicesFetchRequest) ois.readObject();
+                    Socket socket = new Socket(Main.serverIp, Main.serverPort);
 
-                                            if (choicesFetchRequest != null
-                                                    && !choicesFetchRequest.getArtistList().isEmpty()
-                                                    && !choicesFetchRequest.getLanguageList().isEmpty()
-                                                    && !choicesFetchRequest.getGenresList().isEmpty()
-                                            ) {
-                                                // Saving user's choices in UserApi class
-                                                userApi.setLikedLanguages(choicesFetchRequest.getLanguageList());
-                                                userApi.setLikedGenres(choicesFetchRequest.getGenresList());
-                                                userApi.setLikedArtists(choicesFetchRequest.getArtistList());
+                    // Creating a new user auth object
+                    UserAuth userAuth = new UserAuth(email, pass);
 
-                                                goToHomeScreen(actionEvent);
-                                            } else {
-                                                goToDetailsScreen(actionEvent);
-                                            }
+                    // Creating a login request from user auth object
+                    LoginRequest loginrequest = new LoginRequest(userAuth);
 
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
-                                        }
+                    // Sending the login request to server
+                    ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+                    objectOutputStream.writeObject(loginrequest);
+                    objectOutputStream.flush();
 
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
+                    // Reading the response from the server
+                    ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
+                    check = (User) objectInputStream.readObject();
+
+                    // Checking the response received from the server
+                    if (check.getUserLoginStatus().equals(String.valueOf(LoginStatus.SUCCESS))) {
+
+                        // On successful login
+                        Main.userSocket = socket;
+                        Main.user = check;
+                        Main.userInputStream = objectInputStream;
+                        Main.userOutputStream = objectOutputStream;
+
+                        Platform.runLater(() -> {
+
+                            // TODO: DISPLAY SUCCESS DIALOG
+
+                            System.out.println("Logged in successfully");
+
+                            try {
+
+                                // Saving login info in UserApi class
+                                UserApi userApi = UserApi.getInstance();
+                                userApi.setEmail(email);
+
+                                // Saving login info in local storage
+                                Preferences preferences = Preferences.userNodeForPackage(LoginController.class);
+                                preferences.put("isLoggedIn", "TRUE");
+                                preferences.put("email", userApi.getEmail());
+
+                                try {
+
+                                    // Fetching user's choices from the database
+                                    ChoicesFetchRequest choicesFetchRequest = new ChoicesFetchRequest(userApi.getEmail());
+                                    objectOutputStream.writeObject(choicesFetchRequest);
+                                    objectOutputStream.flush();
+                                    choicesFetchRequest = (ChoicesFetchRequest) objectInputStream.readObject();
+
+                                    if (choicesFetchRequest != null
+                                            && !choicesFetchRequest.getArtistList().isEmpty()
+                                            && !choicesFetchRequest.getLanguageList().isEmpty()
+                                            && !choicesFetchRequest.getGenresList().isEmpty()
+                                    ) {
+                                        // On successfully loading saving user's choices in UserApi class
+                                        userApi.setLikedLanguages(choicesFetchRequest.getLanguageList());
+                                        userApi.setLikedGenres(choicesFetchRequest.getGenresList());
+                                        userApi.setLikedArtists(choicesFetchRequest.getArtistList());
+
+                                        // Redirecting the user to home screen
+                                        goToHomeScreen(actionEvent);
+                                    } else {
+
+                                        // In case choices are not present, taking the user to choices screen
+                                        goToDetailsScreen(actionEvent);
                                     }
-                                }
-                            });
 
-                        } else if (check.getUserLoginStatus().equals(String.valueOf(LoginStatus.WRONG_CREDENTIALS))) {
-                            Platform.runLater(new Runnable() {
-                                @Override
-                                public void run() {
-                                    // TODO: DISPLAY ERROR
-                                    System.out.println("WRONG_CREDENTIALS");
+                                } catch (Exception e) {
+                                    e.printStackTrace();
                                 }
-                            });
-                        } else if (check.getUserLoginStatus().equals(String.valueOf(LoginStatus.NO_SUCH_USER))) {
-                            Platform.runLater(new Runnable() {
-                                @Override
-                                public void run() {
-                                    // TODO: DISPLAY ERROR
-                                    System.out.println("NO_SUCH_USER");
-                                }
-                            });
-                        } else {
-                            Platform.runLater(new Runnable() {
-                                @Override
-                                public void run() {
-                                    // TODO: DISPLAY ERROR
-                                    System.out.println("error occurred");
-                                }
-                            });
-                        }
 
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        });
 
-                    } catch (Exception e) {
-                        System.out.println(e);
                     }
+                    // Displaying error in case of any failure during login
+                    else if (check.getUserLoginStatus().equals(String.valueOf(LoginStatus.WRONG_CREDENTIALS))) {
+
+                        // TODO: DISPLAY ERROR
+                        Platform.runLater(() -> System.out.println("WRONG_CREDENTIALS"));
+                    } else if (check.getUserLoginStatus().equals(String.valueOf(LoginStatus.NO_SUCH_USER))) {
+                        Platform.runLater(() -> System.out.println("NO_SUCH_USER"));
+                    } else {
+                        Platform.runLater(() -> System.out.println("error occurred"));
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }).start();
-//
 
         } else {
             // TODO: DISPLAY ERROR DIALOG
@@ -138,6 +143,7 @@ public class LoginController {
         }
     }
 
+    // This function will be called when user clicks signup button
     public void onSignupClicked(ActionEvent actionEvent) throws IOException {
 
         // Scene to be displayed
@@ -152,6 +158,7 @@ public class LoginController {
         window.show();
     }
 
+    // Function to redirect the user to details screen
     private void goToDetailsScreen(ActionEvent actionEvent) throws IOException {
         // Scene to be displayed
         Parent detailsScreenParent = FXMLLoader.load(getClass().getResource("/resources/fxml/choicesScreen.fxml"));
@@ -165,6 +172,7 @@ public class LoginController {
         window.show();
     }
 
+    // Function to redirect the user to home screen
     private void goToHomeScreen(ActionEvent actionEvent) throws IOException {
         // Scene to be displayed
         Parent languageChoiceScreenParent = FXMLLoader.load(getClass().getResource("/resources/fxml/home.fxml"));
