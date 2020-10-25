@@ -4,6 +4,7 @@ import Services.AmpifyServices;
 import Services.MediaPlayerService;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
+import com.sun.media.jfxmedia.MediaPlayer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -49,18 +50,25 @@ public class HomeController implements Initializable {
             e.printStackTrace();
         }
 
-        if (MediaPlayerService.previousSong != null) {
-            try {
-                Pane mediaController = FXMLLoader.load(getClass().getResource("/resources/fxml/mediaPlayer.fxml"));
-                bottomPane.getChildren().add(mediaController);
-            } catch (IOException e) {
-                e.printStackTrace();
+        try{
+            MediaPlayerService.previousSong = AmpifyServices.getUserLastPlayedSong();
+            System.out.println("Last played loaded");
+            if (MediaPlayerService.previousSong != null) {
+                try {
+                    Pane mediaController = FXMLLoader.load(getClass().getResource("/resources/fxml/mediaPlayer.fxml"));
+                    bottomPane.getChildren().add(mediaController);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
+
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
         }
 
         // Displaying top albums
         try {
-            AmpifyServices.offsetTopsong=0;
+            AmpifyServices.offsetTopsong = 0;
             System.out.println("TOP ALBUMS: ");
             List<Album> albums = AmpifyServices.getTopAlbums();
             for (Album album : albums) {
@@ -71,82 +79,50 @@ public class HomeController implements Initializable {
             e.printStackTrace();
         }
 
-        /**
-         * getting last played song of user
-          */
-
-        try {
-            System.out.println("Last played SONG: ");
-            Song song = AmpifyServices.getUserLastPlayedSong();
-
-                System.out.println(song.getSongName()+" " +song.getSongURL());
-
-            System.out.println();
-
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
         // Displaying Top Songs
         try {
             System.out.println("TOP SONGS: ");
             List<Song> songs = AmpifyServices.getTopSongs();
             for (Song song : songs) {
-                System.out.println(song.getSongID()+" " +song.getSongURL());
+                System.out.println(song.getSongID() + " " + song.getSongURL());
             }
             System.out.println();
-            AmpifyServices.offsetTopsong+=AmpifyServices.rowcount;
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-/**
- * called it twice jst to test if getting different list
- * or if logic didnt work
- * but alas it worked !!!
- */
-        try {
-
-            System.out.println("TOP SONGS: ");
-            List<Song> songs = AmpifyServices.getTopSongs();
-            for (Song song : songs) {
-                System.out.println(song.getSongID()+" " +song.getSongURL());
-            }
-            System.out.println();
-            AmpifyServices.offsetTopsong+=AmpifyServices.rowcount;
+            AmpifyServices.offsetTopsong += AmpifyServices.rowcount;
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
 
-        /**
-         * fetching songs based on user's preferences!!!!
-         * jst for testing placed this calling function here, will be set to apt place later on
+
+        /*
+          fetching songs based on user's preferences!!!!
+          jst for testing placed this calling function here, will be set to apt place later on
          */
         try {
-            AmpifyServices.offsetUserChoiceSongs=0;
+            AmpifyServices.offsetUserChoiceSongs = 0;
             System.out.println("\nRecommended songs SONGS: ");
             List<Song> songs = AmpifyServices.getUserChoiceSongs();
             for (Song song : songs) {
-                System.out.println(song.getSongName()+" "+song.getSongURL()+" "+song.getArtistName());
+                System.out.println(song.getSongName() + " " + song.getSongURL() + " " + song.getArtistName());
             }
             System.out.println();
             //we need to increase/decrease as per load more or back clicked
-            AmpifyServices.offsetTopsong+= AmpifyServices.rowcount;
+            AmpifyServices.offsetTopsong += AmpifyServices.rowcount;
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
 
-        /**
-         * get recent added songs(released 5 days back)!!
-         * * jst for testing placed this calling function here, will be set to apt place later on
+        /*
+          get recent added songs(released 5 days back)!!
+          * jst for testing placed this calling function here, will be set to apt place later on
          */
         try {
-            AmpifyServices.offsetRecentSongs=0;
+            AmpifyServices.offsetRecentSongs = 0;
             System.out.println("\nRecent added SONGS: ");
             List<Song> songs = AmpifyServices.getRecentSongs();
             for (Song song : songs) {
-                System.out.println(song.getSongName()+" "+song.getSongURL()+" "+song.getArtistName());
+                System.out.println(song.getSongName() + " " + song.getSongURL() + " " + song.getArtistName());
             }
-            AmpifyServices.offsetRecentSongs+=AmpifyServices.rowcount;
+            AmpifyServices.offsetRecentSongs += AmpifyServices.rowcount;
             System.out.println();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();

@@ -102,7 +102,7 @@
 }
 
 .scroll-bar:horizontal .thumb{
--fx-background-color: transparent;
+/*-fx-background-color: transparent;*/
 }
 
 .scroll-bar:vertical .thumb {
