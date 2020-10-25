@@ -14,6 +14,9 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * @noinspection ALL
@@ -680,6 +683,71 @@ public class AmpifyServices {
         }
         return userchoiceSong;
     }
+
+    /**
+     * To return  recent added songs(5 days back) to the server!!!
+     * will be ordered by release Date
+     * no of rows to be queried controlled using rowcount
+     * */
+    public static List<Song> showRecentSongs(SongFetchRequest songFetchRequest){
+        int rowcount=songFetchRequest.getRowcount();
+        int offset=songFetchRequest.getOffset();
+        Timestamp timestamp = new Timestamp(new Date().getTime());
+        System.out.println(timestamp);
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(timestamp.getTime());
+
+        // subtract 5 days
+        cal.add(Calendar.DAY_OF_MONTH, -5);
+        timestamp = new Timestamp(cal.getTime().getTime());
+
+        String query="SELECT artist.artistName,songs.songName," +
+                "songs.languages,songs.genre,songs.musicURL, songs.lyricsURL," +
+                "songs.imageURL,songs.releaseDate,songs.rating," +
+                "songs.IDartist,songs.IDalbum,songs.IDsong " +
+                "FROM artist " +
+                "INNER JOIN songs ON artist.IDartist = songs.IDartist " +
+                " WHERE songs.releaseDate > \" "+timestamp+"\" " +
+                " ORDER BY songs.releaseDate DESC  "+
+                "LIMIT "+offset+" , "+rowcount+" ;";
+
+
+        String query1;
+        List<Song> recentSongList=new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            Song songSet;
+
+            while (resultSet.next()) {
+                songSet = new Song();
+                songSet.setSongID(resultSet.getInt(DatabaseConstants.SONG_COL_ID));
+                songSet.setSongName(resultSet.getString(DatabaseConstants.SONG_COL_NAME));
+                songSet.setArtistID(resultSet.getInt(DatabaseConstants.SONG_COL_ARTISTID));
+                songSet.setLanguage(resultSet.getString(DatabaseConstants.SONG_COL_LANGUAGE));
+                songSet.setGenre(resultSet.getString(DatabaseConstants.SONG_COL_GENRES));
+                songSet.setSongURL(resultSet.getString(DatabaseConstants.SONG_COL_MUSIC_URL));
+                songSet.setSongLyricsURL(resultSet.getString(DatabaseConstants.SONG_COL_LYRICS_URL));
+                songSet.setSongImageURL(resultSet.getString(DatabaseConstants.SONG_COL_IMAGE_URL));
+                songSet.setAlbumID(resultSet.getInt(DatabaseConstants.SONG_COL_ALBUMID));
+                songSet.setReleaseDate(resultSet.getString(DatabaseConstants.SONG_COL_RELEASE_DATE));
+                songSet.setSongRating(resultSet.getDouble(DatabaseConstants.SONG_COL_RATING));
+                songSet.setArtistName(resultSet.getString(DatabaseConstants.ARTIST_COL_NAME));
+                System.out.println(resultSet.getString(DatabaseConstants.ARTIST_COL_NAME));
+                //adding this song object to list of song type
+                recentSongList.add(songSet);
+            }
+            return  recentSongList;
+        } catch (SQLException e) {
+            //displaying error if occured *_*
+            e.printStackTrace();
+        }
+
+        return  recentSongList;
+    }
+
 }
 
 

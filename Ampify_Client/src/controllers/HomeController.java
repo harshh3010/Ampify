@@ -118,6 +118,23 @@ public class HomeController implements Initializable {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+
+        /**
+         * get recent added songs(released 5 days back)!!
+         * * jst for testing placed this calling function here, will be set to apt place later on
+         */
+        try {
+            AmpifyServices.offsetRecentSongs=0;
+            System.out.println("\nRecent added SONGS: ");
+            List<Song> songs = AmpifyServices.getRecentSongs();
+            for (Song song : songs) {
+                System.out.println(song.getSongName()+" "+song.getSongURL()+" "+song.getArtistName());
+            }
+            AmpifyServices.offsetRecentSongs+=AmpifyServices.rowcount;
+            System.out.println();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     private void displayUserData() {

@@ -27,6 +27,7 @@ public class AmpifyServices {
     public static int offsetSongOfParticularAlbum=0;
     public static  int rowcount=10;
     public static int offsetUserChoiceSongs=0;
+    public static int offsetRecentSongs=0;
 
     /*
     Function to get a list of top artists
@@ -111,7 +112,19 @@ public class AmpifyServices {
         return (List<Song>) ois.readObject();
     }
 
-    /*
+
+    /**
+Function to fetch recent songs(released 5 days back!!)
+ */
+    public static List<Song> getRecentSongs() throws IOException, ClassNotFoundException {
+        SongFetchRequest songFetchRequest = new SongFetchRequest(String.valueOf(SongFetchType.RECENT_SONGS),offsetRecentSongs,rowcount);
+        oos.writeObject(songFetchRequest);
+        oos.flush();
+        ois = Main.userInputStream;
+
+        return (List<Song>) ois.readObject();
+    }
+    /**
      * Function to add to history table a particular song played by user and sets is_playing attribute of a song to true
      * */
     public static String addSongToHistory(int songID) throws IOException, ClassNotFoundException {

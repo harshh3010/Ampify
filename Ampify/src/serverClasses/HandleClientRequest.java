@@ -121,6 +121,10 @@ public class HandleClientRequest implements Runnable {
                     else if (songType.getType().equals(String.valueOf(SongFetchType.SONGS_OF_USER_CHOICE))) {
                         oos.writeObject(AmpifyServices.showSongsOfUserChoice(songType));
                         oos.flush();
+                    }//if request is to display recentlu added sngs to the server!!
+                    else if (songType.getType().equals(String.valueOf(SongFetchType.RECENT_SONGS))) {
+                        oos.writeObject(AmpifyServices.showRecentSongs(songType));
+                        oos.flush();
                     }
 
                 }
