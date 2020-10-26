@@ -1120,7 +1120,7 @@ public class AmpifyServices {
                 songSet.setReleaseDate(resultSet.getString(DatabaseConstants.SONG_COL_RELEASE_DATE));
                 songSet.setSongRating(resultSet.getDouble(DatabaseConstants.SONG_COL_RATING));
                 songSet.setArtistName(resultSet.getString(DatabaseConstants.ARTIST_COL_NAME));
-                System.out.println("& ");
+
                 playlistSongsList.add(songSet);
             }
             return playlistSongsList;
@@ -1178,9 +1178,32 @@ public class AmpifyServices {
 
     }
 
+    /**
+     **for sending notification to the user whom our client wants to add as member of a
+     * particular playlist
+     */
 
+    public static String sendingNotification(NotificationRequest notificationRequest) {
 
+                String query = "INSERT INTO " + DatabaseConstants.NOTIFICATION_TABLE +
+                        "(" + DatabaseConstants.NOTIFICATION_COL_SENDER+
+                        "," + DatabaseConstants.NOTIFICATION_COL_RECEIVER +
+                        "," + DatabaseConstants.NOTIFICATION_COL_PLAYLIST_ID +
+                        ") values(?,?,?);";
+                try {
+                    PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
+                    preparedStatement.setString(1, notificationRequest.getSender());
+                    preparedStatement.setString(2, notificationRequest.getReceiver());
+                    preparedStatement.setInt(3, notificationRequest.getPlaylistID());
+                    preparedStatement.executeUpdate();
+                    System.out.println("sent");
+                    return String.valueOf(Status.SUCCESS);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                return String.valueOf(Status.FAILED);
 
+            }
 }
 
 

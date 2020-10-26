@@ -2,10 +2,7 @@ package serverClasses;
 
 import serverClasses.requests.*;
 import services.*;
-import utilities.ArtistsAlbumFetchType;
-import utilities.PlaylistType;
-import utilities.ServerRequest;
-import utilities.SongFetchType;
+import utilities.*;
 
 import java.io.*;
 import java.net.Socket;
@@ -175,6 +172,16 @@ public class HandleClientRequest implements Runnable {
                     }//if request is to delete a particular playlist
                     else if (playlistRequest.getType().equals(String.valueOf(PlaylistType.DELETE_PLAYLIST))) {
                         oos.writeObject(AmpifyServices.deletePlaylist(playlistRequest));
+                        oos.flush();
+                    }
+                }
+
+                //if request is for notification operations!!
+                if (request.equals(String.valueOf(ServerRequest.NOTIFICATION_REQUEST))) {
+                    NotificationRequest notificationRequest = (NotificationRequest) object;
+                    //if request is to create playlist
+                    if (notificationRequest.getType().equals(String.valueOf(NotificationType.SEND))) {
+                        oos.writeObject(AmpifyServices.sendingNotification(notificationRequest));
                         oos.flush();
                     }
                 }

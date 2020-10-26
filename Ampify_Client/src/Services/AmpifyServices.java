@@ -3,10 +3,7 @@ package Services;
 import mainClass.Main;
 import model.*;
 import serverClasses.requests.*;
-import utilities.ArtistsAlbumFetchType;
-import utilities.PlaylistType;
-import utilities.SongFetchType;
-import utilities.UserApi;
+import utilities.*;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -260,6 +257,21 @@ public class AmpifyServices {
     public static String deletePlaylist(int playlistID) throws IOException, ClassNotFoundException {
         PlaylistRequest playlistRequest = new PlaylistRequest(String.valueOf(PlaylistType.DELETE_PLAYLIST),userApi.getEmail(), playlistID);
         oos.writeObject(playlistRequest);
+        oos.flush();
+        ois = Main.userInputStream;
+        return (String) ois.readObject();
+    }
+
+    /**
+     **for sending notification to the user whom our client wants to add as member of a
+     * particular playlist
+     * sender==userApi.getEmail()
+     * receiver, playistID to be passed to this function
+     */
+    public static String sendNotification(String receiver,int playlistID)throws IOException, ClassNotFoundException {
+        System.out.print("jj");
+        NotificationRequest notificationRequest=new NotificationRequest(String.valueOf(NotificationType.SEND),userApi.getEmail(),receiver,playlistID);
+        oos.writeObject(notificationRequest);
         oos.flush();
         ois = Main.userInputStream;
         return (String) ois.readObject();

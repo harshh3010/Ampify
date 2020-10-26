@@ -118,7 +118,7 @@ public class HomeController implements Initializable {
         }
         try {
             System.out.println("displaying songs of playlist!!");
-            List<Song> list = AmpifyServices.getSongsOfPlaylist(2);
+            List<Song> list = AmpifyServices.getSongsOfPlaylist(4);
             for (Song s : list)
                 System.out.println(s.getSongName() + " " + s.getSongID());
         } catch (IOException | ClassNotFoundException e) {
@@ -127,6 +127,18 @@ public class HomeController implements Initializable {
         try {
             System.out.println(" deleting playlist!!");
             String a = AmpifyServices.deletePlaylist(7);
+            System.out.println(a);
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        /**
+         * this is testing for sending notification
+         * u r reqd to give me details like receiver mailId and playlist Id
+         * and call function sendNotifications!!
+         */
+        try {
+            System.out.println(" sending notification!!");
+            String a = AmpifyServices.sendNotification("aa@a.a",1);
             System.out.println(a);
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
