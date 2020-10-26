@@ -78,7 +78,10 @@ public class DatabaseConstants {
     public static final String PLAYLIST_COL_CREATED = "date_created";
     public static final String PLAYLIST_COL_PRIVACY = "privacy";
     public static final String PLAYLIST_COL_CATEGORY = "category";
-
+    //playlist song table
+    public static final String PLAYLIST_SONG_TABLE="songsOfPlaylist";
+    public static final String PLAYLIST_SONG_COL_PLAYLIST_ID="playlistID";
+    public static final String PLAYLIST_SONG_COL_SONG_ID="songID";
 
 
 

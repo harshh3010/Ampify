@@ -215,5 +215,27 @@ public class AmpifyServices {
 
     }
 
+    /**
+     * this is to add song to the playlist user wants to
+     * we require the playlist ID he wants to add song to
+     * and song ID
+     * also checks in the backend required
+     * that if he has membership,or ownership for that particular playlist then only allow him to add the song
+     * or m2 is :: when
+     *      *when he requests to add song to playlist
+     *      *we will display only the playlists he belong to
+     *      * so no chance of his adding to the playlist of which he is either owner nor mwmber
+     * TODO DISCUSS METHOD WHICH NEEDS TO BE FOLLOWED
+     */
+    public static String addSongToPlaylist(int playlistID,int songID)throws IOException, ClassNotFoundException {
+        PlaylistRequest playlistRequest=new PlaylistRequest(String.valueOf(PlaylistType.ADD_SONG_TO_A_PLAYLIST), playlistID,songID);
+
+        oos.writeObject(playlistRequest);
+        oos.flush();
+        ois=Main.userInputStream;
+        return (String)ois.readObject();
+    }
+
+
 
 }

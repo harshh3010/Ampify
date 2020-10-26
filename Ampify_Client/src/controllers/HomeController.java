@@ -72,9 +72,27 @@ public class HomeController implements Initializable {
  * testing playlist creation !!
  * place at apt place later on
  */
+/**
+ * when creating a playlist
+ *          u r required to give playlist name, category(group,or user),privacy(public or private)
+ *          pass to function named createPlaylist
+ * when u want to add a song to playlist
+ *          u r reqd to pass playlistID ,songID to func named addSongToPlaylist()
+ * when u want to fetch playlists of whose user is owner(of whose user is member wala function nahi hua h abhi)
+ *      u r only reqd to call the function getMyPlaylists()
+ *
+ */
         try{
             System.out.println("creating playlist!!!");
-            String a=AmpifyServices.createPlaylist("Weird","USER","PRIVATE");
+            String a=AmpifyServices.createPlaylist("Lastcheck","USER","PRIVATE");
+            System.out.println(a);
+        }catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        try{
+            System.out.println("adding!!");
+            String a=AmpifyServices.addSongToPlaylist(1,3);
             System.out.println(a);
         }catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -86,6 +104,13 @@ public class HomeController implements Initializable {
             for(Playlist p:collection)
                 System.out.println(p.getPlaylistName()+" "+p.getOwner()+" "+p.getPrivacy());
 
+        }catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        try{
+            System.out.println(" again adding!!");
+            String a=AmpifyServices.addSongToPlaylist(1,3);
+            System.out.println(a);
         }catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }

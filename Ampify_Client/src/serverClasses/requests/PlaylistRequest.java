@@ -44,7 +44,7 @@ public class PlaylistRequest implements Serializable {
      * @param songId
      * @param playlistId
      */
-    public PlaylistRequest(String type,int songId, int playlistId) {
+    public PlaylistRequest(String type, int playlistId,int songId) {
         this.songId = songId;
         this.type=type;
         this.playlistId = playlistId;

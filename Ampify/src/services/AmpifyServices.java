@@ -931,9 +931,9 @@ public class AmpifyServices {
          * and if no such exists then we will create with the name of playlist he specified
          * *_* *_* *_* *_*
          */
-        String query1=" SELECT * FROM playlist" +
-                " WHERE playlist_name=\""+playlistRequest.getPlaylistName()+"\"" +
-                " AND owner=\""+playlistRequest.getEmail()+"\"";
+        String query1=" SELECT * FROM "+DatabaseConstants.PLAYLIST_TABLE+
+                " WHERE "+DatabaseConstants.PLAYLIST_COL_NAME+"=\""+playlistRequest.getPlaylistName()+"\"" +
+                " AND "+DatabaseConstants.PLAYLIST_COL_OWNER+"=\""+playlistRequest.getEmail()+"\"";
         try{
             PreparedStatement preparedStatement1=Main.connection.prepareStatement(query1);
             ResultSet resultSet=preparedStatement1.executeQuery();
@@ -1032,6 +1032,57 @@ public class AmpifyServices {
         return myPlaylists;
 
     }
+
+    /**
+     * this func is to add a song to playlist user wants to
+     * checks
+     *          if song already exists in that particular playlist we wont add
+     *          and return string -->> ALREADY EXISTS
+     */
+
+    public static String addingSongToPlaylist(PlaylistRequest playlistRequest){
+        /**
+         * thru this query we first check if aready playlist with same name for this user exists or not
+         * if exists we wont create for him and ask him to choose some other name
+         * and if no such exists then we will create with the name of playlist he specified
+         * *_* *_* *_* *_*
+         */
+        String query1=" SELECT * FROM "+DatabaseConstants.PLAYLIST_SONG_TABLE +
+                " WHERE "+DatabaseConstants.PLAYLIST_SONG_COL_PLAYLIST_ID+"=\""+playlistRequest.getPlaylistId()+"\"" +
+                " AND "+DatabaseConstants.PLAYLIST_SONG_COL_SONG_ID+"=\""+playlistRequest.getSongId()+"\"";
+        try{
+            PreparedStatement preparedStatement1=Main.connection.prepareStatement(query1);
+            ResultSet resultSet=preparedStatement1.executeQuery();
+            if(resultSet.next())
+                return String.valueOf(Status.ALREADY_EXIST);
+            else
+            {
+                String query = "INSERT INTO " + DatabaseConstants.PLAYLIST_SONG_TABLE +
+                        "(" + DatabaseConstants.PLAYLIST_SONG_COL_PLAYLIST_ID +
+                        "," + DatabaseConstants.PLAYLIST_SONG_COL_SONG_ID+
+                        ") values(?,?);";
+                try {
+                    PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
+                    preparedStatement.setInt(1, playlistRequest.getPlaylistId());
+                    preparedStatement.setInt(2, playlistRequest.getSongId());
+
+                    preparedStatement.executeUpdate();
+                    System.out.println("song added");
+                    return String.valueOf(Status.SUCCESS);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                return String.valueOf(Status.FAILED);
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return String.valueOf(Status.FAILED);
+
+
+
+    }
+
 
 
 
