@@ -1266,14 +1266,25 @@ public class AmpifyServices {
                         "(" + DatabaseConstants.PLAYLIST_MEMBER_COL_PLAYLIST_ID +
                         "," + DatabaseConstants.PLAYLIST_MEMBER_COL_MEMBEREMAIL +
                         ") values(?,?);";
-                try {
-                    PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
-                    preparedStatement.setInt(1, notificationRequest.getPlaylistID());
-                    preparedStatement.setString(2, notificationRequest.getReceiver());
+                    try {
+                        PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
+                        preparedStatement.setInt(1, notificationRequest.getPlaylistID());
+                        preparedStatement.setString(2, notificationRequest.getReceiver());
 
-                    preparedStatement.executeUpdate();
-                    System.out.println("Added AS MEMBER");
-                    //TODO DELETE THAT PARTICULAR NOTIFICATION ALSO
+                        preparedStatement.executeUpdate();
+                        System.out.println("Added AS MEMBER");
+                        //TODO DELETE THAT PARTICULAR NOTIFICATION ALSO
+                        query = "DELETE notification" +
+                                " FROM notification" +
+                                " WHERE notification.playlistID=\""+notificationRequest.getPlaylistID()+"\"" +
+                                " AND notification.receiver=\""+notificationRequest.getReceiver()+"\";";
+                        try {
+                            preparedStatement = Main.connection.prepareStatement(query);
+                            preparedStatement.executeUpdate();
+                            System.out.println("This corr noti also deleted");
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
                     return String.valueOf(Status.SUCCESS);
                 } catch (SQLException e) {
                     e.printStackTrace();

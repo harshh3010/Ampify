@@ -139,7 +139,7 @@ public class HomeController implements Initializable {
          */
         try {
             System.out.println(" sending notification!!");
-            String a = AmpifyServices.sendNotification("aa@a.a",1);
+            String a = AmpifyServices.sendNotification("aa@a.a",2);
             System.out.println(a);
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -156,7 +156,7 @@ public class HomeController implements Initializable {
         //for confirming my notification
         try {
             System.out.println(" confirming!!");
-            String a = AmpifyServices.confirmNotification(1);
+            String a = AmpifyServices.confirmNotification(2);
             System.out.println(a);
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
