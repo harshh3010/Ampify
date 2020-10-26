@@ -62,14 +62,20 @@ public class SongCellController extends ListCell<Song> {
 
         // Setting action events for menu items
         item1.setOnAction(actionEvent -> System.out.println("Add to favourites"));
-        item2.setOnAction(actionEvent -> {
-            System.out.println("Add to playlist");
 
-            try{
+        // On clicking add to playlist button
+        item2.setOnAction(actionEvent -> {
+            try {
+
+                // Redirecting the user to add to playlist screen
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/fxml/addSongToPlaylistScreen.fxml"));
                 Parent addToPlaylistScreen = loader.load();
+
+                // Passing the song object to the add to playlist screen
                 AddToPlaylistController addToPlaylistController = loader.getController();
                 addToPlaylistController.getSongToAdd(song);
+
+                // Displaying the add to playlist screen in new window
                 Stage stage = new Stage();
                 stage.setScene(new Scene(addToPlaylistScreen));
                 stage.show();
@@ -78,8 +84,9 @@ public class SongCellController extends ListCell<Song> {
             }
 
         });
+
+        // On clicking add to queue button
         item3.setOnAction(actionEvent -> {
-            System.out.println("Add to Queue");
             MediaPlayerService.currentPlaylist.addLast(song);
 
             // Displaying the songs in queue on home screen

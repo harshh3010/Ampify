@@ -2,7 +2,6 @@ package services;
 
 import model.*;
 import serverClasses.Main;
-//adding comments
 import serverClasses.requests.*;
 import utilities.DatabaseConstants;
 import utilities.LoginStatus;
@@ -14,7 +13,6 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 
