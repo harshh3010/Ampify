@@ -73,18 +73,18 @@ public class HomeController implements Initializable {
  * place at apt place later on
  */
         try{
-            System.out.print("creating playlist!!!");
-            String a=AmpifyServices.createPlaylist("LITELO","USER","PRIVATE");
-            System.out.print(a);
+            System.out.println("creating playlist!!!");
+            String a=AmpifyServices.createPlaylist("Weird","USER","PRIVATE");
+            System.out.println(a);
         }catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
 
         try{
-            System.out.print("fetching playlists!!!");
+            System.out.println("fetching playlists!!!");
             List<Playlist> collection=AmpifyServices.getMyPlaylists();
             for(Playlist p:collection)
-                System.out.println(p.getPlaylistName()+" "+p.getOwner()+" "+p.getDateCreated());
+                System.out.println(p.getPlaylistName()+" "+p.getOwner()+" "+p.getPrivacy());
 
         }catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();

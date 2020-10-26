@@ -925,37 +925,72 @@ public class AmpifyServices {
         long time = date.getTime();
         //Passed the milliseconds to constructor of Timestamp class
         Timestamp timeCreated = new Timestamp(time);
+        /**
+         * thru this query we first check if aready playlist with same name for this user exists or not
+         * if exists we wont create for him and ask him to choose some other name
+         * and if no such exists then we will create with the name of playlist he specified
+         * *_* *_* *_* *_*
+         */
+        String query1=" SELECT * FROM playlist" +
+                " WHERE playlist_name=\""+playlistRequest.getPlaylistName()+"\"" +
+                " AND owner=\""+playlistRequest.getEmail()+"\"";
+        try{
+            PreparedStatement preparedStatement1=Main.connection.prepareStatement(query1);
+            ResultSet resultSet=preparedStatement1.executeQuery();
+            if(resultSet.next())
+                return String.valueOf(Status.ALREADY_EXIST);
+            else
+            {
+                String query = "INSERT INTO " + DatabaseConstants.PLAYLIST_TABLE +
+                        "(" + DatabaseConstants.PLAYLIST_COL_NAME +
+                        "," + DatabaseConstants.PLAYLIST_COL_OWNER +
+                        "," + DatabaseConstants.PLAYLIST_COL_CREATED+
+                        "," + DatabaseConstants.PLAYLIST_COL_CATEGORY+
+                        "," + DatabaseConstants.PLAYLIST_COL_PRIVACY+
+                        ") values(?,?,?,?,?);";
+                try {
+                    PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
+                    preparedStatement.setString(1, playlistRequest.getPlaylistName());
+                    preparedStatement.setString(2, playlistRequest.getEmail());
+                    preparedStatement.setTimestamp(3, timeCreated);
+                    preparedStatement.setInt(4, cat);
+                    preparedStatement.setInt(5, pri);
 
-        String query = "INSERT INTO " + DatabaseConstants.PLAYLIST_TABLE +
-                "(" + DatabaseConstants.PLAYLIST_COL_NAME +
-                "," + DatabaseConstants.PLAYLIST_COL_OWNER +
-                "," + DatabaseConstants.PLAYLIST_COL_CREATED+
-                "," + DatabaseConstants.PLAYLIST_COL_CATEGORY+
-                "," + DatabaseConstants.PLAYLIST_COL_PRIVACY+
-                ") values(?,?,?,?,?);";
-        try {
-            PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
-            preparedStatement.setString(1, playlistRequest.getPlaylistName());
-            preparedStatement.setString(2, playlistRequest.getEmail());
-            preparedStatement.setTimestamp(3, timeCreated);
-            preparedStatement.setInt(4, cat);
-            preparedStatement.setInt(5, pri);
+                    preparedStatement.executeUpdate();
+                    System.out.println("success");
+                    return String.valueOf(Status.SUCCESS);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                return String.valueOf(Status.FAILED);
 
-            preparedStatement.executeUpdate();
-            System.out.println("success");
-            return String.valueOf(Status.SUCCESS);
-        } catch (SQLException e) {
+            }
+
+
+        }catch (SQLException e) {
             e.printStackTrace();
-        }
-        return String.valueOf(Status.FAILED);
+        }return String.valueOf(Status.FAILED);
+
+
+
 
     }
+
+    /**
+     * it is to get all the playlists that belong to him
+     * rn this code gives only playlists which he has created
+     * for the playlists he owns only membership note not ownership
+     * for that case either will make another function
+     * or will modify this
+     * lets see what ill do
+     */
     public static List<Playlist> getUserPlaylist(PlaylistRequest playlistRequest){
         int pri,cat;
         String query = "Select * " +
                 " FROM "+DatabaseConstants.PLAYLIST_TABLE +
                 " WHERE "+DatabaseConstants.PLAYLIST_COL_OWNER+"=\""+playlistRequest.getEmail()+"\""+
                 ";";
+        //this query gets all the playlists whose owner is our currently loggen in user!!
         List<Playlist> myPlaylists = new ArrayList<>();
         try {
             PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
@@ -970,6 +1005,16 @@ public class AmpifyServices {
                 playlist.setDateCreated(resultSet.getTimestamp(DatabaseConstants.PLAYLIST_COL_CREATED));
                 pri=resultSet.getInt(DatabaseConstants.PLAYLIST_COL_PRIVACY);
                 cat=resultSet.getInt(DatabaseConstants.PLAYLIST_COL_CATEGORY);
+                //here as our convention for saving was
+                /**
+                 * if u dont remember the convention have a look below *_*
+                 * convention is as follows
+                 *      * if privacy public means 1 if private then 0
+                 *      * same in category
+                 *      * if group playlist then 1 ;if user's then 0
+                 * so decoded acc to this
+                 * now remember this convention plz
+                 */
                 if(pri==1)
                     playlist.setPrivacy("PUBLIC");
                 else
