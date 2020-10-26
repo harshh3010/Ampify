@@ -3,10 +3,10 @@ package controllers;
 import CellFactories.AlbumCardFactory;
 import CellFactories.ArtistCellFactory;
 import CellFactories.MusicCardFactory;
+import CellFactories.PlaylistCellFactory;
 import Services.AmpifyServices;
 import com.jfoenix.controls.JFXListView;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.Pane;
@@ -107,6 +107,8 @@ public class HomeContentsPaneController implements Initializable {
             }
             personalPlaylistListView.setItems(FXCollections.observableArrayList(personalPlaylists));
             groupPlaylistListView.setItems(FXCollections.observableArrayList(groupPlaylists));
+            personalPlaylistListView.setCellFactory(new PlaylistCellFactory());
+            groupPlaylistListView.setCellFactory(new PlaylistCellFactory());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
