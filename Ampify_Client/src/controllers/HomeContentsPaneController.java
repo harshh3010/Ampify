@@ -9,10 +9,10 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import model.Album;
 import model.Artist;
+import model.Playlist;
 import model.Song;
 import serverClasses.requests.SongListType;
 import utilities.HomeScreenDisplays;
@@ -20,18 +20,20 @@ import utilities.HomeScreenWidgets;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class HomeContentsPaneController implements Initializable {
 
-    public HBox musicCardHBox;
     public JFXListView<Artist> popularArtistsListView;
     public JFXListView<Song> recentlyPlayedListView;
     public JFXListView<Song> recentlyAddedListView;
     public JFXListView<Song> recommendedSongsListView;
     public JFXListView<Song> topSongsListView;
     public JFXListView<Album> topAlbumsListView;
+    public JFXListView<Playlist> personalPlaylistListView;
+    public JFXListView<Playlist> groupPlaylistListView;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -56,7 +58,7 @@ public class HomeContentsPaneController implements Initializable {
 
         // Displaying recently added songs
         try {
-            List<Song> songs = AmpifyServices.getRecentAddedSongs(0,10);
+            List<Song> songs = AmpifyServices.getRecentAddedSongs(0, 10);
             recentlyAddedListView.setItems(FXCollections.observableArrayList(songs));
             recentlyAddedListView.setCellFactory(new MusicCardFactory());
         } catch (IOException | ClassNotFoundException e) {
@@ -66,7 +68,7 @@ public class HomeContentsPaneController implements Initializable {
 
         // Displaying recommended songs to the user (Based on choice of Artists, Languages, Genres)
         try {
-            List<Song> songs = AmpifyServices.getUserChoiceSongs(0,10);
+            List<Song> songs = AmpifyServices.getUserChoiceSongs(0, 10);
             recommendedSongsListView.setItems(FXCollections.observableArrayList(songs));
             recommendedSongsListView.setCellFactory(new MusicCardFactory());
         } catch (IOException | ClassNotFoundException e) {
@@ -75,7 +77,7 @@ public class HomeContentsPaneController implements Initializable {
 
         // Displaying the top(10) songs to the user
         try {
-            List<Song> songs = AmpifyServices.getTopSongs(0,10);
+            List<Song> songs = AmpifyServices.getTopSongs(0, 10);
             topSongsListView.setItems(FXCollections.observableArrayList(songs));
             topSongsListView.setCellFactory(new MusicCardFactory());
         } catch (IOException | ClassNotFoundException e) {
@@ -91,10 +93,27 @@ public class HomeContentsPaneController implements Initializable {
             e.printStackTrace();
         }
 
+        // Loading user's playlists
+        try {
+            List<Playlist> playlists = AmpifyServices.getMyPlaylists();
+            List<Playlist> personalPlaylists = new ArrayList<>();
+            List<Playlist> groupPlaylists = new ArrayList<>();
+            for (Playlist playlist : playlists) {
+                if (playlist.getCategory().equals("GROUP")) {
+                    groupPlaylists.add(playlist);
+                } else {
+                    personalPlaylists.add(playlist);
+                }
+            }
+            personalPlaylistListView.setItems(FXCollections.observableArrayList(personalPlaylists));
+            groupPlaylistListView.setItems(FXCollections.observableArrayList(groupPlaylists));
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     // Called when view all button for recently played songs clicked
-    public void onViewAllRecentlyPlayed(ActionEvent actionEvent) {
+    public void onViewAllRecentlyPlayed() {
 
         // Redirect the user to history screen
         try {
@@ -110,7 +129,7 @@ public class HomeContentsPaneController implements Initializable {
     }
 
     // Called when view all button for recently added songs clicked
-    public void onViewAllRecentlyAdded(ActionEvent actionEvent) {
+    public void onViewAllRecentlyAdded() {
 
         // Redirect the user to recently added songs screen
         try {
@@ -128,7 +147,7 @@ public class HomeContentsPaneController implements Initializable {
     }
 
     // Called when view all button for recommended songs clicked
-    public void onViewAllRecommendedSongs(ActionEvent actionEvent) {
+    public void onViewAllRecommendedSongs() {
 
         // Redirect the user to recommended songs screen
         try {
@@ -146,7 +165,7 @@ public class HomeContentsPaneController implements Initializable {
     }
 
     // Called when view all button for top songs clicked
-    public void onViewAllTopSongs(ActionEvent actionEvent) {
+    public void onViewAllTopSongs() {
 
         // Redirect the user to top songs screen
         try {
