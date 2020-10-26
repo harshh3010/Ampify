@@ -168,6 +168,10 @@ public class HandleClientRequest implements Runnable {
                     else if (playlistRequest.getType().equals(String.valueOf(PlaylistType.ADD_SONG_TO_A_PLAYLIST))) {
                         oos.writeObject(AmpifyServices.addingSongToPlaylist(playlistRequest));
                         oos.flush();
+                    }//if request is to fetch songs of a particular playlist
+                    else if (playlistRequest.getType().equals(String.valueOf(PlaylistType.FETCH_SONGS_OF_A_PLAYLIST))) {
+                        oos.writeObject(AmpifyServices.getSongsOfPlaylist(playlistRequest));
+                        oos.flush();
                     }
                 }
 

@@ -236,6 +236,23 @@ public class AmpifyServices {
         return (String)ois.readObject();
     }
 
+    /**
+     * this func is to get sngs of a particcular playlist(playist ID imp)
+     * no matter it's user's playlist or not
+     * u can view its songs if public
+     * (TODO PUBLIC PLAYLISTS TO BE VIEWED ONLY IF NOT MEMBER OR ELSE CAN VIEW if its his own playlist)
+     */
+
+    public static List<Song> getSongsOfPlaylist(int playlistID)throws IOException, ClassNotFoundException {
+        PlaylistRequest playlistRequest=new PlaylistRequest(String.valueOf(PlaylistType.FETCH_SONGS_OF_A_PLAYLIST), playlistID);
+
+        oos.writeObject(playlistRequest);
+        oos.flush();
+        ois=Main.userInputStream;
+        return (List<Song>)ois.readObject();
+
+    }
+
 
 
 }

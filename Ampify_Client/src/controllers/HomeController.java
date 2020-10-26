@@ -80,6 +80,8 @@ public class HomeController implements Initializable {
  *          u r reqd to pass playlistID ,songID to func named addSongToPlaylist()
  * when u want to fetch playlists of whose user is owner(of whose user is member wala function nahi hua h abhi)
  *      u r only reqd to call the function getMyPlaylists()
+ * when u want to fetch songs of a particular playlist
+ *      u r required to pass the playlist ID to function getSongsOfPlaylist()
  *
  */
         try{
@@ -92,7 +94,7 @@ public class HomeController implements Initializable {
 
         try{
             System.out.println("adding!!");
-            String a=AmpifyServices.addSongToPlaylist(1,3);
+            String a=AmpifyServices.addSongToPlaylist(1,5);
             System.out.println(a);
         }catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -111,6 +113,14 @@ public class HomeController implements Initializable {
             System.out.println(" again adding!!");
             String a=AmpifyServices.addSongToPlaylist(1,3);
             System.out.println(a);
+        }catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        try{
+            System.out.println("displaying songs of playlist!!");
+            List<Song> list=AmpifyServices.getSongsOfPlaylist(2);
+            for(Song s:list)
+                System.out.println(s.getSongName()+" "+s.getSongID());
         }catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
