@@ -187,9 +187,13 @@ public class HandleClientRequest implements Runnable {
                     else if (notificationRequest.getType().equals(String.valueOf(NotificationType.GET_NOTIFICATIONS))) {
                         oos.writeObject(AmpifyServices.gettingNotification(notificationRequest));
                         oos.flush();
-                    }//if request is to confirm notification i.e. add as member
+                    }//if request is to confirm notification i.e. add as member and later on will also delete that notification
                     else if (notificationRequest.getType().equals(String.valueOf(NotificationType.CONFIRM_NOTIFICATION))) {
                         oos.writeObject(AmpifyServices.confirmNotification(notificationRequest));
+                        oos.flush();
+                    }//if request is to delete notification
+                    else if (notificationRequest.getType().equals(String.valueOf(NotificationType.DELETE_NOTIFICATION))) {
+                        oos.writeObject(AmpifyServices.deleteNotification(notificationRequest));
                         oos.flush();
                     }
                 }

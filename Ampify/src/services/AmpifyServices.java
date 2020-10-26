@@ -1181,11 +1181,18 @@ public class AmpifyServices {
      * particular playlist
      */
 
-    public static String sendingNotification(NotificationRequest notificationRequest)
-    {
-
+    public static String sendingNotification(NotificationRequest notificationRequest) {
+        String query1 = " SELECT * FROM " + DatabaseConstants.NOTIFICATION_TABLE +
+                " WHERE " + DatabaseConstants.NOTIFICATION_COL_PLAYLIST_ID + "=\"" + notificationRequest.getPlaylistID() + "\"" +
+                " AND " + DatabaseConstants.NOTIFICATION_COL_RECEIVER + "=\"" + notificationRequest.getReceiver()+ "\"";
+        try {
+            PreparedStatement preparedStatement1 = Main.connection.prepareStatement(query1);
+            ResultSet resultSet = preparedStatement1.executeQuery();
+            if (resultSet.next())
+                return String.valueOf(Status.ALREADY_EXIST);
+            else {
                 String query = "INSERT INTO " + DatabaseConstants.NOTIFICATION_TABLE +
-                        "(" + DatabaseConstants.NOTIFICATION_COL_SENDER+
+                        "(" + DatabaseConstants.NOTIFICATION_COL_SENDER +
                         "," + DatabaseConstants.NOTIFICATION_COL_RECEIVER +
                         "," + DatabaseConstants.NOTIFICATION_COL_PLAYLIST_ID +
                         ") values(?,?,?);";
@@ -1203,7 +1210,11 @@ public class AmpifyServices {
                 return String.valueOf(Status.FAILED);
 
             }
-
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return String.valueOf(Status.FAILED);
+    }
     /**
      * for returning back list of notifications that this particular has received
      * @param notificationRequest
@@ -1299,6 +1310,26 @@ public class AmpifyServices {
 
     }
 
+    /**
+     * function is to delete a notification which a user (receiver) dont wish to be present in the app anymore!
+     */
+    public static String deleteNotification(NotificationRequest notificationRequest){
+        String query = "DELETE notification" +
+                " FROM notification" +
+                " WHERE notification.playlistID=\""+notificationRequest.getPlaylistID()+"\"" +
+                " AND notification.receiver=\""+notificationRequest.getReceiver()+"\";";
+        try {
+            PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
+            preparedStatement.executeUpdate();
+            System.out.println("This  notification  deleted");
+            return String.valueOf(Status.SUCCESS);
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+        return String.valueOf(Status.FAILED);
+
+    }
 }
 
 

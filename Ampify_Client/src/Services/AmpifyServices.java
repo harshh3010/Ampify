@@ -303,6 +303,19 @@ public class AmpifyServices {
         ois = Main.userInputStream;
         return (String) ois.readObject();
     }
+    /**
+     * for deleting a particular notification
+     * playlistID and receiver are enough to idenify (both gr by primary)
+     */
+    public static String deleteNotification(int playlistID)throws IOException, ClassNotFoundException {
+
+        NotificationRequest notificationRequest=new NotificationRequest(String.valueOf(NotificationType.DELETE_NOTIFICATION),userApi.getEmail(),playlistID);
+        oos.writeObject(notificationRequest);
+        oos.flush();
+        ois = Main.userInputStream;
+        return (String) ois.readObject();
+    }
+
 
 
 
