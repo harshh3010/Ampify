@@ -153,6 +153,14 @@ public class HomeController implements Initializable {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+        //for confirming my notification
+        try {
+            System.out.println(" confirming!!");
+            String a = AmpifyServices.confirmNotification(1);
+            System.out.println(a);
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
 
     }

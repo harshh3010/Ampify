@@ -83,6 +83,11 @@ public class DatabaseConstants {
     public static final String PLAYLIST_SONG_COL_PLAYLIST_ID="playlistID";
     public static final String PLAYLIST_SONG_COL_SONG_ID="songID";
 
+    //playlist member table
+    public static final String PLAYLIST_MEMBER_TABLE="membersOfGroupPlaylist";
+    public static final String PLAYLIST_MEMBER_COL_PLAYLIST_ID="playlistID";
+    public static final String PLAYLIST_MEMBER_COL_MEMBEREMAIL="userEmail";
+
     //notification table
     public static final String NOTIFICATION_TABLE="notification";
     public static final String NOTIFICATION_COL_SENDER="sender";

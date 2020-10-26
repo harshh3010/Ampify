@@ -291,6 +291,20 @@ public class AmpifyServices {
         ois = Main.userInputStream;
         return (List<Notification>) ois.readObject();
     }
+    /**
+     * for confirming a particular notification
+     * task is to add this user as member in that particular playlist
+     */
+    public static String confirmNotification(int playlistID)throws IOException, ClassNotFoundException {
+
+        NotificationRequest notificationRequest=new NotificationRequest(String.valueOf(NotificationType.CONFIRM_NOTIFICATION),userApi.getEmail(),playlistID);
+        oos.writeObject(notificationRequest);
+        oos.flush();
+        ois = Main.userInputStream;
+        return (String) ois.readObject();
+    }
+
+
 
 
 

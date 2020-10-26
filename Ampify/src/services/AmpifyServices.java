@@ -1224,7 +1224,7 @@ public class AmpifyServices {
             PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                
+
                 notification = new Notification();
                 notification.setSender(resultSet.getString(DatabaseConstants.NOTIFICATION_COL_SENDER));
                 notification.setPlaylistName(resultSet.getString(3));
@@ -1239,6 +1239,52 @@ public class AmpifyServices {
         }
 
         return notificationList;
+
+    }
+
+    /**
+     * here we confirm the notification received !!
+     * if already a member corr msg given
+     * @param notificationRequest
+     * @return
+     */
+    public static String confirmNotification(NotificationRequest notificationRequest){
+        /**
+         * thru this query we first check if aready this user is member of this playlist or not
+         * *_* *_* *_* *_*
+         */
+        String query1 = " SELECT * FROM " + DatabaseConstants.PLAYLIST_MEMBER_TABLE +
+                " WHERE " + DatabaseConstants.PLAYLIST_MEMBER_COL_PLAYLIST_ID + "=\"" + notificationRequest.getPlaylistID() + "\"" +
+                " AND " + DatabaseConstants.PLAYLIST_MEMBER_COL_MEMBEREMAIL + "=\"" + notificationRequest.getReceiver() + "\"";
+        try {
+            PreparedStatement preparedStatement1 = Main.connection.prepareStatement(query1);
+            ResultSet resultSet = preparedStatement1.executeQuery();
+            if (resultSet.next())
+                return String.valueOf(Status.ALREADY_EXIST);
+            else {
+                String query = "INSERT INTO " + DatabaseConstants.PLAYLIST_MEMBER_TABLE +
+                        "(" + DatabaseConstants.PLAYLIST_MEMBER_COL_PLAYLIST_ID +
+                        "," + DatabaseConstants.PLAYLIST_MEMBER_COL_MEMBEREMAIL +
+                        ") values(?,?);";
+                try {
+                    PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
+                    preparedStatement.setInt(1, notificationRequest.getPlaylistID());
+                    preparedStatement.setString(2, notificationRequest.getReceiver());
+
+                    preparedStatement.executeUpdate();
+                    System.out.println("Added AS MEMBER");
+                    //TODO DELETE THAT PARTICULAR NOTIFICATION ALSO
+                    return String.valueOf(Status.SUCCESS);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                return String.valueOf(Status.FAILED);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return String.valueOf(Status.FAILED);
+
 
     }
 
