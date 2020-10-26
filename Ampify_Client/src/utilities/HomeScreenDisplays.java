@@ -6,6 +6,7 @@ public enum HomeScreenDisplays {
     HISTORY_PAGE("1"),
     ARTIST_PAGE("2"),
     SONG_LIST_PAGE("3"),
+    PLAYLIST_SCREEN("4"),
     ;
 
     HomeScreenDisplays(String s) {
