@@ -3,14 +3,21 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListCell?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<fx:root maxHeight="200.0" maxWidth="200.0" minHeight="200.0" minWidth="200.0" prefHeight="200.0" prefWidth="200.0"
-         type="javafx.scene.control.ListCell" xmlns="http://javafx.com/javafx/11.0.1"
-         xmlns:fx="http://javafx.com/fxml/1">
+<fx:root maxHeight="200.0" maxWidth="200.0" minHeight="200.0" minWidth="200.0" prefHeight="200.0" prefWidth="200.0" stylesheets="@../css/style.css" type="javafx.scene.control.ListCell" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <graphic>
         <AnchorPane fx:id="mainCard" prefHeight="200.0" prefWidth="200.0">
             <children>
-                <Label fx:id="nameLabel" layoutX="79.0" layoutY="89.0" text="Label"/>
+            <AnchorPane id="musicCardOverlay" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                      <Label fx:id="nameLabel" layoutX="7.0" layoutY="160.0" prefHeight="27.0" prefWidth="175.0" text="Label" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
             </children>
         </AnchorPane>
     </graphic>

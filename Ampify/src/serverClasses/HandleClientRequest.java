@@ -3,6 +3,7 @@ package serverClasses;
 import serverClasses.requests.*;
 import services.*;
 import utilities.ArtistsAlbumFetchType;
+import utilities.PlaylistType;
 import utilities.ServerRequest;
 import utilities.SongFetchType;
 
@@ -150,6 +151,28 @@ public class HandleClientRequest implements Runnable {
                     FetchUserHistoryRequest fetchUserHistoryRequest = (FetchUserHistoryRequest) object;
                     oos.writeObject(AmpifyServices.showUserHistory(fetchUserHistoryRequest));
                     oos.flush();
+                }
+
+                //if request is for playlist operations!!
+                if (request.equals(String.valueOf(ServerRequest.PLAYLIST_REQUEST))) {
+                    PlaylistRequest playlistRequest = (PlaylistRequest) object;
+                    //if request is to create playlist
+                    if (playlistRequest.getType().equals(String.valueOf(PlaylistType.CREATE_PLAYLIST))) {
+                        oos.writeObject(AmpifyServices.creatingPlaylist(playlistRequest));
+                        oos.flush();
+                    }//if request is to create playlist
+                    else if (playlistRequest.getType().equals(String.valueOf(PlaylistType.FETCH_USER_PLAYLISTS))) {
+                        oos.writeObject(AmpifyServices.getUserPlaylist(playlistRequest));
+                        oos.flush();
+                    }//if request is to add song to a playlist
+                    else if (playlistRequest.getType().equals(String.valueOf(PlaylistType.ADD_SONG_TO_A_PLAYLIST))) {
+                        oos.writeObject(AmpifyServices.addingSongToPlaylist(playlistRequest));
+                        oos.flush();
+                    }//if request is to fetch songs of a particular playlist
+                    else if (playlistRequest.getType().equals(String.valueOf(PlaylistType.FETCH_SONGS_OF_A_PLAYLIST))) {
+                        oos.writeObject(AmpifyServices.getSongsOfPlaylist(playlistRequest));
+                        oos.flush();
+                    }
                 }
 
 
