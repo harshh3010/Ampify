@@ -205,5 +205,15 @@ public class AmpifyServices {
         return (String)ois.readObject();
     }
 
+    public static List<Playlist> getMyPlaylists()throws IOException, ClassNotFoundException {
+        PlaylistRequest playlistRequest=new PlaylistRequest(String.valueOf(PlaylistType.FETCH_USER_PLAYLISTS), userApi.getEmail());
+
+        oos.writeObject(playlistRequest);
+        oos.flush();
+        ois=Main.userInputStream;
+        return (List<Playlist>)ois.readObject();
+
+    }
+
 
 }

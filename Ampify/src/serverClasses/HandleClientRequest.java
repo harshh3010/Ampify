@@ -153,12 +153,16 @@ public class HandleClientRequest implements Runnable {
                     oos.flush();
                 }
 
-                //if request is to fetch songs!!
+                //if request is for playlist operations!!
                 if (request.equals(String.valueOf(ServerRequest.PLAYLIST_REQUEST))) {
                     PlaylistRequest playlistRequest = (PlaylistRequest) object;
-                    //if request is to display top songs
+                    //if request is to create playlist
                     if (playlistRequest.getType().equals(String.valueOf(PlaylistType.CREATE_PLAYLIST))) {
                         oos.writeObject(AmpifyServices.creatingPlaylist(playlistRequest));
+                        oos.flush();
+                    }//if request is to create playlist
+                    else if (playlistRequest.getType().equals(String.valueOf(PlaylistType.FETCH_USER_PLAYLISTS))) {
+                        oos.writeObject(AmpifyServices.getUserPlaylist(playlistRequest));
                         oos.flush();
                     }
                 }

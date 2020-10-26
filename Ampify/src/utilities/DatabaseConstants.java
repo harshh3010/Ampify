@@ -72,6 +72,7 @@ public class DatabaseConstants {
 
     //PLAYLIST TABLE
     public static final String PLAYLIST_TABLE ="playlist";
+    public static final String PLAYLIST_COL_ID = "id";
     public static final String PLAYLIST_COL_NAME = "playlist_name";
     public static final String PLAYLIST_COL_OWNER = "owner";
     public static final String PLAYLIST_COL_CREATED = "date_created";

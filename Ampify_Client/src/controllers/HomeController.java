@@ -13,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import model.Playlist;
 import model.Song;
 import utilities.HomeScreenDisplays;
 import utilities.HomeScreenWidgets;
@@ -20,6 +21,7 @@ import utilities.UserApi;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
 
@@ -77,7 +79,20 @@ public class HomeController implements Initializable {
         }catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+
+        try{
+            System.out.print("fetching playlists!!!");
+            List<Playlist> collection=AmpifyServices.getMyPlaylists();
+            for(Playlist p:collection)
+                System.out.println(p.getPlaylistName()+" "+p.getOwner()+" "+p.getDateCreated());
+
+        }catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
+
+
+
 
     private void displayUserData() {
         System.out.println("display " + userApi.getEmail());

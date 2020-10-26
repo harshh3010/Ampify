@@ -950,6 +950,43 @@ public class AmpifyServices {
         return String.valueOf(Status.FAILED);
 
     }
+    public static List<Playlist> getUserPlaylist(PlaylistRequest playlistRequest){
+        int pri,cat;
+        String query = "Select * " +
+                " FROM "+DatabaseConstants.PLAYLIST_TABLE +
+                " WHERE "+DatabaseConstants.PLAYLIST_COL_OWNER+"=\""+playlistRequest.getEmail()+"\""+
+                ";";
+        List<Playlist> myPlaylists = new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            Playlist playlist;
+            while (resultSet.next()) {
+                playlist = new Playlist();
+                playlist.setId(resultSet.getInt("id"));
+                playlist.setPlaylistName(resultSet.getString(DatabaseConstants.PLAYLIST_COL_NAME));
+                playlist.setOwner(resultSet.getString(DatabaseConstants.PLAYLIST_COL_OWNER));
+                playlist.setDateCreated(resultSet.getTimestamp(DatabaseConstants.PLAYLIST_COL_CREATED));
+                pri=resultSet.getInt(DatabaseConstants.PLAYLIST_COL_PRIVACY);
+                cat=resultSet.getInt(DatabaseConstants.PLAYLIST_COL_CATEGORY);
+                if(pri==1)
+                    playlist.setPrivacy("PUBLIC");
+                else
+                    playlist.setPrivacy("PRIVATE");
+                if(cat==1)
+                    playlist.setCategory("GROUP");
+                else
+                    playlist.setCategory("USER'S");
+                myPlaylists.add(playlist);
+            }
+            return myPlaylists;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return myPlaylists;
+
+    }
 
 
 
