@@ -3,8 +3,10 @@ package controllers;
 import Services.AmpifyServices;
 import com.jfoenix.controls.JFXListView;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 import model.Playlist;
 import model.Song;
@@ -34,11 +36,11 @@ public class AddToPlaylistController {
         }
     }
 
-    public void onRefreshClicked(ActionEvent actionEvent) {
+    public void onRefreshClicked() {
         loadMyPlaylists();
     }
 
-    public void onAddClicked(ActionEvent actionEvent) {
+    public void onAddClicked() {
 
         Playlist selectedPlaylist = playlistListView.getSelectionModel().getSelectedItem();
         try {
@@ -62,5 +64,13 @@ public class AddToPlaylistController {
 
     public void onCreateNewClicked() {
 
+        try{
+            Parent createPlaylistScreen = FXMLLoader.load(getClass().getResource("/resources/fxml/createPlaylistScreen.fxml"));
+            Stage stage = new Stage();
+            stage.setScene(new Scene(createPlaylistScreen));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

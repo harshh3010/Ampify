@@ -908,18 +908,18 @@ public class AmpifyServices {
      * if group playlist then 1 ;if user's then 0
      */
 
-    public static String creatingPlaylist(PlaylistRequest playlistRequest){
-        String privacy=playlistRequest.getPrivacy();
-        String category=playlistRequest.getCategory();
-        int pri,cat;
-        if(privacy.equalsIgnoreCase("PUBLIC"))
-            pri=1;
+    public static String creatingPlaylist(PlaylistRequest playlistRequest) {
+        String privacy = playlistRequest.getPrivacy();
+        String category = playlistRequest.getCategory();
+        int pri, cat;
+        if (privacy.equalsIgnoreCase("PUBLIC"))
+            pri = 1;
         else
-            pri=0;
-        if(privacy.equalsIgnoreCase("GROUP"))
-            cat=1;
+            pri = 0;
+        if (category.equalsIgnoreCase("GROUP"))
+            cat = 1;
         else
-            cat=0;
+            cat = 0;
         Date date = new Date();
         //getTime() returns current time in milliseconds
         long time = date.getTime();
@@ -931,22 +931,21 @@ public class AmpifyServices {
          * and if no such exists then we will create with the name of playlist he specified
          * *_* *_* *_* *_*
          */
-        String query1=" SELECT * FROM "+DatabaseConstants.PLAYLIST_TABLE+
-                " WHERE "+DatabaseConstants.PLAYLIST_COL_NAME+"=\""+playlistRequest.getPlaylistName()+"\"" +
-                " AND "+DatabaseConstants.PLAYLIST_COL_OWNER+"=\""+playlistRequest.getEmail()+"\"";
-        try{
-            PreparedStatement preparedStatement1=Main.connection.prepareStatement(query1);
-            ResultSet resultSet=preparedStatement1.executeQuery();
-            if(resultSet.next())
+        String query1 = " SELECT * FROM " + DatabaseConstants.PLAYLIST_TABLE +
+                " WHERE " + DatabaseConstants.PLAYLIST_COL_NAME + "=\"" + playlistRequest.getPlaylistName() + "\"" +
+                " AND " + DatabaseConstants.PLAYLIST_COL_OWNER + "=\"" + playlistRequest.getEmail() + "\"";
+        try {
+            PreparedStatement preparedStatement1 = Main.connection.prepareStatement(query1);
+            ResultSet resultSet = preparedStatement1.executeQuery();
+            if (resultSet.next())
                 return String.valueOf(Status.ALREADY_EXIST);
-            else
-            {
+            else {
                 String query = "INSERT INTO " + DatabaseConstants.PLAYLIST_TABLE +
                         "(" + DatabaseConstants.PLAYLIST_COL_NAME +
                         "," + DatabaseConstants.PLAYLIST_COL_OWNER +
-                        "," + DatabaseConstants.PLAYLIST_COL_CREATED+
-                        "," + DatabaseConstants.PLAYLIST_COL_CATEGORY+
-                        "," + DatabaseConstants.PLAYLIST_COL_PRIVACY+
+                        "," + DatabaseConstants.PLAYLIST_COL_CREATED +
+                        "," + DatabaseConstants.PLAYLIST_COL_CATEGORY +
+                        "," + DatabaseConstants.PLAYLIST_COL_PRIVACY +
                         ") values(?,?,?,?,?);";
                 try {
                     PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
@@ -967,12 +966,10 @@ public class AmpifyServices {
             }
 
 
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-        }return String.valueOf(Status.FAILED);
-
-
-
+        }
+        return String.valueOf(Status.FAILED);
 
     }
 
@@ -984,11 +981,11 @@ public class AmpifyServices {
      * or will modify this
      * lets see what ill do
      */
-    public static List<Playlist> getUserPlaylist(PlaylistRequest playlistRequest){
-        int pri,cat;
+    public static List<Playlist> getUserPlaylist(PlaylistRequest playlistRequest) {
+        int pri, cat;
         String query = "Select * " +
-                " FROM "+DatabaseConstants.PLAYLIST_TABLE +
-                " WHERE "+DatabaseConstants.PLAYLIST_COL_OWNER+"=\""+playlistRequest.getEmail()+"\""+
+                " FROM " + DatabaseConstants.PLAYLIST_TABLE +
+                " WHERE " + DatabaseConstants.PLAYLIST_COL_OWNER + "=\"" + playlistRequest.getEmail() + "\"" +
                 ";";
         //this query gets all the playlists whose owner is our currently loggen in user!!
         List<Playlist> myPlaylists = new ArrayList<>();
@@ -1003,8 +1000,8 @@ public class AmpifyServices {
                 playlist.setPlaylistName(resultSet.getString(DatabaseConstants.PLAYLIST_COL_NAME));
                 playlist.setOwner(resultSet.getString(DatabaseConstants.PLAYLIST_COL_OWNER));
                 playlist.setDateCreated(resultSet.getTimestamp(DatabaseConstants.PLAYLIST_COL_CREATED));
-                pri=resultSet.getInt(DatabaseConstants.PLAYLIST_COL_PRIVACY);
-                cat=resultSet.getInt(DatabaseConstants.PLAYLIST_COL_CATEGORY);
+                pri = resultSet.getInt(DatabaseConstants.PLAYLIST_COL_PRIVACY);
+                cat = resultSet.getInt(DatabaseConstants.PLAYLIST_COL_CATEGORY);
                 //here as our convention for saving was
                 /**
                  * if u dont remember the convention have a look below *_*
@@ -1015,11 +1012,11 @@ public class AmpifyServices {
                  * so decoded acc to this
                  * now remember this convention plz
                  */
-                if(pri==1)
+                if (pri == 1)
                     playlist.setPrivacy("PUBLIC");
                 else
                     playlist.setPrivacy("PRIVATE");
-                if(cat==1)
+                if (cat == 1)
                     playlist.setCategory("GROUP");
                 else
                     playlist.setCategory("USER'S");
@@ -1036,30 +1033,29 @@ public class AmpifyServices {
     /**
      * this func is to add a song to playlist user wants to
      * checks
-     *          if song already exists in that particular playlist we wont add
-     *          and return string -->> ALREADY EXISTS
+     * if song already exists in that particular playlist we wont add
+     * and return string -->> ALREADY EXISTS
      */
 
-    public static String addingSongToPlaylist(PlaylistRequest playlistRequest){
+    public static String addingSongToPlaylist(PlaylistRequest playlistRequest) {
         /**
          * thru this query we first check if aready playlist with same name for this user exists or not
          * if exists we wont create for him and ask him to choose some other name
          * and if no such exists then we will create with the name of playlist he specified
          * *_* *_* *_* *_*
          */
-        String query1=" SELECT * FROM "+DatabaseConstants.PLAYLIST_SONG_TABLE +
-                " WHERE "+DatabaseConstants.PLAYLIST_SONG_COL_PLAYLIST_ID+"=\""+playlistRequest.getPlaylistId()+"\"" +
-                " AND "+DatabaseConstants.PLAYLIST_SONG_COL_SONG_ID+"=\""+playlistRequest.getSongId()+"\"";
-        try{
-            PreparedStatement preparedStatement1=Main.connection.prepareStatement(query1);
-            ResultSet resultSet=preparedStatement1.executeQuery();
-            if(resultSet.next())
+        String query1 = " SELECT * FROM " + DatabaseConstants.PLAYLIST_SONG_TABLE +
+                " WHERE " + DatabaseConstants.PLAYLIST_SONG_COL_PLAYLIST_ID + "=\"" + playlistRequest.getPlaylistId() + "\"" +
+                " AND " + DatabaseConstants.PLAYLIST_SONG_COL_SONG_ID + "=\"" + playlistRequest.getSongId() + "\"";
+        try {
+            PreparedStatement preparedStatement1 = Main.connection.prepareStatement(query1);
+            ResultSet resultSet = preparedStatement1.executeQuery();
+            if (resultSet.next())
                 return String.valueOf(Status.ALREADY_EXIST);
-            else
-            {
+            else {
                 String query = "INSERT INTO " + DatabaseConstants.PLAYLIST_SONG_TABLE +
                         "(" + DatabaseConstants.PLAYLIST_SONG_COL_PLAYLIST_ID +
-                        "," + DatabaseConstants.PLAYLIST_SONG_COL_SONG_ID+
+                        "," + DatabaseConstants.PLAYLIST_SONG_COL_SONG_ID +
                         ") values(?,?);";
                 try {
                     PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
@@ -1074,11 +1070,10 @@ public class AmpifyServices {
                 }
                 return String.valueOf(Status.FAILED);
             }
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return String.valueOf(Status.FAILED);
-
 
 
     }
@@ -1086,10 +1081,11 @@ public class AmpifyServices {
     /**
      * if req is to get songs of a particular playlist
      * TODO CHECKS
+     *
      * @param playlistRequest
      * @return
      */
-    public static List<Song> getSongsOfPlaylist(PlaylistRequest playlistRequest){
+    public static List<Song> getSongsOfPlaylist(PlaylistRequest playlistRequest) {
 
         String query = "SELECT  artist.artistName,songs.songName," +
                 "songs.languages,songs.genre,songs.musicURL, songs.lyricsURL," +
@@ -1098,8 +1094,8 @@ public class AmpifyServices {
                 "FROM songs " +
                 "INNER JOIN artist ON  songs.IDartist=artist.IDartist " +
                 "INNER JOIN songsOfPlaylist ON  songs.IDsong=songsOfPlaylist.songID " +
-                " WHERE songsOfPlaylist.playlistID =\"" +playlistRequest.getPlaylistId()+"\" " +
-                " ORDER BY songs.IDsong DESC " ;
+                " WHERE songsOfPlaylist.playlistID =\"" + playlistRequest.getPlaylistId() + "\" " +
+                " ORDER BY songs.IDsong DESC ";
 
         Song songSet;
         List<Song> playlistSongsList = new ArrayList<>();
@@ -1136,8 +1132,6 @@ public class AmpifyServices {
         return playlistSongsList;
 
     }
-
-
 
 
 }
