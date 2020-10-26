@@ -1,18 +1,18 @@
 package controllers;
 
+import Services.AmpifyServices;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.ListCell;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import model.Playlist;
 import utilities.HomeScreenDisplays;
 import utilities.HomeScreenWidgets;
+import utilities.Status;
 
 import java.io.IOException;
 
@@ -41,6 +41,49 @@ public class PlaylistCellController extends ListCell<Playlist> {
         }
     }
 
+    /*
+    Function to setup the menu to be displayed on click of menuButton
+    */
+    private void setUpMenuButton(Playlist playlist) {
+
+        // Creating the context menu
+        ContextMenu contextMenu = new ContextMenu();
+
+        // Creating items to be displayed in the menu
+        MenuItem item1 = new MenuItem("Delete Playlist");
+
+        // Setting action events for menu items
+        item1.setOnAction(actionEvent -> {
+            // TODO: DISPLAY DIALOG, UPDATE UI
+            try {
+
+                // Reading the response from the server
+                String result = AmpifyServices.deletePlaylist(playlist.getId());
+
+                // Displaying proper message after reading the response
+                if (result.equals(String.valueOf(Status.SUCCESS))) {
+                    System.out.println("Playlist deleted!");
+                } else if (result.equals(String.valueOf(Status.NOT_OWNER))) {
+                    System.out.println("You do not have permission to delete this playlist!");
+                } else {
+                    System.out.println("An error occurred!");
+                }
+
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        });
+
+        // Adding the items in menu
+        contextMenu.getItems().add(item1);
+
+        // Displaying the menu on button click
+        menuButton.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
+            if (mouseEvent.getButton() == MouseButton.PRIMARY)
+                contextMenu.show(menuButton, mouseEvent.getScreenX(), mouseEvent.getScreenY());
+        });
+    }
+
     @Override
     protected void updateItem(Playlist playlist, boolean b) {
         super.updateItem(playlist, b);
@@ -52,6 +95,9 @@ public class PlaylistCellController extends ListCell<Playlist> {
 
             // Displaying the name of playlist
             nameLabel.setText(playlist.getPlaylistName());
+
+            // Setting up menu for playlist options
+            setUpMenuButton(playlist);
 
             // Setting mouse click listener on playlist cell
             this.setOnMouseClicked(new EventHandler<>() {
