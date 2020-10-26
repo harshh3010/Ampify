@@ -25,6 +25,11 @@ public class NotificationRequest implements Serializable {
         this.playlistID = playlistID;
     }
 
+    public NotificationRequest(String type, String receiver) {
+        this.type = type;
+        this.receiver = receiver;
+    }
+
     public String getType() {
         return type;
     }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="530.0" prefWidth="975.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.PlaylistScreenController">
+    <children>
+        <Label fx:id="nameLabel" layoutX="13.0" layoutY="58.0" prefHeight="45.0" prefWidth="949.0" text="Playlist Name" textFill="WHITE">
+            <font>
+                <Font name="System Bold" size="30.0" />
+            </font>
+        </Label>
+        <JFXListView fx:id="songsListView" layoutX="14.0" layoutY="113.0" prefHeight="388.0" prefWidth="934.0" />
+        <JFXButton layoutX="14.0" layoutY="14.0" onAction="#onBackPressed" text="Go Back" textFill="WHITE" />
+    </children>
+</AnchorPane>

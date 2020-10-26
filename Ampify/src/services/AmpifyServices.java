@@ -1181,7 +1181,8 @@ public class AmpifyServices {
      * particular playlist
      */
 
-    public static String sendingNotification(NotificationRequest notificationRequest) {
+    public static String sendingNotification(NotificationRequest notificationRequest)
+    {
 
                 String query = "INSERT INTO " + DatabaseConstants.NOTIFICATION_TABLE +
                         "(" + DatabaseConstants.NOTIFICATION_COL_SENDER+
@@ -1202,6 +1203,45 @@ public class AmpifyServices {
                 return String.valueOf(Status.FAILED);
 
             }
+
+    /**
+     * for returning back list of notifications that this particular has received
+     * @param notificationRequest
+     * @return
+     */
+    public static List<Notification> gettingNotification(NotificationRequest notificationRequest){
+
+        String query = "SELECT notification.sender,notification.playlistID,playlist.playlist_name "+
+                "FROM notification " +
+                " INNER JOIN playlist ON notification.playlistID=playlist.id"+
+                " WHERE notification.receiver =\"" + notificationRequest.getReceiver() + "\" " +
+                ";";
+
+
+        Notification notification;
+        List<Notification> notificationList = new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                
+                notification = new Notification();
+                notification.setSender(resultSet.getString(DatabaseConstants.NOTIFICATION_COL_SENDER));
+                notification.setPlaylistName(resultSet.getString(3));
+                notification.setId(resultSet.getInt(2));
+
+                notificationList.add(notification);
+            }
+            return notificationList;
+        } catch (SQLException e) {
+            //displaying error if occured *_*
+            e.printStackTrace();
+        }
+
+        return notificationList;
+
+    }
+
 }
 
 

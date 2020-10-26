@@ -13,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import model.Notification;
 import model.Playlist;
 import model.Song;
 import utilities.HomeScreenDisplays;
@@ -140,6 +141,15 @@ public class HomeController implements Initializable {
             System.out.println(" sending notification!!");
             String a = AmpifyServices.sendNotification("aa@a.a",1);
             System.out.println(a);
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        //displaying notifications
+        try {
+            System.out.println("displaying noti!!");
+            List<Notification> list = AmpifyServices.getMyNotifications();
+            for (Notification s : list)
+                System.out.println(s.getPlaylistName() + " " + s.getSender());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }

@@ -277,6 +277,23 @@ public class AmpifyServices {
         return (String) ois.readObject();
     }
 
+    /**
+     * for receiving all the notifications present in server sent to user currently logged in
+     * @return
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
+    public static List<Notification> getMyNotifications()throws IOException, ClassNotFoundException {
+
+        NotificationRequest notificationRequest=new NotificationRequest(String.valueOf(NotificationType.GET_NOTIFICATIONS),userApi.getEmail());
+        oos.writeObject(notificationRequest);
+        oos.flush();
+        ois = Main.userInputStream;
+        return (List<Notification>) ois.readObject();
+    }
+
+
+
 
 
 

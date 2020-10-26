@@ -179,9 +179,13 @@ public class HandleClientRequest implements Runnable {
                 //if request is for notification operations!!
                 if (request.equals(String.valueOf(ServerRequest.NOTIFICATION_REQUEST))) {
                     NotificationRequest notificationRequest = (NotificationRequest) object;
-                    //if request is to create playlist
+                    //if request is to send notification
                     if (notificationRequest.getType().equals(String.valueOf(NotificationType.SEND))) {
                         oos.writeObject(AmpifyServices.sendingNotification(notificationRequest));
+                        oos.flush();
+                    }//if request is to get all my notifications
+                    else if (notificationRequest.getType().equals(String.valueOf(NotificationType.GET_NOTIFICATIONS))) {
+                        oos.writeObject(AmpifyServices.gettingNotification(notificationRequest));
                         oos.flush();
                     }
                 }
