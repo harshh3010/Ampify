@@ -4,6 +4,7 @@ import mainClass.Main;
 import model.*;
 import serverClasses.requests.*;
 import utilities.ArtistsAlbumFetchType;
+import utilities.PlaylistType;
 import utilities.SongFetchType;
 import utilities.UserApi;
 
@@ -187,6 +188,71 @@ public class AmpifyServices {
 
         return (List<UserHistory>) ois.readObject();
     }
+
+    /**
+     * this is to create playlist for the user
+     * convention is as follows
+     * if privacy public means 1 if private then 0
+     * same in category
+     * if group playlist then 1 ;if user's then 0
+     */
+    public static String createPlaylist(String playlistName,String category,String privacy)throws IOException, ClassNotFoundException {
+        PlaylistRequest playlistRequest=new PlaylistRequest(String.valueOf(PlaylistType.CREATE_PLAYLIST),playlistName, userApi.getEmail(), privacy,category);
+
+        oos.writeObject(playlistRequest);
+        oos.flush();
+        ois=Main.userInputStream;
+        return (String)ois.readObject();
+    }
+
+    public static List<Playlist> getMyPlaylists()throws IOException, ClassNotFoundException {
+        PlaylistRequest playlistRequest=new PlaylistRequest(String.valueOf(PlaylistType.FETCH_USER_PLAYLISTS), userApi.getEmail());
+
+        oos.writeObject(playlistRequest);
+        oos.flush();
+        ois=Main.userInputStream;
+        return (List<Playlist>)ois.readObject();
+
+    }
+
+    /**
+     * this is to add song to the playlist user wants to
+     * we require the playlist ID he wants to add song to
+     * and song ID
+     * also checks in the backend required
+     * that if he has membership,or ownership for that particular playlist then only allow him to add the song
+     * or m2 is :: when
+     *      *when he requests to add song to playlist
+     *      *we will display only the playlists he belong to
+     *      * so no chance of his adding to the playlist of which he is either owner nor mwmber
+     * TODO DISCUSS METHOD WHICH NEEDS TO BE FOLLOWED
+     */
+    public static String addSongToPlaylist(int playlistID,int songID)throws IOException, ClassNotFoundException {
+        PlaylistRequest playlistRequest=new PlaylistRequest(String.valueOf(PlaylistType.ADD_SONG_TO_A_PLAYLIST), playlistID,songID);
+
+        oos.writeObject(playlistRequest);
+        oos.flush();
+        ois=Main.userInputStream;
+        return (String)ois.readObject();
+    }
+
+    /**
+     * this func is to get sngs of a particcular playlist(playist ID imp)
+     * no matter it's user's playlist or not
+     * u can view its songs if public
+     * (TODO PUBLIC PLAYLISTS TO BE VIEWED ONLY IF NOT MEMBER OR ELSE CAN VIEW if its his own playlist)
+     */
+
+    public static List<Song> getSongsOfPlaylist(int playlistID)throws IOException, ClassNotFoundException {
+        PlaylistRequest playlistRequest=new PlaylistRequest(String.valueOf(PlaylistType.FETCH_SONGS_OF_A_PLAYLIST), playlistID);
+
+        oos.writeObject(playlistRequest);
+        oos.flush();
+        ois=Main.userInputStream;
+        return (List<Song>)ois.readObject();
+
+    }
+
 
 
 }
