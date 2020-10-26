@@ -37,6 +37,15 @@ public class PlaylistRequest implements Serializable {
         this.type=type;
         this.email = email;
     }
+    /**
+     * this constructor :: when u want to delete a playlist!!
+     * @param email
+     */
+    public PlaylistRequest(String type,String email,int playlistId) {
+        this.type=type;
+        this.email = email;
+        this.playlistId = playlistId;
+    }
 
     /**
      * use:: when a particular song id to be added to a particular playlist

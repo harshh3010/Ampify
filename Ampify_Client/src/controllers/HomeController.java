@@ -94,7 +94,7 @@ public class HomeController implements Initializable {
 
         try {
             System.out.println("adding!!");
-            String a = AmpifyServices.addSongToPlaylist(1, 5);
+            String a = AmpifyServices.addSongToPlaylist(4, 5);
             System.out.println(a);
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -111,7 +111,7 @@ public class HomeController implements Initializable {
         }
         try {
             System.out.println(" again adding!!");
-            String a = AmpifyServices.addSongToPlaylist(1, 3);
+            String a = AmpifyServices.addSongToPlaylist(4, 3);
             System.out.println(a);
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -124,6 +124,15 @@ public class HomeController implements Initializable {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+        try {
+            System.out.println(" deleting playlist!!");
+            String a = AmpifyServices.deletePlaylist(7);
+            System.out.println(a);
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
 

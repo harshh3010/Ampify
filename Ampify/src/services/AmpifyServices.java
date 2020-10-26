@@ -1133,6 +1133,53 @@ public class AmpifyServices {
 
     }
 
+    /**
+     * when u want to delete a playlist :ILL SERVE YOUR PURPOSE HIHI
+     * first of all i check that u r requesting to delete f9 but do u have ownwership
+     * if yes then ill serve ur purpose
+     * otherwise sorry
+     * @param playlistRequest
+     * @return
+     */
+    public static String deletePlaylist(PlaylistRequest playlistRequest){
+        String query1=" SELECT * FROM "+DatabaseConstants.PLAYLIST_TABLE +
+                " WHERE "+DatabaseConstants.PLAYLIST_COL_ID+"=\""+playlistRequest.getPlaylistId()+"\"" +
+                " AND "+DatabaseConstants.PLAYLIST_COL_OWNER+"=\""+playlistRequest.getEmail()+"\"";
+        try{
+            PreparedStatement preparedStatement1=Main.connection.prepareStatement(query1);
+            ResultSet resultSet=preparedStatement1.executeQuery();
+            if(resultSet.next())
+            {
+                String query = "DELETE playlist , songsOfPlaylist" +
+                        " FROM playlist" +
+                        " INNER JOIN songsOfPlaylist ON playlist.id=songsOfPlaylist.playlistID" +
+                        " WHERE playlist.id=\""+playlistRequest.getPlaylistId()+"\"";
+                try {
+                    PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
+                    preparedStatement.executeUpdate();
+                    System.out.println("Playlist Deleted");
+                    return String.valueOf(Status.SUCCESS);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                return String.valueOf(Status.FAILED);
+            }
+//if u r not owner then we cant delete
+            else
+            {
+                return String.valueOf(Status.NOT_OWNER);
+            }
+
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return String.valueOf(Status.FAILED);
+
+
+    }
+
+
+
 
 }
 

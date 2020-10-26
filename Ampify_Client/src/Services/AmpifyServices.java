@@ -249,5 +249,24 @@ public class AmpifyServices {
 
     }
 
+    /**
+     * for deleting a paricular playlist
+     * @param playlistID
+     * @return
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
+
+    public static String deletePlaylist(int playlistID) throws IOException, ClassNotFoundException {
+        PlaylistRequest playlistRequest = new PlaylistRequest(String.valueOf(PlaylistType.DELETE_PLAYLIST),userApi.getEmail(), playlistID);
+        oos.writeObject(playlistRequest);
+        oos.flush();
+        ois = Main.userInputStream;
+        return (String) ois.readObject();
+    }
+
+
+
+
 
 }
