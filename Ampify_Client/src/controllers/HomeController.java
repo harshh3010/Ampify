@@ -84,49 +84,47 @@ public class HomeController implements Initializable {
  *      u r required to pass the playlist ID to function getSongsOfPlaylist()
  *
  */
-        try{
+        try {
             System.out.println("creating playlist!!!");
-            String a=AmpifyServices.createPlaylist("Lastcheck","USER","PRIVATE");
+            String a = AmpifyServices.createPlaylist("Lastcheck", "USER", "PRIVATE");
             System.out.println(a);
-        }catch (IOException | ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
 
-        try{
+        try {
             System.out.println("adding!!");
-            String a=AmpifyServices.addSongToPlaylist(1,5);
+            String a = AmpifyServices.addSongToPlaylist(1, 5);
             System.out.println(a);
-        }catch (IOException | ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
 
-        try{
+        try {
             System.out.println("fetching playlists!!!");
-            List<Playlist> collection=AmpifyServices.getMyPlaylists();
-            for(Playlist p:collection)
-                System.out.println(p.getPlaylistName()+" "+p.getOwner()+" "+p.getPrivacy());
+            List<Playlist> collection = AmpifyServices.getMyPlaylists();
+            for (Playlist p : collection)
+                System.out.println(p.getPlaylistName() + " " + p.getOwner() + " " + p.getPrivacy());
 
-        }catch (IOException | ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        try{
+        try {
             System.out.println(" again adding!!");
-            String a=AmpifyServices.addSongToPlaylist(1,3);
+            String a = AmpifyServices.addSongToPlaylist(1, 3);
             System.out.println(a);
-        }catch (IOException | ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        try{
+        try {
             System.out.println("displaying songs of playlist!!");
-            List<Song> list=AmpifyServices.getSongsOfPlaylist(2);
-            for(Song s:list)
-                System.out.println(s.getSongName()+" "+s.getSongID());
-        }catch (IOException | ClassNotFoundException e) {
+            List<Song> list = AmpifyServices.getSongsOfPlaylist(2);
+            for (Song s : list)
+                System.out.println(s.getSongName() + " " + s.getSongID());
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
-
-
 
 
     private void displayUserData() {

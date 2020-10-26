@@ -58,4 +58,9 @@ public class Playlist implements Serializable {
     public void setDateCreated(Timestamp dateCreated) {
         this.dateCreated = dateCreated;
     }
+
+    @Override
+    public String toString() {
+        return this.playlistName;
+    }
 }

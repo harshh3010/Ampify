@@ -9,9 +9,12 @@ import Services.MediaPlayerService;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import model.Song;
 import utilities.HomeScreenWidgets;
 
@@ -59,7 +62,22 @@ public class SongCellController extends ListCell<Song> {
 
         // Setting action events for menu items
         item1.setOnAction(actionEvent -> System.out.println("Add to favourites"));
-        item2.setOnAction(actionEvent -> System.out.println("Add to playlist"));
+        item2.setOnAction(actionEvent -> {
+            System.out.println("Add to playlist");
+
+            try{
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/fxml/addSongToPlaylistScreen.fxml"));
+                Parent addToPlaylistScreen = loader.load();
+                AddToPlaylistController addToPlaylistController = loader.getController();
+                addToPlaylistController.getSongToAdd(song);
+                Stage stage = new Stage();
+                stage.setScene(new Scene(addToPlaylistScreen));
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        });
         item3.setOnAction(actionEvent -> {
             System.out.println("Add to Queue");
             MediaPlayerService.currentPlaylist.addLast(song);

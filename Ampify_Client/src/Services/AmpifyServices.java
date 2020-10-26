@@ -54,7 +54,7 @@ public class AmpifyServices {
     /*
     Function to get top songs
      */
-    public static List<Song> getTopSongs(int offset,int rowCount) throws IOException, ClassNotFoundException {
+    public static List<Song> getTopSongs(int offset, int rowCount) throws IOException, ClassNotFoundException {
 
         SongFetchRequest songFetchRequest = new SongFetchRequest(String.valueOf(SongFetchType.TOP), offset, rowCount);
         oos.writeObject(songFetchRequest);
@@ -97,7 +97,7 @@ public class AmpifyServices {
      * we pass row count , offset specific to this kind of fetching request
      * defined above
      */
-    public static List<Song> getUserChoiceSongs(int offset,int rowCount) throws IOException, ClassNotFoundException {
+    public static List<Song> getUserChoiceSongs(int offset, int rowCount) throws IOException, ClassNotFoundException {
 
         SongFetchRequest songFetchRequest = new SongFetchRequest(String.valueOf(SongFetchType.SONGS_OF_USER_CHOICE), userApi.getEmail(), offset, rowCount);
         oos.writeObject(songFetchRequest);
@@ -143,7 +143,7 @@ public class AmpifyServices {
     /**
      * Function to fetch recent songs(released 5 days back!!)
      */
-    public static List<Song> getRecentAddedSongs(int offset,int rowCount) throws IOException, ClassNotFoundException {
+    public static List<Song> getRecentAddedSongs(int offset, int rowCount) throws IOException, ClassNotFoundException {
         SongFetchRequest songFetchRequest = new SongFetchRequest(String.valueOf(SongFetchType.RECENT_ADDED_SONGS), offset, rowCount);
         oos.writeObject(songFetchRequest);
         oos.flush();
@@ -175,7 +175,7 @@ public class AmpifyServices {
      * we pass email of user logged in
      * also offset to manage the number of rows to be queried passed( defined above)
      */
-    public static List<UserHistory> getUserHistory(int offset,int rowCount) throws IOException, ClassNotFoundException {
+    public static List<UserHistory> getUserHistory(int offset, int rowCount) throws IOException, ClassNotFoundException {
 
         FetchUserHistoryRequest fetchUserHistory = new FetchUserHistoryRequest(userApi.getEmail(), offset, rowCount);
         oos.writeObject(fetchUserHistory);
@@ -192,22 +192,22 @@ public class AmpifyServices {
      * same in category
      * if group playlist then 1 ;if user's then 0
      */
-    public static String createPlaylist(String playlistName,String category,String privacy)throws IOException, ClassNotFoundException {
-        PlaylistRequest playlistRequest=new PlaylistRequest(String.valueOf(PlaylistType.CREATE_PLAYLIST),playlistName, userApi.getEmail(), privacy,category);
+    public static String createPlaylist(String playlistName, String category, String privacy) throws IOException, ClassNotFoundException {
+        PlaylistRequest playlistRequest = new PlaylistRequest(String.valueOf(PlaylistType.CREATE_PLAYLIST), playlistName, userApi.getEmail(), privacy, category);
 
         oos.writeObject(playlistRequest);
         oos.flush();
-        ois=Main.userInputStream;
-        return (String)ois.readObject();
+        ois = Main.userInputStream;
+        return (String) ois.readObject();
     }
 
-    public static List<Playlist> getMyPlaylists()throws IOException, ClassNotFoundException {
-        PlaylistRequest playlistRequest=new PlaylistRequest(String.valueOf(PlaylistType.FETCH_USER_PLAYLISTS), userApi.getEmail());
+    public static List<Playlist> getMyPlaylists() throws IOException, ClassNotFoundException {
+        PlaylistRequest playlistRequest = new PlaylistRequest(String.valueOf(PlaylistType.FETCH_USER_PLAYLISTS), userApi.getEmail());
 
         oos.writeObject(playlistRequest);
         oos.flush();
-        ois=Main.userInputStream;
-        return (List<Playlist>)ois.readObject();
+        ois = Main.userInputStream;
+        return (List<Playlist>) ois.readObject();
 
     }
 
@@ -218,18 +218,18 @@ public class AmpifyServices {
      * also checks in the backend required
      * that if he has membership,or ownership for that particular playlist then only allow him to add the song
      * or m2 is :: when
-     *      *when he requests to add song to playlist
-     *      *we will display only the playlists he belong to
-     *      * so no chance of his adding to the playlist of which he is either owner nor mwmber
+     * *when he requests to add song to playlist
+     * *we will display only the playlists he belong to
+     * * so no chance of his adding to the playlist of which he is either owner nor mwmber
      * TODO DISCUSS METHOD WHICH NEEDS TO BE FOLLOWED
      */
-    public static String addSongToPlaylist(int playlistID,int songID)throws IOException, ClassNotFoundException {
-        PlaylistRequest playlistRequest=new PlaylistRequest(String.valueOf(PlaylistType.ADD_SONG_TO_A_PLAYLIST), playlistID,songID);
+    public static String addSongToPlaylist(int playlistID, int songID) throws IOException, ClassNotFoundException {
+        PlaylistRequest playlistRequest = new PlaylistRequest(String.valueOf(PlaylistType.ADD_SONG_TO_A_PLAYLIST), playlistID, songID);
 
         oos.writeObject(playlistRequest);
         oos.flush();
-        ois=Main.userInputStream;
-        return (String)ois.readObject();
+        ois = Main.userInputStream;
+        return (String) ois.readObject();
     }
 
     /**
@@ -239,16 +239,15 @@ public class AmpifyServices {
      * (TODO PUBLIC PLAYLISTS TO BE VIEWED ONLY IF NOT MEMBER OR ELSE CAN VIEW if its his own playlist)
      */
 
-    public static List<Song> getSongsOfPlaylist(int playlistID)throws IOException, ClassNotFoundException {
-        PlaylistRequest playlistRequest=new PlaylistRequest(String.valueOf(PlaylistType.FETCH_SONGS_OF_A_PLAYLIST), playlistID);
+    public static List<Song> getSongsOfPlaylist(int playlistID) throws IOException, ClassNotFoundException {
+        PlaylistRequest playlistRequest = new PlaylistRequest(String.valueOf(PlaylistType.FETCH_SONGS_OF_A_PLAYLIST), playlistID);
 
         oos.writeObject(playlistRequest);
         oos.flush();
-        ois=Main.userInputStream;
-        return (List<Song>)ois.readObject();
+        ois = Main.userInputStream;
+        return (List<Song>) ois.readObject();
 
     }
-
 
 
 }
