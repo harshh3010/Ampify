@@ -70,5 +70,15 @@ public class DatabaseConstants {
     public static final String USER_HISTORY_COL_SONGID = "song_id";
     public static final String USER_HISTORY_COL_TIMEPLAYED = "time_played";
 
+    //PLAYLIST TABLE
+    public static final String PLAYLIST_TABLE ="playlist";
+    public static final String PLAYLIST_COL_NAME = "playlist_name";
+    public static final String PLAYLIST_COL_OWNER = "owner";
+    public static final String PLAYLIST_COL_CREATED = "date_created";
+    public static final String PLAYLIST_COL_PRIVACY = "privacy";
+    public static final String PLAYLIST_COL_CATEGORY = "category";
+
+
+
 
 }

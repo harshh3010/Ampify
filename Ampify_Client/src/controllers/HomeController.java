@@ -66,6 +66,17 @@ public class HomeController implements Initializable {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+/**
+ * testing playlist creation !!
+ * place at apt place later on
+ */
+        try{
+            System.out.print("creating playlist!!!");
+            String a=AmpifyServices.createPlaylist("LITELO","USER","PRIVATE");
+            System.out.print(a);
+        }catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     private void displayUserData() {

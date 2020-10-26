@@ -4,6 +4,7 @@ import mainClass.Main;
 import model.*;
 import serverClasses.requests.*;
 import utilities.ArtistsAlbumFetchType;
+import utilities.PlaylistType;
 import utilities.SongFetchType;
 import utilities.UserApi;
 
@@ -186,6 +187,22 @@ public class AmpifyServices {
         ois = Main.userInputStream;
 
         return (List<UserHistory>) ois.readObject();
+    }
+
+    /**
+     * this is to create playlist for the user
+     * convention is as follows
+     * if privacy public means 1 if private then 0
+     * same in category
+     * if group playlist then 1 ;if user's then 0
+     */
+    public static String createPlaylist(String playlistName,String category,String privacy)throws IOException, ClassNotFoundException {
+        PlaylistRequest playlistRequest=new PlaylistRequest(String.valueOf(PlaylistType.CREATE_PLAYLIST),playlistName, userApi.getEmail(), privacy,category);
+
+        oos.writeObject(playlistRequest);
+        oos.flush();
+        ois=Main.userInputStream;
+        return (String)ois.readObject();
     }
 
 

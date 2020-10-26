@@ -900,6 +900,58 @@ public class AmpifyServices {
         return userHistoryList;
     }
 
+    /**
+     * for creating playlist for user
+     * convention is as follows
+     * if privacy public means 1 if private then 0
+     * same in category
+     * if group playlist then 1 ;if user's then 0
+     */
+
+    public static String creatingPlaylist(PlaylistRequest playlistRequest){
+        String privacy=playlistRequest.getPrivacy();
+        String category=playlistRequest.getCategory();
+        int pri,cat;
+        if(privacy.equalsIgnoreCase("PUBLIC"))
+            pri=1;
+        else
+            pri=0;
+        if(privacy.equalsIgnoreCase("GROUP"))
+            cat=1;
+        else
+            cat=0;
+        Date date = new Date();
+        //getTime() returns current time in milliseconds
+        long time = date.getTime();
+        //Passed the milliseconds to constructor of Timestamp class
+        Timestamp timeCreated = new Timestamp(time);
+
+        String query = "INSERT INTO " + DatabaseConstants.PLAYLIST_TABLE +
+                "(" + DatabaseConstants.PLAYLIST_COL_NAME +
+                "," + DatabaseConstants.PLAYLIST_COL_OWNER +
+                "," + DatabaseConstants.PLAYLIST_COL_CREATED+
+                "," + DatabaseConstants.PLAYLIST_COL_CATEGORY+
+                "," + DatabaseConstants.PLAYLIST_COL_PRIVACY+
+                ") values(?,?,?,?,?);";
+        try {
+            PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
+            preparedStatement.setString(1, playlistRequest.getPlaylistName());
+            preparedStatement.setString(2, playlistRequest.getEmail());
+            preparedStatement.setTimestamp(3, timeCreated);
+            preparedStatement.setInt(4, cat);
+            preparedStatement.setInt(5, pri);
+
+            preparedStatement.executeUpdate();
+            System.out.println("success");
+            return String.valueOf(Status.SUCCESS);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return String.valueOf(Status.FAILED);
+
+    }
+
+
 
 }
 
