@@ -104,12 +104,17 @@ public class SongCellController extends ListCell<Song> {
 
             String filePath = "C:/Ampify-Player/Downloads/";
             File file = new File(filePath);
+            boolean fileMade = false;
             if (!file.exists()) {
-                file.mkdirs();
+                fileMade = file.mkdirs();
             }
 
-            File outputFile = new File(filePath + song.getSongName().replaceAll("\\s", "") + "-" + song.getArtistName().replaceAll("\\s", "") + ".mp3");
-            new Thread(new DownloadService(song.getSongURL(), outputFile)).start();
+            if(fileMade){
+                File outputFile = new File(filePath + song.getSongName().replaceAll("\\s", "") + "-" + song.getArtistName().replaceAll("\\s", "") + ".mp3");
+                new Thread(new DownloadService(song.getSongURL(), outputFile)).start();
+            }else{
+                System.out.println("An error occurred");
+            }
 
         });
 
@@ -118,6 +123,8 @@ public class SongCellController extends ListCell<Song> {
         contextMenu.getItems().add(item2);
         contextMenu.getItems().add(item3);
         contextMenu.getItems().add(item4);
+
+        contextMenu.setStyle("-fx-text-fill: black;");
 
         // Displaying the menu on button click
         menuButton.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {

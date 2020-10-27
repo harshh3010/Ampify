@@ -102,7 +102,7 @@
 }
 
 .scroll-bar:horizontal .thumb{
-/*-fx-background-color: transparent;*/
+    -fx-background-color: transparent;
 }
 
 .scroll-bar:vertical .thumb {
@@ -128,4 +128,9 @@
     -fx-background-image: url("../Icons/menu.png");
     -fx-background-size: cover;
     -fx-background-position: center;
+}
+
+.context-menu {
+  -fx-background-color: black;
+  -fx-text-fill: white;
 }

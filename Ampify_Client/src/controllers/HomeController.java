@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Notification;
 import model.Playlist;
@@ -29,11 +30,11 @@ import java.util.prefs.Preferences;
 
 public class HomeController implements Initializable {
 
-    public Label userEmailLabel;
     public JFXButton logoutButton;
     public Pane displayPane;
     public Pane bottomPane;
     public JFXListView<Song> nowPlayingList;
+    public Text userEmailText;
     UserApi userApi = UserApi.getInstance();
 
     @Override
@@ -163,7 +164,7 @@ public class HomeController implements Initializable {
 
     private void displayUserData() {
         System.out.println("display " + userApi.getEmail());
-        userEmailLabel.setText(userApi.getEmail());
+        userEmailText.setText(userApi.getEmail());
     }
 
     public void onLogoutClicked(ActionEvent actionEvent) throws IOException {
@@ -214,7 +215,7 @@ public class HomeController implements Initializable {
 
     }
 
-    public void onHomeButtonClicked(ActionEvent actionEvent) {
+    public void onHomeButtonClicked() {
         if (HomeScreenWidgets.currentDisplayPage != HomeScreenDisplays.MAIN_PAGE) {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/fxml/homeContentsPane.fxml"));
@@ -228,7 +229,7 @@ public class HomeController implements Initializable {
         }
     }
 
-    public void downloadsButtonAction(ActionEvent actionEvent) {
+    public void downloadsButtonAction() {
         if(HomeScreenWidgets.currentDisplayPage != HomeScreenDisplays.DOWNLOADS_SCREEN){
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/fxml/downloadsScreen.fxml"));
