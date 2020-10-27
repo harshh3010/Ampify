@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import model.Notification;
 import model.Playlist;
 import model.Song;
+import model.UserHistory;
 import utilities.HomeScreenDisplays;
 import utilities.HomeScreenWidgets;
 import utilities.UserApi;
@@ -117,6 +118,27 @@ public class HomeController implements Initializable {
             List<Notification> collection = AmpifyServices.getMyNotifications();
             for (Notification p : collection)
                 System.out.println(p.getPlaylistName() + " " + p.getSender() );
+
+
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            System.out.println("deleting!!!");
+
+            String collection = AmpifyServices.deleteNotification(10);
+            System.out.print(collection);
+
+
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            System.out.println("fetching most played songs!!!");
+
+            List<UserHistory> collection = AmpifyServices.getUserMostPlayedSong();
+            for (UserHistory p : collection)
+                System.out.println(p.getSongName() + " " + p.getNumberOfTimesPlayed() );
 
 
         } catch (IOException | ClassNotFoundException e) {

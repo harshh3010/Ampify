@@ -134,6 +134,11 @@ public class HandleClientRequest implements Runnable {
 
                         oos.writeObject(AmpifyServices.showRecentlyPlayedSong(songType));
                         oos.flush();
+                    }//if request is to display most played song of user!!
+                    else if (songType.getType().equals(String.valueOf(SongFetchType.MOST_PLAYED_SONGS_BY_USER))) {
+
+                        oos.writeObject(AmpifyServices.showMostPlayedSongByUser(songType));
+                        oos.flush();
                     }
 
                 }

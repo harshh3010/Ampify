@@ -855,6 +855,46 @@ public class AmpifyServices {
 
         return recentlyPlayedSongs;
     }
+    /**
+     * function to return back list of most played songs by a particular user!!ONLY 5
+     * rn we have returned listof userHistory
+     * i.e details are songID ,SONGnAME, NOoFtimesPlayed
+     *
+     * @param songFetchRequest
+     * @return
+     */
+    public static List<UserHistory> showMostPlayedSongByUser(SongFetchRequest songFetchRequest) {
+        String email = songFetchRequest.getEmail();
+        System.out.print( " :)");
+        String query = "SELECT songs.IDsong,songs.songName,COUNT(user_history.song_ID)" +
+                " FROM songs" +
+                " INNER JOIN user_history ON songs.IDsong=user_history.song_ID" +
+                " WHERE user_history.user_email=\"" + email + "\" " +
+                " GROUP BY songs.IDsong" +
+                " ORDER BY COUNT(user_history.song_ID) DESC " +
+                " LIMIT 0,5;";
+        UserHistory mostPlayed;
+        List<UserHistory> mostPlayedList=new ArrayList<>();
+
+        try {
+            PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                mostPlayed = new UserHistory();
+                mostPlayed.setSongId(resultSet.getInt(1));
+                mostPlayed.setSongName(resultSet.getString(2));
+                mostPlayed.setNumberOfTimesPlayed(resultSet.getInt(3));
+                mostPlayedList.add(mostPlayed);
+            }
+            return mostPlayedList;
+        } catch (SQLException e) {
+            //displaying error if occured *_*
+            e.printStackTrace();
+
+
+        }
+        return mostPlayedList;
+    }
 
     /**
      * function to return history of user
@@ -1205,8 +1245,8 @@ public class AmpifyServices {
             {
                 String query = "DELETE playlist , songsOfPlaylist,membersOfGroupPlaylist" +
                         " FROM playlist" +
-                        " INNER JOIN songsOfPlaylist ON playlist.id=songsOfPlaylist.playlistID" +
-                        " INNER JOIN membersOfGroupPlaylist ON playlist.id=membersOfGroupPlaylist.playlistID" +
+                        " LEFT JOIN songsOfPlaylist ON playlist.id=songsOfPlaylist.playlistID" +
+                        " LEFT JOIN membersOfGroupPlaylist ON playlist.id=membersOfGroupPlaylist.playlistID" +
                         " WHERE playlist.id=\""+playlistRequest.getPlaylistId()+"\"";
                 try {
                     PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
@@ -1231,6 +1271,7 @@ public class AmpifyServices {
 
 
     }
+
 
     /**
      **for sending notification to the user whom our client wants to add as member of a
