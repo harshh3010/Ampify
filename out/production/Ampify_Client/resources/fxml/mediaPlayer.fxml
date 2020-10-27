@@ -20,10 +20,13 @@
                 <Font name="System Bold" size="20.0" />
             </font>
         </Label>
-        <Label fx:id="artistNameLabel" layoutX="155.0" layoutY="50.0" text="Artist Name" textFill="WHITE" />
-        <JFXButton fx:id="playButton" layoutX="351.0" layoutY="32.0" onAction="#onPlayButtonClicked" text="Play" textFill="WHITE" />
-      <JFXSlider fx:id="mediaPlayerSlider" layoutX="536.0" layoutY="43.0" prefHeight="14.0" prefWidth="549.0" />
-      <Label fx:id="currentTimeLabel" layoutX="482.0" layoutY="42.0" text="00 : 00" textFill="WHITE" />
-      <Label fx:id="totalTimeLabel" layoutX="1098.0" layoutY="42.0" text="00 : 00" textFill="WHITE" />
+        <JFXButton fx:id="playButton" layoutX="476.0" layoutY="38.0" onAction="#onPlayButtonClicked" text="Play" textFill="WHITE" />
+      <JFXSlider fx:id="mediaPlayerSlider" layoutX="667.0" layoutY="43.0" prefHeight="14.0" prefWidth="355.0" />
+      <Label fx:id="currentTimeLabel" layoutX="622.0" layoutY="42.0" text="00 : 00" textFill="WHITE" />
+      <Label fx:id="totalTimeLabel" layoutX="1032.0" layoutY="42.0" text="00 : 00" textFill="WHITE" />
+      <JFXButton fx:id="nextButton" layoutX="531.0" layoutY="38.0" onAction="#onNextClicked" text="Next" textFill="WHITE" />
+      <JFXButton fx:id="prevButton" layoutX="414.0" layoutY="38.0" onAction="#onPrevClicked" text="Prev" textFill="WHITE" />
+      <JFXSlider fx:id="volumeSlider" layoutX="1117.0" layoutY="43.0" />
+      <Label layoutX="1148.0" layoutY="69.0" text="Adjust Volume" textFill="WHITE" />
     </children>
 </Pane>

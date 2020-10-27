@@ -5,6 +5,8 @@ import Services.MediaPlayerService;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSlider;
 import javafx.application.Platform;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
@@ -30,6 +32,7 @@ public class MediaPlayerController implements Initializable {
     public Label totalTimeLabel;
     public JFXButton nextButton;
     public JFXButton prevButton;
+    public JFXSlider volumeSlider;
 
     // Media player implementation
     private MediaPlayer mediaPlayer;
@@ -110,6 +113,14 @@ public class MediaPlayerController implements Initializable {
             updateValues();
         });
 
+        volumeSlider.valueProperty().addListener(new InvalidationListener() {
+            public void invalidated(Observable ov) {
+                if (volumeSlider.isValueChanging()) {
+                    mediaPlayer.setVolume(volumeSlider.getValue() / 100.0);
+                }
+            }
+        });
+
         // Function which will be called after end of media
         mediaPlayer.setOnEndOfMedia(() -> {
 
@@ -133,7 +144,7 @@ public class MediaPlayerController implements Initializable {
 
     // Function to update the progress of media in the UI
     protected void updateValues() {
-        if (currentTimeLabel != null && mediaPlayerSlider != null) {
+        if (currentTimeLabel != null && mediaPlayerSlider != null && volumeSlider != null) {
             Platform.runLater(() -> {
                 Duration currentTime = mediaPlayer.getCurrentTime();
                 currentTimeLabel.setText(formatTime(currentTime, duration));
@@ -144,6 +155,10 @@ public class MediaPlayerController implements Initializable {
                         && !mediaPlayerSlider.isValueChanging()) {
                     mediaPlayerSlider.setValue(currentTime.divide(duration).toMillis()
                             * 100.0);
+                }
+                if (!volumeSlider.isValueChanging()) {
+                    volumeSlider.setValue((int) Math.round(mediaPlayer.getVolume()
+                            * 100));
                 }
             });
         }
