@@ -227,4 +227,18 @@ public class HomeController implements Initializable {
             }
         }
     }
+
+    public void downloadsButtonAction(ActionEvent actionEvent) {
+        if(HomeScreenWidgets.currentDisplayPage != HomeScreenDisplays.DOWNLOADS_SCREEN){
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/fxml/downloadsScreen.fxml"));
+                Pane newLoadedPane = loader.load();
+                displayPane.getChildren().clear();
+                displayPane.getChildren().add(newLoadedPane);
+                HomeScreenWidgets.currentDisplayPage = HomeScreenDisplays.DOWNLOADS_SCREEN;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

@@ -5,6 +5,7 @@ Controller class for song card
 package controllers;
 
 import CellFactories.SongsQueueCellFactory;
+import Services.DownloadService;
 import Services.MediaPlayerService;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -18,7 +19,9 @@ import javafx.stage.Stage;
 import model.Song;
 import utilities.HomeScreenWidgets;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,6 +62,7 @@ public class SongCellController extends ListCell<Song> {
         MenuItem item1 = new MenuItem("Add to Favourites");
         MenuItem item2 = new MenuItem("Add to Playlist");
         MenuItem item3 = new MenuItem("Add to Queue");
+        MenuItem item4 = new MenuItem("Download");
 
         // Setting action events for menu items
         item1.setOnAction(actionEvent -> System.out.println("Add to favourites"));
@@ -95,10 +99,25 @@ public class SongCellController extends ListCell<Song> {
             HomeScreenWidgets.nowPlayingList.setCellFactory(new SongsQueueCellFactory());
         });
 
+        // On clicking the download button
+        item4.setOnAction(actionEvent -> {
+
+            String filePath = "C:/Ampify-Player/Downloads/";
+            File file = new File(filePath);
+            if (!file.exists()) {
+                file.mkdirs();
+            }
+
+            File outputFile = new File(filePath + song.getSongName().replaceAll("\\s", "") + "-" + song.getArtistName().replaceAll("\\s", "") + ".mp3");
+            new Thread(new DownloadService(song.getSongURL(), outputFile)).start();
+
+        });
+
         // Adding the items in menu
         contextMenu.getItems().add(item1);
         contextMenu.getItems().add(item2);
         contextMenu.getItems().add(item3);
+        contextMenu.getItems().add(item4);
 
         // Displaying the menu on button click
         menuButton.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
