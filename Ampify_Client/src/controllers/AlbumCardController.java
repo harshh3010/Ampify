@@ -11,6 +11,8 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import model.Album;
+import utilities.HomeScreenDisplays;
+import utilities.HomeScreenWidgets;
 
 import java.io.IOException;
 
@@ -48,6 +50,31 @@ public class AlbumCardController extends ListCell<Album> {
 
             // Displaying the name of album
             nameLabel.setText(album.getAlbumName());
+
+            mainCard.setOnMouseClicked(new EventHandler<>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {   // Ensuring LMB is clicked
+                        if (mouseEvent.getClickCount() == 2) {  // Ensuring its a double click
+
+                            try {
+                                // Move to artist screen on double click
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/fxml/albumScreen.fxml"));
+                                Pane newLoadedPane = loader.load();
+                                AlbumScreenController albumScreenController = loader.getController();
+                                albumScreenController.setAlbumDetails(album);
+                                HomeScreenWidgets.displayPane.getChildren().remove(0);
+                                HomeScreenWidgets.displayPane.getChildren().add(newLoadedPane);
+                                HomeScreenWidgets.currentDisplayPage = HomeScreenDisplays.ALBUM_PAGE;
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    }
+                }
+            });
+
             setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         }
 

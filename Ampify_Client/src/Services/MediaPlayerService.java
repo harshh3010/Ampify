@@ -1,5 +1,7 @@
 package Services;
 
+import CellFactories.SongsQueueCellFactory;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 import model.Song;
@@ -7,8 +9,10 @@ import utilities.HomeScreenWidgets;
 import utilities.Status;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.List;
 
 public class MediaPlayerService {
 
@@ -31,6 +35,11 @@ public class MediaPlayerService {
             } else {
                 System.out.println("Song NOT added to history");
             }
+
+            // Displaying the songs in queue on home screen
+            List<Song> list = new ArrayList<>(MediaPlayerService.currentPlaylist);
+            HomeScreenWidgets.nowPlayingList.setItems(FXCollections.observableArrayList(list));
+            HomeScreenWidgets.nowPlayingList.setCellFactory(new SongsQueueCellFactory());
 
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();

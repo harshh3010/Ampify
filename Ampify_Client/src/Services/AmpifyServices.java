@@ -79,9 +79,9 @@ public class AmpifyServices {
      * Function to fetch songs of a particular album
      * also pass the offset coz server needs to know from which row number it has to start its job
      */
-    public static List<Song> getSongsOfAlbum(int albumId) throws IOException, ClassNotFoundException {
+    public static List<Song> getSongsOfAlbum(int albumId,int offset,int rowCount) throws IOException, ClassNotFoundException {
 
-        SongFetchRequest songFetchArtistRequest = new SongFetchRequest(String.valueOf(SongFetchType.SONGS_OF_PARTICULAR_ALBUM), albumId, offsetSongOfParticularAlbum, rowcount);
+        SongFetchRequest songFetchArtistRequest = new SongFetchRequest(String.valueOf(SongFetchType.SONGS_OF_PARTICULAR_ALBUM), albumId, offset, rowCount);
         oos.writeObject(songFetchArtistRequest);
         oos.flush();
 

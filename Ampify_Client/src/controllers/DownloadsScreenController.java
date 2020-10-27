@@ -7,7 +7,6 @@ import javafx.fxml.Initializable;
 import model.Song;
 
 import java.io.File;
-import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="530.0" prefWidth="975.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AlbumScreenController">
+    <children>
+        <Label fx:id="nameLabel" layoutX="14.0" layoutY="14.0" text="Album Name" textFill="WHITE">
+            <font>
+                <Font name="System Bold" size="26.0" />
+            </font>
+        </Label>
+        <JFXListView fx:id="songsListView" layoutX="309.0" layoutY="40.0" prefHeight="431.0" prefWidth="630.0" />
+        <JFXButton layoutX="309.0" layoutY="490.0" onAction="#onPreviousClicked" prefHeight="25.0" prefWidth="161.0" text="Previous" textFill="WHITE" />
+        <JFXButton layoutX="778.0" layoutY="490.0" onAction="#onNextClicked" prefHeight="25.0" prefWidth="161.0" text="Next" textFill="WHITE" />
+      <Label fx:id="releaseLabel" layoutX="14.0" layoutY="52.0" text="Release Date" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="ratingLabel" layoutX="14.0" layoutY="77.0" text="rating" textFill="WHITE" />
+    </children>
+</AnchorPane>
