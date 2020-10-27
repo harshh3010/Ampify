@@ -8,7 +8,7 @@ public enum PlaylistType {
     ADD_SONG_TO_A_PLAYLIST("3"),
     FETCH_SONGS_OF_A_PLAYLIST("4"),
     DELETE_PLAYLIST("5"),
-    FETCH_GROUP_PLAYLISTS("6"),
+
     FETCH_MEMBERS_OF_GROUP_PLAYLISTS("7"),
     ;
     PlaylistType(String s) {

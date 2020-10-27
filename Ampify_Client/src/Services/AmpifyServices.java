@@ -223,16 +223,7 @@ public class AmpifyServices {
 
     }
 
-    //for fetching group playlists!!
-    public static List<Playlist> getMyGroupPlaylists() throws IOException, ClassNotFoundException {
-        PlaylistRequest playlistRequest = new PlaylistRequest(String.valueOf(PlaylistType.FETCH_GROUP_PLAYLISTS), userApi.getEmail());
 
-        oos.writeObject(playlistRequest);
-        oos.flush();
-        ois = Main.userInputStream;
-        return (List<Playlist>) ois.readObject();
-
-    }
 
     /**
      * this is to add song to the playlist user wants to

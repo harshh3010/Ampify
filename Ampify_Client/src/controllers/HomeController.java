@@ -101,17 +101,8 @@ public class HomeController implements Initializable {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        try {
-            System.out.println("fetching group playlists!!!");
-
-            List<Playlist> collection = AmpifyServices.getMyGroupPlaylists();
-            for (Playlist p : collection)
-                System.out.println(p.getPlaylistName() + " " + p.getOwner() + " " + p.getPrivacy()+p.getCategory());
 
 
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
         try {
             System.out.println("fetching noti!!!");
 
