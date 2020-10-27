@@ -868,27 +868,44 @@ public class AmpifyServices {
      * @param songFetchRequest
      * @return
      */
-    public static List<UserHistory> showMostPlayedSongByUser(SongFetchRequest songFetchRequest) {
+    public static List<Song> showMostPlayedSongByUser(SongFetchRequest songFetchRequest) {
         String email = songFetchRequest.getEmail();
         System.out.print(" :)");
-        String query = "SELECT songs.IDsong,songs.songName,COUNT(user_history.song_ID)" +
+        String query = "SELECT  artist.artistName,songs.songName," +
+                "songs.languages,songs.genre,songs.musicURL, songs.lyricsURL," +
+                "songs.imageURL,songs.releaseDate,songs.rating," +
+                "songs.IDartist,songs.IDalbum,songs.IDsong,COUNT(user_history.song_ID)" +
                 " FROM songs" +
+                " INNER JOIN artist ON  songs.IDartist=artist.IDartist " +
                 " INNER JOIN user_history ON songs.IDsong=user_history.song_ID" +
                 " WHERE user_history.user_email=\"" + email + "\" " +
                 " GROUP BY songs.IDsong" +
                 " ORDER BY COUNT(user_history.song_ID) DESC " +
                 " LIMIT 0,5;";
-        UserHistory mostPlayed;
-        List<UserHistory> mostPlayedList = new ArrayList<>();
+        Song mostPlayed;
+        List<Song> mostPlayedList = new ArrayList<>();
 
         try {
             PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                mostPlayed = new UserHistory();
-                mostPlayed.setSongId(resultSet.getInt(1));
-                mostPlayed.setSongName(resultSet.getString(2));
-                mostPlayed.setNumberOfTimesPlayed(resultSet.getInt(3));
+                mostPlayed = new Song();
+                mostPlayed.setSongID(resultSet.getInt(DatabaseConstants.SONG_COL_ID));
+                mostPlayed.setSongName(resultSet.getString(DatabaseConstants.SONG_COL_NAME));
+                mostPlayed.setArtistID(resultSet.getInt(DatabaseConstants.SONG_COL_ARTISTID));
+                mostPlayed.setLanguage(resultSet.getString(DatabaseConstants.SONG_COL_LANGUAGE));
+                mostPlayed.setGenre(resultSet.getString(DatabaseConstants.SONG_COL_GENRES));
+                mostPlayed.setSongURL(resultSet.getString(DatabaseConstants.SONG_COL_MUSIC_URL));
+                mostPlayed.setSongLyricsURL(resultSet.getString(DatabaseConstants.SONG_COL_LYRICS_URL));
+                mostPlayed.setSongImageURL(resultSet.getString(DatabaseConstants.SONG_COL_IMAGE_URL));
+                mostPlayed.setAlbumID(resultSet.getInt(DatabaseConstants.SONG_COL_ALBUMID));
+                mostPlayed.setReleaseDate(resultSet.getString(DatabaseConstants.SONG_COL_RELEASE_DATE));
+                mostPlayed.setSongRating(resultSet.getDouble(DatabaseConstants.SONG_COL_RATING));
+                mostPlayed.setArtistName(resultSet.getString(DatabaseConstants.ARTIST_COL_NAME));
+
+//                mostPlayed.setSongId(resultSet.getInt(1));
+//                mostPlayed.setSongName(resultSet.getString(2));
+//                mostPlayed.setNumberOfTimesPlayed(resultSet.getInt(3));
                 mostPlayedList.add(mostPlayed);
             }
             return mostPlayedList;

@@ -137,19 +137,19 @@ public class AmpifyServices {
     }
 
     /**
-     * Function to fetch RECENTY played song of user
+     * Function to fetch MOSTLY played song of user
      * we pass email of the current user logged in
      * taken from UserApi saved instance
      * *we will return only 5 songs for this !!
      */
-    public static List<UserHistory> getUserMostPlayedSong() throws IOException, ClassNotFoundException {
+    public static List<Song> getUserMostPlayedSong() throws IOException, ClassNotFoundException {
 
         SongFetchRequest songFetchRequest = new SongFetchRequest(String.valueOf(SongFetchType.MOST_PLAYED_SONGS_BY_USER), userApi.getEmail());
         oos.writeObject(songFetchRequest);
         oos.flush();
         ois = Main.userInputStream;
 
-        return (List<UserHistory>) ois.readObject();
+        return (List<Song>) ois.readObject();
     }
 
 

@@ -4,6 +4,7 @@ import Services.AmpifyServices;
 import Services.MediaPlayerService;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
+import com.sun.javafx.scene.control.SelectedItemsReadOnlyObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -129,9 +130,9 @@ public class HomeController implements Initializable {
         try {
             System.out.println("fetching most played songs!!!");
 
-            List<UserHistory> collection = AmpifyServices.getUserMostPlayedSong();
-            for (UserHistory p : collection)
-                System.out.println(p.getSongName() + " " + p.getNumberOfTimesPlayed() );
+            List<Song> collection = AmpifyServices.getUserMostPlayedSong();
+            for (Song p : collection)
+                System.out.println(p.getSongName()+" "+ p.getArtistName());
 
 
         } catch (IOException | ClassNotFoundException e) {
