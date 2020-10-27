@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSlider;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.media.Media;
@@ -25,9 +26,10 @@ public class MediaPlayerController implements Initializable {
     public JFXButton playButton;
     public Label currentTimeLabel;
     public JFXSlider mediaPlayerSlider;
-    public Label artistNameLabel;
     public Label songNameLabel;
     public Label totalTimeLabel;
+    public JFXButton nextButton;
+    public JFXButton prevButton;
 
     // Media player implementation
     private MediaPlayer mediaPlayer;
@@ -222,6 +224,24 @@ public class MediaPlayerController implements Initializable {
             mediaPlayer.play();
         } else {
             mediaPlayer.pause();
+        }
+    }
+
+    public void onNextClicked(ActionEvent actionEvent) {
+
+        if(!MediaPlayerService.currentPlaylist.isEmpty()){
+            Song song = MediaPlayerService.currentPlaylist.removeFirst();
+            MediaPlayerService.currentPlaylist.addLast(song);
+            MediaPlayerService.playSong(MediaPlayerService.currentPlaylist.getFirst());
+        }
+
+    }
+
+    public void onPrevClicked(ActionEvent actionEvent) {
+        if(!MediaPlayerService.currentPlaylist.isEmpty()){
+            Song song = MediaPlayerService.currentPlaylist.removeLast();
+            MediaPlayerService.currentPlaylist.addFirst(song);
+            MediaPlayerService.playSong(MediaPlayerService.currentPlaylist.getFirst());
         }
     }
 }
