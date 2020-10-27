@@ -10,15 +10,9 @@ import model.Artist;
 
 public class ArtistCellFactory implements Callback<ListView<Artist>, ListCell<Artist>> {
 
-    private Pane displayPane;
-
-    public ArtistCellFactory(Pane displayPane) {
-        this.displayPane = displayPane;
-    }
-
     @Override
     public ListCell<Artist> call(ListView<Artist> param) {
-        return new ArtistCellController(displayPane);
+        return new ArtistCellController();
 
     }
 }

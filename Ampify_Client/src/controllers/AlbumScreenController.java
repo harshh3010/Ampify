@@ -4,15 +4,12 @@ import CellFactories.SongCellFactory;
 import Services.AmpifyServices;
 import com.jfoenix.controls.JFXListView;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import model.Album;
 import model.Song;
-import serverClasses.requests.SongListType;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class AlbumScreenController {
@@ -59,7 +56,7 @@ public class AlbumScreenController {
     }
 
     // Called on click of previous button
-    public void onPreviousClicked(ActionEvent actionEvent) {
+    public void onPreviousClicked() {
         // Fetching the previous batch only if offset is not 0 (Offset = 0 specifies first batch)
         if (offset > 0) {
             offset = offset - rowCount;
@@ -68,7 +65,7 @@ public class AlbumScreenController {
     }
 
     // Called on click of next button
-    public void onNextClicked(ActionEvent actionEvent) {
+    public void onNextClicked() {
         // Fetching the next batch only if current one is non-empty (Empty specifies the end)
         if (!songsListView.getItems().isEmpty()) {
             offset = offset + rowCount;

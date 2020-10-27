@@ -23,11 +23,7 @@ public class ArtistCellController extends ListCell<Artist> {
     @FXML
     private AnchorPane mainCard;
 
-    // Display pane of home screen
-    private Pane displayPane;
-
-    public ArtistCellController(Pane displayPane) {
-        this.displayPane = displayPane;
+    public ArtistCellController() {
         loadFXML();
     }
 
@@ -78,9 +74,9 @@ public class ArtistCellController extends ListCell<Artist> {
                                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/fxml/artistScreen.fxml"));
                                 Pane newLoadedPane = loader.load();
                                 ArtistScreenController artistScreenController = loader.getController();
-                                artistScreenController.saveArtistDetails(artist, displayPane);
-                                displayPane.getChildren().remove(0);
-                                displayPane.getChildren().add(newLoadedPane);
+                                artistScreenController.saveArtistDetails(artist);
+                                HomeScreenWidgets.displayPane.getChildren().remove(0);
+                                HomeScreenWidgets.displayPane.getChildren().add(newLoadedPane);
                                 HomeScreenWidgets.currentDisplayPage = HomeScreenDisplays.ARTIST_PAGE;
                             } catch (IOException e) {
                                 e.printStackTrace();

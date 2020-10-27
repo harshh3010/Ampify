@@ -4,8 +4,6 @@ import CellFactories.SongCellFactory;
 import Services.AmpifyServices;
 import com.jfoenix.controls.JFXListView;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -23,9 +21,6 @@ import java.util.List;
 
 public class ArtistScreenController {
 
-    private Artist artist;
-    private Pane homePageDisplayPane;
-
     @FXML
     public ImageView imageView;
     @FXML
@@ -35,21 +30,27 @@ public class ArtistScreenController {
     @FXML
     public JFXListView<Song> songListView;
 
-    public void saveArtistDetails(Artist artist, Pane homePageDisplayPane) {
+    private Artist artist;
+    private int offset,rowCount;
+
+    public void saveArtistDetails(Artist artist) {
         this.artist = artist;
-        this.homePageDisplayPane = homePageDisplayPane;
+
+        offset = 0;
+        rowCount = 10;
 
         nameLabel.setText(artist.getArtistName());
-        ratingLabel.setText("⭐" + String.valueOf(artist.getArtistRating()));
+        ratingLabel.setText("⭐" + artist.getArtistRating());
         imageView.setImage(new Image(artist.getArtistImageURL()));
         imageView.setPreserveRatio(false);
 //        imageView.setStyle("-fx-background-image: url(\"" + artist.getArtistImageURL() + "\"); -fx-background-size: cover;");
 
+        loadItems();
+    }
+
+    private void loadItems(){
         try {
-            List<Song> songList = AmpifyServices.getSongsOfArtist(artist.getArtistID());
-            for (Song song : songList) {
-                System.out.println(song.getSongName()+" "+song.getSongURL()+" "+song.getArtistName());
-            }
+            List<Song> songList = AmpifyServices.getSongsOfArtist(artist.getArtistID(),offset,rowCount);
             songListView.setItems(FXCollections.observableArrayList(songList));
             songListView.setCellFactory(new SongCellFactory());
         } catch (IOException | ClassNotFoundException e) {
@@ -57,15 +58,33 @@ public class ArtistScreenController {
         }
     }
 
-    public void onBackClicked(ActionEvent actionEvent) {
+    public void onBackClicked() {
         try {
             Pane newPane = FXMLLoader.load(getClass().getResource("/resources/fxml/homeContentsPane.fxml"));
-            homePageDisplayPane.getChildren().remove(0);
-            homePageDisplayPane.getChildren().add(newPane);
+            HomeScreenWidgets.displayPane.getChildren().remove(0);
+            HomeScreenWidgets.displayPane.getChildren().add(newPane);
 
             HomeScreenWidgets.currentDisplayPage = HomeScreenDisplays.MAIN_PAGE;
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    // Called on click of previous button
+    public void onPreviousClicked() {
+        // Fetching the previous batch only if offset is not 0 (Offset = 0 specifies first batch)
+        if (offset > 0) {
+            offset = offset - rowCount;
+            loadItems();
+        }
+    }
+
+    // Called on click of next button
+    public void onNextClicked() {
+        // Fetching the next batch only if current one is non-empty (Empty specifies the end)
+        if (!songListView.getItems().isEmpty()) {
+            offset = offset + rowCount;
+            loadItems();
         }
     }
 }

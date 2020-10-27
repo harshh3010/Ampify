@@ -7,7 +7,6 @@ import CellFactories.PlaylistCellFactory;
 import Services.AmpifyServices;
 import com.jfoenix.controls.JFXListView;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -46,7 +45,7 @@ public class HomeContentsPaneController implements Initializable {
         try {
             List<Artist> artists = AmpifyServices.getTopArtists();
             popularArtistsListView.setItems(FXCollections.observableArrayList(artists));
-            popularArtistsListView.setCellFactory(new ArtistCellFactory(HomeScreenWidgets.displayPane));
+            popularArtistsListView.setCellFactory(new ArtistCellFactory());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
