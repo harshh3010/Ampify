@@ -1,18 +1,19 @@
 package controllers;
 
 import Services.AmpifyServices;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import model.Playlist;
-import utilities.HomeScreenDisplays;
-import utilities.HomeScreenWidgets;
-import utilities.Status;
+import utilities.*;
 
 import java.io.IOException;
 
@@ -51,6 +52,7 @@ public class PlaylistCellController extends ListCell<Playlist> {
 
         // Creating items to be displayed in the menu
         MenuItem item1 = new MenuItem("Delete Playlist");
+        MenuItem item2;
 
         // Setting action events for menu items
         item1.setOnAction(actionEvent -> {
@@ -76,6 +78,38 @@ public class PlaylistCellController extends ListCell<Playlist> {
 
         // Adding the items in menu
         contextMenu.getItems().add(item1);
+
+        // Adding item2 only in case of group playlists
+        if (playlist.getCategory().equals("GROUP")) {
+            item2 = new MenuItem("Invite User");
+            item2.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+
+                    if (playlist.getOwner().equals(UserApi.getInstance().getEmail())) {
+
+                        try {
+                            FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/fxml/addMemberScreen.fxml"));
+                            Parent parent = loader.load();
+                            AddMemberScreenController addMemberScreenController = loader.getController();
+                            addMemberScreenController.setPlaylistDetails(playlist);
+                            Stage stage = new Stage();
+                            stage.setScene(new Scene(parent));
+                            stage.show();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    } else {
+                        // TODO: DISPLAY ERROR
+                        System.out.println("YOU DO NOT HAVE PERMISSION TO PERFORM THIS ACTION");
+                    }
+
+                }
+            });
+            contextMenu.getItems().add(item2);
+        }
 
         // Displaying the menu on button click
         menuButton.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {

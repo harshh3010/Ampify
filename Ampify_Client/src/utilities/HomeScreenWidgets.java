@@ -10,4 +10,5 @@ public class HomeScreenWidgets {
     public static Pane displayPane;
     public static Pane bottomPane;
     public static JFXListView<Song> nowPlayingList;
+
 }

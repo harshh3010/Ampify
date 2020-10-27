@@ -49,7 +49,7 @@ public class HomeContentsPaneController implements Initializable {
 
         // Displaying recently played songs
         try {
-            List<Song> songs = AmpifyServices.getUserRecentlyPlayedSong(0,4);
+            List<Song> songs = AmpifyServices.getUserRecentlyPlayedSong(0, 4);
             recentlyPlayedListView.setItems(FXCollections.observableArrayList((songs)));
             recentlyPlayedListView.setCellFactory(new MusicCardFactory());
         } catch (IOException | ClassNotFoundException e) {
@@ -84,6 +84,9 @@ public class HomeContentsPaneController implements Initializable {
             e.printStackTrace();
         }
 
+        // Loading user's playlists
+        loadPlaylists();
+
         // Displaying top albums to the user
         try {
             List<Album> albums = AmpifyServices.getTopAlbums();
@@ -93,6 +96,11 @@ public class HomeContentsPaneController implements Initializable {
             e.printStackTrace();
         }
 
+
+    }
+
+    // Function to load user's playlists
+    public void loadPlaylists() {
         // Loading user's playlists
         try {
             List<Playlist> playlists = AmpifyServices.getMyPlaylists();
