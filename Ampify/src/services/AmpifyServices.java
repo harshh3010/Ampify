@@ -898,22 +898,18 @@ public class AmpifyServices {
 
     /**
      * function to return history of user
-     * no of times a song played and blah blah....
-     *
-     * @param fetchUserHistoryRequest
-     * @return
+     * no of times a song played and blah blah . . .
      */
     public static List<UserHistory> showUserHistory(FetchUserHistoryRequest fetchUserHistoryRequest) {
         String email = fetchUserHistoryRequest.getEmail();
         int offset = fetchUserHistoryRequest.getOffset();
         int rowcount = fetchUserHistoryRequest.getRowcount();
         List<UserHistory> userHistoryList = new ArrayList<>();
-        String query = "SELECT songs.IDsong,songs.songName,MAX(user_history.time_played),COUNT(user_history.song_ID)" +
+        String query = "SELECT songs.IDsong,songs.songName,user_history.time_played" +
                 " FROM songs" +
                 " INNER JOIN user_history ON songs.IDsong=user_history.song_ID" +
                 " WHERE user_history.user_email=\"" + email + "\" " +
-                " GROUP BY songs.IDsong" +
-                " ORDER BY MAX(user_history.time_played) DESC " +
+                " ORDER BY user_history.time_played DESC " +
                 " LIMIT " + offset + "," + rowcount + ";";
         UserHistory userHistory;
 
@@ -925,7 +921,6 @@ public class AmpifyServices {
                 userHistory.setSongId(resultSet.getInt(1));
                 userHistory.setSongName(resultSet.getString(2));
                 userHistory.setTimePlayed(resultSet.getTimestamp(3));
-                userHistory.setNumberOfTimesPlayed(resultSet.getInt(4));
                 userHistoryList.add(userHistory);
             }
             return userHistoryList;
