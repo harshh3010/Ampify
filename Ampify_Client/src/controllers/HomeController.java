@@ -117,9 +117,9 @@ public class HomeController implements Initializable {
             e.printStackTrace();
         }
         try {
-            System.out.println("deleting!!!");
+            System.out.println("sending noti!!!");
 
-            String collection = AmpifyServices.deleteNotification(10);
+            String collection = AmpifyServices.sendNotification("errbbbor@gmail.com",11);
             System.out.print(collection);
 
 
@@ -137,6 +137,18 @@ public class HomeController implements Initializable {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+        try {
+            System.out.println("fetching history!!!!");
+
+            List<UserHistory> collection = AmpifyServices.getUserHistory(0,10);
+            for (UserHistory p : collection)
+                System.out.println(p.getSongName() + " " +p.getTimePlayed() );
+
+
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
 
 
         /**

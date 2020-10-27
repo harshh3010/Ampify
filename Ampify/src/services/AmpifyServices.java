@@ -903,22 +903,18 @@ public class AmpifyServices {
 
     /**
      * function to return history of user
-     * no of times a song played and blah blah....
-     *
-     * @param fetchUserHistoryRequest
-     * @return
+     * no of times a song played and blah blah . . .
      */
     public static List<UserHistory> showUserHistory(FetchUserHistoryRequest fetchUserHistoryRequest) {
         String email = fetchUserHistoryRequest.getEmail();
         int offset = fetchUserHistoryRequest.getOffset();
         int rowcount = fetchUserHistoryRequest.getRowcount();
         List<UserHistory> userHistoryList = new ArrayList<>();
-        String query = "SELECT songs.IDsong,songs.songName,MAX(user_history.time_played),COUNT(user_history.song_ID)" +
+        String query = "SELECT songs.IDsong,songs.songName,user_history.time_played" +
                 " FROM songs" +
                 " INNER JOIN user_history ON songs.IDsong=user_history.song_ID" +
                 " WHERE user_history.user_email=\"" + email + "\" " +
-                " GROUP BY songs.IDsong" +
-                " ORDER BY MAX(user_history.time_played) DESC " +
+                " ORDER BY user_history.time_played DESC " +
                 " LIMIT " + offset + "," + rowcount + ";";
         UserHistory userHistory;
 
@@ -930,7 +926,6 @@ public class AmpifyServices {
                 userHistory.setSongId(resultSet.getInt(1));
                 userHistory.setSongName(resultSet.getString(2));
                 userHistory.setTimePlayed(resultSet.getTimestamp(3));
-                userHistory.setNumberOfTimesPlayed(resultSet.getInt(4));
                 userHistoryList.add(userHistory);
             }
             return userHistoryList;
@@ -1216,37 +1211,54 @@ public class AmpifyServices {
      * *for sending notification to the user whom our client wants to add as member of a
      * particular playlist
      */
-
     public static String sendingNotification(NotificationRequest notificationRequest) {
-        String query1 = " SELECT * FROM " + DatabaseConstants.NOTIFICATION_TABLE +
-                " WHERE " + DatabaseConstants.NOTIFICATION_COL_PLAYLIST_ID + "=\"" + notificationRequest.getPlaylistID() + "\"" +
-                " AND " + DatabaseConstants.NOTIFICATION_COL_RECEIVER + "=\"" + notificationRequest.getReceiver() + "\"";
-        try {
-            PreparedStatement preparedStatement1 = Main.connection.prepareStatement(query1);
-            ResultSet resultSet = preparedStatement1.executeQuery();
-            if (resultSet.next())
-                return String.valueOf(Status.ALREADY_EXIST);
-            else {
-                String query = "INSERT INTO " + DatabaseConstants.NOTIFICATION_TABLE +
-                        "(" + DatabaseConstants.NOTIFICATION_COL_SENDER +
-                        "," + DatabaseConstants.NOTIFICATION_COL_RECEIVER +
-                        "," + DatabaseConstants.NOTIFICATION_COL_PLAYLIST_ID +
-                        ") values(?,?,?);";
+        //for checking if such receiver exists in our db or not
+        String query="SELECT * FROM user_auth"+
+                " WHERE email=\""+notificationRequest.getReceiver()+"\";";
+        try{
+            PreparedStatement preparedStatement=Main.connection.prepareStatement(query);
+            ResultSet resultset=preparedStatement.executeQuery();
+            if(resultset.next()){
+                //if receiver exists we need to check that whether he has received any prior notification
+                //to become member of this particular playlist
+                query = " SELECT * FROM " + DatabaseConstants.NOTIFICATION_TABLE +
+                        " WHERE " + DatabaseConstants.NOTIFICATION_COL_PLAYLIST_ID + "=\"" + notificationRequest.getPlaylistID() + "\"" +
+                        " AND " + DatabaseConstants.NOTIFICATION_COL_RECEIVER + "=\"" + notificationRequest.getReceiver()+ "\"";
                 try {
-                    PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
-                    preparedStatement.setString(1, notificationRequest.getSender());
-                    preparedStatement.setString(2, notificationRequest.getReceiver());
-                    preparedStatement.setInt(3, notificationRequest.getPlaylistID());
-                    preparedStatement.executeUpdate();
-                    System.out.println("sent");
-                    return String.valueOf(Status.SUCCESS);
+                    PreparedStatement preparedStatement1 = Main.connection.prepareStatement(query);
+                    ResultSet resultSet = preparedStatement1.executeQuery();
+                    if (resultSet.next())
+                        return String.valueOf(Status.ALREADY_SENT);
+                    else {
+                        //if earlier not sent we will send it now
+                        query = "INSERT INTO " + DatabaseConstants.NOTIFICATION_TABLE +
+                                "(" + DatabaseConstants.NOTIFICATION_COL_SENDER +
+                                "," + DatabaseConstants.NOTIFICATION_COL_RECEIVER +
+                                "," + DatabaseConstants.NOTIFICATION_COL_PLAYLIST_ID +
+                                ") values(?,?,?);";
+                        try {
+                            preparedStatement = Main.connection.prepareStatement(query);
+                            preparedStatement.setString(1, notificationRequest.getSender());
+                            preparedStatement.setString(2, notificationRequest.getReceiver());
+                            preparedStatement.setInt(3, notificationRequest.getPlaylistID());
+                            preparedStatement.executeUpdate();
+                            System.out.println("sent");
+                            return String.valueOf(Status.SUCCESS);
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                        return String.valueOf(Status.FAILED);
+
+                    }
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
                 return String.valueOf(Status.FAILED);
-
             }
-        } catch (SQLException e) {
+            else
+                return String.valueOf(Status.NO_SUCH_USER_EXIST);
+        }catch(SQLException e)
+        {
             e.printStackTrace();
         }
         return String.valueOf(Status.FAILED);
@@ -1254,7 +1266,6 @@ public class AmpifyServices {
 
     /**
      * for returning back list of notifications that this particular has received
-     *
      * @param notificationRequest
      * @return
      */
