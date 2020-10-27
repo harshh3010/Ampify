@@ -5,6 +5,8 @@ public enum  Status {
     FAILED("1"),
     ALREADY_EXIST("3"),
     NOT_OWNER("4"),
+    NO_SUCH_USER_EXIST("5"),
+    ALREADY_SENT("6"),
     ;
 
     Status(String s){

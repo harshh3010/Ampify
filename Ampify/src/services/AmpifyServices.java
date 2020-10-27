@@ -1209,39 +1209,59 @@ public class AmpifyServices {
      */
 
     public static String sendingNotification(NotificationRequest notificationRequest) {
-        String query1 = " SELECT * FROM " + DatabaseConstants.NOTIFICATION_TABLE +
-                " WHERE " + DatabaseConstants.NOTIFICATION_COL_PLAYLIST_ID + "=\"" + notificationRequest.getPlaylistID() + "\"" +
-                " AND " + DatabaseConstants.NOTIFICATION_COL_RECEIVER + "=\"" + notificationRequest.getReceiver()+ "\"";
-        try {
-            PreparedStatement preparedStatement1 = Main.connection.prepareStatement(query1);
-            ResultSet resultSet = preparedStatement1.executeQuery();
-            if (resultSet.next())
-                return String.valueOf(Status.ALREADY_EXIST);
-            else {
-                String query = "INSERT INTO " + DatabaseConstants.NOTIFICATION_TABLE +
-                        "(" + DatabaseConstants.NOTIFICATION_COL_SENDER +
-                        "," + DatabaseConstants.NOTIFICATION_COL_RECEIVER +
-                        "," + DatabaseConstants.NOTIFICATION_COL_PLAYLIST_ID +
-                        ") values(?,?,?);";
+        //for checking if such receiver exists in our db or not
+        String query="SELECT * FROM user_auth"+
+                " WHERE email=\""+notificationRequest.getReceiver()+"\";";
+        try{
+            PreparedStatement preparedStatement=Main.connection.prepareStatement(query);
+            ResultSet resultset=preparedStatement.executeQuery();
+            if(resultset.next()){
+                //if receiver exists we need to check that whether he has received any prior notification
+                //to become member of this particular playlist
+                query = " SELECT * FROM " + DatabaseConstants.NOTIFICATION_TABLE +
+                        " WHERE " + DatabaseConstants.NOTIFICATION_COL_PLAYLIST_ID + "=\"" + notificationRequest.getPlaylistID() + "\"" +
+                        " AND " + DatabaseConstants.NOTIFICATION_COL_RECEIVER + "=\"" + notificationRequest.getReceiver()+ "\"";
                 try {
-                    PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
-                    preparedStatement.setString(1, notificationRequest.getSender());
-                    preparedStatement.setString(2, notificationRequest.getReceiver());
-                    preparedStatement.setInt(3, notificationRequest.getPlaylistID());
-                    preparedStatement.executeUpdate();
-                    System.out.println("sent");
-                    return String.valueOf(Status.SUCCESS);
+                    PreparedStatement preparedStatement1 = Main.connection.prepareStatement(query);
+                    ResultSet resultSet = preparedStatement1.executeQuery();
+                    if (resultSet.next())
+                        return String.valueOf(Status.ALREADY_SENT);
+                    else {
+                        //if earlier not sent we will send it now
+                            query = "INSERT INTO " + DatabaseConstants.NOTIFICATION_TABLE +
+                                "(" + DatabaseConstants.NOTIFICATION_COL_SENDER +
+                                "," + DatabaseConstants.NOTIFICATION_COL_RECEIVER +
+                                "," + DatabaseConstants.NOTIFICATION_COL_PLAYLIST_ID +
+                                ") values(?,?,?);";
+                        try {
+                            preparedStatement = Main.connection.prepareStatement(query);
+                            preparedStatement.setString(1, notificationRequest.getSender());
+                            preparedStatement.setString(2, notificationRequest.getReceiver());
+                            preparedStatement.setInt(3, notificationRequest.getPlaylistID());
+                            preparedStatement.executeUpdate();
+                            System.out.println("sent");
+                            return String.valueOf(Status.SUCCESS);
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                        return String.valueOf(Status.FAILED);
+
+                    }
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
                 return String.valueOf(Status.FAILED);
-
             }
-        } catch (SQLException e) {
+            else
+                return String.valueOf(Status.NO_SUCH_USER_EXIST);
+        }catch(SQLException e)
+        {
             e.printStackTrace();
         }
         return String.valueOf(Status.FAILED);
     }
+
+
     /**
      * for returning back list of notifications that this particular has received
      * @param notificationRequest

@@ -115,9 +115,9 @@ public class HomeController implements Initializable {
             e.printStackTrace();
         }
         try {
-            System.out.println("deleting!!!");
+            System.out.println("sending noti!!!");
 
-            String collection = AmpifyServices.deleteNotification(10);
+            String collection = AmpifyServices.sendNotification("errbbbor@gmail.com",11);
             System.out.print(collection);
 
 
