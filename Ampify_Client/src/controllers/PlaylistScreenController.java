@@ -2,8 +2,10 @@ package controllers;
 
 import CellFactories.SongCellFactory;
 import Services.AmpifyServices;
+import Services.MediaPlayerService;
 import com.jfoenix.controls.JFXListView;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -14,6 +16,7 @@ import utilities.HomeScreenDisplays;
 import utilities.HomeScreenWidgets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PlaylistScreenController {
@@ -23,6 +26,8 @@ public class PlaylistScreenController {
     @FXML
     public Label nameLabel;
 
+    private List<Song> songList = new ArrayList<>();
+
     // Function to fetch playlist object from previous screen
     public void getPlaylistDetails(Playlist playlist) {
 
@@ -31,7 +36,7 @@ public class PlaylistScreenController {
 
         // Loading the songs of playlist from server
         try {
-            List<Song> songList = AmpifyServices.getSongsOfPlaylist(playlist.getId());
+            songList = AmpifyServices.getSongsOfPlaylist(playlist.getId());
             songsListView.setItems(FXCollections.observableArrayList(songList));
             songsListView.setCellFactory(new SongCellFactory());
         } catch (IOException | ClassNotFoundException e) {
@@ -52,6 +57,17 @@ public class PlaylistScreenController {
             HomeScreenWidgets.currentDisplayPage = HomeScreenDisplays.MAIN_PAGE;
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+    }
+
+    public void onPlayAllClicked(ActionEvent actionEvent) {
+
+        if (!songList.isEmpty()) {
+            for (Song song : songList) {
+                MediaPlayerService.currentPlaylist.addLast(song);
+            }
+            MediaPlayerService.playSong(MediaPlayerService.currentPlaylist.getFirst());
         }
 
     }

@@ -15,5 +15,6 @@
         </Label>
         <JFXListView fx:id="songsListView" layoutX="14.0" layoutY="113.0" prefHeight="388.0" prefWidth="934.0" />
         <JFXButton layoutX="14.0" layoutY="14.0" onAction="#onBackPressed" text="Go Back" textFill="WHITE" />
+      <JFXButton layoutX="893.0" layoutY="14.0" onAction="#onPlayAllClicked" text="Play All" textFill="WHITE" />
     </children>
 </AnchorPane>

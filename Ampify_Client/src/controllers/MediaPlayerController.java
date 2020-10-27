@@ -5,10 +5,7 @@ import Services.MediaPlayerService;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSlider;
 import javafx.application.Platform;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.media.Media;
@@ -18,9 +15,7 @@ import model.Song;
 import utilities.HomeScreenWidgets;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class MediaPlayerController implements Initializable {
 
@@ -30,9 +25,8 @@ public class MediaPlayerController implements Initializable {
     public JFXSlider mediaPlayerSlider;
     public Label songNameLabel;
     public Label totalTimeLabel;
-    public JFXButton nextButton;
-    public JFXButton prevButton;
     public JFXSlider volumeSlider;
+    public Label artistNameLabel;
 
     // Media player implementation
     private MediaPlayer mediaPlayer;
@@ -56,6 +50,8 @@ public class MediaPlayerController implements Initializable {
             // Displaying the song info in UI
             assert MediaPlayerService.currentPlaylist.peekFirst() != null;
             songNameLabel.setText(MediaPlayerService.currentPlaylist.peekFirst().getSongName());
+            assert MediaPlayerService.currentPlaylist.peekFirst() != null;
+            artistNameLabel.setText(MediaPlayerService.currentPlaylist.peekFirst().getArtistName());
 
             // Displaying the songs in queue on home screen
             List<Song> list = new ArrayList<>(MediaPlayerService.currentPlaylist);
@@ -73,6 +69,7 @@ public class MediaPlayerController implements Initializable {
 
             // Displaying the song info in UI
             songNameLabel.setText(MediaPlayerService.previousSong.getSongName());
+            artistNameLabel.setText(MediaPlayerService.previousSong.getArtistName());
 
             // Displaying the songs in queue on home screen
             List<Song> list = new ArrayList<>(MediaPlayerService.currentPlaylist);
@@ -113,11 +110,9 @@ public class MediaPlayerController implements Initializable {
             updateValues();
         });
 
-        volumeSlider.valueProperty().addListener(new InvalidationListener() {
-            public void invalidated(Observable ov) {
-                if (volumeSlider.isValueChanging()) {
-                    mediaPlayer.setVolume(volumeSlider.getValue() / 100.0);
-                }
+        volumeSlider.valueProperty().addListener(ov -> {
+            if (volumeSlider.isValueChanging()) {
+                mediaPlayer.setVolume(volumeSlider.getValue() / 100.0);
             }
         });
 
@@ -242,9 +237,9 @@ public class MediaPlayerController implements Initializable {
         }
     }
 
-    public void onNextClicked(ActionEvent actionEvent) {
+    public void onNextClicked() {
 
-        if(!MediaPlayerService.currentPlaylist.isEmpty()){
+        if (!MediaPlayerService.currentPlaylist.isEmpty()) {
             Song song = MediaPlayerService.currentPlaylist.removeFirst();
             MediaPlayerService.currentPlaylist.addLast(song);
             MediaPlayerService.playSong(MediaPlayerService.currentPlaylist.getFirst());
@@ -252,11 +247,28 @@ public class MediaPlayerController implements Initializable {
 
     }
 
-    public void onPrevClicked(ActionEvent actionEvent) {
-        if(!MediaPlayerService.currentPlaylist.isEmpty()){
+    public void onPrevClicked() {
+        if (!MediaPlayerService.currentPlaylist.isEmpty()) {
             Song song = MediaPlayerService.currentPlaylist.removeLast();
             MediaPlayerService.currentPlaylist.addFirst(song);
             MediaPlayerService.playSong(MediaPlayerService.currentPlaylist.getFirst());
+        }
+    }
+
+    public void onShuffleClick() {
+        if (!MediaPlayerService.currentPlaylist.isEmpty()) {
+            List<Song> songs = new ArrayList<>(MediaPlayerService.currentPlaylist);
+            Collections.shuffle(songs);
+
+            MediaPlayerService.currentPlaylist.clear();
+            for (Song song : songs) {
+                MediaPlayerService.currentPlaylist.addLast(song);
+            }
+
+            // Displaying the songs in queue on home screen
+            List<Song> list = new ArrayList<>(MediaPlayerService.currentPlaylist);
+            HomeScreenWidgets.nowPlayingList.setItems(FXCollections.observableArrayList(list));
+            HomeScreenWidgets.nowPlayingList.setCellFactory(new SongsQueueCellFactory());
         }
     }
 }
