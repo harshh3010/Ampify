@@ -59,17 +59,19 @@ public class HomeController implements Initializable {
         try {
             System.out.println("Works2");
             MediaPlayerService.previousSong = AmpifyServices.getUserLastPlayedSong();
-            if (MediaPlayerService.previousSong != null) {
-                try {
-                    Pane mediaController = FXMLLoader.load(getClass().getResource("/resources/fxml/mediaPlayer.fxml"));
-                    bottomPane.getChildren().add(mediaController);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+
+        if (MediaPlayerService.previousSong != null) {
+            try {
+                Pane mediaController = FXMLLoader.load(getClass().getResource("/resources/fxml/mediaPlayer.fxml"));
+                bottomPane.getChildren().add(mediaController);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
 /**
  * testing playlist creation !!
  * place at apt place later on

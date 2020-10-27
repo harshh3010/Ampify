@@ -766,7 +766,7 @@ public class AmpifyServices {
                 " LIMIT 0,1;";
 
 
-        Song songSet = new Song();
+        Song songSet = null;
 
         try {
             PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
@@ -774,21 +774,25 @@ public class AmpifyServices {
             ResultSet resultSet = preparedStatement.executeQuery();
 
 
-            while (resultSet.next()) {
-                System.out.print(">> ");
-                songSet.setSongID(resultSet.getInt(DatabaseConstants.SONG_COL_ID));
-                songSet.setSongName(resultSet.getString(DatabaseConstants.SONG_COL_NAME));
-                songSet.setArtistID(resultSet.getInt(DatabaseConstants.SONG_COL_ARTISTID));
-                songSet.setLanguage(resultSet.getString(DatabaseConstants.SONG_COL_LANGUAGE));
-                songSet.setGenre(resultSet.getString(DatabaseConstants.SONG_COL_GENRES));
-                songSet.setSongURL(resultSet.getString(DatabaseConstants.SONG_COL_MUSIC_URL));
-                songSet.setSongLyricsURL(resultSet.getString(DatabaseConstants.SONG_COL_LYRICS_URL));
-                songSet.setSongImageURL(resultSet.getString(DatabaseConstants.SONG_COL_IMAGE_URL));
-                songSet.setAlbumID(resultSet.getInt(DatabaseConstants.SONG_COL_ALBUMID));
-                songSet.setReleaseDate(resultSet.getString(DatabaseConstants.SONG_COL_RELEASE_DATE));
-                songSet.setSongRating(resultSet.getDouble(DatabaseConstants.SONG_COL_RATING));
-                songSet.setArtistName(resultSet.getString(DatabaseConstants.ARTIST_COL_NAME));
+            if (resultSet.next()) {
+                songSet = new Song();
+                do {
+                    System.out.print(">> ");
+                    songSet.setSongID(resultSet.getInt(DatabaseConstants.SONG_COL_ID));
+                    songSet.setSongName(resultSet.getString(DatabaseConstants.SONG_COL_NAME));
+                    songSet.setArtistID(resultSet.getInt(DatabaseConstants.SONG_COL_ARTISTID));
+                    songSet.setLanguage(resultSet.getString(DatabaseConstants.SONG_COL_LANGUAGE));
+                    songSet.setGenre(resultSet.getString(DatabaseConstants.SONG_COL_GENRES));
+                    songSet.setSongURL(resultSet.getString(DatabaseConstants.SONG_COL_MUSIC_URL));
+                    songSet.setSongLyricsURL(resultSet.getString(DatabaseConstants.SONG_COL_LYRICS_URL));
+                    songSet.setSongImageURL(resultSet.getString(DatabaseConstants.SONG_COL_IMAGE_URL));
+                    songSet.setAlbumID(resultSet.getInt(DatabaseConstants.SONG_COL_ALBUMID));
+                    songSet.setReleaseDate(resultSet.getString(DatabaseConstants.SONG_COL_RELEASE_DATE));
+                    songSet.setSongRating(resultSet.getDouble(DatabaseConstants.SONG_COL_RATING));
+                    songSet.setArtistName(resultSet.getString(DatabaseConstants.ARTIST_COL_NAME));
+                } while (resultSet.next());
             }
+
             return songSet;
         } catch (SQLException e) {
             //displaying error if occured *_*

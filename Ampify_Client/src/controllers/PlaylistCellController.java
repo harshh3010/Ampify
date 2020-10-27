@@ -81,26 +81,37 @@ public class PlaylistCellController extends ListCell<Playlist> {
 
         // Adding item2 only in case of group playlists
         if (playlist.getCategory().equals("GROUP")) {
+
+            // Menu option for inviting a user to join group playlist
             item2 = new MenuItem("Invite User");
-            item2.setOnAction(new EventHandler<ActionEvent>() {
+
+            // Setting event listener on this option
+            item2.setOnAction(new EventHandler<>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
 
+                    // Ensuring only owner of playlist can send an invite
                     if (playlist.getOwner().equals(UserApi.getInstance().getEmail())) {
 
+                        // Opening a new screen for sending invite
                         try {
+
+                            // Loading the new scene
                             FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/fxml/addMemberScreen.fxml"));
                             Parent parent = loader.load();
+
+                            // Passing the current playlist object to the new screen
                             AddMemberScreenController addMemberScreenController = loader.getController();
                             addMemberScreenController.setPlaylistDetails(playlist);
+
+                            // Displaying the new scene in a new window
                             Stage stage = new Stage();
                             stage.setScene(new Scene(parent));
                             stage.show();
+
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-
-
                     } else {
                         // TODO: DISPLAY ERROR
                         System.out.println("YOU DO NOT HAVE PERMISSION TO PERFORM THIS ACTION");

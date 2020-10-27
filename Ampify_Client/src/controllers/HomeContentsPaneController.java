@@ -7,9 +7,13 @@ import CellFactories.PlaylistCellFactory;
 import Services.AmpifyServices;
 import com.jfoenix.controls.JFXListView;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import model.Album;
 import model.Artist;
 import model.Playlist;
@@ -186,6 +190,20 @@ public class HomeContentsPaneController implements Initializable {
             HomeScreenWidgets.displayPane.getChildren().clear();
             HomeScreenWidgets.displayPane.getChildren().add(newLoadedPane);
             HomeScreenWidgets.currentDisplayPage = HomeScreenDisplays.SONG_LIST_PAGE;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    // Called when user clicks invitations button in group playlists screen
+    public void onInvitationsClicked() {
+
+        try {
+            Parent parent = FXMLLoader.load(getClass().getResource("/resources/fxml/invitationsScreen.fxml"));
+            Stage stage = new Stage();
+            stage.setScene(new Scene(parent));
+            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
