@@ -139,6 +139,11 @@ public class HandleClientRequest implements Runnable {
 
                         oos.writeObject(AmpifyServices.showMostPlayedSongByUser(songType));
                         oos.flush();
+                    }//if request is to display trending song!!
+                    else if (songType.getType().equals(String.valueOf(SongFetchType.TRENDING_SONGS))) {
+
+                        oos.writeObject(AmpifyServices.showTrendingSongs(songType));
+                        oos.flush();
                     }
 
                 }

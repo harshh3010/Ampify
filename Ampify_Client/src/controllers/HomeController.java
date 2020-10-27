@@ -136,6 +136,18 @@ public class HomeController implements Initializable {
             e.printStackTrace();
         }
 
+        try {
+            System.out.println("fetching trending songs!!!");
+
+            List<UserHistory> collection = AmpifyServices.getTrendingSongs();
+            for (UserHistory p : collection)
+                System.out.println(p.getSongName() + " " + p.getNumberOfTimesPlayed() );
+
+
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
 
         /**
          * this is testing for sending notification

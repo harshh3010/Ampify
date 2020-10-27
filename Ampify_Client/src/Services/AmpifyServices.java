@@ -152,6 +152,24 @@ public class AmpifyServices {
     }
 
 
+
+    /**
+     * Function to fetch trending song
+     * we pass email of the current user logged in
+     * taken from UserApi saved instance
+     * *we will return only 5 songs for this !!
+     */
+    public static List<UserHistory> getTrendingSongs() throws IOException, ClassNotFoundException {
+
+        SongFetchRequest songFetchRequest = new SongFetchRequest(String.valueOf(SongFetchType.TRENDING_SONGS), userApi.getEmail());
+        oos.writeObject(songFetchRequest);
+        oos.flush();
+        ois = Main.userInputStream;
+
+        return (List<UserHistory>) ois.readObject();
+    }
+
+
     /**
      * Function to fetch recent songs(released 5 days back!!)
      */

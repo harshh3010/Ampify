@@ -896,6 +896,63 @@ public class AmpifyServices {
         return mostPlayedList;
     }
 
+
+    /**
+     * function to return back list of trending Songs!!ONLY 5
+     * rn we have returned listof userHistory
+     * i.e details are songID ,SONGnAME, NOoFtimesPlayed
+     *
+     * @param songFetchRequest
+     * @return
+     */
+    public static List<UserHistory> showTrendingSongs(SongFetchRequest songFetchRequest) {
+//      String email = songFetchRequest.getEmail();
+        Timestamp timestamp = new Timestamp(new Date().getTime());
+        System.out.println(timestamp);
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(timestamp.getTime());
+
+        // subtract 1 day
+        cal.add(Calendar.DAY_OF_MONTH, -1);
+        timestamp = new Timestamp(cal.getTime().getTime());
+
+
+        System.out.print( " hihi");
+        String query = "SELECT songs.IDsong,songs.songName,COUNT(user_history.song_ID)" +
+                " FROM songs" +
+                " INNER JOIN user_history ON songs.IDsong=user_history.song_ID" +
+                " WHERE user_history.time_played >=\"" + timestamp + "\" " +
+                " GROUP BY songs.IDsong" +
+                " ORDER BY COUNT(user_history.song_ID) DESC " +
+                " LIMIT 0,5;";
+        UserHistory trendingSongs;
+        List<UserHistory> trendingSongsList=new ArrayList<>();
+
+        try {
+            PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                trendingSongs = new UserHistory();
+                trendingSongs.setSongId(resultSet.getInt(1));
+                trendingSongs.setSongName(resultSet.getString(2));
+                trendingSongs.setNumberOfTimesPlayed(resultSet.getInt(3));
+                trendingSongsList.add(trendingSongs);
+            }
+            return trendingSongsList;
+        } catch (SQLException e) {
+            //displaying error if occured *_*
+            e.printStackTrace();
+
+
+        }
+        return trendingSongsList;
+    }
+
+
+
+
+
     /**
      * function to return history of user
      * no of times a song played and blah blah....
