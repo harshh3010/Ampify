@@ -855,6 +855,7 @@ public class AmpifyServices {
 
         return recentlyPlayedSongs;
     }
+
     /**
      * function to return back list of most played songs by a particular user!!ONLY 5
      * rn we have returned listof userHistory
@@ -865,7 +866,7 @@ public class AmpifyServices {
      */
     public static List<UserHistory> showMostPlayedSongByUser(SongFetchRequest songFetchRequest) {
         String email = songFetchRequest.getEmail();
-        System.out.print( " :)");
+        System.out.print(" :)");
         String query = "SELECT songs.IDsong,songs.songName,COUNT(user_history.song_ID)" +
                 " FROM songs" +
                 " INNER JOIN user_history ON songs.IDsong=user_history.song_ID" +
@@ -874,7 +875,7 @@ public class AmpifyServices {
                 " ORDER BY COUNT(user_history.song_ID) DESC " +
                 " LIMIT 0,5;";
         UserHistory mostPlayed;
-        List<UserHistory> mostPlayedList=new ArrayList<>();
+        List<UserHistory> mostPlayedList = new ArrayList<>();
 
         try {
             PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
@@ -1019,13 +1020,13 @@ public class AmpifyServices {
      * or will modify this
      * lets see what ill do
      */
-    public static List<Playlist> getUserPlaylist(PlaylistRequest playlistRequest){
-        int pri,cat;
+    public static List<Playlist> getUserPlaylist(PlaylistRequest playlistRequest) {
+        int pri, cat;
         String query = "Select * " +
-                " FROM "+DatabaseConstants.PLAYLIST_TABLE +
-                " LEFT JOIN membersOfGroupPlaylist ON playlist.id=membersOfGroupPlaylist.playlistID"+
-                " WHERE "+DatabaseConstants.PLAYLIST_COL_OWNER+"=\""+playlistRequest.getEmail()+"\""+
-                " OR membersOfGroupPlaylist.userEmail =\""+playlistRequest.getEmail()+"\";";
+                " FROM " + DatabaseConstants.PLAYLIST_TABLE +
+                " LEFT JOIN membersOfGroupPlaylist ON playlist.id=membersOfGroupPlaylist.playlistID" +
+                " WHERE " + DatabaseConstants.PLAYLIST_COL_OWNER + "=\"" + playlistRequest.getEmail() + "\"" +
+                " OR membersOfGroupPlaylist.userEmail =\"" + playlistRequest.getEmail() + "\";";
         List<Playlist> myPlaylists = new ArrayList<>();
         try {
             PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
@@ -1038,13 +1039,13 @@ public class AmpifyServices {
                 playlist.setPlaylistName(resultSet.getString(DatabaseConstants.PLAYLIST_COL_NAME));
                 playlist.setOwner(resultSet.getString(DatabaseConstants.PLAYLIST_COL_OWNER));
                 playlist.setDateCreated(resultSet.getTimestamp(DatabaseConstants.PLAYLIST_COL_CREATED));
-                pri=resultSet.getInt(DatabaseConstants.PLAYLIST_COL_PRIVACY);
-                cat=resultSet.getInt(DatabaseConstants.PLAYLIST_COL_CATEGORY);
-                if(pri==1)
+                pri = resultSet.getInt(DatabaseConstants.PLAYLIST_COL_PRIVACY);
+                cat = resultSet.getInt(DatabaseConstants.PLAYLIST_COL_CATEGORY);
+                if (pri == 1)
                     playlist.setPrivacy("PUBLIC");
                 else
                     playlist.setPrivacy("PRIVATE");
-                if(cat==1)
+                if (cat == 1)
                     playlist.setCategory("GROUP");
                 else
                     playlist.setCategory("USER'S");
@@ -1166,23 +1167,23 @@ public class AmpifyServices {
      * first of all i check that u r requesting to delete f9 but do u have ownwership
      * if yes then ill serve ur purpose
      * otherwise sorry
+     *
      * @param playlistRequest
      * @return
      */
-    public static String deletePlaylist(PlaylistRequest playlistRequest){
-        String query1=" SELECT * FROM "+DatabaseConstants.PLAYLIST_TABLE +
-                " WHERE "+DatabaseConstants.PLAYLIST_COL_ID+"=\""+playlistRequest.getPlaylistId()+"\"" +
-                " AND "+DatabaseConstants.PLAYLIST_COL_OWNER+"=\""+playlistRequest.getEmail()+"\"";
-        try{
-            PreparedStatement preparedStatement1=Main.connection.prepareStatement(query1);
-            ResultSet resultSet=preparedStatement1.executeQuery();
-            if(resultSet.next())
-            {
+    public static String deletePlaylist(PlaylistRequest playlistRequest) {
+        String query1 = " SELECT * FROM " + DatabaseConstants.PLAYLIST_TABLE +
+                " WHERE " + DatabaseConstants.PLAYLIST_COL_ID + "=\"" + playlistRequest.getPlaylistId() + "\"" +
+                " AND " + DatabaseConstants.PLAYLIST_COL_OWNER + "=\"" + playlistRequest.getEmail() + "\"";
+        try {
+            PreparedStatement preparedStatement1 = Main.connection.prepareStatement(query1);
+            ResultSet resultSet = preparedStatement1.executeQuery();
+            if (resultSet.next()) {
                 String query = "DELETE playlist , songsOfPlaylist,membersOfGroupPlaylist" +
                         " FROM playlist" +
                         " LEFT JOIN songsOfPlaylist ON playlist.id=songsOfPlaylist.playlistID" +
                         " LEFT JOIN membersOfGroupPlaylist ON playlist.id=membersOfGroupPlaylist.playlistID" +
-                        " WHERE playlist.id=\""+playlistRequest.getPlaylistId()+"\"";
+                        " WHERE playlist.id=\"" + playlistRequest.getPlaylistId() + "\"";
                 try {
                     PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
                     preparedStatement.executeUpdate();
@@ -1194,12 +1195,11 @@ public class AmpifyServices {
                 return String.valueOf(Status.FAILED);
             }
 //if u r not owner then we cant delete
-            else
-            {
+            else {
                 return String.valueOf(Status.NOT_OWNER);
             }
 
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return String.valueOf(Status.FAILED);
@@ -1209,14 +1209,14 @@ public class AmpifyServices {
 
 
     /**
-     **for sending notification to the user whom our client wants to add as member of a
+     * *for sending notification to the user whom our client wants to add as member of a
      * particular playlist
      */
 
     public static String sendingNotification(NotificationRequest notificationRequest) {
         String query1 = " SELECT * FROM " + DatabaseConstants.NOTIFICATION_TABLE +
                 " WHERE " + DatabaseConstants.NOTIFICATION_COL_PLAYLIST_ID + "=\"" + notificationRequest.getPlaylistID() + "\"" +
-                " AND " + DatabaseConstants.NOTIFICATION_COL_RECEIVER + "=\"" + notificationRequest.getReceiver()+ "\"";
+                " AND " + DatabaseConstants.NOTIFICATION_COL_RECEIVER + "=\"" + notificationRequest.getReceiver() + "\"";
         try {
             PreparedStatement preparedStatement1 = Main.connection.prepareStatement(query1);
             ResultSet resultSet = preparedStatement1.executeQuery();
@@ -1247,16 +1247,18 @@ public class AmpifyServices {
         }
         return String.valueOf(Status.FAILED);
     }
+
     /**
      * for returning back list of notifications that this particular has received
+     *
      * @param notificationRequest
      * @return
      */
-    public static List<Notification> gettingNotification(NotificationRequest notificationRequest){
+    public static List<Notification> gettingNotification(NotificationRequest notificationRequest) {
 
-        String query = "SELECT notification.sender,notification.playlistID,playlist.playlist_name "+
+        String query = "SELECT notification.sender,notification.playlistID,playlist.playlist_name " +
                 "FROM notification " +
-                " INNER JOIN playlist ON notification.playlistID=playlist.id"+
+                " INNER JOIN playlist ON notification.playlistID=playlist.id" +
                 " WHERE notification.receiver =\"" + notificationRequest.getReceiver() + "\" " +
                 ";";
 
@@ -1288,10 +1290,11 @@ public class AmpifyServices {
     /**
      * here we confirm the notification received !!
      * if already a member corr msg given
+     *
      * @param notificationRequest
      * @return
      */
-    public static String confirmNotification(NotificationRequest notificationRequest){
+    public static String confirmNotification(NotificationRequest notificationRequest) {
         /**
          * thru this query we first check if aready this user is member of this playlist or not
          * *_* *_* *_* *_*
@@ -1309,25 +1312,25 @@ public class AmpifyServices {
                         "(" + DatabaseConstants.PLAYLIST_MEMBER_COL_PLAYLIST_ID +
                         "," + DatabaseConstants.PLAYLIST_MEMBER_COL_MEMBEREMAIL +
                         ") values(?,?);";
-                    try {
-                        PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
-                        preparedStatement.setInt(1, notificationRequest.getPlaylistID());
-                        preparedStatement.setString(2, notificationRequest.getReceiver());
+                try {
+                    PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
+                    preparedStatement.setInt(1, notificationRequest.getPlaylistID());
+                    preparedStatement.setString(2, notificationRequest.getReceiver());
 
+                    preparedStatement.executeUpdate();
+                    System.out.println("Added AS MEMBER");
+                    //TODO DELETE THAT PARTICULAR NOTIFICATION ALSO
+                    query = "DELETE notification" +
+                            " FROM notification" +
+                            " WHERE notification.playlistID=\"" + notificationRequest.getPlaylistID() + "\"" +
+                            " AND notification.receiver=\"" + notificationRequest.getReceiver() + "\";";
+                    try {
+                        preparedStatement = Main.connection.prepareStatement(query);
                         preparedStatement.executeUpdate();
-                        System.out.println("Added AS MEMBER");
-                        //TODO DELETE THAT PARTICULAR NOTIFICATION ALSO
-                        query = "DELETE notification" +
-                                " FROM notification" +
-                                " WHERE notification.playlistID=\""+notificationRequest.getPlaylistID()+"\"" +
-                                " AND notification.receiver=\""+notificationRequest.getReceiver()+"\";";
-                        try {
-                            preparedStatement = Main.connection.prepareStatement(query);
-                            preparedStatement.executeUpdate();
-                            System.out.println("This corr noti also deleted");
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
+                        System.out.println("This corr noti also deleted");
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
                     return String.valueOf(Status.SUCCESS);
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -1345,11 +1348,11 @@ public class AmpifyServices {
     /**
      * function is to delete a notification which a user (receiver) dont wish to be present in the app anymore!
      */
-    public static String deleteNotification(NotificationRequest notificationRequest){
+    public static String deleteNotification(NotificationRequest notificationRequest) {
         String query = "DELETE notification" +
                 " FROM notification" +
-                " WHERE notification.playlistID=\""+notificationRequest.getPlaylistID()+"\"" +
-                " AND notification.receiver=\""+notificationRequest.getReceiver()+"\";";
+                " WHERE notification.playlistID=\"" + notificationRequest.getPlaylistID() + "\"" +
+                " AND notification.receiver=\"" + notificationRequest.getReceiver() + "\";";
         try {
             PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
             preparedStatement.executeUpdate();
@@ -1363,5 +1366,3 @@ public class AmpifyServices {
 
     }
 }
-
-

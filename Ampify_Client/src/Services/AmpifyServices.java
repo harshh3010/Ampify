@@ -126,15 +126,16 @@ public class AmpifyServices {
      * taken from UserApi saved instance
      * *
      */
-    public static List<Song> getUserRecentlyPlayedSong() throws IOException, ClassNotFoundException {
+    public static List<Song> getUserRecentlyPlayedSong(int offset,int rowCount) throws IOException, ClassNotFoundException {
 
-        SongFetchRequest songFetchRequest = new SongFetchRequest(String.valueOf(SongFetchType.RECENT_PLAYED_SONGS_BY_USER), userApi.getEmail(), offsetUserRecentlyPlayedSong, rowcount);
+        SongFetchRequest songFetchRequest = new SongFetchRequest(String.valueOf(SongFetchType.RECENT_PLAYED_SONGS_BY_USER), userApi.getEmail(), offset, rowCount);
         oos.writeObject(songFetchRequest);
         oos.flush();
         ois = Main.userInputStream;
 
         return (List<Song>) ois.readObject();
     }
+
     /**
      * Function to fetch RECENTY played song of user
      * we pass email of the current user logged in
@@ -212,7 +213,8 @@ public class AmpifyServices {
         ois = Main.userInputStream;
         return (String) ois.readObject();
     }
-//for fetching personal plylists
+
+    //for fetching personal plylists
     public static List<Playlist> getMyPlaylists() throws IOException, ClassNotFoundException {
         PlaylistRequest playlistRequest = new PlaylistRequest(String.valueOf(PlaylistType.FETCH_USER_PLAYLISTS), userApi.getEmail());
 
@@ -222,7 +224,6 @@ public class AmpifyServices {
         return (List<Playlist>) ois.readObject();
 
     }
-
 
 
     /**
@@ -265,6 +266,7 @@ public class AmpifyServices {
 
     /**
      * for deleting a paricular playlist
+     *
      * @param playlistID
      * @return
      * @throws IOException
@@ -272,7 +274,7 @@ public class AmpifyServices {
      */
 
     public static String deletePlaylist(int playlistID) throws IOException, ClassNotFoundException {
-        PlaylistRequest playlistRequest = new PlaylistRequest(String.valueOf(PlaylistType.DELETE_PLAYLIST),userApi.getEmail(), playlistID);
+        PlaylistRequest playlistRequest = new PlaylistRequest(String.valueOf(PlaylistType.DELETE_PLAYLIST), userApi.getEmail(), playlistID);
         oos.writeObject(playlistRequest);
         oos.flush();
         ois = Main.userInputStream;
@@ -280,14 +282,14 @@ public class AmpifyServices {
     }
 
     /**
-     **for sending notification to the user whom our client wants to add as member of a
+     * *for sending notification to the user whom our client wants to add as member of a
      * particular playlist
      * sender==userApi.getEmail()
      * receiver, playistID to be passed to this function
      */
-    public static String sendNotification(String receiver,int playlistID)throws IOException, ClassNotFoundException {
+    public static String sendNotification(String receiver, int playlistID) throws IOException, ClassNotFoundException {
         System.out.print("jj");
-        NotificationRequest notificationRequest=new NotificationRequest(String.valueOf(NotificationType.SEND),userApi.getEmail(),receiver,playlistID);
+        NotificationRequest notificationRequest = new NotificationRequest(String.valueOf(NotificationType.SEND), userApi.getEmail(), receiver, playlistID);
         oos.writeObject(notificationRequest);
         oos.flush();
         ois = Main.userInputStream;
@@ -296,50 +298,45 @@ public class AmpifyServices {
 
     /**
      * for receiving all the notifications present in server sent to user currently logged in
+     *
      * @return
      * @throws IOException
      * @throws ClassNotFoundException
      */
-    public static List<Notification> getMyNotifications()throws IOException, ClassNotFoundException {
+    public static List<Notification> getMyNotifications() throws IOException, ClassNotFoundException {
 
-        NotificationRequest notificationRequest=new NotificationRequest(String.valueOf(NotificationType.GET_NOTIFICATIONS),userApi.getEmail());
+        NotificationRequest notificationRequest = new NotificationRequest(String.valueOf(NotificationType.GET_NOTIFICATIONS), userApi.getEmail());
         oos.writeObject(notificationRequest);
         oos.flush();
         ois = Main.userInputStream;
         return (List<Notification>) ois.readObject();
     }
+
     /**
      * for confirming a particular notification
      * task is to add this user as member in that particular playlist
      */
-    public static String confirmNotification(int playlistID)throws IOException, ClassNotFoundException {
+    public static String confirmNotification(int playlistID) throws IOException, ClassNotFoundException {
 
-        NotificationRequest notificationRequest=new NotificationRequest(String.valueOf(NotificationType.CONFIRM_NOTIFICATION),userApi.getEmail(),playlistID);
+        NotificationRequest notificationRequest = new NotificationRequest(String.valueOf(NotificationType.CONFIRM_NOTIFICATION), userApi.getEmail(), playlistID);
         oos.writeObject(notificationRequest);
         oos.flush();
         ois = Main.userInputStream;
         return (String) ois.readObject();
     }
+
     /**
      * for deleting a particular notification
      * playlistID and receiver are enough to idenify (both gr by primary)
      */
-    public static String deleteNotification(int playlistID)throws IOException, ClassNotFoundException {
+    public static String deleteNotification(int playlistID) throws IOException, ClassNotFoundException {
 
-        NotificationRequest notificationRequest=new NotificationRequest(String.valueOf(NotificationType.DELETE_NOTIFICATION),userApi.getEmail(),playlistID);
+        NotificationRequest notificationRequest = new NotificationRequest(String.valueOf(NotificationType.DELETE_NOTIFICATION), userApi.getEmail(), playlistID);
         oos.writeObject(notificationRequest);
         oos.flush();
         ois = Main.userInputStream;
         return (String) ois.readObject();
     }
-
-
-
-
-
-
-
-
 
 
 }

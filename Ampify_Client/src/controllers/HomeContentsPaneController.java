@@ -49,7 +49,7 @@ public class HomeContentsPaneController implements Initializable {
 
         // Displaying recently played songs
         try {
-            List<Song> songs = AmpifyServices.getUserRecentlyPlayedSong();
+            List<Song> songs = AmpifyServices.getUserRecentlyPlayedSong(0,4);
             recentlyPlayedListView.setItems(FXCollections.observableArrayList((songs)));
             recentlyPlayedListView.setCellFactory(new MusicCardFactory());
         } catch (IOException | ClassNotFoundException e) {
@@ -58,7 +58,7 @@ public class HomeContentsPaneController implements Initializable {
 
         // Displaying recently added songs
         try {
-            List<Song> songs = AmpifyServices.getRecentAddedSongs(0, 10);
+            List<Song> songs = AmpifyServices.getRecentAddedSongs(0, 4);
             recentlyAddedListView.setItems(FXCollections.observableArrayList(songs));
             recentlyAddedListView.setCellFactory(new MusicCardFactory());
         } catch (IOException | ClassNotFoundException e) {
@@ -68,16 +68,16 @@ public class HomeContentsPaneController implements Initializable {
 
         // Displaying recommended songs to the user (Based on choice of Artists, Languages, Genres)
         try {
-            List<Song> songs = AmpifyServices.getUserChoiceSongs(0, 10);
+            List<Song> songs = AmpifyServices.getUserChoiceSongs(0, 4);
             recommendedSongsListView.setItems(FXCollections.observableArrayList(songs));
             recommendedSongsListView.setCellFactory(new MusicCardFactory());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
 
-        // Displaying the top(10) songs to the user
+        // Displaying the top(4) songs to the user
         try {
-            List<Song> songs = AmpifyServices.getTopSongs(0, 10);
+            List<Song> songs = AmpifyServices.getTopSongs(0, 4);
             topSongsListView.setItems(FXCollections.observableArrayList(songs));
             topSongsListView.setCellFactory(new MusicCardFactory());
         } catch (IOException | ClassNotFoundException e) {
