@@ -130,9 +130,20 @@ public class HomeController implements Initializable {
         try {
             System.out.println("fetching most played songs!!!");
 
-            List<UserHistory> collection = AmpifyServices.getUserMostPlayedSong();
-            for (UserHistory p : collection)
-                System.out.println(p.getSongName() + " " + p.getNumberOfTimesPlayed() );
+            List<Song> collection = AmpifyServices.getUserMostPlayedSong();
+            for (Song p : collection)
+                System.out.println(p.getSongName()+" "+ p.getArtistName());
+
+
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            System.out.println("fetching trending songs!!!");
+
+            List<Song> collection = AmpifyServices.getTrendingSongs();
+            for (Song p : collection)
+                System.out.println(p.getSongName()+" "+ p.getArtistName());
 
 
         } catch (IOException | ClassNotFoundException e) {
@@ -144,6 +155,19 @@ public class HomeController implements Initializable {
             List<UserHistory> collection = AmpifyServices.getUserHistory(0,10);
             for (UserHistory p : collection)
                 System.out.println(p.getSongName() + " " +p.getTimePlayed() );
+
+
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+//search result testing
+        //pass rowcount,offset as u want to and ofc the string to be searched
+        try {
+            System.out.println("search!!!");
+
+            List<Song> collection = AmpifyServices.getSearchResult("a",0,10);
+            for (Song p : collection)
+                System.out.println(p.getSongName()+" "+ p.getArtistName());
 
 
         } catch (IOException | ClassNotFoundException e) {

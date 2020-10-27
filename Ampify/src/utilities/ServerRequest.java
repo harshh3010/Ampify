@@ -16,6 +16,7 @@ public enum ServerRequest {
     FETCH_USER_HISTORY("20"),
     PLAYLIST_REQUEST("21"),
     NOTIFICATION_REQUEST("22"),
+    SEARCH_REQUEST("23"),
     GET_TOP_ARTISTS("11"),   // TODO
     GET_TOP_SONGS("12"),     // TODO
     GET_FAVOURITE_SONGS("13"),

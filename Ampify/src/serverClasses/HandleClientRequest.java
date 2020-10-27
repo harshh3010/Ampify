@@ -136,8 +136,13 @@ public class HandleClientRequest implements Runnable {
                         oos.flush();
                     }//if request is to display most played song of user!!
                     else if (songType.getType().equals(String.valueOf(SongFetchType.MOST_PLAYED_SONGS_BY_USER))) {
-
+                        System.out.print("LOL");
                         oos.writeObject(AmpifyServices.showMostPlayedSongByUser(songType));
+                        oos.flush();
+                    }//if request is to display trending song!!
+                    else if (songType.getType().equals(String.valueOf(SongFetchType.TRENDING_SONGS))) {
+                        System.out.print("DA");
+                        oos.writeObject(AmpifyServices.showTrendingSongs(songType));
                         oos.flush();
                     }
 
@@ -202,6 +207,11 @@ public class HandleClientRequest implements Runnable {
                         oos.writeObject(AmpifyServices.deleteNotification(notificationRequest));
                         oos.flush();
                     }
+                }
+                if (request.equals((String.valueOf(ServerRequest.SEARCH_REQUEST)))) {
+                    SearchRequest searchRequest = (SearchRequest) object;
+                    oos.writeObject(AmpifyServices.showSearchResults(searchRequest));
+                    oos.flush();
                 }
 
 

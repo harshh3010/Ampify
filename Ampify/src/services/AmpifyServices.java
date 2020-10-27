@@ -868,27 +868,44 @@ public class AmpifyServices {
      * @param songFetchRequest
      * @return
      */
-    public static List<UserHistory> showMostPlayedSongByUser(SongFetchRequest songFetchRequest) {
+    public static List<Song> showMostPlayedSongByUser(SongFetchRequest songFetchRequest) {
         String email = songFetchRequest.getEmail();
         System.out.print(" :)");
-        String query = "SELECT songs.IDsong,songs.songName,COUNT(user_history.song_ID)" +
+        String query = "SELECT  artist.artistName,songs.songName," +
+                "songs.languages,songs.genre,songs.musicURL, songs.lyricsURL," +
+                "songs.imageURL,songs.releaseDate,songs.rating," +
+                "songs.IDartist,songs.IDalbum,songs.IDsong,COUNT(user_history.song_ID)" +
                 " FROM songs" +
+                " INNER JOIN artist ON  songs.IDartist=artist.IDartist " +
                 " INNER JOIN user_history ON songs.IDsong=user_history.song_ID" +
                 " WHERE user_history.user_email=\"" + email + "\" " +
                 " GROUP BY songs.IDsong" +
                 " ORDER BY COUNT(user_history.song_ID) DESC " +
                 " LIMIT 0,5;";
-        UserHistory mostPlayed;
-        List<UserHistory> mostPlayedList = new ArrayList<>();
+        Song mostPlayed;
+        List<Song> mostPlayedList = new ArrayList<>();
 
         try {
             PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                mostPlayed = new UserHistory();
-                mostPlayed.setSongId(resultSet.getInt(1));
-                mostPlayed.setSongName(resultSet.getString(2));
-                mostPlayed.setNumberOfTimesPlayed(resultSet.getInt(3));
+                mostPlayed = new Song();
+                mostPlayed.setSongID(resultSet.getInt(DatabaseConstants.SONG_COL_ID));
+                mostPlayed.setSongName(resultSet.getString(DatabaseConstants.SONG_COL_NAME));
+                mostPlayed.setArtistID(resultSet.getInt(DatabaseConstants.SONG_COL_ARTISTID));
+                mostPlayed.setLanguage(resultSet.getString(DatabaseConstants.SONG_COL_LANGUAGE));
+                mostPlayed.setGenre(resultSet.getString(DatabaseConstants.SONG_COL_GENRES));
+                mostPlayed.setSongURL(resultSet.getString(DatabaseConstants.SONG_COL_MUSIC_URL));
+                mostPlayed.setSongLyricsURL(resultSet.getString(DatabaseConstants.SONG_COL_LYRICS_URL));
+                mostPlayed.setSongImageURL(resultSet.getString(DatabaseConstants.SONG_COL_IMAGE_URL));
+                mostPlayed.setAlbumID(resultSet.getInt(DatabaseConstants.SONG_COL_ALBUMID));
+                mostPlayed.setReleaseDate(resultSet.getString(DatabaseConstants.SONG_COL_RELEASE_DATE));
+                mostPlayed.setSongRating(resultSet.getDouble(DatabaseConstants.SONG_COL_RATING));
+                mostPlayed.setArtistName(resultSet.getString(DatabaseConstants.ARTIST_COL_NAME));
+
+//                mostPlayed.setSongId(resultSet.getInt(1));
+//                mostPlayed.setSongName(resultSet.getString(2));
+//                mostPlayed.setNumberOfTimesPlayed(resultSet.getInt(3));
                 mostPlayedList.add(mostPlayed);
             }
             return mostPlayedList;
@@ -900,6 +917,77 @@ public class AmpifyServices {
         }
         return mostPlayedList;
     }
+
+
+
+    /**
+     * function to return back list of trending songs!!ONLY 5
+     * rn we have returned listof userHistory
+     * i.e details are songID ,SONGnAME, NOoFtimesPlayed
+     *
+     * @param songFetchRequest
+     * @return
+     */
+    public static List<Song> showTrendingSongs(SongFetchRequest songFetchRequest) {
+
+        Timestamp timestamp = new Timestamp(new Date().getTime());
+        System.out.println(timestamp);
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(timestamp.getTime());
+
+        // subtract 1 day
+        cal.add(Calendar.DAY_OF_MONTH, -1);
+        timestamp = new Timestamp(cal.getTime().getTime());
+
+
+        System.out.print(" :)");
+        String query = "SELECT  artist.artistName,songs.songName," +
+                "songs.languages,songs.genre,songs.musicURL, songs.lyricsURL," +
+                "songs.imageURL,songs.releaseDate,songs.rating," +
+                "songs.IDartist,songs.IDalbum,songs.IDsong,COUNT(user_history.song_ID)" +
+                " FROM songs" +
+                " INNER JOIN artist ON  songs.IDartist=artist.IDartist " +
+                " INNER JOIN user_history ON songs.IDsong=user_history.song_ID" +
+                " WHERE user_history.time_played >=\"" + timestamp + "\" " +
+                " GROUP BY songs.IDsong" +
+                " ORDER BY COUNT(user_history.song_ID) DESC " +
+                " LIMIT 0,5;";
+        Song trendingSongs;
+        List<Song> trendingSongsList = new ArrayList<>();
+
+        try {
+            PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                trendingSongs = new Song();
+                trendingSongs.setSongID(resultSet.getInt(DatabaseConstants.SONG_COL_ID));
+                trendingSongs.setSongName(resultSet.getString(DatabaseConstants.SONG_COL_NAME));
+                trendingSongs.setArtistID(resultSet.getInt(DatabaseConstants.SONG_COL_ARTISTID));
+                trendingSongs.setLanguage(resultSet.getString(DatabaseConstants.SONG_COL_LANGUAGE));
+                trendingSongs.setGenre(resultSet.getString(DatabaseConstants.SONG_COL_GENRES));
+                trendingSongs.setSongURL(resultSet.getString(DatabaseConstants.SONG_COL_MUSIC_URL));
+                trendingSongs.setSongLyricsURL(resultSet.getString(DatabaseConstants.SONG_COL_LYRICS_URL));
+                trendingSongs.setSongImageURL(resultSet.getString(DatabaseConstants.SONG_COL_IMAGE_URL));
+                trendingSongs.setAlbumID(resultSet.getInt(DatabaseConstants.SONG_COL_ALBUMID));
+                trendingSongs.setReleaseDate(resultSet.getString(DatabaseConstants.SONG_COL_RELEASE_DATE));
+                trendingSongs.setSongRating(resultSet.getDouble(DatabaseConstants.SONG_COL_RATING));
+                trendingSongs.setArtistName(resultSet.getString(DatabaseConstants.ARTIST_COL_NAME));
+
+                trendingSongsList.add(trendingSongs);
+            }
+            return trendingSongsList;
+        } catch (SQLException e) {
+            //displaying error if occured *_*
+            e.printStackTrace();
+
+
+        }
+        return trendingSongsList;
+    }
+
+
+
 
     /**
      * function to return history of user
@@ -1379,4 +1467,64 @@ public class AmpifyServices {
         return String.valueOf(Status.FAILED);
 
     }
+
+    /**
+     * ths func perforns search on song name,artist name, artist name and fetch a song list matching with that string
+     * offset, limit imp
+     * @param searchRequest
+     * @return
+     */
+    public static List<Song> showSearchResults(SearchRequest searchRequest) {
+
+        String query = "SELECT  artist.artistName,songs.songName," +
+                "songs.languages,songs.genre,songs.musicURL, songs.lyricsURL," +
+                "songs.imageURL,songs.releaseDate,songs.rating," +
+                "songs.IDartist,songs.IDalbum,songs.IDsong " +
+                "FROM songs " +
+                "LEFT JOIN artist ON  songs.IDartist=artist.IDartist " +
+                "LEFT JOIN albums ON  songs.IDalbum=albums.IDalbum " +
+                " WHERE songs.songName LIKE \"" + searchRequest.getSearchText() +"%\" " +
+                " OR artist.artistName LIKE \"" + searchRequest.getSearchText() +"%\" " +
+                " OR albums.albumName LIKE \"" + searchRequest.getSearchText() +"%\" " +
+                " GROUP BY songs.IDsong  "+
+                " ORDER BY songs.IDsong DESC " +
+                " LIMIT "+searchRequest.getOffset()+","+searchRequest.getRowcount()+";";
+
+        Song songSet;
+        List<Song> searchSongsList = new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            System.out.println("OO");
+
+            while (resultSet.next()) {
+                songSet = new Song();
+                System.out.print(">> ");
+                songSet.setSongID(resultSet.getInt(DatabaseConstants.SONG_COL_ID));
+                songSet.setSongName(resultSet.getString(DatabaseConstants.SONG_COL_NAME));
+                songSet.setArtistID(resultSet.getInt(DatabaseConstants.SONG_COL_ARTISTID));
+                songSet.setLanguage(resultSet.getString(DatabaseConstants.SONG_COL_LANGUAGE));
+                songSet.setGenre(resultSet.getString(DatabaseConstants.SONG_COL_GENRES));
+                songSet.setSongURL(resultSet.getString(DatabaseConstants.SONG_COL_MUSIC_URL));
+                songSet.setSongLyricsURL(resultSet.getString(DatabaseConstants.SONG_COL_LYRICS_URL));
+                songSet.setSongImageURL(resultSet.getString(DatabaseConstants.SONG_COL_IMAGE_URL));
+                songSet.setAlbumID(resultSet.getInt(DatabaseConstants.SONG_COL_ALBUMID));
+                songSet.setReleaseDate(resultSet.getString(DatabaseConstants.SONG_COL_RELEASE_DATE));
+                songSet.setSongRating(resultSet.getDouble(DatabaseConstants.SONG_COL_RATING));
+                songSet.setArtistName(resultSet.getString(DatabaseConstants.ARTIST_COL_NAME));
+
+                searchSongsList.add(songSet);
+            }
+            return searchSongsList;
+        } catch (SQLException e) {
+            //displaying error if occured *_*
+            e.printStackTrace();
+        }
+
+        return searchSongsList;
+
+    }
+
+
 }
