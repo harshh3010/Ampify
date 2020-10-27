@@ -129,9 +129,9 @@ public class HomeController implements Initializable {
         try {
             System.out.println("fetching most played songs!!!");
 
-            List<UserHistory> collection = AmpifyServices.getUserMostPlayedSong();
-            for (UserHistory p : collection)
-                System.out.println(p.getSongName() + " " + p.getNumberOfTimesPlayed() );
+            List<Song> collection = AmpifyServices.getUserMostPlayedSong();
+            for (Song p : collection)
+                System.out.println(p.getSongName()+" "+ p.getArtistName());
 
 
         } catch (IOException | ClassNotFoundException e) {

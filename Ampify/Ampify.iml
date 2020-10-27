@@ -10,24 +10,6 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Desktop/Softablitz/mysql-connector-java-5.1.49/mysql-connector-java-5.1.49-bin.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://C:/Program Files/Java/mysql-connector-java-5.1.49/mysql-connector-java-5.1.49-bin.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
           <root url="jar://C:/JavaFX SDK/javafx-sdk-15/lib/src.zip!/" />
           <root url="jar://C:/JavaFX SDK/javafx-sdk-15/lib/javafx-swt.jar!/" />
           <root url="jar://C:/JavaFX SDK/javafx-sdk-15/lib/javafx.web.jar!/" />
@@ -50,6 +32,15 @@
           <root url="jar://C:/JavaFX SDK/javafx-sdk-15/lib/javafx.controls.jar!/" />
           <root url="jar://C:/JavaFX SDK/javafx-sdk-15/lib/javafx.graphics.jar!/" />
         </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/mysql-connector-java-5.1.49/mysql-connector-java-5.1.49-bin.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
       </library>
     </orderEntry>
   </component>
