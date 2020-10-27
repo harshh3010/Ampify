@@ -356,4 +356,18 @@ public class AmpifyServices {
     }
 
 
+    /**
+     * Function to fetch songs corr to the search string user entered
+     * also offset to manage the number of rows to be queried passed( defined above)
+     */
+    public static List<Song> getSearchResult(String text,int offset, int rowCount) throws IOException, ClassNotFoundException {
+
+        SearchRequest searchRequest = new SearchRequest(text, offset, rowCount);
+        oos.writeObject(searchRequest);
+        oos.flush();
+        ois = Main.userInputStream;
+
+        return (List<Song>) ois.readObject();
+    }
+
 }

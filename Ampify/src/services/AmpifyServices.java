@@ -1467,4 +1467,64 @@ public class AmpifyServices {
         return String.valueOf(Status.FAILED);
 
     }
+
+    /**
+     * ths func perforns search on song name,artist name, artist name and fetch a song list matching with that string
+     * offset, limit imp
+     * @param searchRequest
+     * @return
+     */
+    public static List<Song> showSearchResults(SearchRequest searchRequest) {
+
+        String query = "SELECT  artist.artistName,songs.songName," +
+                "songs.languages,songs.genre,songs.musicURL, songs.lyricsURL," +
+                "songs.imageURL,songs.releaseDate,songs.rating," +
+                "songs.IDartist,songs.IDalbum,songs.IDsong " +
+                "FROM songs " +
+                "LEFT JOIN artist ON  songs.IDartist=artist.IDartist " +
+                "LEFT JOIN albums ON  songs.IDalbum=albums.IDalbum " +
+                " WHERE songs.songName LIKE \"" + searchRequest.getSearchText() +"%\" " +
+                " OR artist.artistName LIKE \"" + searchRequest.getSearchText() +"%\" " +
+                " OR albums.albumName LIKE \"" + searchRequest.getSearchText() +"%\" " +
+                " GROUP BY songs.IDsong  "+
+                " ORDER BY songs.IDsong DESC " +
+                " LIMIT "+searchRequest.getOffset()+","+searchRequest.getRowcount()+";";
+
+        Song songSet;
+        List<Song> searchSongsList = new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            System.out.println("OO");
+
+            while (resultSet.next()) {
+                songSet = new Song();
+                System.out.print(">> ");
+                songSet.setSongID(resultSet.getInt(DatabaseConstants.SONG_COL_ID));
+                songSet.setSongName(resultSet.getString(DatabaseConstants.SONG_COL_NAME));
+                songSet.setArtistID(resultSet.getInt(DatabaseConstants.SONG_COL_ARTISTID));
+                songSet.setLanguage(resultSet.getString(DatabaseConstants.SONG_COL_LANGUAGE));
+                songSet.setGenre(resultSet.getString(DatabaseConstants.SONG_COL_GENRES));
+                songSet.setSongURL(resultSet.getString(DatabaseConstants.SONG_COL_MUSIC_URL));
+                songSet.setSongLyricsURL(resultSet.getString(DatabaseConstants.SONG_COL_LYRICS_URL));
+                songSet.setSongImageURL(resultSet.getString(DatabaseConstants.SONG_COL_IMAGE_URL));
+                songSet.setAlbumID(resultSet.getInt(DatabaseConstants.SONG_COL_ALBUMID));
+                songSet.setReleaseDate(resultSet.getString(DatabaseConstants.SONG_COL_RELEASE_DATE));
+                songSet.setSongRating(resultSet.getDouble(DatabaseConstants.SONG_COL_RATING));
+                songSet.setArtistName(resultSet.getString(DatabaseConstants.ARTIST_COL_NAME));
+
+                searchSongsList.add(songSet);
+            }
+            return searchSongsList;
+        } catch (SQLException e) {
+            //displaying error if occured *_*
+            e.printStackTrace();
+        }
+
+        return searchSongsList;
+
+    }
+
+
 }

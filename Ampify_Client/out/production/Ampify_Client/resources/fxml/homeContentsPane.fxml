@@ -136,6 +136,11 @@
                            <Font name="System Bold" size="20.0" />
                         </font>
                      </Label>
+                     <JFXButton layoutX="866.0" layoutY="11.0" onAction="#onInvitationsClicked" text="Invitations" textFill="WHITE">
+                        <font>
+                           <Font size="16.0" />
+                        </font>
+                     </JFXButton>
                   </children></AnchorPane>
                 </content>
             </Tab>

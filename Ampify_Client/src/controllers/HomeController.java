@@ -159,6 +159,19 @@ public class HomeController implements Initializable {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+//search result testing
+        //pass rowcount,offset as u want to and ofc the string to be searched
+        try {
+            System.out.println("search!!!");
+
+            List<Song> collection = AmpifyServices.getSearchResult("a",0,10);
+            for (Song p : collection)
+                System.out.println(p.getSongName()+" "+ p.getArtistName());
+
+
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
 
 

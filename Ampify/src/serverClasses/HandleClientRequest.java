@@ -208,6 +208,11 @@ public class HandleClientRequest implements Runnable {
                         oos.flush();
                     }
                 }
+                if (request.equals((String.valueOf(ServerRequest.SEARCH_REQUEST)))) {
+                    SearchRequest searchRequest = (SearchRequest) object;
+                    oos.writeObject(AmpifyServices.showSearchResults(searchRequest));
+                    oos.flush();
+                }
 
 
             } catch (StreamCorruptedException e) {

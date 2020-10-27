@@ -43,5 +43,17 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../mysql-connector-java-5.1.49" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/../../mysql-connector-java-5.1.49/src" />
+        </SOURCES>
+        <jarDirectory url="file://$MODULE_DIR$/../../mysql-connector-java-5.1.49" recursive="false" />
+      </library>
+    </orderEntry>
   </component>
 </module>
