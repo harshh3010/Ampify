@@ -979,12 +979,12 @@ public class AmpifyServices {
      * or will modify this
      * lets see what ill do
      */
-    public static List<Playlist> getUserPlaylist(PlaylistRequest playlistRequest) {
-        int pri, cat;
+    public static List<Playlist> getPersonalPlaylist(PlaylistRequest playlistRequest) {
+        int pri;
         String query = "Select * " +
                 " FROM " + DatabaseConstants.PLAYLIST_TABLE +
                 " WHERE " + DatabaseConstants.PLAYLIST_COL_OWNER + "=\"" + playlistRequest.getEmail() + "\"" +
-                ";";
+                " AND "+DatabaseConstants.PLAYLIST_COL_CATEGORY+"=\"0\";";
         //this query gets all the playlists whose owner is our currently loggen in user!!
         List<Playlist> myPlaylists = new ArrayList<>();
         try {
@@ -999,7 +999,63 @@ public class AmpifyServices {
                 playlist.setOwner(resultSet.getString(DatabaseConstants.PLAYLIST_COL_OWNER));
                 playlist.setDateCreated(resultSet.getTimestamp(DatabaseConstants.PLAYLIST_COL_CREATED));
                 pri = resultSet.getInt(DatabaseConstants.PLAYLIST_COL_PRIVACY);
-                cat = resultSet.getInt(DatabaseConstants.PLAYLIST_COL_CATEGORY);
+                //here as our convention for saving was
+                /**
+                 * if u dont remember the convention have a look below *_*
+                 * convention is as follows
+                 *      * if privacy public means 1 if private then 0
+                 * * same in category
+                 *      * if group playlist then 1 ;if user's then 0
+                 *      BUT HERE WE ARE GETTING USR'S PALYLISTS (PERSONAL) SO OBVIO THAT CATEGORY IS 0
+                 * so decoded acc to this
+                 * now remember this convention plz
+                 */
+                if (pri == 1)
+                    playlist.setPrivacy("PUBLIC");
+                else
+                    playlist.setPrivacy("PRIVATE");
+
+                playlist.setCategory("USER'S_PERSONAL");
+
+                myPlaylists.add(playlist);
+            }
+            return myPlaylists;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return myPlaylists;
+
+    }
+
+    /**
+     * for fetching all group playlists whose member or owner is this user
+     * @param playlistRequest
+     * @return
+     */
+
+    public static List<Playlist> getGroupPlaylist(PlaylistRequest playlistRequest) {
+        int pri;
+        String query = "Select * " +
+                " FROM " + DatabaseConstants.PLAYLIST_TABLE +
+                " INNER JOIN membersOfGroupPlaylist on playlist.id=membersOfGroupPlaylist.playlistID"+
+                " WHERE (" + DatabaseConstants.PLAYLIST_COL_OWNER + "=\"" + playlistRequest.getEmail() + "\"" +
+                " OR "+ DatabaseConstants.PLAYLIST_MEMBER_COL_MEMBEREMAIL + "=\"" + playlistRequest.getEmail() + "\" )" +
+                " AND "+DatabaseConstants.PLAYLIST_COL_CATEGORY+"=\"1\";";
+        //this query gets all the playlists whose owner or member is our currently logged in user!!
+        List<Playlist> myGroupPlaylists = new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            Playlist playlist;
+            while (resultSet.next()) {
+                playlist = new Playlist();
+                playlist.setId(resultSet.getInt("id"));
+                playlist.setPlaylistName(resultSet.getString(DatabaseConstants.PLAYLIST_COL_NAME));
+                playlist.setOwner(resultSet.getString(DatabaseConstants.PLAYLIST_COL_OWNER));
+                playlist.setDateCreated(resultSet.getTimestamp(DatabaseConstants.PLAYLIST_COL_CREATED));
+                pri = resultSet.getInt(DatabaseConstants.PLAYLIST_COL_PRIVACY);
+
                 //here as our convention for saving was
                 /**
                  * if u dont remember the convention have a look below *_*
@@ -1014,19 +1070,18 @@ public class AmpifyServices {
                     playlist.setPrivacy("PUBLIC");
                 else
                     playlist.setPrivacy("PRIVATE");
-                if (cat == 1)
-                    playlist.setCategory("GROUP");
-                else
-                    playlist.setCategory("USER'S");
-                myPlaylists.add(playlist);
+                playlist.setCategory("GROUP");
+
+                myGroupPlaylists.add(playlist);
             }
-            return myPlaylists;
+            return myGroupPlaylists;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return myPlaylists;
+        return myGroupPlaylists;
 
     }
+
 
     /**
      * this func is to add a song to playlist user wants to
@@ -1148,9 +1203,10 @@ public class AmpifyServices {
             ResultSet resultSet=preparedStatement1.executeQuery();
             if(resultSet.next())
             {
-                String query = "DELETE playlist , songsOfPlaylist" +
+                String query = "DELETE playlist , songsOfPlaylist,membersOfGroupPlaylist" +
                         " FROM playlist" +
                         " INNER JOIN songsOfPlaylist ON playlist.id=songsOfPlaylist.playlistID" +
+                        " INNER JOIN membersOfGroupPlaylist ON playlist.id=membersOfGroupPlaylist.playlistID" +
                         " WHERE playlist.id=\""+playlistRequest.getPlaylistId()+"\"";
                 try {
                     PreparedStatement preparedStatement = Main.connection.prepareStatement(query);

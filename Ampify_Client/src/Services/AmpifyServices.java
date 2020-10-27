@@ -197,9 +197,20 @@ public class AmpifyServices {
         ois = Main.userInputStream;
         return (String) ois.readObject();
     }
-
+//for fetching personal plylists
     public static List<Playlist> getMyPlaylists() throws IOException, ClassNotFoundException {
         PlaylistRequest playlistRequest = new PlaylistRequest(String.valueOf(PlaylistType.FETCH_USER_PLAYLISTS), userApi.getEmail());
+
+        oos.writeObject(playlistRequest);
+        oos.flush();
+        ois = Main.userInputStream;
+        return (List<Playlist>) ois.readObject();
+
+    }
+
+    //for fetching group playlists!!
+    public static List<Playlist> getMyGroupPlaylists() throws IOException, ClassNotFoundException {
+        PlaylistRequest playlistRequest = new PlaylistRequest(String.valueOf(PlaylistType.FETCH_GROUP_PLAYLISTS), userApi.getEmail());
 
         oos.writeObject(playlistRequest);
         oos.flush();

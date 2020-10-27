@@ -85,89 +85,50 @@ public class HomeController implements Initializable {
  *      u r required to pass the playlist ID to function getSongsOfPlaylist()
  *
  */
-        try {
-            System.out.println("creating playlist!!!");
-            String a = AmpifyServices.createPlaylist("Lastcheck", "USER", "PRIVATE");
-            System.out.println(a);
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+
+
+
 
         try {
-            System.out.println("adding!!");
-            String a = AmpifyServices.addSongToPlaylist(4, 5);
-            System.out.println(a);
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+            System.out.println("fetching personal playlists!!!");
 
-        try {
-            System.out.println("fetching playlists!!!");
             List<Playlist> collection = AmpifyServices.getMyPlaylists();
             for (Playlist p : collection)
-                System.out.println(p.getPlaylistName() + " " + p.getOwner() + " " + p.getPrivacy());
+                System.out.println(p.getPlaylistName() + " " + p.getOwner() + " " + p.getPrivacy()+p.getCategory());
+
 
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         try {
-            System.out.println(" again adding!!");
-            String a = AmpifyServices.addSongToPlaylist(4, 3);
-            System.out.println(a);
+            System.out.println("fetching group playlists!!!");
+
+            List<Playlist> collection = AmpifyServices.getMyGroupPlaylists();
+            for (Playlist p : collection)
+                System.out.println(p.getPlaylistName() + " " + p.getOwner() + " " + p.getPrivacy()+p.getCategory());
+
+
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         try {
-            System.out.println("displaying songs of playlist!!");
-            List<Song> list = AmpifyServices.getSongsOfPlaylist(4);
-            for (Song s : list)
-                System.out.println(s.getSongName() + " " + s.getSongID());
+            System.out.println("fetching noti!!!");
+
+            List<Notification> collection = AmpifyServices.getMyNotifications();
+            for (Notification p : collection)
+                System.out.println(p.getPlaylistName() + " " + p.getSender() );
+
+
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        try {
-            System.out.println(" deleting playlist!!");
-            String a = AmpifyServices.deletePlaylist(7);
-            System.out.println(a);
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+
+
         /**
          * this is testing for sending notification
          * u r reqd to give me details like receiver mailId and playlist Id
          * and call function sendNotifications!!
          */
-        try {
-            System.out.println(" sending notification!!");
-            String a = AmpifyServices.sendNotification("aa@a.a",1);
-            System.out.println(a);
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        //displaying notifications
-        try {
-            System.out.println("displaying noti!!");
-            List<Notification> list = AmpifyServices.getMyNotifications();
-            for (Notification s : list)
-                System.out.println(s.getPlaylistName() + " " + s.getSender());
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        //for confirming my notification
-        try {
-            System.out.println(" confirming!!");
-            String a = AmpifyServices.confirmNotification(2);
-            System.out.println(a);
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        try {
-            System.out.println(" deleting!!");
-            String a = AmpifyServices.deleteNotification(1);
-            System.out.println(a);
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
 
 
     }
