@@ -1,11 +1,13 @@
 package controllers;
 
+import Services.AmpifyServices;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import model.Notification;
+import utilities.Status;
 
 import java.io.IOException;
 
@@ -46,15 +48,38 @@ public class InvitationCellController extends ListCell<Notification> {
         // Setting action events for menu items
         item1.setOnAction(actionEvent -> {
 
-            System.out.println("ACCEPT CLICKED");
-            // TODO: ACCEPT REQUEST
+            try {
+                String result = AmpifyServices.confirmNotification(notification.getId());
+                if (result.equals(String.valueOf(Status.SUCCESS))) {
+                    statusLabel.setText("Accepted");
+                    statusLabel.setVisible(true);
+                    menuButton.setVisible(false);
+                } else {
+                    // TODO: DISPLAY ERROR
+                    System.out.println("Failed to join playlist");
+                }
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
         });
 
         // On clicking add to playlist button
         item2.setOnAction(actionEvent -> {
 
-            System.out.println("DECLINE CLICKED");
-            // TODO: DECLINE REQUEST
+            try {
+                String result = AmpifyServices.deleteNotification(notification.getId());
+                if (result.equals(String.valueOf(Status.SUCCESS))) {
+                    statusLabel.setText("Declined");
+                    statusLabel.setVisible(true);
+                    menuButton.setVisible(false);
+                } else {
+                    // TODO: DISPLAY ERROR
+                    System.out.println("Failed to decline request.");
+                }
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
 
         });
 

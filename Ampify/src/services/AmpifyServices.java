@@ -1213,17 +1213,17 @@ public class AmpifyServices {
      */
     public static String sendingNotification(NotificationRequest notificationRequest) {
         //for checking if such receiver exists in our db or not
-        String query="SELECT * FROM user_auth"+
-                " WHERE email=\""+notificationRequest.getReceiver()+"\";";
-        try{
-            PreparedStatement preparedStatement=Main.connection.prepareStatement(query);
-            ResultSet resultset=preparedStatement.executeQuery();
-            if(resultset.next()){
+        String query = "SELECT * FROM user_auth" +
+                " WHERE email=\"" + notificationRequest.getReceiver() + "\";";
+        try {
+            PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
+            ResultSet resultset = preparedStatement.executeQuery();
+            if (resultset.next()) {
                 //if receiver exists we need to check that whether he has received any prior notification
                 //to become member of this particular playlist
                 query = " SELECT * FROM " + DatabaseConstants.NOTIFICATION_TABLE +
                         " WHERE " + DatabaseConstants.NOTIFICATION_COL_PLAYLIST_ID + "=\"" + notificationRequest.getPlaylistID() + "\"" +
-                        " AND " + DatabaseConstants.NOTIFICATION_COL_RECEIVER + "=\"" + notificationRequest.getReceiver()+ "\"";
+                        " AND " + DatabaseConstants.NOTIFICATION_COL_RECEIVER + "=\"" + notificationRequest.getReceiver() + "\"";
                 try {
                     PreparedStatement preparedStatement1 = Main.connection.prepareStatement(query);
                     ResultSet resultSet = preparedStatement1.executeQuery();
@@ -1254,11 +1254,9 @@ public class AmpifyServices {
                     e.printStackTrace();
                 }
                 return String.valueOf(Status.FAILED);
-            }
-            else
+            } else
                 return String.valueOf(Status.NO_SUCH_USER_EXIST);
-        }catch(SQLException e)
-        {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return String.valueOf(Status.FAILED);
@@ -1266,6 +1264,7 @@ public class AmpifyServices {
 
     /**
      * for returning back list of notifications that this particular has received
+     *
      * @param notificationRequest
      * @return
      */
