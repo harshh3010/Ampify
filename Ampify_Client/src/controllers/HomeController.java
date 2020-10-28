@@ -131,7 +131,7 @@ public class HomeController implements Initializable {
         try {
             System.out.println("adding to favourite!!!");
 
-            String collection = AmpifyServices.addToFavorites(5);
+            String collection = AmpifyServices.addToFavorites(9);
             System.out.print(collection);
 
 
@@ -144,6 +144,18 @@ public class HomeController implements Initializable {
             System.out.println("search!!!");
 
             List<Song> collection = AmpifyServices.getSearchResult("a",0,10);
+            for (Song p : collection)
+                System.out.println(p.getSongName()+" "+ p.getArtistName());
+
+
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+//favourite song list
+        try {
+            System.out.println("favourites!!");
+
+            List<Song> collection = AmpifyServices.getUserFavouriteSong(0,10);
             for (Song p : collection)
                 System.out.println(p.getSongName()+" "+ p.getArtistName());
 

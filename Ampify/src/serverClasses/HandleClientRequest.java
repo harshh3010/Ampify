@@ -144,6 +144,11 @@ public class HandleClientRequest implements Runnable {
                         System.out.print("DA");
                         oos.writeObject(AmpifyServices.showTrendingSongs(songType));
                         oos.flush();
+                    }//if request is to display favourite played song of user!!
+                    else if (songType.getType().equals(String.valueOf(SongFetchType.FAVOURITE_SONGS))) {
+
+                        oos.writeObject(AmpifyServices.showFavouriteSong(songType));
+                        oos.flush();
                     }
 
                 }

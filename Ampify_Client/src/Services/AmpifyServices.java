@@ -382,5 +382,19 @@ public class AmpifyServices {
 
         return (String) ois.readObject();
     }
+    /**
+     * Function to fetch favourite songs of user
+     * i.e. which are liked by him/her
+         * *
+     */
+    public static List<Song> getUserFavouriteSong(int offset,int rowCount) throws IOException, ClassNotFoundException {
+
+        SongFetchRequest songFetchRequest = new SongFetchRequest(String.valueOf(SongFetchType.FAVOURITE_SONGS), userApi.getEmail(), offset, rowCount);
+        oos.writeObject(songFetchRequest);
+        oos.flush();
+        ois = Main.userInputStream;
+
+        return (List<Song>) ois.readObject();
+    }
 
 }
