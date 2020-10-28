@@ -17,10 +17,6 @@ public class AmpifyServices {
     private static ObjectOutputStream oos = Main.userOutputStream;
     private static ObjectInputStream ois = Main.userInputStream;
     private static UserApi userApi = UserApi.getInstance();
-    public static int offsetSongOfParticularArtist = 0;
-    public static int offsetSongOfParticularAlbum = 0;
-    public static int rowcount = 10;
-    public static int offsetUserRecentlyPlayedSong = 0;
 
     /*
     Function to get a list of top artists
@@ -289,7 +285,6 @@ public class AmpifyServices {
      * @throws IOException
      * @throws ClassNotFoundException
      */
-
     public static String deletePlaylist(int playlistID) throws IOException, ClassNotFoundException {
         PlaylistRequest playlistRequest = new PlaylistRequest(String.valueOf(PlaylistType.DELETE_PLAYLIST), userApi.getEmail(), playlistID);
         oos.writeObject(playlistRequest);
