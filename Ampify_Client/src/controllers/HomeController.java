@@ -240,4 +240,18 @@ public class HomeController implements Initializable {
             }
         }
     }
+
+    public void onLocalMusicClicked() {
+        if (HomeScreenWidgets.currentDisplayPage != HomeScreenDisplays.LOCAL_MUSIC_SCREEN) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/fxml/localMusicScreen.fxml"));
+                Pane newLoadedPane = loader.load();
+                displayPane.getChildren().clear();
+                displayPane.getChildren().add(newLoadedPane);
+                HomeScreenWidgets.currentDisplayPage = HomeScreenDisplays.LOCAL_MUSIC_SCREEN;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

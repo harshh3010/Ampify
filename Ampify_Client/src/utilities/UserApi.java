@@ -6,6 +6,7 @@ package utilities;
 
 import model.*;
 
+import java.io.File;
 import java.util.List;
 
 public class UserApi {
@@ -24,6 +25,7 @@ public class UserApi {
     private List<Song> previouslyPlayed;
     private List<Playlist> personalPlaylists;
     private List<Playlist> groupPlaylist;
+    private File selectedDirectory;
 
     private static UserApi instance = null;
 
@@ -36,6 +38,14 @@ public class UserApi {
         if (instance == null)
             instance = new UserApi();
         return instance;
+    }
+
+    public File getSelectedDirectory() {
+        return selectedDirectory;
+    }
+
+    public void setSelectedDirectory(File selectedDirectory) {
+        this.selectedDirectory = selectedDirectory;
     }
 
     public List<Playlist> getPersonalPlaylists() {
