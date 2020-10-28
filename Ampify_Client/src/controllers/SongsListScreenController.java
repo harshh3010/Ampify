@@ -46,6 +46,8 @@ public class SongsListScreenController {
             displayLabel.setText("Recommended Songs");
         } else if (songListType == SongListType.TOP_SONGS) {
             displayLabel.setText("Top Songs");
+        }else if(songListType == SongListType.LIKED_SONGS){
+            displayLabel.setText("Favourites");
         }
 
         // Loading the first batch
@@ -65,6 +67,9 @@ public class SongsListScreenController {
                 songs = AmpifyServices.getUserChoiceSongs(offset, rowCount);
             } else if (songListType == SongListType.TOP_SONGS) {
                 songs = AmpifyServices.getTopSongs(offset, rowCount);
+            }
+            else if(songListType == SongListType.LIKED_SONGS){
+                songs = AmpifyServices.getUserFavouriteSong(offset,rowCount);
             }
             songListView.setItems(FXCollections.observableArrayList(songs));
             songListView.setCellFactory(new SongCellFactory());

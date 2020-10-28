@@ -101,13 +101,10 @@ public class HomeContentsPaneController implements Initializable {
             playedAtSameTimeListView.setCellFactory(new MusicCardFactory());
         }).start();
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                // Displaying trending songs to the user
-                trendingSongsListView.setItems(FXCollections.observableArrayList(userApi.getTrendingSongs()));
-                trendingSongsListView.setCellFactory(new MusicCardFactory());
-            }
+        new Thread(() -> {
+            // Displaying trending songs to the user
+            trendingSongsListView.setItems(FXCollections.observableArrayList(userApi.getTrendingSongs()));
+            trendingSongsListView.setCellFactory(new MusicCardFactory());
         }).start();
     }
 
@@ -189,6 +186,24 @@ public class HomeContentsPaneController implements Initializable {
             Stage stage = new Stage();
             stage.setScene(new Scene(parent));
             stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    // Called when user clicks liked songs button
+    public void onLikedSongsClicked() {
+
+        // Redirect the user to liked songs screen
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/fxml/songsListScreen.fxml"));
+            Pane newLoadedPane = loader.load();
+            SongsListScreenController songsListScreenController = loader.getController();
+            songsListScreenController.getFetchType(SongListType.LIKED_SONGS);
+            HomeScreenWidgets.displayPane.getChildren().clear();
+            HomeScreenWidgets.displayPane.getChildren().add(newLoadedPane);
+            HomeScreenWidgets.currentDisplayPage = HomeScreenDisplays.SONG_LIST_PAGE;
         } catch (IOException e) {
             e.printStackTrace();
         }
