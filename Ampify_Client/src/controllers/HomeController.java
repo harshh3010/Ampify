@@ -105,6 +105,17 @@ public class HomeController implements Initializable {
             e.printStackTrace();
         }
 
+        try {
+            System.out.println("fetching previously played songs!!!");
+
+            List<Song> collection = AmpifyServices.getPreviouslyPlayedSongs();
+            for (Song p : collection)
+                System.out.println(p.getSongName()+" "+ p.getArtistName());
+
+
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
         try {
             System.out.println("fetching noti!!!");

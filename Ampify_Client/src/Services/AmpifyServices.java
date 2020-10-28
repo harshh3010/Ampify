@@ -169,6 +169,22 @@ public class AmpifyServices {
     }
 
 
+    /**
+     * Function to fetch previously played SONGS by the user
+     * we pass email of the current user logged in
+     * taken from UserApi saved instance
+     * *we will return only 5 songs for this !!
+     */
+    public static List<Song> getPreviouslyPlayedSongs() throws IOException, ClassNotFoundException {
+
+        SongFetchRequest songFetchRequest = new SongFetchRequest(String.valueOf(SongFetchType.PREVIOUSLY_PLAYED_BY_USER), userApi.getEmail());
+        oos.writeObject(songFetchRequest);
+        oos.flush();
+        ois = Main.userInputStream;
+
+        return (List<Song>) ois.readObject();
+    }
+
 
     /**
      * Function to fetch recent songs(released 5 days back!!)

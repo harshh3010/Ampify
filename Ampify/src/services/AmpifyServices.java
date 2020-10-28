@@ -1001,6 +1001,82 @@ public class AmpifyServices {
         return trendingSongsList;
     }
 
+    /**
+     * function to return back list of previously played songs!!ONLY 5
+     * i.e details are songID ,SONGnAME, NOoFtimesPlayed
+     *
+     * @param songFetchRequest
+     * @return
+     */
+    public static List<Song> showPreviouslyPlayedSongs(SongFetchRequest songFetchRequest) {
+        String email = songFetchRequest.getEmail();
+        Timestamp timestamp = new Timestamp(new Date().getTime());
+        Timestamp timestamp1 = new Timestamp(new Date().getTime());
+        System.out.println(timestamp1);
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(timestamp.getTime());
+        Calendar cal1 = Calendar.getInstance();
+        cal1.setTimeInMillis(timestamp1.getTime());
+
+        // subtract 1 hour
+        cal.add(Calendar.HOUR_OF_DAY, -2);
+        cal.add(Calendar.DAY_OF_MONTH, -1);
+        //add 1 hour
+        cal1.add(Calendar.HOUR_OF_DAY, +6);
+        cal1.add(Calendar.DAY_OF_MONTH, -1);
+        timestamp = new Timestamp(cal.getTime().getTime());
+        timestamp1 = new Timestamp(cal1.getTime().getTime());
+        System.out.println(timestamp);
+        System.out.println(timestamp1);
+
+        System.out.print(" :)");
+        String query = "SELECT  artist.artistName,songs.songName," +
+                "songs.languages,songs.genre,songs.musicURL, songs.lyricsURL," +
+                "songs.imageURL,songs.releaseDate,songs.rating," +
+                "songs.IDartist,songs.IDalbum,songs.IDsong,COUNT(user_history.song_ID)" +
+                " FROM songs" +
+                " INNER JOIN artist ON  songs.IDartist=artist.IDartist " +
+                " INNER JOIN user_history ON songs.IDsong=user_history.song_ID" +
+                " WHERE user_history.user_email=\"" + email + "\" " +
+                " AND user_history.time_played >=\"" + timestamp + "\" " +
+                " AND user_history.time_played <=\"" + timestamp1 + "\" " +
+                " GROUP BY songs.IDsong" +
+                " ORDER BY COUNT(user_history.song_ID) DESC " +
+                " LIMIT 0,5;";
+        Song previouslyPlayedSongs;
+        List<Song> previouslyPlayedSongsList = new ArrayList<>();
+
+        try {
+            PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                previouslyPlayedSongs = new Song();
+                previouslyPlayedSongs.setSongID(resultSet.getInt(DatabaseConstants.SONG_COL_ID));
+                previouslyPlayedSongs.setSongName(resultSet.getString(DatabaseConstants.SONG_COL_NAME));
+                previouslyPlayedSongs.setArtistID(resultSet.getInt(DatabaseConstants.SONG_COL_ARTISTID));
+                previouslyPlayedSongs.setLanguage(resultSet.getString(DatabaseConstants.SONG_COL_LANGUAGE));
+                previouslyPlayedSongs.setGenre(resultSet.getString(DatabaseConstants.SONG_COL_GENRES));
+                previouslyPlayedSongs.setSongURL(resultSet.getString(DatabaseConstants.SONG_COL_MUSIC_URL));
+                previouslyPlayedSongs.setSongLyricsURL(resultSet.getString(DatabaseConstants.SONG_COL_LYRICS_URL));
+                previouslyPlayedSongs.setSongImageURL(resultSet.getString(DatabaseConstants.SONG_COL_IMAGE_URL));
+                previouslyPlayedSongs.setAlbumID(resultSet.getInt(DatabaseConstants.SONG_COL_ALBUMID));
+                previouslyPlayedSongs.setReleaseDate(resultSet.getString(DatabaseConstants.SONG_COL_RELEASE_DATE));
+                previouslyPlayedSongs.setSongRating(resultSet.getDouble(DatabaseConstants.SONG_COL_RATING));
+                previouslyPlayedSongs.setArtistName(resultSet.getString(DatabaseConstants.ARTIST_COL_NAME));
+
+                previouslyPlayedSongsList.add(previouslyPlayedSongs);
+            }
+            return previouslyPlayedSongsList;
+        } catch (SQLException e) {
+            //displaying error if occured *_*
+            e.printStackTrace();
+
+
+        }
+        return previouslyPlayedSongsList;
+    }
+
 
 
     /**

@@ -144,7 +144,12 @@ public class HandleClientRequest implements Runnable {
                         System.out.print("DA");
                         oos.writeObject(AmpifyServices.showTrendingSongs(songType));
                         oos.flush();
-                    }//if request is to display favourite played song of user!!
+                    }//if request is to display previously played at same time song!!
+                    else if (songType.getType().equals(String.valueOf(SongFetchType.PREVIOUSLY_PLAYED_BY_USER))) {
+                        System.out.print("&&&&");
+                        oos.writeObject(AmpifyServices.showPreviouslyPlayedSongs(songType));
+                    }
+                    //if request is to display favourite played song of user!!
                     else if (songType.getType().equals(String.valueOf(SongFetchType.FAVOURITE_SONGS))) {
 
                         oos.writeObject(AmpifyServices.showFavouriteSong(songType));

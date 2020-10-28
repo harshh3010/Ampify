@@ -12,6 +12,7 @@ public enum SongFetchType {
     MOST_PLAYED_SONGS_BY_USER("8"),
     TRENDING_SONGS("9"),
     FAVOURITE_SONGS("10"),
+    PREVIOUSLY_PLAYED_BY_USER("11"),
     ;
 
     SongFetchType(String s) {
