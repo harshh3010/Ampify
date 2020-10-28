@@ -4,9 +4,7 @@ UserApi class to allow global access to basic user details
 
 package utilities;
 
-import model.Artist;
-import model.Genres;
-import model.Language;
+import model.*;
 
 import java.util.List;
 
@@ -16,6 +14,16 @@ public class UserApi {
     private List<Language> likedLanguages;
     private List<Genres> likedGenres;
     private List<Artist> likedArtists;
+    private List<Song> recentlyPlayed;
+    private List<Artist> popularArtists;
+    private List<Song> recentlyAdded;
+    private List<Song> recommendedMusic;
+    private List<Song> topSongs;
+    private List<Album> topAlbums;
+    private List<Song> mostPlayed;
+    private List<Song> previouslyPlayed;
+    private List<Playlist> personalPlaylists;
+    private List<Playlist> groupPlaylist;
 
     private static UserApi instance = null;
 
@@ -28,6 +36,90 @@ public class UserApi {
         if (instance == null)
             instance = new UserApi();
         return instance;
+    }
+
+    public List<Playlist> getPersonalPlaylists() {
+        return personalPlaylists;
+    }
+
+    public void setPersonalPlaylists(List<Playlist> personalPlaylists) {
+        this.personalPlaylists = personalPlaylists;
+    }
+
+    public List<Playlist> getGroupPlaylist() {
+        return groupPlaylist;
+    }
+
+    public void setGroupPlaylist(List<Playlist> groupPlaylist) {
+        this.groupPlaylist = groupPlaylist;
+    }
+
+    public List<Song> getRecentlyPlayed() {
+        return recentlyPlayed;
+    }
+
+    public void setRecentlyPlayed(List<Song> recentlyPlayed) {
+        this.recentlyPlayed = recentlyPlayed;
+    }
+
+    public List<Artist> getPopularArtists() {
+        return popularArtists;
+    }
+
+    public void setPopularArtists(List<Artist> popularArtists) {
+        this.popularArtists = popularArtists;
+    }
+
+    public List<Song> getRecentlyAdded() {
+        return recentlyAdded;
+    }
+
+    public void setRecentlyAdded(List<Song> recentlyAdded) {
+        this.recentlyAdded = recentlyAdded;
+    }
+
+    public List<Song> getRecommendedMusic() {
+        return recommendedMusic;
+    }
+
+    public void setRecommendedMusic(List<Song> recommendedMusic) {
+        this.recommendedMusic = recommendedMusic;
+    }
+
+    public List<Song> getTopSongs() {
+        return topSongs;
+    }
+
+    public void setTopSongs(List<Song> topSongs) {
+        this.topSongs = topSongs;
+    }
+
+    public List<Album> getTopAlbums() {
+        return topAlbums;
+    }
+
+    public void setTopAlbums(List<Album> topAlbums) {
+        this.topAlbums = topAlbums;
+    }
+
+    public List<Song> getMostPlayed() {
+        return mostPlayed;
+    }
+
+    public void setMostPlayed(List<Song> mostPlayed) {
+        this.mostPlayed = mostPlayed;
+    }
+
+    public List<Song> getPreviouslyPlayed() {
+        return previouslyPlayed;
+    }
+
+    public void setPreviouslyPlayed(List<Song> previouslyPlayed) {
+        this.previouslyPlayed = previouslyPlayed;
+    }
+
+    public static void setInstance(UserApi instance) {
+        UserApi.instance = instance;
     }
 
     public String getEmail() {

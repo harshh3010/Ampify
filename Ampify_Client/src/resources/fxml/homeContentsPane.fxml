@@ -102,6 +102,18 @@
                                                 </font>
                                             </Label>
                                             <JFXListView fx:id="topAlbumsListView" maxHeight="210.0" minHeight="210.0" orientation="HORIZONTAL" prefHeight="210.0" />
+                                 <Label text="Your Most Played" textFill="WHITE">
+                                    <font>
+                                       <Font size="26.0" />
+                                    </font>
+                                 </Label>
+                                 <JFXListView fx:id="mostPlayedListView" maxHeight="210.0" minHeight="210.0" orientation="HORIZONTAL" prefHeight="210.0" />
+                                 <Label text="Jump Back In Time" textFill="WHITE">
+                                    <font>
+                                       <Font size="26.0" />
+                                    </font>
+                                 </Label>
+                                 <JFXListView fx:id="playedAtSameTimeListView" maxHeight="210.0" minHeight="210.0" orientation="HORIZONTAL" prefHeight="210.0" />
                                         </children>
                                     </VBox>
                                 </content>

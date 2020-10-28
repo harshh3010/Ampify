@@ -13,7 +13,8 @@ import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import model.Notification;
+import model.Album;
+import model.Artist;
 import model.Playlist;
 import model.Song;
 import utilities.HomeScreenDisplays;
@@ -22,6 +23,7 @@ import utilities.UserApi;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
@@ -44,24 +46,98 @@ public class HomeController implements Initializable {
         HomeScreenWidgets.bottomPane = bottomPane;
         HomeScreenWidgets.nowPlayingList = nowPlayingList;
 
+        // Displaying top artists
         try {
-            System.out.println("Works1");
-            Pane newPane = FXMLLoader.load(getClass().getResource("/resources/fxml/homeContentsPane.fxml"));
-            displayPane.getChildren().clear();
-            displayPane.getChildren().add(newPane);
-            HomeScreenWidgets.currentDisplayPage = HomeScreenDisplays.MAIN_PAGE;
-        } catch (IOException e) {
+            List<Artist> artists = AmpifyServices.getTopArtists();
+            userApi.setPopularArtists(artists);
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
 
-        // Displaying the last played song in bottomPane
+        // Displaying recently played songs
         try {
-            System.out.println("Works2");
+            List<Song> songs = AmpifyServices.getUserRecentlyPlayedSong(0, 4);
+            userApi.setRecentlyPlayed(songs);
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        // Displaying recently added songs
+        try {
+            List<Song> songs = AmpifyServices.getRecentAddedSongs(0, 4);
+            userApi.setRecentlyAdded(songs);
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+        // Displaying recommended songs to the user (Based on choice of Artists, Languages, Genres)
+        try {
+            List<Song> songs = AmpifyServices.getUserChoiceSongs(0, 4);
+            userApi.setRecommendedMusic(songs);
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        // Displaying the top(4) songs to the user
+        try {
+            List<Song> songs = AmpifyServices.getTopSongs(0, 4);
+            userApi.setTopSongs(songs);
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        // Loading user's playlists
+        // Loading user's playlists
+        try {
+            List<Playlist> playlists = AmpifyServices.getMyPlaylists();
+            List<Playlist> personalPlaylists = new ArrayList<>();
+            List<Playlist> groupPlaylists = new ArrayList<>();
+            for (Playlist playlist : playlists) {
+                if (playlist.getCategory().equals("GROUP")) {
+                    groupPlaylists.add(playlist);
+                } else {
+                    personalPlaylists.add(playlist);
+                }
+            }
+            userApi.setPersonalPlaylists(personalPlaylists);
+            userApi.setGroupPlaylist(groupPlaylists);
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        // Displaying top albums to the user
+        try {
+            List<Album> albums = AmpifyServices.getTopAlbums();
+            userApi.setTopAlbums(albums);
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        // Displaying most played music to the user
+        try {
+            List<Song> songs = AmpifyServices.getUserMostPlayedSong();
+            userApi.setMostPlayed(songs);
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        // Displaying music played at same time in past
+        try {
+            List<Song> songs = AmpifyServices.getPreviouslyPlayedSongs();
+            userApi.setPreviouslyPlayed(songs);
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        // Loading the last played song from server
+        try {
             MediaPlayerService.previousSong = AmpifyServices.getUserLastPlayedSong();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
 
+        // Displaying the last played song info in bottom pane
         if (MediaPlayerService.previousSong != null) {
             try {
                 Pane mediaController = FXMLLoader.load(getClass().getResource("/resources/fxml/mediaPlayer.fxml"));
@@ -71,116 +147,15 @@ public class HomeController implements Initializable {
             }
         }
 
-/**
- * testing playlist creation !!
- * place at apt place later on
- */
-/**
- * when creating a playlist
- *          u r required to give playlist name, category(group,or user),privacy(public or private)
- *          pass to function named createPlaylist
- * when u want to add a song to playlist
- *          u r reqd to pass playlistID ,songID to func named addSongToPlaylist()
- * when u want to fetch playlists of whose user is owner(of whose user is member wala function nahi hua h abhi)
- *      u r only reqd to call the function getMyPlaylists()
- * when u want to fetch songs of a particular playlist
- *      u r required to pass the playlist ID to function getSongsOfPlaylist()
- *
- */
-
-
-
-
+        // Displaying home pane
         try {
-            System.out.println("fetching personal playlists!!!");
-
-            List<Playlist> collection = AmpifyServices.getMyPlaylists();
-            for (Playlist p : collection)
-                System.out.println(p.getPlaylistName() + " " + p.getOwner() + " " + p.getPrivacy()+p.getCategory());
-
-
-        } catch (IOException | ClassNotFoundException e) {
+            Pane newPane = FXMLLoader.load(getClass().getResource("/resources/fxml/homeContentsPane.fxml"));
+            displayPane.getChildren().clear();
+            displayPane.getChildren().add(newPane);
+            HomeScreenWidgets.currentDisplayPage = HomeScreenDisplays.MAIN_PAGE;
+        } catch (IOException e) {
             e.printStackTrace();
         }
-
-        try {
-            System.out.println("fetching previously played songs!!!");
-
-            List<Song> collection = AmpifyServices.getPreviouslyPlayedSongs();
-            for (Song p : collection)
-                System.out.println(p.getSongName()+" "+ p.getArtistName());
-
-
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            System.out.println("fetching noti!!!");
-
-            List<Notification> collection = AmpifyServices.getMyNotifications();
-            for (Notification p : collection)
-                System.out.println(p.getPlaylistName() + " " + p.getSender() );
-
-
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        try {
-            System.out.println("sending noti!!!");
-
-            String collection = AmpifyServices.sendNotification("errbbbor@gmail.com",11);
-            System.out.print(collection);
-
-
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            System.out.println("adding to favourite!!!");
-
-            String collection = AmpifyServices.addToFavorites(9);
-            System.out.print(collection);
-
-
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-//search result testing
-        //pass rowcount,offset as u want to and ofc the string to be searched
-        try {
-            System.out.println("search!!!");
-
-            List<Song> collection = AmpifyServices.getSearchResult("a",0,10);
-            for (Song p : collection)
-                System.out.println(p.getSongName()+" "+ p.getArtistName());
-
-
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-//favourite song list
-        try {
-            System.out.println("favourites!!");
-
-            List<Song> collection = AmpifyServices.getUserFavouriteSong(0,10);
-            for (Song p : collection)
-                System.out.println(p.getSongName()+" "+ p.getArtistName());
-
-
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-
-
-        /**
-         * this is testing for sending notification
-         * u r reqd to give me details like receiver mailId and playlist Id
-         * and call function sendNotifications!!
-         */
-
 
     }
 
@@ -222,7 +197,7 @@ public class HomeController implements Initializable {
         window.show();
     }
 
-    public void historyButtonAction(ActionEvent actionEvent) {
+    public void historyButtonAction() {
 
         if (HomeScreenWidgets.currentDisplayPage != HomeScreenDisplays.HISTORY_PAGE) {
             try {
@@ -253,7 +228,7 @@ public class HomeController implements Initializable {
     }
 
     public void downloadsButtonAction() {
-        if(HomeScreenWidgets.currentDisplayPage != HomeScreenDisplays.DOWNLOADS_SCREEN){
+        if (HomeScreenWidgets.currentDisplayPage != HomeScreenDisplays.DOWNLOADS_SCREEN) {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/fxml/downloadsScreen.fxml"));
                 Pane newLoadedPane = loader.load();

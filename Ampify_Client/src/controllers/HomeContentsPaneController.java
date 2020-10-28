@@ -4,7 +4,6 @@ import CellFactories.AlbumCardFactory;
 import CellFactories.ArtistCellFactory;
 import CellFactories.MusicCardFactory;
 import CellFactories.PlaylistCellFactory;
-import Services.AmpifyServices;
 import com.jfoenix.controls.JFXListView;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXMLLoader;
@@ -20,11 +19,10 @@ import model.Song;
 import serverClasses.requests.SongListType;
 import utilities.HomeScreenDisplays;
 import utilities.HomeScreenWidgets;
+import utilities.UserApi;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class HomeContentsPaneController implements Initializable {
@@ -37,92 +35,71 @@ public class HomeContentsPaneController implements Initializable {
     public JFXListView<Album> topAlbumsListView;
     public JFXListView<Playlist> personalPlaylistListView;
     public JFXListView<Playlist> groupPlaylistListView;
+    public JFXListView<Song> mostPlayedListView;
+    public JFXListView<Song> playedAtSameTimeListView;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        // Displaying top artists
-        try {
-            List<Artist> artists = AmpifyServices.getTopArtists();
-            popularArtistsListView.setItems(FXCollections.observableArrayList(artists));
+        UserApi userApi = UserApi.getInstance();
+
+        new Thread(() -> {
+            // Displaying top artists
+            popularArtistsListView.setItems(FXCollections.observableArrayList(userApi.getPopularArtists()));
             popularArtistsListView.setCellFactory(new ArtistCellFactory());
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        }).start();
 
-        // Displaying recently played songs
-        try {
-            List<Song> songs = AmpifyServices.getUserRecentlyPlayedSong(0, 4);
-            recentlyPlayedListView.setItems(FXCollections.observableArrayList((songs)));
+        new Thread(() -> {
+            // Displaying recently played songs
+            recentlyPlayedListView.setItems(FXCollections.observableArrayList((userApi.getRecentlyPlayed())));
             recentlyPlayedListView.setCellFactory(new MusicCardFactory());
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        }).start();
 
-        // Displaying recently added songs
-        try {
-            List<Song> songs = AmpifyServices.getRecentAddedSongs(0, 4);
-            recentlyAddedListView.setItems(FXCollections.observableArrayList(songs));
+        new Thread(() -> {
+            // Displaying recently added songs
+            recentlyAddedListView.setItems(FXCollections.observableArrayList(userApi.getRecentlyAdded()));
             recentlyAddedListView.setCellFactory(new MusicCardFactory());
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        }).start();
 
 
-        // Displaying recommended songs to the user (Based on choice of Artists, Languages, Genres)
-        try {
-            List<Song> songs = AmpifyServices.getUserChoiceSongs(0, 4);
-            recommendedSongsListView.setItems(FXCollections.observableArrayList(songs));
+        new Thread(() -> {
+            // Displaying recommended songs to the user (Based on choice of Artists, Languages, Genres)
+            recommendedSongsListView.setItems(FXCollections.observableArrayList(userApi.getRecommendedMusic()));
             recommendedSongsListView.setCellFactory(new MusicCardFactory());
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        }).start();
 
-        // Displaying the top(4) songs to the user
-        try {
-            List<Song> songs = AmpifyServices.getTopSongs(0, 4);
-            topSongsListView.setItems(FXCollections.observableArrayList(songs));
+        new Thread(() -> {
+            // Displaying the top(4) songs to the user
+            topSongsListView.setItems(FXCollections.observableArrayList(userApi.getTopSongs()));
             topSongsListView.setCellFactory(new MusicCardFactory());
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        }).start();
 
-        // Loading user's playlists
-        loadPlaylists();
-
-        // Displaying top albums to the user
-        try {
-            List<Album> albums = AmpifyServices.getTopAlbums();
-            topAlbumsListView.setItems(FXCollections.observableArrayList(albums));
-            topAlbumsListView.setCellFactory(new AlbumCardFactory());
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-
-    }
-
-    // Function to load user's playlists
-    public void loadPlaylists() {
-        // Loading user's playlists
-        try {
-            List<Playlist> playlists = AmpifyServices.getMyPlaylists();
-            List<Playlist> personalPlaylists = new ArrayList<>();
-            List<Playlist> groupPlaylists = new ArrayList<>();
-            for (Playlist playlist : playlists) {
-                if (playlist.getCategory().equals("GROUP")) {
-                    groupPlaylists.add(playlist);
-                } else {
-                    personalPlaylists.add(playlist);
-                }
-            }
-            personalPlaylistListView.setItems(FXCollections.observableArrayList(personalPlaylists));
-            groupPlaylistListView.setItems(FXCollections.observableArrayList(groupPlaylists));
+        new Thread(() -> {
+            // Loading user's playlists
+            personalPlaylistListView.setItems(FXCollections.observableArrayList(userApi.getPersonalPlaylists()));
+            groupPlaylistListView.setItems(FXCollections.observableArrayList(userApi.getGroupPlaylist()));
             personalPlaylistListView.setCellFactory(new PlaylistCellFactory());
             groupPlaylistListView.setCellFactory(new PlaylistCellFactory());
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        }).start();
+
+        new Thread(() -> {
+            // Displaying top albums to the user
+            topAlbumsListView.setItems(FXCollections.observableArrayList(userApi.getTopAlbums()));
+            topAlbumsListView.setCellFactory(new AlbumCardFactory());
+        }).start();
+
+        new Thread(() -> {
+            // Displaying most played music to the user
+            mostPlayedListView.setItems(FXCollections.observableArrayList(userApi.getMostPlayed()));
+            mostPlayedListView.setCellFactory(new MusicCardFactory());
+        }).start();
+
+        new Thread(() -> {
+            // Displaying music played at same time in past
+            playedAtSameTimeListView.setItems(FXCollections.observableArrayList(userApi.getPreviouslyPlayed()));
+            playedAtSameTimeListView.setCellFactory(new MusicCardFactory());
+        }).start();
+
     }
 
     // Called when view all button for recently played songs clicked
