@@ -105,6 +105,17 @@ public class HomeController implements Initializable {
             e.printStackTrace();
         }
 
+        try {
+            System.out.println("fetching previously played songs!!!");
+
+            List<Song> collection = AmpifyServices.getPreviouslyPlayedSongs();
+            for (Song p : collection)
+                System.out.println(p.getSongName()+" "+ p.getArtistName());
+
+
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
         try {
             System.out.println("fetching noti!!!");
@@ -127,34 +138,12 @@ public class HomeController implements Initializable {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+
         try {
-            System.out.println("fetching most played songs!!!");
+            System.out.println("adding to favourite!!!");
 
-            List<Song> collection = AmpifyServices.getUserMostPlayedSong();
-            for (Song p : collection)
-                System.out.println(p.getSongName()+" "+ p.getArtistName());
-
-
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        try {
-            System.out.println("fetching trending songs!!!");
-
-            List<Song> collection = AmpifyServices.getTrendingSongs();
-            for (Song p : collection)
-                System.out.println(p.getSongName()+" "+ p.getArtistName());
-
-
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        try {
-            System.out.println("fetching history!!!!");
-
-            List<UserHistory> collection = AmpifyServices.getUserHistory(0,10);
-            for (UserHistory p : collection)
-                System.out.println(p.getSongName() + " " +p.getTimePlayed() );
+            String collection = AmpifyServices.addToFavorites(9);
+            System.out.print(collection);
 
 
         } catch (IOException | ClassNotFoundException e) {
@@ -166,6 +155,18 @@ public class HomeController implements Initializable {
             System.out.println("search!!!");
 
             List<Song> collection = AmpifyServices.getSearchResult("a",0,10);
+            for (Song p : collection)
+                System.out.println(p.getSongName()+" "+ p.getArtistName());
+
+
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+//favourite song list
+        try {
+            System.out.println("favourites!!");
+
+            List<Song> collection = AmpifyServices.getUserFavouriteSong(0,10);
             for (Song p : collection)
                 System.out.println(p.getSongName()+" "+ p.getArtistName());
 

@@ -165,6 +165,22 @@ public class AmpifyServices {
     }
 
 
+    /**
+     * Function to fetch previously played SONGS by the user
+     * we pass email of the current user logged in
+     * taken from UserApi saved instance
+     * *we will return only 5 songs for this !!
+     */
+    public static List<Song> getPreviouslyPlayedSongs() throws IOException, ClassNotFoundException {
+
+        SongFetchRequest songFetchRequest = new SongFetchRequest(String.valueOf(SongFetchType.PREVIOUSLY_PLAYED_BY_USER), userApi.getEmail());
+        oos.writeObject(songFetchRequest);
+        oos.flush();
+        ois = Main.userInputStream;
+
+        return (List<Song>) ois.readObject();
+    }
+
 
     /**
      * Function to fetch recent songs(released 5 days back!!)
@@ -359,6 +375,33 @@ public class AmpifyServices {
 
         SearchRequest searchRequest = new SearchRequest(text, offset, rowCount);
         oos.writeObject(searchRequest);
+        oos.flush();
+        ois = Main.userInputStream;
+
+        return (List<Song>) ois.readObject();
+    }
+
+    /**
+     * Function to add a song to favourite song list :)
+     * pass the song Id to this function rest it will handle
+     */
+    public static String addToFavorites(int songID) throws IOException, ClassNotFoundException {
+
+        AddToFavouriteRequest addToFavouriteRequest = new AddToFavouriteRequest(songID, userApi.getEmail());
+        oos.writeObject(addToFavouriteRequest);
+        oos.flush();
+
+        return (String) ois.readObject();
+    }
+    /**
+     * Function to fetch favourite songs of user
+     * i.e. which are liked by him/her
+         * *
+     */
+    public static List<Song> getUserFavouriteSong(int offset,int rowCount) throws IOException, ClassNotFoundException {
+
+        SongFetchRequest songFetchRequest = new SongFetchRequest(String.valueOf(SongFetchType.FAVOURITE_SONGS), userApi.getEmail(), offset, rowCount);
+        oos.writeObject(songFetchRequest);
         oos.flush();
         ois = Main.userInputStream;
 

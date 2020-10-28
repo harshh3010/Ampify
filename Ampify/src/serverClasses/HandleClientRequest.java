@@ -144,6 +144,16 @@ public class HandleClientRequest implements Runnable {
                         System.out.print("DA");
                         oos.writeObject(AmpifyServices.showTrendingSongs(songType));
                         oos.flush();
+                    }//if request is to display previously played at same time song!!
+                    else if (songType.getType().equals(String.valueOf(SongFetchType.PREVIOUSLY_PLAYED_BY_USER))) {
+                        System.out.print("&&&&");
+                        oos.writeObject(AmpifyServices.showPreviouslyPlayedSongs(songType));
+                    }
+                    //if request is to display favourite played song of user!!
+                    else if (songType.getType().equals(String.valueOf(SongFetchType.FAVOURITE_SONGS))) {
+
+                        oos.writeObject(AmpifyServices.showFavouriteSong(songType));
+                        oos.flush();
                     }
 
                 }
@@ -211,6 +221,11 @@ public class HandleClientRequest implements Runnable {
                 if (request.equals((String.valueOf(ServerRequest.SEARCH_REQUEST)))) {
                     SearchRequest searchRequest = (SearchRequest) object;
                     oos.writeObject(AmpifyServices.showSearchResults(searchRequest));
+                    oos.flush();
+                }
+                if (request.equals((String.valueOf(ServerRequest.ADD_TO_FAVOURITE)))) {
+                    AddToFavouriteRequest addToFavouriteRequest = (AddToFavouriteRequest) object;
+                    oos.writeObject(AmpifyServices.addSongToFavoutite(addToFavouriteRequest));
                     oos.flush();
                 }
 

@@ -24,6 +24,8 @@ public class SongFetchRequest implements Serializable {
 
     /**
      * this constructor invoked when we want to fetch recommended songs for user!!
+     * or you want favourite songs of user!!
+     * or you want recently played song by user
      * @param type
      * @param email
      * @param offset
