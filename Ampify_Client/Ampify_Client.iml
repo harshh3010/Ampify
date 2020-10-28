@@ -10,7 +10,7 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://C:/jfoenix-9.0.10.jar!/" />
+          <root url="jar://$USER_HOME$/Desktop/Softablitz/jfoenix-9.0.10 (1).jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -19,14 +19,14 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="file://$USER_HOME$/Downloads/openjfx-11.0.2_windows-x64_bin-sdk/javafx-sdk-11.0.2/lib" />
+          <root url="file://C:/JavaFX SDK/javafx-sdk-15/lib" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file://$USER_HOME$/Downloads/openjfx-11.0.2_windows-x64_bin-sdk/javafx-sdk-11.0.2/lib" />
+          <root url="file://C:/JavaFX SDK/javafx-sdk-15/lib" />
         </SOURCES>
-        <jarDirectory url="file://$USER_HOME$/Downloads/openjfx-11.0.2_windows-x64_bin-sdk/javafx-sdk-11.0.2/lib" recursive="false" />
-        <jarDirectory url="file://$USER_HOME$/Downloads/openjfx-11.0.2_windows-x64_bin-sdk/javafx-sdk-11.0.2/lib" recursive="false" type="SOURCES" />
+        <jarDirectory url="file://C:/JavaFX SDK/javafx-sdk-15/lib" recursive="false" />
+        <jarDirectory url="file://C:/JavaFX SDK/javafx-sdk-15/lib" recursive="false" type="SOURCES" />
       </library>
     </orderEntry>
   </component>
