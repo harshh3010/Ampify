@@ -1,4 +1,5 @@
 package utilities;
+
 public enum LoginStatus {
 
     SUCCESS("0"),

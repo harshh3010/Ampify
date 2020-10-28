@@ -41,7 +41,6 @@ public class LoginController {
             new Thread(() -> {
 
                 try {
-
                     Socket socket = new Socket(Main.serverIp, Main.serverPort);
 
                     // Creating a new user auth object

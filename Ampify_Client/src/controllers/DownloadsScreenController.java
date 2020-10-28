@@ -47,8 +47,6 @@ public class DownloadsScreenController implements Initializable {
                     songs.add(song);
                 }
             }
-
-
             songListView.setItems(FXCollections.observableArrayList(songs));
             songListView.setCellFactory(new SongCellFactory());
 

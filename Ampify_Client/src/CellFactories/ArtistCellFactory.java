@@ -7,7 +7,6 @@ import javafx.scene.layout.Pane;
 import javafx.util.Callback;
 import model.Artist;
 
-
 public class ArtistCellFactory implements Callback<ListView<Artist>, ListCell<Artist>> {
 
     @Override

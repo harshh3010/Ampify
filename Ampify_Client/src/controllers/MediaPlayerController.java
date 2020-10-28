@@ -136,7 +136,6 @@ public class MediaPlayerController implements Initializable {
         });
     }
 
-
     // Function to update the progress of media in the UI
     protected void updateValues() {
         if (currentTimeLabel != null && mediaPlayerSlider != null && volumeSlider != null) {

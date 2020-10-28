@@ -21,31 +21,38 @@ public class AddToHistoryRequest implements Serializable {
     }
 
     public int getSongId() {
+
         return songId;
     }
 
     public void setSongId(int songId) {
+
         this.songId = songId;
     }
 
     public String getUserEmail() {
+
         return userEmail;
     }
 
     public void setUserEmail(String userEmail) {
+
         this.userEmail = userEmail;
     }
 
     public Timestamp getTimestamp() {
+
         return timestamp;
     }
 
     public void setTimestamp(Timestamp timestamp) {
+
         this.timestamp = timestamp;
     }
 
     @Override
     public String toString() {
+
         return String.valueOf(ServerRequest.UPDATE_HISTORY);
     }
 }

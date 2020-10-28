@@ -18,7 +18,6 @@ import utilities.HomeScreenWidgets;
 import java.io.IOException;
 import java.util.List;
 
-
 public class ArtistScreenController {
 
     @FXML
@@ -43,11 +42,9 @@ public class ArtistScreenController {
         ratingLabel.setText("⭐" + artist.getArtistRating());
         imageView.setImage(new Image(artist.getArtistImageURL()));
         imageView.setPreserveRatio(false);
-//        imageView.setStyle("-fx-background-image: url(\"" + artist.getArtistImageURL() + "\"); -fx-background-size: cover;");
 
         loadItems();
     }
-
     private void loadItems(){
         try {
             List<Song> songList = AmpifyServices.getSongsOfArtist(artist.getArtistID(),offset,rowCount);
@@ -69,7 +66,6 @@ public class ArtistScreenController {
             e.printStackTrace();
         }
     }
-
     // Called on click of previous button
     public void onPreviousClicked() {
         // Fetching the previous batch only if offset is not 0 (Offset = 0 specifies first batch)
@@ -78,7 +74,6 @@ public class ArtistScreenController {
             loadItems();
         }
     }
-
     // Called on click of next button
     public void onNextClicked() {
         // Fetching the next batch only if current one is non-empty (Empty specifies the end)

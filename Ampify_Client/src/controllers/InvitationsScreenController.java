@@ -19,6 +19,7 @@ public class InvitationsScreenController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         loadInvitations();
     }
 
@@ -33,6 +34,7 @@ public class InvitationsScreenController implements Initializable {
     }
 
     public void onReloadClicked(ActionEvent actionEvent) {
+
         loadInvitations();
     }
 }

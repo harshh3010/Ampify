@@ -4,9 +4,6 @@ import java.io.Serializable;
 
 public class Genres implements Serializable {
 
-
-
-
     private String genres;
     public Genres()
     {

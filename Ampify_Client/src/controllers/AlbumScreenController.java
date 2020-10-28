@@ -22,7 +22,6 @@ public class AlbumScreenController {
     public Label releaseLabel;
     @FXML
     public Label ratingLabel;
-
     private Album album;
     private int offset;
     private int rowCount;
@@ -42,7 +41,6 @@ public class AlbumScreenController {
 
         loadItems();
     }
-
     private void loadItems() {
 
         try {
@@ -52,7 +50,6 @@ public class AlbumScreenController {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-
     }
 
     // Called on click of previous button
@@ -63,7 +60,6 @@ public class AlbumScreenController {
             loadItems();
         }
     }
-
     // Called on click of next button
     public void onNextClicked() {
         // Fetching the next batch only if current one is non-empty (Empty specifies the end)
@@ -72,5 +68,4 @@ public class AlbumScreenController {
             loadItems();
         }
     }
-
 }

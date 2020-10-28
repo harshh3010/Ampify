@@ -17,8 +17,8 @@ public class InvitationCellController extends ListCell<Notification> {
     private Label nameLabel, statusLabel, senderIDLabel;
     @FXML
     private Button menuButton;
-
     public InvitationCellController() {
+
         loadFXML();
     }
 

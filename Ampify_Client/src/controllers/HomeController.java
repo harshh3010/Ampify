@@ -218,7 +218,6 @@ public class HomeController implements Initializable {
                 e.printStackTrace();
             }
         }
-
     }
 
     public void onHomeButtonClicked() {

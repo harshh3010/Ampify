@@ -42,74 +42,92 @@ public class UserApi {
     }
 
     public List<Song> getTrendingSongs() {
+
         return trendingSongs;
     }
 
     public void setTrendingSongs(List<Song> trendingSongs) {
+
         this.trendingSongs = trendingSongs;
     }
 
     public File getSelectedDirectory() {
+
         return selectedDirectory;
     }
 
     public void setSelectedDirectory(File selectedDirectory) {
+
         this.selectedDirectory = selectedDirectory;
     }
 
     public List<Playlist> getPersonalPlaylists() {
+
         return personalPlaylists;
     }
 
     public void setPersonalPlaylists(List<Playlist> personalPlaylists) {
+
         this.personalPlaylists = personalPlaylists;
     }
 
     public List<Playlist> getGroupPlaylist() {
+
         return groupPlaylist;
     }
 
     public void setGroupPlaylist(List<Playlist> groupPlaylist) {
+
         this.groupPlaylist = groupPlaylist;
     }
 
     public List<Song> getRecentlyPlayed() {
+
         return recentlyPlayed;
     }
 
     public void setRecentlyPlayed(List<Song> recentlyPlayed) {
+
         this.recentlyPlayed = recentlyPlayed;
     }
 
     public List<Artist> getPopularArtists() {
+
         return popularArtists;
     }
 
     public void setPopularArtists(List<Artist> popularArtists) {
+
         this.popularArtists = popularArtists;
     }
 
     public List<Song> getRecentlyAdded() {
+
         return recentlyAdded;
     }
 
     public void setRecentlyAdded(List<Song> recentlyAdded) {
+
         this.recentlyAdded = recentlyAdded;
     }
 
     public List<Song> getRecommendedMusic() {
+
         return recommendedMusic;
     }
 
     public void setRecommendedMusic(List<Song> recommendedMusic) {
+
         this.recommendedMusic = recommendedMusic;
     }
 
     public List<Song> getTopSongs() {
+
         return topSongs;
     }
 
     public void setTopSongs(List<Song> topSongs) {
+
         this.topSongs = topSongs;
     }
 
@@ -118,58 +136,72 @@ public class UserApi {
     }
 
     public void setTopAlbums(List<Album> topAlbums) {
+
         this.topAlbums = topAlbums;
     }
 
     public List<Song> getMostPlayed() {
+
         return mostPlayed;
     }
 
     public void setMostPlayed(List<Song> mostPlayed) {
+
         this.mostPlayed = mostPlayed;
     }
 
     public List<Song> getPreviouslyPlayed() {
+
         return previouslyPlayed;
     }
 
     public void setPreviouslyPlayed(List<Song> previouslyPlayed) {
+
         this.previouslyPlayed = previouslyPlayed;
     }
 
     public static void setInstance(UserApi instance) {
+
         UserApi.instance = instance;
     }
 
     public String getEmail() {
+
         return email;
     }
 
     public void setEmail(String email) {
+
         this.email = email;
     }
 
     public List<Language> getLikedLanguages() {
+
         return likedLanguages;
     }
 
     public void setLikedLanguages(List<Language> likedLanguages) {
+
         this.likedLanguages = likedLanguages;
     }
 
     public List<Genres> getLikedGenres() {
+
         return likedGenres;
     }
 
     public void setLikedGenres(List<Genres> likedGenres) {
+
         this.likedGenres = likedGenres;
     }
 
     public List<Artist> getLikedArtists() {
+
         return likedArtists;
     }
 
     public void setLikedArtists(List<Artist> likedArtists) {
+
         this.likedArtists = likedArtists;
     }
 }

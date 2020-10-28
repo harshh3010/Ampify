@@ -6,7 +6,6 @@ import javafx.util.Callback;
 import javafx.scene.control.ListCell;
 import model.Song;
 
-
 public class MusicCardFactory implements Callback<ListView<Song>, ListCell<Song>> {
 
     @Override

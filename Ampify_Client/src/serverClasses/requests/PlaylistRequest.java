@@ -60,7 +60,7 @@ public class PlaylistRequest implements Serializable {
     }
 
     /**
-     * whenn request is to fetch all songs of a particular playlist
+     * when request is to fetch all songs of a particular playlist
      * user email not reqd here but playlistId
      * coz user may demand to view songs of any playlist(obvio if public n )
      * so then wont create other function for it
@@ -75,62 +75,77 @@ public class PlaylistRequest implements Serializable {
     }
 
     public String getPlaylistName() {
+
         return playlistName;
     }
 
     public int getSongId() {
+
         return songId;
     }
 
     public void setSongId(int songId) {
+
         this.songId = songId;
     }
 
     public int getPlaylistId() {
+
         return playlistId;
     }
 
     public void setPlaylistId(int playlistId) {
+
         this.playlistId = playlistId;
     }
 
     public String getCategory() {
+
         return category;
     }
 
     public void setCategory(String category) {
+
         this.category = category;
     }
 
     public void setPlaylistName(String playlistName) {
+
         this.playlistName = playlistName;
     }
 
     public String getEmail() {
+
         return email;
     }
 
     public void setEmail(String email) {
+
         this.email = email;
     }
 
     public String getPrivacy() {
+
         return privacy;
     }
 
     public void setPrivacy(String privacy) {
+
         this.privacy = privacy;
     }
 
     public String getType() {
+
         return type;
     }
 
     public void setType(String type) {
+
         this.type = type;
     }
     @Override
     public String toString() {
+
         return String.valueOf(ServerRequest.PLAYLIST_REQUEST);
     }
 

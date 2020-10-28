@@ -12,13 +12,17 @@ public class GenresFetchRequest implements Serializable{
 
     }
     public String getGenres(){
+
         return  genres;
     }
     public void setLanguage(String language){
+
         this.genres=genres;
     }
+
     @Override
     public String toString() {
+
         return String.valueOf(ServerRequest.GENRES_SHOW);
     }
 }

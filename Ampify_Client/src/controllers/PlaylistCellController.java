@@ -177,6 +177,5 @@ public class PlaylistCellController extends ListCell<Playlist> {
 
             setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         }
-
     }
 }

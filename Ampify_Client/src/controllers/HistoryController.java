@@ -17,7 +17,6 @@ import java.util.ResourceBundle;
 
 public class HistoryController implements Initializable {
 
-
     @FXML
     public TableView<UserHistory> historyTable;
     @FXML
@@ -58,7 +57,6 @@ public class HistoryController implements Initializable {
             loadItems();
         }
     }
-
     // Function to load records from the server
     private void loadItems() {
         // Displaying the song history to the user

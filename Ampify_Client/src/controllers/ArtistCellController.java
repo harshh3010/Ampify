@@ -81,7 +81,6 @@ public class ArtistCellController extends ListCell<Artist> {
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
-
                         }
                     }
                 }

@@ -107,23 +107,28 @@ public class HandleClientRequest implements Runnable {
                     if (songType.getType().equals(String.valueOf(SongFetchType.TOP))) {
                         oos.writeObject(AmpifyServices.showTopSongs(songType));
                         oos.flush();
-                    }//if request is to display songs of particular artist
+                    }
+                    //if request is to display songs of particular artist
                     else if (songType.getType().equals(String.valueOf(SongFetchType.SONGS_OF_PARTICULAR_ARTIST))) {
                         oos.writeObject(AmpifyServices.showSongsOfParticularArtist(songType));
                         oos.flush();
-                    }//if request is to display songs of particular album
+                    }
+                    //if request is to display songs of particular album
                     else if (songType.getType().equals(String.valueOf(SongFetchType.SONGS_OF_PARTICULAR_ALBUM))) {
                         oos.writeObject(AmpifyServices.showSongsOfParticularAlbum(songType));
                         oos.flush();
-                    }//if request is to display songs of user's choice!!!
+                    }
+                    //if request is to display songs of user's choice!!!
                     else if (songType.getType().equals(String.valueOf(SongFetchType.SONGS_OF_USER_CHOICE))) {
                         oos.writeObject(AmpifyServices.showSongsOfUserChoice(songType));
                         oos.flush();
-                    }//if request is to display recentlu added sngs to the server!!
+                    }
+                    //if request is to display recentlu added sngs to the server!!
                     else if (songType.getType().equals(String.valueOf(SongFetchType.RECENT_ADDED_SONGS))) {
                         oos.writeObject(AmpifyServices.showRecentAddedSongs(songType));
                         oos.flush();
-                    }//if request is to display last played song of user!!
+                    }
+                    //if request is to display last played song of user!!
                     else if (songType.getType().equals(String.valueOf(SongFetchType.LAST_PLAYED_SONG))) {
                         System.out.print("hi");
                         oos.writeObject(AmpifyServices.showLastPlayedSong(songType));
@@ -134,17 +139,20 @@ public class HandleClientRequest implements Runnable {
 
                         oos.writeObject(AmpifyServices.showRecentlyPlayedSong(songType));
                         oos.flush();
-                    }//if request is to display most played song of user!!
+                    }
+                    //if request is to display most played song of user!!
                     else if (songType.getType().equals(String.valueOf(SongFetchType.MOST_PLAYED_SONGS_BY_USER))) {
                         System.out.print("LOL");
                         oos.writeObject(AmpifyServices.showMostPlayedSongByUser(songType));
                         oos.flush();
-                    }//if request is to display trending song!!
+                    }
+                    //if request is to display trending song!!
                     else if (songType.getType().equals(String.valueOf(SongFetchType.TRENDING_SONGS))) {
                         System.out.print("DA");
                         oos.writeObject(AmpifyServices.showTrendingSongs(songType));
                         oos.flush();
-                    }//if request is to display previously played at same time song!!
+                    }
+                    //if request is to display previously played at same time song!!
                     else if (songType.getType().equals(String.valueOf(SongFetchType.PREVIOUSLY_PLAYED_BY_USER))) {
                         System.out.print("&&&&");
                         oos.writeObject(AmpifyServices.showPreviouslyPlayedSongs(songType));
@@ -155,7 +163,6 @@ public class HandleClientRequest implements Runnable {
                         oos.writeObject(AmpifyServices.showFavouriteSong(songType));
                         oos.flush();
                     }
-
                 }
 
                 if (request.equals((String.valueOf(ServerRequest.UPDATE_HISTORY)))) {
@@ -177,20 +184,24 @@ public class HandleClientRequest implements Runnable {
                     if (playlistRequest.getType().equals(String.valueOf(PlaylistType.CREATE_PLAYLIST))) {
                         oos.writeObject(AmpifyServices.creatingPlaylist(playlistRequest));
                         oos.flush();
-                    }//if request is to fetch mine playlists
+                    }
+                    //if request is to fetch mine playlists
                     else if (playlistRequest.getType().equals(String.valueOf(PlaylistType.FETCH_USER_PLAYLISTS))) {
                         oos.writeObject(AmpifyServices.getUserPlaylist(playlistRequest));
                         oos.flush();
 
-                    }//if request is to add song to a playlist
+                    }
+                    //if request is to add song to a playlist
                     else if (playlistRequest.getType().equals(String.valueOf(PlaylistType.ADD_SONG_TO_A_PLAYLIST))) {
                         oos.writeObject(AmpifyServices.addingSongToPlaylist(playlistRequest));
                         oos.flush();
-                    }//if request is to fetch songs of a particular playlist
+                    }
+                    //if request is to fetch songs of a particular playlist
                     else if (playlistRequest.getType().equals(String.valueOf(PlaylistType.FETCH_SONGS_OF_A_PLAYLIST))) {
                         oos.writeObject(AmpifyServices.getSongsOfPlaylist(playlistRequest));
                         oos.flush();
-                    }//if request is to delete a particular playlist
+                    }
+                    //if request is to delete a particular playlist
                     else if (playlistRequest.getType().equals(String.valueOf(PlaylistType.DELETE_PLAYLIST))) {
                         oos.writeObject(AmpifyServices.deletePlaylist(playlistRequest));
                         oos.flush();
@@ -204,15 +215,18 @@ public class HandleClientRequest implements Runnable {
                     if (notificationRequest.getType().equals(String.valueOf(NotificationType.SEND))) {
                         oos.writeObject(AmpifyServices.sendingNotification(notificationRequest));
                         oos.flush();
-                    }//if request is to get all my notifications
+                    }
+                    //if request is to get all my notifications
                     else if (notificationRequest.getType().equals(String.valueOf(NotificationType.GET_NOTIFICATIONS))) {
                         oos.writeObject(AmpifyServices.gettingNotification(notificationRequest));
                         oos.flush();
-                    }//if request is to confirm notification i.e. add as member and later on will also delete that notification
+                    }
+                    //if request is to confirm notification i.e. add as member and later on will also delete that notification
                     else if (notificationRequest.getType().equals(String.valueOf(NotificationType.CONFIRM_NOTIFICATION))) {
                         oos.writeObject(AmpifyServices.confirmNotification(notificationRequest));
                         oos.flush();
-                    }//if request is to delete notification
+                    }
+                    //if request is to delete notification
                     else if (notificationRequest.getType().equals(String.valueOf(NotificationType.DELETE_NOTIFICATION))) {
                         oos.writeObject(AmpifyServices.deleteNotification(notificationRequest));
                         oos.flush();
@@ -228,7 +242,6 @@ public class HandleClientRequest implements Runnable {
                     oos.writeObject(AmpifyServices.addSongToFavoutite(addToFavouriteRequest));
                     oos.flush();
                 }
-
 
             } catch (StreamCorruptedException e) {
                 try {

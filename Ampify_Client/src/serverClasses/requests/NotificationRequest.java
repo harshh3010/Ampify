@@ -38,38 +38,47 @@ public class NotificationRequest implements Serializable {
     }
 
     public String getType() {
+
         return type;
     }
 
     public void setType(String type) {
+
         this.type = type;
     }
 
     public String getSender() {
+
         return sender;
     }
 
     public void setSender(String sender) {
+
         this.sender = sender;
     }
 
     public String getReceiver() {
+
         return receiver;
     }
 
     public void setReceiver(String receiver) {
+
         this.receiver = receiver;
     }
 
     public int getPlaylistID() {
+
         return playlistID;
     }
 
     public void setPlaylistID(int playlistID) {
+
         this.playlistID = playlistID;
     }
     @Override
     public String toString() {
+
         return String.valueOf(ServerRequest.NOTIFICATION_REQUEST);
     }
 

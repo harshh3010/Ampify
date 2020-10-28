@@ -59,32 +59,40 @@ public class SongFetchRequest implements Serializable {
         this.rowcount=rowcount;
     }
     public int getID() {
+
         return ID;
     }
     public String getEmail() {
+
         return email;
     }
 
     public int getRowcount() {
+
         return rowcount;
     }
 
     public void setArtistID(int ID) {
+
         this.ID = ID;
     }
     public String getType() {
+
         return type;
     }
 
     public void setType(String type) {
+
         this.type = type;
     }
 
     public int getOffset() {
+
         return offset;
     }
 
     public void setOffset(int offset) {
+
         this.offset = offset;
     }
 

@@ -7,8 +7,10 @@ import javafx.util.Callback;
 import model.Playlist;
 
 public class PlaylistCellFactory implements Callback<ListView<Playlist>, ListCell<Playlist>> {
+
     @Override
     public ListCell<Playlist> call(ListView<Playlist> playlistListView) {
+
         return new PlaylistCellController();
     }
 }

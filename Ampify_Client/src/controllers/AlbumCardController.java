@@ -38,7 +38,6 @@ public class AlbumCardController extends ListCell<Album> {
         }
     }
 
-
     @Override
     protected void updateItem(Album album, boolean b) {
         super.updateItem(album, b);
@@ -69,14 +68,11 @@ public class AlbumCardController extends ListCell<Album> {
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
-
                         }
                     }
                 }
             });
-
             setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         }
-
     }
 }

@@ -104,7 +104,6 @@ public class AmpifyServices {
      * Function to fetch last played song of user
      * we pass email of the current user logged in
      * taken from UserApi saved instance
-     * *
      */
     public static Song getUserLastPlayedSong() throws IOException, ClassNotFoundException {
 
@@ -120,7 +119,6 @@ public class AmpifyServices {
      * Function to fetch RECENTY played song of user
      * we pass email of the current user logged in
      * taken from UserApi saved instance
-     * *
      */
     public static List<Song> getUserRecentlyPlayedSong(int offset,int rowCount) throws IOException, ClassNotFoundException {
 

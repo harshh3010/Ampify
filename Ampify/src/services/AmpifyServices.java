@@ -37,8 +37,6 @@ public class AmpifyServices {
         }
         return String.valueOf(Status.FAILED);
     }
-
-
     /**
      * Function to login user
      */
@@ -75,7 +73,6 @@ public class AmpifyServices {
         return user;
     }
 
-
     /**
      * Function to get all artists from database
      */
@@ -103,7 +100,6 @@ public class AmpifyServices {
         return artistList;
     }
 
-
     /**
      * Function to get all genres from database
      */
@@ -127,7 +123,6 @@ public class AmpifyServices {
         return genresList;
     }
 
-
     /**
      * Function to get all languages from database
      */
@@ -150,7 +145,6 @@ public class AmpifyServices {
         }
         return languageList;
     }
-
 
     /**
      * Function to save user choices for genres, languages, artists in the database
@@ -219,6 +213,7 @@ public class AmpifyServices {
 
                 return String.valueOf(Status.SUCCESS);
             } catch (SQLException e) {
+
                 // Displaying error in case of failure
                 System.out.println("Error message: " + e.getMessage());
             }
@@ -229,7 +224,6 @@ public class AmpifyServices {
 
         return String.valueOf(Status.FAILED);
     }
-
 
     /*
     Function to fetch user choices for artists, languages and genres from database
@@ -304,7 +298,6 @@ public class AmpifyServices {
         return result;
     }
 
-
     /*
     Function to get top artists from database
      */
@@ -342,7 +335,6 @@ public class AmpifyServices {
         return artistList;
     }
 
-
     /*
      * To return top albums to UI!!!
      * */
@@ -373,7 +365,6 @@ public class AmpifyServices {
 
         return topAlbumList;
     }
-
 
     /*
      * To return top songs to UI!!!
@@ -477,7 +468,6 @@ public class AmpifyServices {
         return songListOfArtist;
     }
 
-
     /*
      * To return  songs of aprticular album to UI!!!
      * */
@@ -558,8 +548,6 @@ public class AmpifyServices {
      * * ordered by song ID ascending order
      * * rows fetched = rowcount
      */
-
-
     public static List<Song> showSongsOfUserChoice(SongFetchRequest songFetchRequest) {
 
         String languagest = "";
@@ -590,7 +578,6 @@ public class AmpifyServices {
         /**
          * Fetching user preferred genres from database
          */
-
         try {
             String query = "SELECT DISTINCT " + DatabaseConstants.USER_CHOICE_GENRES_COL_NAME +
                     " FROM " + DatabaseConstants.USER_CHOICE_GENRES_TABLE +
@@ -636,14 +623,6 @@ public class AmpifyServices {
         System.out.println(artistst);
         //TODO USE INNER JOIN ;THIS IS SOMETHING NOT TO BE DONE BUT TAKEN LITE FOR NOW!
         // :(
-
-
-            /*String query2 = "SELECT DISTINCT * FROM " + DatabaseConstants.SONG_TABLE +
-                    " WHERE " + DatabaseConstants.SONG_COL_LANGUAGE + " IN  (" + languagest +
-                    ") OR " + DatabaseConstants.SONG_COL_GENRES + " IN (" + genrest +
-                    ") OR " + DatabaseConstants.SONG_COL_ARTISTID + " IN (" + artistst + ") " +
-                    " ORDER BY songs.IDsong  " +
-                    "LIMIT " + offset + " , " + rowcount + ";";*/
 
             String query = "SELECT artist.artistName,songs.songName," +
                     "songs.languages,songs.genre,songs.musicURL, songs.lyricsURL," +
@@ -761,7 +740,6 @@ public class AmpifyServices {
 
     /**
      * function for returning back recently played song by the user
-     *
      * @param songFetchRequest
      * @return
      */
@@ -879,7 +857,6 @@ public class AmpifyServices {
      * function to return back list of most played songs by a particular user!!ONLY 5
      * rn we have returned listof userHistory
      * i.e details are songID ,SONGnAME, NOoFtimesPlayed
-     *
      * @param songFetchRequest
      * @return
      */
@@ -918,9 +895,6 @@ public class AmpifyServices {
                 mostPlayed.setSongRating(resultSet.getDouble(DatabaseConstants.SONG_COL_RATING));
                 mostPlayed.setArtistName(resultSet.getString(DatabaseConstants.ARTIST_COL_NAME));
 
-//                mostPlayed.setSongId(resultSet.getInt(1));
-//                mostPlayed.setSongName(resultSet.getString(2));
-//                mostPlayed.setNumberOfTimesPlayed(resultSet.getInt(3));
                 mostPlayedList.add(mostPlayed);
             }
             return mostPlayedList;
@@ -933,13 +907,10 @@ public class AmpifyServices {
         return mostPlayedList;
     }
 
-
-
     /**
      * function to return back list of trending songs!!ONLY 5
      * rn we have returned listof userHistory
      * i.e details are songID ,SONGnAME, NOoFtimesPlayed
-     *
      * @param songFetchRequest
      * @return
      */
@@ -1004,7 +975,6 @@ public class AmpifyServices {
     /**
      * function to return back list of previously played songs!!ONLY 5
      * i.e details are songID ,SONGnAME, NOoFtimesPlayed
-     *
      * @param songFetchRequest
      * @return
      */
@@ -1019,11 +989,11 @@ public class AmpifyServices {
         Calendar cal1 = Calendar.getInstance();
         cal1.setTimeInMillis(timestamp1.getTime());
 
-        // subtract 1 hour
+        // subtract 2 hour
         cal.add(Calendar.HOUR_OF_DAY, -2);
         cal.add(Calendar.DAY_OF_MONTH, -1);
-        //add 1 hour
-        cal1.add(Calendar.HOUR_OF_DAY, +6);
+        //add 2 hour
+        cal1.add(Calendar.HOUR_OF_DAY, +2);
         cal1.add(Calendar.DAY_OF_MONTH, -1);
         timestamp = new Timestamp(cal.getTime().getTime());
         timestamp1 = new Timestamp(cal1.getTime().getTime());
@@ -1071,13 +1041,9 @@ public class AmpifyServices {
         } catch (SQLException e) {
             //displaying error if occured *_*
             e.printStackTrace();
-
-
         }
         return previouslyPlayedSongsList;
     }
-
-
 
     /**
      * this function is to add a song to favourite list of user
@@ -1120,14 +1086,11 @@ public class AmpifyServices {
             e.printStackTrace();
         }
         return String.valueOf(Status.FAILED);
-
-
     }
 
     /**
      * function to return back list of favourite songs of a particular user!!
      * query size limited by rowcount!!
-     *
      */
     public static List<Song> showFavouriteSong(SongFetchRequest songFetchRequest) {
         String email = songFetchRequest.getEmail();
@@ -1151,7 +1114,6 @@ public class AmpifyServices {
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
-
             while (resultSet.next()) {
                 songSet = new Song();
                 System.out.print(">> ");
@@ -1174,7 +1136,6 @@ public class AmpifyServices {
             //displaying error if occured *_*
             e.printStackTrace();
         }
-
         return favouriteSongList;
     }
 
@@ -1209,8 +1170,6 @@ public class AmpifyServices {
         } catch (SQLException e) {
             //displaying error if occured *_*
             e.printStackTrace();
-
-
         }
         return userHistoryList;
     }
@@ -1277,15 +1236,11 @@ public class AmpifyServices {
                     e.printStackTrace();
                 }
                 return String.valueOf(Status.FAILED);
-
             }
-
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return String.valueOf(Status.FAILED);
-
     }
 
     /**
@@ -1332,7 +1287,6 @@ public class AmpifyServices {
             e.printStackTrace();
         }
         return myPlaylists;
-
     }
 
     /**
@@ -1379,14 +1333,11 @@ public class AmpifyServices {
             e.printStackTrace();
         }
         return String.valueOf(Status.FAILED);
-
-
     }
 
     /**
      * if req is to get songs of a particular playlist
      * TODO CHECKS
-     *
      * @param playlistRequest
      * @return
      */
@@ -1408,7 +1359,6 @@ public class AmpifyServices {
             PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
 
             ResultSet resultSet = preparedStatement.executeQuery();
-
 
             while (resultSet.next()) {
                 songSet = new Song();
@@ -1433,9 +1383,7 @@ public class AmpifyServices {
             //displaying error if occured *_*
             e.printStackTrace();
         }
-
         return playlistSongsList;
-
     }
 
     /**
@@ -1443,7 +1391,6 @@ public class AmpifyServices {
      * first of all i check that u r requesting to delete f9 but do u have ownwership
      * if yes then ill serve ur purpose
      * otherwise sorry
-     *
      * @param playlistRequest
      * @return
      */
@@ -1470,7 +1417,7 @@ public class AmpifyServices {
                 }
                 return String.valueOf(Status.FAILED);
             }
-//if u r not owner then we cant delete
+            //if u r not owner then u cant delete
             else {
                 return String.valueOf(Status.NOT_OWNER);
             }
@@ -1482,7 +1429,6 @@ public class AmpifyServices {
 
 
     }
-
 
     /**
      * *for sending notification to the user whom our client wants to add as member of a
@@ -1541,7 +1487,6 @@ public class AmpifyServices {
 
     /**
      * for returning back list of notifications that this particular has received
-     *
      * @param notificationRequest
      * @return
      */
@@ -1552,7 +1497,6 @@ public class AmpifyServices {
                 " INNER JOIN playlist ON notification.playlistID=playlist.id" +
                 " WHERE notification.receiver =\"" + notificationRequest.getReceiver() + "\" " +
                 ";";
-
 
         Notification notification;
         List<Notification> notificationList = new ArrayList<>();
@@ -1573,15 +1517,12 @@ public class AmpifyServices {
             //displaying error if occured *_*
             e.printStackTrace();
         }
-
         return notificationList;
-
     }
 
     /**
      * here we confirm the notification received !!
      * if already a member corr msg given
-     *
      * @param notificationRequest
      * @return
      */
@@ -1632,8 +1573,6 @@ public class AmpifyServices {
             e.printStackTrace();
         }
         return String.valueOf(Status.FAILED);
-
-
     }
 
     /**
@@ -1651,10 +1590,8 @@ public class AmpifyServices {
             return String.valueOf(Status.SUCCESS);
         } catch (SQLException e) {
             e.printStackTrace();
-
         }
         return String.valueOf(Status.FAILED);
-
     }
 
     /**
@@ -1710,13 +1647,7 @@ public class AmpifyServices {
             //displaying error if occured *_*
             e.printStackTrace();
         }
-
         return searchSongsList;
-
     }
-
-
-
-
 
 }

@@ -48,10 +48,12 @@ public class Artist implements Serializable{
         this.artistID=artistID;
     }
     public void setArtistRating(double artistRating){
+
         this.artistRating=artistRating;
     }
     @Override
     public String toString() {
+
         return this.artistName;
     }
 }
