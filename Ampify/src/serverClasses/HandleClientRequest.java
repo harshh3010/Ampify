@@ -213,6 +213,11 @@ public class HandleClientRequest implements Runnable {
                     oos.writeObject(AmpifyServices.showSearchResults(searchRequest));
                     oos.flush();
                 }
+                if (request.equals((String.valueOf(ServerRequest.ADD_TO_FAVOURITE)))) {
+                    AddToFavouriteRequest addToFavouriteRequest = (AddToFavouriteRequest) object;
+                    oos.writeObject(AmpifyServices.addSongToFavoutite(addToFavouriteRequest));
+                    oos.flush();
+                }
 
 
             } catch (StreamCorruptedException e) {

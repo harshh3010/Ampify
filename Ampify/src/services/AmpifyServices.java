@@ -636,47 +636,63 @@ public class AmpifyServices {
         System.out.println(artistst);
         //TODO USE INNER JOIN ;THIS IS SOMETHING NOT TO BE DONE BUT TAKEN LITE FOR NOW!
         // :(
-        try {
 
-            String query2 = "SELECT DISTINCT * FROM " + DatabaseConstants.SONG_TABLE +
+
+            /*String query2 = "SELECT DISTINCT * FROM " + DatabaseConstants.SONG_TABLE +
                     " WHERE " + DatabaseConstants.SONG_COL_LANGUAGE + " IN  (" + languagest +
                     ") OR " + DatabaseConstants.SONG_COL_GENRES + " IN (" + genrest +
                     ") OR " + DatabaseConstants.SONG_COL_ARTISTID + " IN (" + artistst + ") " +
                     " ORDER BY songs.IDsong  " +
+                    "LIMIT " + offset + " , " + rowcount + ";";*/
+
+            String query = "SELECT artist.artistName,songs.songName," +
+                    "songs.languages,songs.genre,songs.musicURL, songs.lyricsURL," +
+                    "songs.imageURL,songs.releaseDate,songs.rating," +
+                    "songs.IDartist,songs.IDalbum,songs.IDsong " +
+                    "FROM songs " +
+                    "INNER JOIN artist ON songs.IDartist=artist.IDartist" +
+                    " WHERE songs.languages IN  ("+ languagest +
+                    ") OR songs.genre IN (" + genrest +
+                    ") OR songs.IDartist  IN (" + artistst + ") " +
+                    " GROUP BY songs.IDsong  " +
+                    " ORDER BY songs.IDsong DESC " +
                     "LIMIT " + offset + " , " + rowcount + ";";
-            PreparedStatement preparedStatement = Main.connection.prepareStatement(query2);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            Song songSet;
+
+
             String query1;
-            while (resultSet.next()) {
-                songSet = new Song();
-                query1 = "SELECT * FROM " + DatabaseConstants.ARTIST_TABLE + " WHERE " + DatabaseConstants.ARTIST_COL_ID + " =" + resultSet.getInt(3) + ";";
-                PreparedStatement preparedStatement2 = Main.connection.prepareStatement(query1);
-                ResultSet resultSet2 = preparedStatement2.executeQuery();
-                while (resultSet2.next()) {
-                    songSet.setArtistName(resultSet2.getString(2));
+            List<Song> userChoiceSongList = new ArrayList<>();
+            try {
+                PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
+
+                ResultSet resultSet = preparedStatement.executeQuery();
+                Song songSet;
+
+                while (resultSet.next()) {
+                    System.out.print("& ");
+                    songSet = new Song();
+                    songSet.setSongID(resultSet.getInt(DatabaseConstants.SONG_COL_ID));
+                    songSet.setSongName(resultSet.getString(DatabaseConstants.SONG_COL_NAME));
+                    songSet.setArtistID(resultSet.getInt(DatabaseConstants.SONG_COL_ARTISTID));
+                    songSet.setLanguage(resultSet.getString(DatabaseConstants.SONG_COL_LANGUAGE));
+                    songSet.setGenre(resultSet.getString(DatabaseConstants.SONG_COL_GENRES));
+                    songSet.setSongURL(resultSet.getString(DatabaseConstants.SONG_COL_MUSIC_URL));
+                    songSet.setSongLyricsURL(resultSet.getString(DatabaseConstants.SONG_COL_LYRICS_URL));
+                    songSet.setSongImageURL(resultSet.getString(DatabaseConstants.SONG_COL_IMAGE_URL));
+                    songSet.setAlbumID(resultSet.getInt(DatabaseConstants.SONG_COL_ALBUMID));
+                    songSet.setReleaseDate(resultSet.getString(DatabaseConstants.SONG_COL_RELEASE_DATE));
+                    songSet.setSongRating(resultSet.getDouble(DatabaseConstants.SONG_COL_RATING));
+                    songSet.setArtistName(resultSet.getString(DatabaseConstants.ARTIST_COL_NAME));
+
+                    //adding this song object to list of song type
+                    userchoiceSong.add(songSet);
                 }
-                songSet.setSongID(resultSet.getInt(1));
-                songSet.setSongName(resultSet.getString(2));
-                songSet.setArtistID(resultSet.getInt(3));
-                songSet.setLanguage(resultSet.getString(4));
-                songSet.setGenre(resultSet.getString(5));
-                songSet.setSongURL(resultSet.getString(6));
-                songSet.setSongLyricsURL(resultSet.getString(7));
-                songSet.setSongImageURL(resultSet.getString(8));
-                songSet.setAlbumID(resultSet.getInt(9));
-                songSet.setReleaseDate(resultSet.getString(10));
-                songSet.setSongRating(resultSet.getDouble(11));
-                //adding this song object to list of song type
-                System.out.print("*  ");
-                userchoiceSong.add(songSet);
+                return userchoiceSong;
+            } catch (SQLException e) {
+                //displaying error if occured *_*
+                e.printStackTrace();
             }
+
             return userchoiceSong;
-        } catch (SQLException e) {
-            //displaying error if occured _
-            e.printStackTrace();
-        }
-        return userchoiceSong;
     }
 
     /**
@@ -1525,6 +1541,52 @@ public class AmpifyServices {
         return searchSongsList;
 
     }
+
+    /**
+     * this function is to add a song to favourite list of user
+     * if song is already liked it will return a string stating ALREADY_LIKED
+     * @param addToFavouriteRequest
+     * @return
+     */
+    public static String addSongToFavoutite(AddToFavouriteRequest addToFavouriteRequest) {
+        /**
+         * thru this query we first check if aready this song is present in his favourite list or not
+         * *_* *_* *_* *_*
+         */
+        String query = " SELECT * FROM " + DatabaseConstants.FAVOURITE_SONG_TABLE+
+                " WHERE " + DatabaseConstants.FAVOURITE_SONG_COL_SONGiD + "=\"" +addToFavouriteRequest.getSongID() + "\"" +
+                " AND " + DatabaseConstants.FAVOURITE_SONG_COL_USEReMAIL + "=\"" + addToFavouriteRequest.getEmail() + "\"";
+        try {
+            PreparedStatement preparedStatement1 = Main.connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement1.executeQuery();
+            if (resultSet.next())
+                return String.valueOf(Status.ALREADY_LIKED);
+            else {
+                query = "INSERT INTO " + DatabaseConstants.FAVOURITE_SONG_TABLE+
+                        "(" + DatabaseConstants.FAVOURITE_SONG_COL_USEReMAIL+
+                        "," + DatabaseConstants.FAVOURITE_SONG_COL_SONGiD +
+                        ") values(?,?);";
+                try {
+                    PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
+                    preparedStatement.setString(1, addToFavouriteRequest.getEmail());
+                    preparedStatement.setInt(2, addToFavouriteRequest.getSongID());
+
+                    preparedStatement.executeUpdate();
+                    System.out.println("added to favourite song list");
+                    return String.valueOf(Status.SUCCESS);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                return String.valueOf(Status.FAILED);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return String.valueOf(Status.FAILED);
+
+
+    }
+
 
 
 }

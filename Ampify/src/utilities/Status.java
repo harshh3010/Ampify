@@ -7,6 +7,8 @@ public enum  Status {
     NOT_OWNER("4"),
     NO_SUCH_USER_EXIST("5"),
     ALREADY_SENT("6"),
+    ALREADY_LIKED("7"),
+
     ;
 
     Status(String s){

@@ -20,11 +20,8 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <JFXListView fx:id="songListView" layoutX="327.0" layoutY="83.0" prefHeight="417.0" prefWidth="600.0" />
-      <Label layoutX="327.0" layoutY="42.0" prefHeight="30.0" prefWidth="145.0" text="FOR FANS" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="20.0" />
-         </font>
-      </Label>
+      <JFXListView fx:id="songListView" layoutX="320.0" layoutY="42.0" prefHeight="417.0" prefWidth="600.0" />
+      <JFXButton layoutX="320.0" layoutY="475.0" onAction="#onPreviousClicked" prefHeight="25.0" prefWidth="147.0" text="Previous" textFill="WHITE" />
+      <JFXButton layoutX="773.0" layoutY="475.0" onAction="#onNextClicked" prefHeight="25.0" prefWidth="147.0" text="Next" textFill="WHITE" />
     </children>
 </Pane>

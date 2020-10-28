@@ -370,4 +370,17 @@ public class AmpifyServices {
         return (List<Song>) ois.readObject();
     }
 
+    /**
+     * Function to add a song to favourite song list :)
+     * pass the song Id to this function rest it will handle
+     */
+    public static String addToFavorites(int songID) throws IOException, ClassNotFoundException {
+
+        AddToFavouriteRequest addToFavouriteRequest = new AddToFavouriteRequest(songID, userApi.getEmail());
+        oos.writeObject(addToFavouriteRequest);
+        oos.flush();
+
+        return (String) ois.readObject();
+    }
+
 }

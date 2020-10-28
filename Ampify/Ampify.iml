@@ -10,7 +10,16 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Desktop/Softablitz/mysql-connector-java-5.1.49/mysql-connector-java-5.1.49-bin.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../Softablitz/mysql-connector-java-5.1.49/mysql-connector-java-5.1.49-bin.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../mysql-connector-java-5.1.49/mysql-connector-java-5.1.49-bin.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

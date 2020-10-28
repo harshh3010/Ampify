@@ -94,7 +94,10 @@ public class DatabaseConstants {
     public static final String NOTIFICATION_COL_RECEIVER="receiver";
     public static final String NOTIFICATION_COL_PLAYLIST_ID="playlistID";
 
-
+    //favourite song list
+    public static final String FAVOURITE_SONG_TABLE="favouriteSong";
+    public static final  String FAVOURITE_SONG_COL_USEReMAIL="userEmail";
+    public static final String FAVOURITE_SONG_COL_SONGiD="songID";
 
 
 }
