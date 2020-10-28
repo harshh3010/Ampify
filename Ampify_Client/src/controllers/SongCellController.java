@@ -5,6 +5,7 @@ Controller class for song card
 package controllers;
 
 import CellFactories.SongsQueueCellFactory;
+import Services.AmpifyServices;
 import Services.DownloadService;
 import Services.MediaPlayerService;
 import javafx.collections.FXCollections;
@@ -18,10 +19,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import model.Song;
 import utilities.HomeScreenWidgets;
+import utilities.Status;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,7 +66,24 @@ public class SongCellController extends ListCell<Song> {
         MenuItem item4 = new MenuItem("Download");
 
         // Setting action events for menu items
-        item1.setOnAction(actionEvent -> System.out.println("Add to favourites"));
+        item1.setOnAction(actionEvent -> {
+            try {
+
+                // TODO: DISPLAY DIALOG
+                String result = AmpifyServices.addToFavorites(song.getSongID());
+
+                if (result.equals(String.valueOf(Status.ALREADY_LIKED))) {
+                    System.out.println("Already present in favourites");
+                } else if (result.equals(String.valueOf(Status.SUCCESS))) {
+                    System.out.println("Added to favourites");
+                } else {
+                    System.out.println("Unable to add to favourites");
+                }
+
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        });
 
         // On clicking add to playlist button
         item2.setOnAction(actionEvent -> {
@@ -109,20 +127,24 @@ public class SongCellController extends ListCell<Song> {
                 fileMade = file.mkdirs();
             }
 
-            if(fileMade){
+            if (fileMade) {
                 File outputFile = new File(filePath + song.getSongName().replaceAll("\\s", "") + "-" + song.getArtistName().replaceAll("\\s", "") + ".mp3");
                 new Thread(new DownloadService(song.getSongURL(), outputFile)).start();
-            }else{
+            } else {
                 System.out.println("An error occurred");
             }
 
         });
 
-        // Adding the items in menu
-        contextMenu.getItems().add(item1);
-        contextMenu.getItems().add(item2);
+        // Adding the items in menu (Song ID = 0 ===> Downloaded/Local music)
+        if (song.getSongID() != 0) {
+            contextMenu.getItems().add(item1);
+            contextMenu.getItems().add(item2);
+            contextMenu.getItems().add(item4);
+        }
+
         contextMenu.getItems().add(item3);
-        contextMenu.getItems().add(item4);
+
 
         contextMenu.setStyle("-fx-text-fill: black;");
 

@@ -25,6 +25,7 @@ public class UserApi {
     private List<Song> previouslyPlayed;
     private List<Playlist> personalPlaylists;
     private List<Playlist> groupPlaylist;
+    private List<Song> trendingSongs;
     private File selectedDirectory;
 
     private static UserApi instance = null;
@@ -38,6 +39,14 @@ public class UserApi {
         if (instance == null)
             instance = new UserApi();
         return instance;
+    }
+
+    public List<Song> getTrendingSongs() {
+        return trendingSongs;
+    }
+
+    public void setTrendingSongs(List<Song> trendingSongs) {
+        this.trendingSongs = trendingSongs;
     }
 
     public File getSelectedDirectory() {

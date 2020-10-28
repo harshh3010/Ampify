@@ -130,6 +130,14 @@ public class HomeController implements Initializable {
             e.printStackTrace();
         }
 
+        // Loading trending songs from the server
+        try{
+            List<Song> songs = AmpifyServices.getTrendingSongs();
+            userApi.setTrendingSongs(songs);
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
         // Loading the last played song from server
         try {
             MediaPlayerService.previousSong = AmpifyServices.getUserLastPlayedSong();

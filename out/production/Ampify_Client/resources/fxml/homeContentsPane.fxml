@@ -114,6 +114,12 @@
                                     </font>
                                  </Label>
                                  <JFXListView fx:id="playedAtSameTimeListView" maxHeight="210.0" minHeight="210.0" orientation="HORIZONTAL" prefHeight="210.0" />
+                                 <Label text="Trending Music" textFill="WHITE">
+                                    <font>
+                                       <Font size="26.0" />
+                                    </font>
+                                 </Label>
+                                 <JFXListView fx:id="trendingSongsListView" maxHeight="210.0" minHeight="210.0" orientation="HORIZONTAL" prefHeight="210.0" />
                                         </children>
                                     </VBox>
                                 </content>

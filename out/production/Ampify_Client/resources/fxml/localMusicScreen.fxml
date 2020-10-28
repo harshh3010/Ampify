@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="530.0" prefWidth="975.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LocalMusicScreenController">
+    <children>
+        <JFXButton fx:id="chooseDirectoryButton" layoutX="853.0" layoutY="22.0" onAction="#onChooseClick" text="Choose Directory" textFill="WHITE" />
+        <Label layoutX="14.0" layoutY="15.0" text="Local Music" textFill="WHITE">
+            <font>
+                <Font name="System Bold" size="26.0" />
+            </font>
+        </Label>
+      <JFXListView fx:id="songsListView" layoutX="20.0" layoutY="67.0" prefHeight="426.0" prefWidth="922.0" />
+    </children>
+</AnchorPane>

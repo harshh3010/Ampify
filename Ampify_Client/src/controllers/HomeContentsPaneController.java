@@ -37,6 +37,7 @@ public class HomeContentsPaneController implements Initializable {
     public JFXListView<Playlist> groupPlaylistListView;
     public JFXListView<Song> mostPlayedListView;
     public JFXListView<Song> playedAtSameTimeListView;
+    public JFXListView<Song> trendingSongsListView;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -100,6 +101,14 @@ public class HomeContentsPaneController implements Initializable {
             playedAtSameTimeListView.setCellFactory(new MusicCardFactory());
         }).start();
 
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // Displaying trending songs to the user
+                trendingSongsListView.setItems(FXCollections.observableArrayList(userApi.getTrendingSongs()));
+                trendingSongsListView.setCellFactory(new MusicCardFactory());
+            }
+        }).start();
     }
 
     // Called when view all button for recently played songs clicked
