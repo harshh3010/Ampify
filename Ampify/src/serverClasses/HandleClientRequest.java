@@ -133,7 +133,7 @@ public class HandleClientRequest implements Runnable {
 
                         System.out.println("Received request to fetch top songs");
 
-                        objectOutputStream.writeObject(AmpifyServices.showTopSongs(songType));
+                        objectOutputStream.writeObject(SongServices.showTopSongs(songType));
                         objectOutputStream.flush();
                     }
                     //if request is to display songs of particular artist
@@ -141,7 +141,7 @@ public class HandleClientRequest implements Runnable {
 
                         System.out.println("Received request to fetch songs of particular artist");
 
-                        objectOutputStream.writeObject(AmpifyServices.showSongsOfParticularArtist(songType));
+                        objectOutputStream.writeObject(SongServices.showSongsOfParticularArtist(songType));
                         objectOutputStream.flush();
                     }
                     //if request is to display songs of particular album
@@ -149,7 +149,7 @@ public class HandleClientRequest implements Runnable {
 
                         System.out.println("Received request to fetch songs of particular album");
 
-                        objectOutputStream.writeObject(AmpifyServices.showSongsOfParticularAlbum(songType));
+                        objectOutputStream.writeObject(SongServices.showSongsOfParticularAlbum(songType));
                         objectOutputStream.flush();
                     }
                     //if request is to display songs of user's choice!!!
@@ -157,7 +157,7 @@ public class HandleClientRequest implements Runnable {
 
                         System.out.println("Received request to fetch songs of user choice");
 
-                        objectOutputStream.writeObject(AmpifyServices.showSongsOfUserChoice(songType));
+                        objectOutputStream.writeObject(SongServices.showSongsOfUserChoice(songType));
                         objectOutputStream.flush();
                     }
                     //if request is to display recently added songs to the server!!
@@ -165,7 +165,7 @@ public class HandleClientRequest implements Runnable {
 
                         System.out.println("Received request to fetch recently added songs");
 
-                        objectOutputStream.writeObject(AmpifyServices.showRecentAddedSongs(songType));
+                        objectOutputStream.writeObject(SongServices.showRecentAddedSongs(songType));
                         objectOutputStream.flush();
                     }
                     //if request is to display last played song of user!!
@@ -173,7 +173,7 @@ public class HandleClientRequest implements Runnable {
 
                         System.out.println("Received request to fetch last played song");
 
-                        objectOutputStream.writeObject(AmpifyServices.showLastPlayedSong(songType));
+                        objectOutputStream.writeObject(SongServices.showLastPlayedSong(songType));
                         objectOutputStream.flush();
                     }
                     //if request is to display recently played song of user!!
@@ -181,7 +181,7 @@ public class HandleClientRequest implements Runnable {
 
                         System.out.println("Received request to fetch recently played songs");
 
-                        objectOutputStream.writeObject(AmpifyServices.showRecentlyPlayedSong(songType));
+                        objectOutputStream.writeObject(SongServices.showRecentlyPlayedSong(songType));
                         objectOutputStream.flush();
                     }
                     //if request is to display most played song of user!!
@@ -189,7 +189,7 @@ public class HandleClientRequest implements Runnable {
 
                         System.out.println("Received request to fetch most played songs");
 
-                        objectOutputStream.writeObject(AmpifyServices.showMostPlayedSongByUser(songType));
+                        objectOutputStream.writeObject(SongServices.showMostPlayedSongByUser(songType));
                         objectOutputStream.flush();
                     }
                     //if request is to display trending song!!
@@ -197,7 +197,7 @@ public class HandleClientRequest implements Runnable {
 
                         System.out.println("Received request to fetch trending songs");
 
-                        objectOutputStream.writeObject(AmpifyServices.showTrendingSongs(songType));
+                        objectOutputStream.writeObject(SongServices.showTrendingSongs(songType));
                         objectOutputStream.flush();
                     }
                     //if request is to display previously played at same time song!!
@@ -205,14 +205,14 @@ public class HandleClientRequest implements Runnable {
 
                         System.out.println("Received request to fetch previously played songs");
 
-                        objectOutputStream.writeObject(AmpifyServices.showPreviouslyPlayedSongs(songType));
+                        objectOutputStream.writeObject(SongServices.showPreviouslyPlayedSongs(songType));
                     }
                     //if request is to display favourite played song of user!!
                     else if (songType.getType().equals(String.valueOf(SongFetchType.FAVOURITE_SONGS))) {
 
                         System.out.println("Received request to fetch favourite songs");
 
-                        objectOutputStream.writeObject(AmpifyServices.showFavouriteSong(songType));
+                        objectOutputStream.writeObject(SongServices.showFavouriteSong(songType));
                         objectOutputStream.flush();
                     }
                 }
@@ -222,7 +222,7 @@ public class HandleClientRequest implements Runnable {
                     System.out.println("Received request to update song history");
 
                     AddToHistoryRequest addToHistoryRequest = (AddToHistoryRequest) object;
-                    objectOutputStream.writeObject(AmpifyServices.playSongAddHistory(addToHistoryRequest));
+                    objectOutputStream.writeObject(AmpifyServices.addSongToHistory(addToHistoryRequest));
                     objectOutputStream.flush();
                 }
 
@@ -243,7 +243,7 @@ public class HandleClientRequest implements Runnable {
 
                         System.out.println("Received request to create playlist");
 
-                        objectOutputStream.writeObject(AmpifyServices.creatingPlaylist(playlistRequest));
+                        objectOutputStream.writeObject(PlaylistServices.creatingPlaylist(playlistRequest));
                         objectOutputStream.flush();
                     }
                     //if request is to fetch mine playlists
@@ -251,7 +251,7 @@ public class HandleClientRequest implements Runnable {
 
                         System.out.println("Received request to fetch user's playlist");
 
-                        objectOutputStream.writeObject(AmpifyServices.getUserPlaylist(playlistRequest));
+                        objectOutputStream.writeObject(PlaylistServices.getUserPlaylist(playlistRequest));
                         objectOutputStream.flush();
 
                     }
@@ -260,7 +260,7 @@ public class HandleClientRequest implements Runnable {
 
                         System.out.println("Received request to add a song to playlist");
 
-                        objectOutputStream.writeObject(AmpifyServices.addingSongToPlaylist(playlistRequest));
+                        objectOutputStream.writeObject(PlaylistServices.addingSongToPlaylist(playlistRequest));
                         objectOutputStream.flush();
                     }
                     //if request is to fetch songs of a particular playlist
@@ -268,7 +268,7 @@ public class HandleClientRequest implements Runnable {
 
                         System.out.println("Received request to fetch songs of a playlist");
 
-                        objectOutputStream.writeObject(AmpifyServices.getSongsOfPlaylist(playlistRequest));
+                        objectOutputStream.writeObject(PlaylistServices.getSongsOfPlaylist(playlistRequest));
                         objectOutputStream.flush();
                     }
                     //if request is to delete a particular playlist
@@ -276,7 +276,7 @@ public class HandleClientRequest implements Runnable {
 
                         System.out.println("Received request to delete playlist");
 
-                        objectOutputStream.writeObject(AmpifyServices.deletePlaylist(playlistRequest));
+                        objectOutputStream.writeObject(PlaylistServices.deletePlaylist(playlistRequest));
                         objectOutputStream.flush();
                     }
                 }
@@ -289,7 +289,7 @@ public class HandleClientRequest implements Runnable {
 
                         System.out.println("Received request to send an invite to playlist");
 
-                        objectOutputStream.writeObject(AmpifyServices.sendingNotification(notificationRequest));
+                        objectOutputStream.writeObject(NotificationServices.sendingNotification(notificationRequest));
                         objectOutputStream.flush();
                     }
                     //if request is to get all my notifications
@@ -297,7 +297,7 @@ public class HandleClientRequest implements Runnable {
 
                         System.out.println("Received request to get invites");
 
-                        objectOutputStream.writeObject(AmpifyServices.gettingNotification(notificationRequest));
+                        objectOutputStream.writeObject(NotificationServices.gettingNotification(notificationRequest));
                         objectOutputStream.flush();
                     }
                     //if request is to confirm notification i.e. add as member and later on will also delete that notification
@@ -305,7 +305,7 @@ public class HandleClientRequest implements Runnable {
 
                         System.out.println("Received request to accept invite");
 
-                        objectOutputStream.writeObject(AmpifyServices.confirmNotification(notificationRequest));
+                        objectOutputStream.writeObject(NotificationServices.confirmNotification(notificationRequest));
                         objectOutputStream.flush();
                     }
                     //if request is to delete notification
@@ -313,7 +313,7 @@ public class HandleClientRequest implements Runnable {
 
                         System.out.println("Received request to decline invite");
 
-                        objectOutputStream.writeObject(AmpifyServices.deleteNotification(notificationRequest));
+                        objectOutputStream.writeObject(NotificationServices.deleteNotification(notificationRequest));
                         objectOutputStream.flush();
                     }
                 }
