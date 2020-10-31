@@ -13,6 +13,7 @@ public class NotificationRequest implements Serializable {
 
     /**
      * this constructor will be used for sending notifications
+     *
      * @param type
      * @param sender
      * @param receiver
@@ -24,6 +25,7 @@ public class NotificationRequest implements Serializable {
         this.receiver = receiver;
         this.playlistID = playlistID;
     }
+
     /**
      * this will be used for confirming the notification
      */
@@ -32,6 +34,7 @@ public class NotificationRequest implements Serializable {
         this.receiver = receiver;
         this.playlistID = playlistID;
     }
+
     /**
      * it is used to receive all notifications for that user
      */
@@ -44,6 +47,7 @@ public class NotificationRequest implements Serializable {
 
         return type;
     }
+
     public void setType(String type) {
 
         this.type = type;
@@ -53,22 +57,27 @@ public class NotificationRequest implements Serializable {
 
         return sender;
     }
+
     public void setSender(String sender) {
 
         this.sender = sender;
     }
+
     public String getReceiver() {
 
         return receiver;
     }
+
     public void setReceiver(String receiver) {
 
         this.receiver = receiver;
     }
+
     public int getPlaylistID() {
 
         return playlistID;
     }
+
     public void setPlaylistID(int playlistID) {
 
         this.playlistID = playlistID;

@@ -13,10 +13,12 @@ public class SignUpRequest implements Serializable {
 
         this.userAuth = userAuth;
     }
+
     public UserAuth getUserAuth() {
 
         return userAuth;
     }
+
     public void setUserAuth(UserAuth userAuth) {
 
         this.userAuth = userAuth;

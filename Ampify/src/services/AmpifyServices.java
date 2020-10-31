@@ -37,6 +37,7 @@ public class AmpifyServices {
         }
         return String.valueOf(Status.FAILED);
     }
+
     /**
      * Function to login user
      */
@@ -624,54 +625,54 @@ public class AmpifyServices {
         //TODO USE INNER JOIN ;THIS IS SOMETHING NOT TO BE DONE BUT TAKEN LITE FOR NOW!
         // :(
 
-            String query = "SELECT artist.artistName,songs.songName," +
-                    "songs.languages,songs.genre,songs.musicURL, songs.lyricsURL," +
-                    "songs.imageURL,songs.releaseDate,songs.rating," +
-                    "songs.IDartist,songs.IDalbum,songs.IDsong " +
-                    "FROM songs " +
-                    "INNER JOIN artist ON songs.IDartist=artist.IDartist" +
-                    " WHERE songs.languages IN  ("+ languagest +
-                    ") OR songs.genre IN (" + genrest +
-                    ") OR songs.IDartist  IN (" + artistst + ") " +
-                    " GROUP BY songs.IDsong  " +
-                    " ORDER BY songs.IDsong DESC " +
-                    "LIMIT " + offset + " , " + rowcount + ";";
+        String query = "SELECT artist.artistName,songs.songName," +
+                "songs.languages,songs.genre,songs.musicURL, songs.lyricsURL," +
+                "songs.imageURL,songs.releaseDate,songs.rating," +
+                "songs.IDartist,songs.IDalbum,songs.IDsong " +
+                "FROM songs " +
+                "INNER JOIN artist ON songs.IDartist=artist.IDartist" +
+                " WHERE songs.languages IN  (" + languagest +
+                ") OR songs.genre IN (" + genrest +
+                ") OR songs.IDartist  IN (" + artistst + ") " +
+                " GROUP BY songs.IDsong  " +
+                " ORDER BY songs.IDsong DESC " +
+                "LIMIT " + offset + " , " + rowcount + ";";
 
 
-            String query1;
-            List<Song> userChoiceSongList = new ArrayList<>();
-            try {
-                PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
+        String query1;
+        List<Song> userChoiceSongList = new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = Main.connection.prepareStatement(query);
 
-                ResultSet resultSet = preparedStatement.executeQuery();
-                Song songSet;
+            ResultSet resultSet = preparedStatement.executeQuery();
+            Song songSet;
 
-                while (resultSet.next()) {
-                    System.out.print("& ");
-                    songSet = new Song();
-                    songSet.setSongID(resultSet.getInt(DatabaseConstants.SONG_COL_ID));
-                    songSet.setSongName(resultSet.getString(DatabaseConstants.SONG_COL_NAME));
-                    songSet.setArtistID(resultSet.getInt(DatabaseConstants.SONG_COL_ARTISTID));
-                    songSet.setLanguage(resultSet.getString(DatabaseConstants.SONG_COL_LANGUAGE));
-                    songSet.setGenre(resultSet.getString(DatabaseConstants.SONG_COL_GENRES));
-                    songSet.setSongURL(resultSet.getString(DatabaseConstants.SONG_COL_MUSIC_URL));
-                    songSet.setSongLyricsURL(resultSet.getString(DatabaseConstants.SONG_COL_LYRICS_URL));
-                    songSet.setSongImageURL(resultSet.getString(DatabaseConstants.SONG_COL_IMAGE_URL));
-                    songSet.setAlbumID(resultSet.getInt(DatabaseConstants.SONG_COL_ALBUMID));
-                    songSet.setReleaseDate(resultSet.getString(DatabaseConstants.SONG_COL_RELEASE_DATE));
-                    songSet.setSongRating(resultSet.getDouble(DatabaseConstants.SONG_COL_RATING));
-                    songSet.setArtistName(resultSet.getString(DatabaseConstants.ARTIST_COL_NAME));
+            while (resultSet.next()) {
+                System.out.print("& ");
+                songSet = new Song();
+                songSet.setSongID(resultSet.getInt(DatabaseConstants.SONG_COL_ID));
+                songSet.setSongName(resultSet.getString(DatabaseConstants.SONG_COL_NAME));
+                songSet.setArtistID(resultSet.getInt(DatabaseConstants.SONG_COL_ARTISTID));
+                songSet.setLanguage(resultSet.getString(DatabaseConstants.SONG_COL_LANGUAGE));
+                songSet.setGenre(resultSet.getString(DatabaseConstants.SONG_COL_GENRES));
+                songSet.setSongURL(resultSet.getString(DatabaseConstants.SONG_COL_MUSIC_URL));
+                songSet.setSongLyricsURL(resultSet.getString(DatabaseConstants.SONG_COL_LYRICS_URL));
+                songSet.setSongImageURL(resultSet.getString(DatabaseConstants.SONG_COL_IMAGE_URL));
+                songSet.setAlbumID(resultSet.getInt(DatabaseConstants.SONG_COL_ALBUMID));
+                songSet.setReleaseDate(resultSet.getString(DatabaseConstants.SONG_COL_RELEASE_DATE));
+                songSet.setSongRating(resultSet.getDouble(DatabaseConstants.SONG_COL_RATING));
+                songSet.setArtistName(resultSet.getString(DatabaseConstants.ARTIST_COL_NAME));
 
-                    //adding this song object to list of song type
-                    userchoiceSong.add(songSet);
-                }
-                return userchoiceSong;
-            } catch (SQLException e) {
-                //displaying error if occured *_*
-                e.printStackTrace();
+                //adding this song object to list of song type
+                userchoiceSong.add(songSet);
             }
-
             return userchoiceSong;
+        } catch (SQLException e) {
+            //displaying error if occured *_*
+            e.printStackTrace();
+        }
+
+        return userchoiceSong;
     }
 
     /**
@@ -740,6 +741,7 @@ public class AmpifyServices {
 
     /**
      * function for returning back recently played song by the user
+     *
      * @param songFetchRequest
      * @return
      */
@@ -857,6 +859,7 @@ public class AmpifyServices {
      * function to return back list of most played songs by a particular user!!ONLY 5
      * rn we have returned listof userHistory
      * i.e details are songID ,SONGnAME, NOoFtimesPlayed
+     *
      * @param songFetchRequest
      * @return
      */
@@ -911,6 +914,7 @@ public class AmpifyServices {
      * function to return back list of trending songs!!ONLY 5
      * rn we have returned listof userHistory
      * i.e details are songID ,SONGnAME, NOoFtimesPlayed
+     *
      * @param songFetchRequest
      * @return
      */
@@ -975,6 +979,7 @@ public class AmpifyServices {
     /**
      * function to return back list of previously played songs!!ONLY 5
      * i.e details are songID ,SONGnAME, NOoFtimesPlayed
+     *
      * @param songFetchRequest
      * @return
      */
@@ -1048,6 +1053,7 @@ public class AmpifyServices {
     /**
      * this function is to add a song to favourite list of user
      * if song is already liked it will return a string stating ALREADY_LIKED
+     *
      * @param addToFavouriteRequest
      * @return
      */
@@ -1056,8 +1062,8 @@ public class AmpifyServices {
          * thru this query we first check if aready this song is present in his favourite list or not
          * *_* *_* *_* *_*
          */
-        String query = " SELECT * FROM " + DatabaseConstants.FAVOURITE_SONG_TABLE+
-                " WHERE " + DatabaseConstants.FAVOURITE_SONG_COL_SONGiD + "=\"" +addToFavouriteRequest.getSongID() + "\"" +
+        String query = " SELECT * FROM " + DatabaseConstants.FAVOURITE_SONG_TABLE +
+                " WHERE " + DatabaseConstants.FAVOURITE_SONG_COL_SONGiD + "=\"" + addToFavouriteRequest.getSongID() + "\"" +
                 " AND " + DatabaseConstants.FAVOURITE_SONG_COL_USEReMAIL + "=\"" + addToFavouriteRequest.getEmail() + "\"";
         try {
             PreparedStatement preparedStatement1 = Main.connection.prepareStatement(query);
@@ -1065,8 +1071,8 @@ public class AmpifyServices {
             if (resultSet.next())
                 return String.valueOf(Status.ALREADY_LIKED);
             else {
-                query = "INSERT INTO " + DatabaseConstants.FAVOURITE_SONG_TABLE+
-                        "(" + DatabaseConstants.FAVOURITE_SONG_COL_USEReMAIL+
+                query = "INSERT INTO " + DatabaseConstants.FAVOURITE_SONG_TABLE +
+                        "(" + DatabaseConstants.FAVOURITE_SONG_COL_USEReMAIL +
                         "," + DatabaseConstants.FAVOURITE_SONG_COL_SONGiD +
                         ") values(?,?);";
                 try {
@@ -1338,6 +1344,7 @@ public class AmpifyServices {
     /**
      * if req is to get songs of a particular playlist
      * TODO CHECKS
+     *
      * @param playlistRequest
      * @return
      */
@@ -1391,6 +1398,7 @@ public class AmpifyServices {
      * first of all i check that u r requesting to delete f9 but do u have ownwership
      * if yes then ill serve ur purpose
      * otherwise sorry
+     *
      * @param playlistRequest
      * @return
      */
@@ -1487,6 +1495,7 @@ public class AmpifyServices {
 
     /**
      * for returning back list of notifications that this particular has received
+     *
      * @param notificationRequest
      * @return
      */
@@ -1523,6 +1532,7 @@ public class AmpifyServices {
     /**
      * here we confirm the notification received !!
      * if already a member corr msg given
+     *
      * @param notificationRequest
      * @return
      */
@@ -1597,6 +1607,7 @@ public class AmpifyServices {
     /**
      * ths func perforns search on song name,artist name, artist name and fetch a song list matching with that string
      * offset, limit imp
+     *
      * @param searchRequest
      * @return
      */
@@ -1609,12 +1620,12 @@ public class AmpifyServices {
                 "FROM songs " +
                 "LEFT JOIN artist ON  songs.IDartist=artist.IDartist " +
                 "LEFT JOIN albums ON  songs.IDalbum=albums.IDalbum " +
-                " WHERE songs.songName LIKE \"" + searchRequest.getSearchText() +"%\" " +
-                " OR artist.artistName LIKE \"" + searchRequest.getSearchText() +"%\" " +
-                " OR albums.albumName LIKE \"" + searchRequest.getSearchText() +"%\" " +
-                " GROUP BY songs.IDsong  "+
+                " WHERE songs.songName LIKE \"" + searchRequest.getSearchText() + "%\" " +
+                " OR artist.artistName LIKE \"" + searchRequest.getSearchText() + "%\" " +
+                " OR albums.albumName LIKE \"" + searchRequest.getSearchText() + "%\" " +
+                " GROUP BY songs.IDsong  " +
                 " ORDER BY songs.IDsong DESC " +
-                " LIMIT "+searchRequest.getOffset()+","+searchRequest.getRowcount()+";";
+                " LIMIT " + searchRequest.getOffset() + "," + searchRequest.getRowcount() + ";";
 
         Song songSet;
         List<Song> searchSongsList = new ArrayList<>();

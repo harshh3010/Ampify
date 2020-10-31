@@ -10,14 +10,14 @@ import java.net.Socket;
 public class HandleClientRequest implements Runnable {
 
     private Socket socket;
-    private ObjectInputStream ois;  //Input Stream of client socket
-    private ObjectOutputStream oos; //Output Stream of client socket
+    private ObjectInputStream objectInputStream;  //Input Stream of client socket
+    private ObjectOutputStream objectOutputStream; //Output Stream of client socket
 
     public HandleClientRequest(Socket socket) {
         this.socket = socket;
         try {
-            ois = new ObjectInputStream(socket.getInputStream());
-            oos = new ObjectOutputStream(socket.getOutputStream());
+            objectInputStream = new ObjectInputStream(socket.getInputStream());
+            objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -31,48 +31,64 @@ public class HandleClientRequest implements Runnable {
             Object object = null;
             try {
                 try {
-                    object = ois.readObject();
-                } catch (EOFException e) {
-                    System.out.println("CLIENT DISCONNECTED");
-                    break;
+                    object = objectInputStream.readObject();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    System.out.println("CLIENT DISCONNECTED\n");
+                    break;
                 }
 
                 assert object != null;
                 String request = object.toString();
 
                 if (request.equals(String.valueOf(ServerRequest.SIGNUP_REQUEST))) {
+
+                    System.out.println("Received signup request from client.");
+
                     SignUpRequest signUpRequest = (SignUpRequest) object;
-                    oos.writeObject(AmpifyServices.registerUser(signUpRequest));
-                    oos.flush();
+                    objectOutputStream.writeObject(AmpifyServices.registerUser(signUpRequest));
+                    objectOutputStream.flush();
                 }
                 if (request.equals(String.valueOf(ServerRequest.LOGIN_REQUEST))) {
+
+                    System.out.println("Received login request from client");
+
                     LoginRequest log = (LoginRequest) object;
-                    oos.writeObject(AmpifyServices.userLogin(log));
-                    oos.flush();
+                    objectOutputStream.writeObject(AmpifyServices.userLogin(log));
+                    objectOutputStream.flush();
                 }
 
                 if (request.equals(String.valueOf(ServerRequest.LANGUAGE_SHOW))) {
+
+                    System.out.println("Received request to fetch languages");
+
                     LanguageFetchRequest lang = (LanguageFetchRequest) object;
-                    oos.writeObject(AmpifyServices.showAllLanguages(lang));
-                    oos.flush();
+                    objectOutputStream.writeObject(AmpifyServices.showAllLanguages(lang));
+                    objectOutputStream.flush();
                 }
 
                 if (request.equals(String.valueOf(ServerRequest.GENRES_SHOW))) {
+
+                    System.out.println("Received request to fetch genres");
+
                     GenresFetchRequest obj = (GenresFetchRequest) object;
-                    oos.writeObject(AmpifyServices.showAllGenres(obj));
-                    oos.flush();
+                    objectOutputStream.writeObject(AmpifyServices.showAllGenres(obj));
+                    objectOutputStream.flush();
                 }
                 if (request.equals(String.valueOf(ServerRequest.ARTIST_SHOW))) {
                     ArtistFetchRequest art = (ArtistFetchRequest) object;
 
                     if (art.getType().equals(String.valueOf(ArtistsAlbumFetchType.ALL))) {
-                        oos.writeObject(AmpifyServices.showAllArtists(art));
-                        oos.flush();
+
+                        System.out.println("Received request to fetch all artists");
+
+                        objectOutputStream.writeObject(AmpifyServices.showAllArtists(art));
+                        objectOutputStream.flush();
                     } else if (art.getType().equals(String.valueOf(ArtistsAlbumFetchType.TOP))) {
-                        oos.writeObject(AmpifyServices.showTopArtists(art));
-                        oos.flush();
+
+                        System.out.println("Received request to fetch top artists");
+
+                        objectOutputStream.writeObject(AmpifyServices.showTopArtists(art));
+                        objectOutputStream.flush();
                     }
 
                 }
@@ -81,23 +97,32 @@ public class HandleClientRequest implements Runnable {
                     AlbumFetchRequest album = (AlbumFetchRequest) object;
 
                     if (album.getType().equals(String.valueOf(ArtistsAlbumFetchType.TOP))) {
-                        oos.writeObject(AmpifyServices.showTopAlbums(album));
-                        oos.flush();
+
+                        System.out.println("Received request to fetch top albums");
+
+                        objectOutputStream.writeObject(AmpifyServices.showTopAlbums(album));
+                        objectOutputStream.flush();
                     }
 
                 }
 
 
                 if (request.equals(String.valueOf(ServerRequest.SUBMIT_CHOICES))) {
+
+                    System.out.println("Received request to submit choices");
+
                     SubmitChoicesRequest submitChoicesRequest = (SubmitChoicesRequest) object;
-                    oos.writeObject(AmpifyServices.saveChoices(submitChoicesRequest));
-                    oos.flush();
+                    objectOutputStream.writeObject(AmpifyServices.saveChoices(submitChoicesRequest));
+                    objectOutputStream.flush();
                 }
 
                 if (request.equals(String.valueOf(ServerRequest.GET_CHOICES))) {
+
+                    System.out.println("Received request to fetch choices");
+
                     ChoicesFetchRequest choicesFetchRequest = (ChoicesFetchRequest) object;
-                    oos.writeObject(AmpifyServices.getUserChoices(choicesFetchRequest));
-                    oos.flush();
+                    objectOutputStream.writeObject(AmpifyServices.getUserChoices(choicesFetchRequest));
+                    objectOutputStream.flush();
                 }
 
                 //if request is to fetch songs!!
@@ -105,76 +130,109 @@ public class HandleClientRequest implements Runnable {
                     SongFetchRequest songType = (SongFetchRequest) object;
                     //if request is to display top songs
                     if (songType.getType().equals(String.valueOf(SongFetchType.TOP))) {
-                        oos.writeObject(AmpifyServices.showTopSongs(songType));
-                        oos.flush();
+
+                        System.out.println("Received request to fetch top songs");
+
+                        objectOutputStream.writeObject(AmpifyServices.showTopSongs(songType));
+                        objectOutputStream.flush();
                     }
                     //if request is to display songs of particular artist
                     else if (songType.getType().equals(String.valueOf(SongFetchType.SONGS_OF_PARTICULAR_ARTIST))) {
-                        oos.writeObject(AmpifyServices.showSongsOfParticularArtist(songType));
-                        oos.flush();
+
+                        System.out.println("Received request to fetch songs of particular artist");
+
+                        objectOutputStream.writeObject(AmpifyServices.showSongsOfParticularArtist(songType));
+                        objectOutputStream.flush();
                     }
                     //if request is to display songs of particular album
                     else if (songType.getType().equals(String.valueOf(SongFetchType.SONGS_OF_PARTICULAR_ALBUM))) {
-                        oos.writeObject(AmpifyServices.showSongsOfParticularAlbum(songType));
-                        oos.flush();
+
+                        System.out.println("Received request to fetch songs of particular album");
+
+                        objectOutputStream.writeObject(AmpifyServices.showSongsOfParticularAlbum(songType));
+                        objectOutputStream.flush();
                     }
                     //if request is to display songs of user's choice!!!
                     else if (songType.getType().equals(String.valueOf(SongFetchType.SONGS_OF_USER_CHOICE))) {
-                        oos.writeObject(AmpifyServices.showSongsOfUserChoice(songType));
-                        oos.flush();
+
+                        System.out.println("Received request to fetch songs of user choice");
+
+                        objectOutputStream.writeObject(AmpifyServices.showSongsOfUserChoice(songType));
+                        objectOutputStream.flush();
                     }
-                    //if request is to display recentlu added sngs to the server!!
+                    //if request is to display recently added songs to the server!!
                     else if (songType.getType().equals(String.valueOf(SongFetchType.RECENT_ADDED_SONGS))) {
-                        oos.writeObject(AmpifyServices.showRecentAddedSongs(songType));
-                        oos.flush();
+
+                        System.out.println("Received request to fetch recently added songs");
+
+                        objectOutputStream.writeObject(AmpifyServices.showRecentAddedSongs(songType));
+                        objectOutputStream.flush();
                     }
                     //if request is to display last played song of user!!
                     else if (songType.getType().equals(String.valueOf(SongFetchType.LAST_PLAYED_SONG))) {
-                        System.out.print("hi");
-                        oos.writeObject(AmpifyServices.showLastPlayedSong(songType));
-                        oos.flush();
+
+                        System.out.println("Received request to fetch last played song");
+
+                        objectOutputStream.writeObject(AmpifyServices.showLastPlayedSong(songType));
+                        objectOutputStream.flush();
                     }
                     //if request is to display recently played song of user!!
                     else if (songType.getType().equals(String.valueOf(SongFetchType.RECENT_PLAYED_SONGS_BY_USER))) {
 
-                        oos.writeObject(AmpifyServices.showRecentlyPlayedSong(songType));
-                        oos.flush();
+                        System.out.println("Received request to fetch recently played songs");
+
+                        objectOutputStream.writeObject(AmpifyServices.showRecentlyPlayedSong(songType));
+                        objectOutputStream.flush();
                     }
                     //if request is to display most played song of user!!
                     else if (songType.getType().equals(String.valueOf(SongFetchType.MOST_PLAYED_SONGS_BY_USER))) {
-                        System.out.print("LOL");
-                        oos.writeObject(AmpifyServices.showMostPlayedSongByUser(songType));
-                        oos.flush();
+
+                        System.out.println("Received request to fetch most played songs");
+
+                        objectOutputStream.writeObject(AmpifyServices.showMostPlayedSongByUser(songType));
+                        objectOutputStream.flush();
                     }
                     //if request is to display trending song!!
                     else if (songType.getType().equals(String.valueOf(SongFetchType.TRENDING_SONGS))) {
-                        System.out.print("DA");
-                        oos.writeObject(AmpifyServices.showTrendingSongs(songType));
-                        oos.flush();
+
+                        System.out.println("Received request to fetch trending songs");
+
+                        objectOutputStream.writeObject(AmpifyServices.showTrendingSongs(songType));
+                        objectOutputStream.flush();
                     }
                     //if request is to display previously played at same time song!!
                     else if (songType.getType().equals(String.valueOf(SongFetchType.PREVIOUSLY_PLAYED_BY_USER))) {
-                        System.out.print("&&&&");
-                        oos.writeObject(AmpifyServices.showPreviouslyPlayedSongs(songType));
+
+                        System.out.println("Received request to fetch previously played songs");
+
+                        objectOutputStream.writeObject(AmpifyServices.showPreviouslyPlayedSongs(songType));
                     }
                     //if request is to display favourite played song of user!!
                     else if (songType.getType().equals(String.valueOf(SongFetchType.FAVOURITE_SONGS))) {
 
-                        oos.writeObject(AmpifyServices.showFavouriteSong(songType));
-                        oos.flush();
+                        System.out.println("Received request to fetch favourite songs");
+
+                        objectOutputStream.writeObject(AmpifyServices.showFavouriteSong(songType));
+                        objectOutputStream.flush();
                     }
                 }
 
                 if (request.equals((String.valueOf(ServerRequest.UPDATE_HISTORY)))) {
+
+                    System.out.println("Received request to update song history");
+
                     AddToHistoryRequest addToHistoryRequest = (AddToHistoryRequest) object;
-                    oos.writeObject(AmpifyServices.playSongAddHistory(addToHistoryRequest));
-                    oos.flush();
+                    objectOutputStream.writeObject(AmpifyServices.playSongAddHistory(addToHistoryRequest));
+                    objectOutputStream.flush();
                 }
 
                 if (request.equals((String.valueOf(ServerRequest.FETCH_USER_HISTORY)))) {
+
+                    System.out.println("Received request to fetch user history");
+
                     FetchUserHistoryRequest fetchUserHistoryRequest = (FetchUserHistoryRequest) object;
-                    oos.writeObject(AmpifyServices.showUserHistory(fetchUserHistoryRequest));
-                    oos.flush();
+                    objectOutputStream.writeObject(AmpifyServices.showUserHistory(fetchUserHistoryRequest));
+                    objectOutputStream.flush();
                 }
 
                 //if request is for playlist operations!!
@@ -182,29 +240,44 @@ public class HandleClientRequest implements Runnable {
                     PlaylistRequest playlistRequest = (PlaylistRequest) object;
                     //if request is to create playlist
                     if (playlistRequest.getType().equals(String.valueOf(PlaylistType.CREATE_PLAYLIST))) {
-                        oos.writeObject(AmpifyServices.creatingPlaylist(playlistRequest));
-                        oos.flush();
+
+                        System.out.println("Received request to create playlist");
+
+                        objectOutputStream.writeObject(AmpifyServices.creatingPlaylist(playlistRequest));
+                        objectOutputStream.flush();
                     }
                     //if request is to fetch mine playlists
                     else if (playlistRequest.getType().equals(String.valueOf(PlaylistType.FETCH_USER_PLAYLISTS))) {
-                        oos.writeObject(AmpifyServices.getUserPlaylist(playlistRequest));
-                        oos.flush();
+
+                        System.out.println("Received request to fetch user's playlist");
+
+                        objectOutputStream.writeObject(AmpifyServices.getUserPlaylist(playlistRequest));
+                        objectOutputStream.flush();
 
                     }
                     //if request is to add song to a playlist
                     else if (playlistRequest.getType().equals(String.valueOf(PlaylistType.ADD_SONG_TO_A_PLAYLIST))) {
-                        oos.writeObject(AmpifyServices.addingSongToPlaylist(playlistRequest));
-                        oos.flush();
+
+                        System.out.println("Received request to add a song to playlist");
+
+                        objectOutputStream.writeObject(AmpifyServices.addingSongToPlaylist(playlistRequest));
+                        objectOutputStream.flush();
                     }
                     //if request is to fetch songs of a particular playlist
                     else if (playlistRequest.getType().equals(String.valueOf(PlaylistType.FETCH_SONGS_OF_A_PLAYLIST))) {
-                        oos.writeObject(AmpifyServices.getSongsOfPlaylist(playlistRequest));
-                        oos.flush();
+
+                        System.out.println("Received request to fetch songs of a playlist");
+
+                        objectOutputStream.writeObject(AmpifyServices.getSongsOfPlaylist(playlistRequest));
+                        objectOutputStream.flush();
                     }
                     //if request is to delete a particular playlist
                     else if (playlistRequest.getType().equals(String.valueOf(PlaylistType.DELETE_PLAYLIST))) {
-                        oos.writeObject(AmpifyServices.deletePlaylist(playlistRequest));
-                        oos.flush();
+
+                        System.out.println("Received request to delete playlist");
+
+                        objectOutputStream.writeObject(AmpifyServices.deletePlaylist(playlistRequest));
+                        objectOutputStream.flush();
                     }
                 }
 
@@ -213,42 +286,63 @@ public class HandleClientRequest implements Runnable {
                     NotificationRequest notificationRequest = (NotificationRequest) object;
                     //if request is to send notification
                     if (notificationRequest.getType().equals(String.valueOf(NotificationType.SEND))) {
-                        oos.writeObject(AmpifyServices.sendingNotification(notificationRequest));
-                        oos.flush();
+
+                        System.out.println("Received request to send an invite to playlist");
+
+                        objectOutputStream.writeObject(AmpifyServices.sendingNotification(notificationRequest));
+                        objectOutputStream.flush();
                     }
                     //if request is to get all my notifications
                     else if (notificationRequest.getType().equals(String.valueOf(NotificationType.GET_NOTIFICATIONS))) {
-                        oos.writeObject(AmpifyServices.gettingNotification(notificationRequest));
-                        oos.flush();
+
+                        System.out.println("Received request to get invites");
+
+                        objectOutputStream.writeObject(AmpifyServices.gettingNotification(notificationRequest));
+                        objectOutputStream.flush();
                     }
                     //if request is to confirm notification i.e. add as member and later on will also delete that notification
                     else if (notificationRequest.getType().equals(String.valueOf(NotificationType.CONFIRM_NOTIFICATION))) {
-                        oos.writeObject(AmpifyServices.confirmNotification(notificationRequest));
-                        oos.flush();
+
+                        System.out.println("Received request to accept invite");
+
+                        objectOutputStream.writeObject(AmpifyServices.confirmNotification(notificationRequest));
+                        objectOutputStream.flush();
                     }
                     //if request is to delete notification
                     else if (notificationRequest.getType().equals(String.valueOf(NotificationType.DELETE_NOTIFICATION))) {
-                        oos.writeObject(AmpifyServices.deleteNotification(notificationRequest));
-                        oos.flush();
+
+                        System.out.println("Received request to decline invite");
+
+                        objectOutputStream.writeObject(AmpifyServices.deleteNotification(notificationRequest));
+                        objectOutputStream.flush();
                     }
                 }
                 if (request.equals((String.valueOf(ServerRequest.SEARCH_REQUEST)))) {
+
+                    System.out.println("Received request to search for songs");
+
                     SearchRequest searchRequest = (SearchRequest) object;
-                    oos.writeObject(AmpifyServices.showSearchResults(searchRequest));
-                    oos.flush();
+                    objectOutputStream.writeObject(AmpifyServices.showSearchResults(searchRequest));
+                    objectOutputStream.flush();
                 }
                 if (request.equals((String.valueOf(ServerRequest.ADD_TO_FAVOURITE)))) {
+
+                    System.out.println("Received request to add song to favourites");
+
                     AddToFavouriteRequest addToFavouriteRequest = (AddToFavouriteRequest) object;
-                    oos.writeObject(AmpifyServices.addSongToFavoutite(addToFavouriteRequest));
-                    oos.flush();
+                    objectOutputStream.writeObject(AmpifyServices.addSongToFavoutite(addToFavouriteRequest));
+                    objectOutputStream.flush();
                 }
 
             } catch (StreamCorruptedException e) {
                 try {
-                    ois = new ObjectInputStream(socket.getInputStream());
-                    oos = new ObjectOutputStream(socket.getOutputStream());
+
+                    System.out.println("AN ERROR OCCURRED... RESETTING THE STREAM");
+
+                    objectInputStream = new ObjectInputStream(socket.getInputStream());
+                    objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
                 } catch (IOException e1) {
-                    e1.printStackTrace();
+                    System.out.println("UNABLE TO RESET THE STREAM");
                 }
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();

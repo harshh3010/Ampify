@@ -13,27 +13,33 @@ public class FetchUserHistoryRequest implements Serializable {
 
         return email;
     }
+
     public void setEmail(String email) {
 
         this.email = email;
     }
+
     public int getRowcount() {
 
         return rowcount;
     }
+
     public void setRowcount(int rowcount) {
 
         this.rowcount = rowcount;
     }
+
     public int getOffset() {
 
         return offset;
     }
+
     public void setOffset(int offset) {
 
         this.offset = offset;
     }
-    public FetchUserHistoryRequest(String email,  int offset,int rowcount) {
+
+    public FetchUserHistoryRequest(String email, int offset, int rowcount) {
         this.email = email;
         this.rowcount = rowcount;
         this.offset = offset;
