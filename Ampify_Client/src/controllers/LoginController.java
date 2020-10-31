@@ -130,7 +130,7 @@ public class LoginController {
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {
-                                // TODO: DISPLAY ERROR
+                                //DISPLAY ERROR
                                 Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"WRONG CREDENTIALS!", ButtonType.OK);
                                 alert.showAndWait();
                             }
@@ -139,7 +139,7 @@ public class LoginController {
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {
-                                // TODO: DISPLAY ERROR
+                                //DISPLAY ERROR
                                 Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"NO SUCH USER!", ButtonType.OK);
                                 alert.showAndWait();
                             }
@@ -148,7 +148,7 @@ public class LoginController {
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {
-                                // TODO: DISPLAY ERROR
+                                //DISPLAY ERROR
                                 Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"ERROR OCCURRED!", ButtonType.OK);
                                 alert.showAndWait();
                             }
@@ -161,7 +161,7 @@ public class LoginController {
             }).start();
 
         } else {
-            // TODO: DISPLAY ERROR DIALOG
+            //DISPLAY ERROR DIALOG
             Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"FIRST FILL ALL THE DETAILS!", ButtonType.OK);
             alert.showAndWait();
 
