@@ -63,9 +63,11 @@ public class SongsListScreenController {
         showProgressIndicator();
 
         new Thread(() -> {
+
+            List<Song> songs = new ArrayList<>();
+
             // Loading songs from the server based on type of request made
             try {
-                List<Song> songs = new ArrayList<>();
                 if (songListType == SongListType.RECENTLY_ADDED_SONGS) {
                     songs = AmpifyServices.getRecentAddedSongs(offset, rowCount);
                 } else if (songListType == SongListType.RECOMMENDED_SONGS) {
@@ -76,13 +78,17 @@ public class SongsListScreenController {
                 else if(songListType == SongListType.LIKED_SONGS){
                     songs = AmpifyServices.getUserFavouriteSong(offset,rowCount);
                 }
-                songListView.setItems(FXCollections.observableArrayList(songs));
-                songListView.setCellFactory(new SongCellFactory());
+
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
 
-            Platform.runLater(() -> hideProgressIndicator());
+            List<Song> finalSongs = songs;
+            Platform.runLater(() -> {
+                songListView.setItems(FXCollections.observableArrayList(finalSongs));
+                songListView.setCellFactory(new SongCellFactory());
+                HomeScreenWidgets.hideProgressIndicator();
+            });
 
         }).start();
     }

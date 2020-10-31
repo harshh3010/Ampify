@@ -15,6 +15,7 @@ public enum HomeScreenDisplays {
     ALBUM_PAGE("6"),
     LOCAL_MUSIC_SCREEN("7"),
     SEARCH_PAGE("8"),
+    VIDEO_PLAYER_PAGE("9"),
     ;
 
     HomeScreenDisplays(String s) {

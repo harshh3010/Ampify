@@ -6,7 +6,6 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSlider;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -14,6 +13,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
@@ -38,6 +39,7 @@ public class MediaPlayerController implements Initializable {
 
     // Media player implementation
     private static MediaPlayer mediaPlayer;
+    public AnchorPane imagePane;
     private Duration duration;
     private boolean stopRequested = false;
     private boolean atEndOfMedia = false;
@@ -56,10 +58,19 @@ public class MediaPlayerController implements Initializable {
             mediaPlayer.setAutoPlay(true);
 
             // Displaying the song info in UI
-            assert MediaPlayerService.currentPlaylist.peekFirst() != null;
             songNameLabel.setText(MediaPlayerService.currentPlaylist.peekFirst().getSongName());
-            assert MediaPlayerService.currentPlaylist.peekFirst() != null;
             artistNameLabel.setText(MediaPlayerService.currentPlaylist.peekFirst().getArtistName());
+
+            // Creating a background using image of song
+            BackgroundImage backgroundImage = new BackgroundImage(
+                    new Image(MediaPlayerService.currentPlaylist.peekFirst().getSongImageURL()),
+                    BackgroundRepeat.REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.CENTER,
+                    new BackgroundSize(100, 100, true, true, false, true));
+
+            // Setting the background in main artist card
+            imagePane.setBackground(new Background(backgroundImage));
 
             // Displaying the songs in queue on home screen
             List<Song> list = new ArrayList<>(MediaPlayerService.currentPlaylist);
@@ -78,6 +89,17 @@ public class MediaPlayerController implements Initializable {
             // Displaying the song info in UI
             songNameLabel.setText(MediaPlayerService.previousSong.getSongName());
             artistNameLabel.setText(MediaPlayerService.previousSong.getArtistName());
+
+            // Creating a background using image of song
+            BackgroundImage backgroundImage = new BackgroundImage(
+                    new Image(MediaPlayerService.previousSong.getSongImageURL()),
+                    BackgroundRepeat.REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.CENTER,
+                    new BackgroundSize(100, 100, true, true, false, true));
+
+            // Setting the background in main artist card
+            imagePane.setBackground(new Background(backgroundImage));
 
             // Displaying the songs in queue on home screen
             List<Song> list = new ArrayList<>(MediaPlayerService.currentPlaylist);
@@ -146,7 +168,9 @@ public class MediaPlayerController implements Initializable {
     }
 
     public static void stopPlayingMedia() {
-        mediaPlayer.stop();
+        if(mediaPlayer != null){
+            mediaPlayer.stop();
+        }
     }
 
     // Function to update the progress of media in the UI
@@ -251,6 +275,8 @@ public class MediaPlayerController implements Initializable {
 
     public void onNextClicked() {
 
+        stopPlayingMedia();
+
         if (!MediaPlayerService.currentPlaylist.isEmpty()) {
             Song song = MediaPlayerService.currentPlaylist.removeFirst();
             MediaPlayerService.currentPlaylist.addLast(song);
@@ -260,6 +286,9 @@ public class MediaPlayerController implements Initializable {
     }
 
     public void onPrevClicked() {
+
+        stopPlayingMedia();
+
         if (!MediaPlayerService.currentPlaylist.isEmpty()) {
             Song song = MediaPlayerService.currentPlaylist.removeLast();
             MediaPlayerService.currentPlaylist.addFirst(song);

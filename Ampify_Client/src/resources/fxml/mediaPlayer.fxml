@@ -3,18 +3,12 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXSlider?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MediaPlayerController">
     <children>
-        <ImageView fitHeight="80.0" fitWidth="80.0" layoutX="40.0" layoutY="10.0" pickOnBounds="true">
-            <image>
-                <Image url="@../images/music-1.jpg" />
-            </image>
-        </ImageView>
         <Label fx:id="songNameLabel" layoutX="155.0" layoutY="14.0" text="Song Name" textFill="WHITE">
             <font>
                 <Font name="System Bold" size="20.0" />
@@ -31,5 +25,6 @@
       <Label layoutX="1133.0" layoutY="67.0" text="Adjust Volume" textFill="WHITE" />
       <JFXButton layoutX="951.0" layoutY="63.0" onAction="#onShuffleClick" text="Shuffle Play" textFill="WHITE" />
       <JFXButton layoutX="886.0" layoutY="63.0" onAction="#onLyricsClicked" text="Lyrics" textFill="WHITE" />
+      <AnchorPane fx:id="imagePane" layoutX="59.0" layoutY="11.0" prefHeight="80.0" prefWidth="80.0" />
     </children>
 </Pane>

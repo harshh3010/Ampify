@@ -3,9 +3,9 @@ package utilities;
 public class DatabaseConstants {
 
     // MYSQL DATABASE URL AND CREDENTIALS
-    public static final String HOST = "jdbc:mysql://www.db4free.net:3306/softablitz2020";
-    public static final String DATABASE_USERNAME = "softablitz_2020";
-    public static final String DATABASE_PASS = "password";
+    public static final String HOST = "jdbc:mysql://localhost:3307/ampify_db";
+    public static final String DATABASE_USERNAME = "root";
+    public static final String DATABASE_PASS = "";
 
     // USER AUTHENTICATION TABLE
     public  static final String AUTH_TABLE_NAME = "user_auth";

@@ -31,6 +31,8 @@ public class Main extends Application {
         userOutputStream = new ObjectOutputStream(userSocket.getOutputStream());
         userInputStream = new ObjectInputStream(userSocket.getInputStream());
 
+        primaryStage.setResizable(false);
+
         // Displaying the splash screen on start of application
         Parent root = FXMLLoader.load(getClass().getResource("/resources/fxml/splashScreen.fxml"));
         goToScreen(primaryStage, root);

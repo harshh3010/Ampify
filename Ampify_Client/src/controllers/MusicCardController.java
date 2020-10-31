@@ -145,7 +145,18 @@ public class MusicCardController extends ListCell<Song> {
 
             // Setting the name of song in the label
             nameLabel.setText(song.getSongName());
-            // TODO: ADD URLS IN DB
+
+            // Creating a background using image of song
+            BackgroundImage backgroundImage = new BackgroundImage(
+                    new Image(song.getSongImageURL()),
+                    BackgroundRepeat.REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.CENTER,
+                    new BackgroundSize(100, 100, true, true, false, true));
+
+            // Setting the background in main artist card
+            mainCard.setBackground(new Background(backgroundImage));
+
             setUpMenuButton(song);
             setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         }

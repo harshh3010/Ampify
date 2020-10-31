@@ -290,4 +290,18 @@ public class HomeController implements Initializable {
             }
         }
     }
+
+    public void onVideoPlayerClicked() {
+        if(HomeScreenWidgets.currentDisplayPage != HomeScreenDisplays.VIDEO_PLAYER_PAGE){
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/fxml/videoPlayerPage.fxml"));
+                Pane newLoadedPane = loader.load();
+                displayPane.getChildren().clear();
+                displayPane.getChildren().add(newLoadedPane);
+                HomeScreenWidgets.currentDisplayPage = HomeScreenDisplays.VIDEO_PLAYER_PAGE;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

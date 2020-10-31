@@ -142,6 +142,7 @@
                      </Label>
                      <JFXListView fx:id="personalPlaylistListView" layoutX="12.0" layoutY="47.0" prefHeight="430.0" prefWidth="950.0" />
                      <JFXButton layoutX="881.0" layoutY="17.0" onAction="#onLikedSongsClicked" text="Liked Songs" textFill="WHITE" />
+                     <JFXButton layoutX="829.0" layoutY="17.0" onAction="#onReloadPersonalPlaylists" text="Reload" textFill="WHITE" />
                   </children></AnchorPane>
                 </content>
             </Tab>
@@ -160,6 +161,7 @@
                            <Font size="16.0" />
                         </font>
                      </JFXButton>
+                     <JFXButton layoutX="814.0" layoutY="17.0" onAction="#onReloadGroupPlaylists" text="Reload" textFill="WHITE" />
                   </children></AnchorPane>
                 </content>
             </Tab>

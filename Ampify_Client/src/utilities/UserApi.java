@@ -27,6 +27,7 @@ public class UserApi {
     private List<Playlist> groupPlaylist;
     private List<Song> trendingSongs;
     private File selectedDirectory;
+    private File videoPlayerDirectory;
 
     private static UserApi instance = null;
 
@@ -39,6 +40,14 @@ public class UserApi {
         if (instance == null)
             instance = new UserApi();
         return instance;
+    }
+
+    public File getVideoPlayerDirectory() {
+        return videoPlayerDirectory;
+    }
+
+    public void setVideoPlayerDirectory(File videoPlayerDirectory) {
+        this.videoPlayerDirectory = videoPlayerDirectory;
     }
 
     public List<Song> getTrendingSongs() {

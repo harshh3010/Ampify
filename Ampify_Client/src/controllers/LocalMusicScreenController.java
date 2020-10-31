@@ -59,24 +59,25 @@ public class LocalMusicScreenController implements Initializable {
                         song.setArtistID(0);
                         song.setArtistName("UNKNOWN");
                         song.setSongID(0);
-                        // TODO: ADD URL
+                        song.setSongImageURL("http://localhost/ampify-player/Images/Music/1.jpg");
                         song.setSongImageURL("");
                         song.setGenre("UNKNOWN");
                         song.setLanguage("UNKNOWN");
                         song.setReleaseDate("UNKNOWN");
                         song.setSongLyricsURL(null);
                         song.setSongRating(0);
-                        song.setSongURL(new File("C:\\Ampify-Player\\Downloads\\" + fileName).toURI().toString());
+                        song.setSongURL(new File(UserApi.getInstance().getSelectedDirectory() + "\\" + fileName).toURI().toString());
 
                         songs.add(song);
                     }
                 }
             }
 
-            songsListView.setItems(FXCollections.observableArrayList(songs));
-            songsListView.setCellFactory(new SongCellFactory());
-
-            Platform.runLater(HomeScreenWidgets::hideProgressIndicator);
+            Platform.runLater(() -> {
+                HomeScreenWidgets.hideProgressIndicator();
+                songsListView.setItems(FXCollections.observableArrayList(songs));
+                songsListView.setCellFactory(new SongCellFactory());
+            });
 
         }).start();
     }

@@ -32,6 +32,8 @@ public class SongCellController extends ListCell<Song> {
     private Label nameLabel;    // Label to display song name
     @FXML
     private Button menuButton;  // Button to open a popup menu
+    @FXML
+    private Label artistNameLabel;  // Label to display artist's name
 
     public SongCellController() {
         loadFXML();
@@ -167,6 +169,9 @@ public class SongCellController extends ListCell<Song> {
 
             // Displaying the name of song
             nameLabel.setText(song.getSongName());
+
+            // Displaying artist's name
+            artistNameLabel.setText(song.getArtistName());
 
             // Setting up the popup menu
             setUpMenuButton(song);

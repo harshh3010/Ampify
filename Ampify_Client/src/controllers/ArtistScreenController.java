@@ -17,7 +17,9 @@ import utilities.HomeScreenDisplays;
 import utilities.HomeScreenWidgets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class ArtistScreenController {
 
@@ -53,15 +55,21 @@ public class ArtistScreenController {
 
         new Thread(() -> {
 
+            List<Song> songList = new ArrayList<>();
+
             try {
-                List<Song> songList = AmpifyServices.getSongsOfArtist(artist.getArtistID(), offset, rowCount);
-                songListView.setItems(FXCollections.observableArrayList(songList));
-                songListView.setCellFactory(new SongCellFactory());
+                songList = AmpifyServices.getSongsOfArtist(artist.getArtistID(), offset, rowCount);
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
 
-            Platform.runLater(HomeScreenWidgets::hideProgressIndicator);
+            List<Song> finalSongList = songList;
+            Platform.runLater(() -> {
+                songListView.setItems(FXCollections.observableArrayList(finalSongList));
+                songListView.setCellFactory(new SongCellFactory());
+                HomeScreenWidgets.hideProgressIndicator();
+            });
+
         }).start();
 
     }
