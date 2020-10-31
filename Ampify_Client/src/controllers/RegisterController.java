@@ -72,7 +72,7 @@ public class RegisterController {
                                 @Override
                                 public void run() {
                                     // TODO: DISPLAY ERROR
-                                    Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"ERROR IN REGISTRATION!", ButtonType.OK);
+                                    Alert alert=new Alert(Alert.AlertType.ERROR,"ERROR IN REGISTRATION!", ButtonType.OK);
                                     alert.showAndWait();
                                 }
                             });
@@ -85,8 +85,8 @@ public class RegisterController {
             }).start();
 
         } else {
-            // TODO: DISPLAY ERROR DIALOG
-            Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"ERROR!", ButtonType.OK);
+            // DISPLAY ERROR DIALOG
+            Alert alert=new Alert(Alert.AlertType.ERROR,"ERROR!", ButtonType.OK);
             alert.showAndWait();
         }
     }

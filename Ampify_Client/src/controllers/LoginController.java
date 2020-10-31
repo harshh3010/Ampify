@@ -125,13 +125,13 @@ public class LoginController {
                     // Displaying error in case of any failure during login
                     else if (check.getUserLoginStatus().equals(String.valueOf(LoginStatus.WRONG_CREDENTIALS))) {
 
-                        // TODO: DISPLAY ERROR
+                        // DISPLAY ERROR
 
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {
                                 //DISPLAY ERROR
-                                Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"WRONG CREDENTIALS!", ButtonType.OK);
+                                Alert alert=new Alert(Alert.AlertType.ERROR,"WRONG CREDENTIALS!", ButtonType.OK);
                                 alert.showAndWait();
                             }
                         });
@@ -140,7 +140,7 @@ public class LoginController {
                             @Override
                             public void run() {
                                 //DISPLAY ERROR
-                                Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"NO SUCH USER!", ButtonType.OK);
+                                Alert alert=new Alert(Alert.AlertType.ERROR,"NO SUCH USER!", ButtonType.OK);
                                 alert.showAndWait();
                             }
                         });
@@ -149,7 +149,7 @@ public class LoginController {
                             @Override
                             public void run() {
                                 //DISPLAY ERROR
-                                Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"ERROR OCCURRED!", ButtonType.OK);
+                                Alert alert=new Alert(Alert.AlertType.ERROR,"ERROR OCCURRED!", ButtonType.OK);
                                 alert.showAndWait();
                             }
                         });
@@ -162,7 +162,7 @@ public class LoginController {
 
         } else {
             //DISPLAY ERROR DIALOG
-            Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"FIRST FILL ALL THE DETAILS!", ButtonType.OK);
+            Alert alert=new Alert(Alert.AlertType.ERROR,"FIRST FILL ALL THE DETAILS!", ButtonType.OK);
             alert.showAndWait();
 
         }

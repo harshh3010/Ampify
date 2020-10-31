@@ -40,7 +40,7 @@ public class AddMemberScreenController {
 
                 // Taking proper action based on response
                 if (usernameTF.getText().trim().equals(UserApi.getInstance().getEmail())) {
-                    Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"BEING AN OWNER YOU ALREADY OWN THE MEMBERSHIP", ButtonType.OK);
+                    Alert alert=new Alert(Alert.AlertType.INFORMATION,"BEING AN OWNER YOU ALREADY OWN THE MEMBERSHIP", ButtonType.OK);
                     alert.showAndWait();
 
                 } else {
@@ -52,11 +52,11 @@ public class AddMemberScreenController {
 
                     } else if (result.equals(String.valueOf(Status.ALREADY_EXIST))) {
 
-                        Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"ALREADY SENT!", ButtonType.OK);
+                        Alert alert=new Alert(Alert.AlertType.INFORMATION,"ALREADY SENT!", ButtonType.OK);
                         alert.showAndWait();
 
                     } else {
-                        Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"ERROR SENDING REQUEST!", ButtonType.OK);
+                        Alert alert=new Alert(Alert.AlertType.ERROR,"ERROR SENDING REQUEST!", ButtonType.OK);
                         alert.showAndWait();
 
                     }
@@ -64,7 +64,7 @@ public class AddMemberScreenController {
 
             } else {
                 // DISPLAY ERROR
-                Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"USERNAME CANNOT BE EMPTY!", ButtonType.OK);
+                Alert alert=new Alert(Alert.AlertType.WARNING,"USERNAME CANNOT BE EMPTY!", ButtonType.OK);
                 alert.showAndWait();
             }
         } catch (IOException | ClassNotFoundException e) {
