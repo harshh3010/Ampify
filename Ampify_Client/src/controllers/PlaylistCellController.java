@@ -64,11 +64,14 @@ public class PlaylistCellController extends ListCell<Playlist> {
 
                 // Displaying proper message after reading the response
                 if (result.equals(String.valueOf(Status.SUCCESS))) {
-                    System.out.println("Playlist deleted!");
+                    Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"PLAYLIST DELETED!", ButtonType.OK);
+                    alert.showAndWait();
                 } else if (result.equals(String.valueOf(Status.NOT_OWNER))) {
-                    System.out.println("You do not have permission to delete this playlist!");
+                    Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"You do not have permission to delete this playlist!", ButtonType.OK);
+                    alert.showAndWait();
                 } else {
-                    System.out.println("An error occurred!");
+                    Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"AN ERROR OCCURRED!", ButtonType.OK);
+                    alert.showAndWait();
                 }
 
             } catch (IOException | ClassNotFoundException e) {
@@ -114,7 +117,9 @@ public class PlaylistCellController extends ListCell<Playlist> {
                         }
                     } else {
                         // TODO: DISPLAY ERROR
-                        System.out.println("YOU DO NOT HAVE PERMISSION TO PERFORM THIS ACTION");
+                        Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"YOU DO NOT HAVE PERMISSION TO PERFORM THIS ACTION!", ButtonType.OK);
+                        alert.showAndWait();
+//
                     }
 
                 }

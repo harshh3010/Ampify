@@ -7,6 +7,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import mainClass.Main;
@@ -55,8 +57,9 @@ public class RegisterController {
                             Platform.runLater(new Runnable() {
                                 @Override
                                 public void run() {
-                                    // TODO: DISPLAY REGISTRATION SUCCESS
-                                    System.out.println("REG SUCCESS");
+                                    //  DISPLAY REGISTRATION SUCCESS
+                                    Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"REGISTRATION SUCCESS!", ButtonType.OK);
+                                    alert.showAndWait();
                                     try {
                                         goToLoginScreen(actionEvent);
                                     } catch (IOException e) {
@@ -69,7 +72,8 @@ public class RegisterController {
                                 @Override
                                 public void run() {
                                     // TODO: DISPLAY ERROR
-                                    System.out.println("ERROR IN REG");
+                                    Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"ERROR IN REGISTRATION!", ButtonType.OK);
+                                    alert.showAndWait();
                                 }
                             });
                         }
@@ -82,7 +86,8 @@ public class RegisterController {
 
         } else {
             // TODO: DISPLAY ERROR DIALOG
-            System.out.println("ERROR");
+            Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"ERROR!", ButtonType.OK);
+            alert.showAndWait();
         }
     }
 

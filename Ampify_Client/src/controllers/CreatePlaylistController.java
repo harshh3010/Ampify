@@ -4,6 +4,8 @@ import Services.AmpifyServices;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
@@ -78,7 +80,8 @@ public class CreatePlaylistController implements Initializable {
             if (result.equals(String.valueOf(Status.SUCCESS))) {
 
                 // Closing the create playlist screen on success
-                System.out.println("Success!");
+                Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"SUCCESS", ButtonType.OK);
+                alert.showAndWait();
                 Stage stage = (Stage) nameTextField.getScene().getWindow();
                 stage.close();
 

@@ -10,6 +10,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.SelectionMode;
 import javafx.stage.Stage;
 import mainClass.Main;
@@ -142,9 +144,10 @@ public class ChoiceController implements Initializable {
                 goToHomeScreen(actionEvent);
 
             } else {
-                // TODO: DISPLAY ERROR
+                //  DISPLAY ERROR
                 // Failure when saving choices
-                System.out.println("Error saving the choices");
+                Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"Error saving the choices", ButtonType.OK);
+                alert.showAndWait();
             }
 
         } catch (Exception e) {
