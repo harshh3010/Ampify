@@ -55,8 +55,9 @@ public class InvitationCellController extends ListCell<Notification> {
                     statusLabel.setVisible(true);
                     menuButton.setVisible(false);
                 } else {
-                    // TODO: DISPLAY ERROR
-                    System.out.println("Failed to join playlist");
+                    // DISPLAY ERROR
+                    Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"Failed to join playlist!", ButtonType.OK);
+                    alert.showAndWait();
                 }
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
@@ -74,8 +75,9 @@ public class InvitationCellController extends ListCell<Notification> {
                     statusLabel.setVisible(true);
                     menuButton.setVisible(false);
                 } else {
-                    // TODO: DISPLAY ERROR
-                    System.out.println("Failed to decline request.");
+                    // DISPLAY ERROR
+                    Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"Failed to decline request.", ButtonType.OK);
+                    alert.showAndWait();
                 }
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();

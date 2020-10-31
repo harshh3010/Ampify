@@ -7,6 +7,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import model.Playlist;
 import model.Song;
@@ -56,7 +58,7 @@ public class AddToPlaylistController {
 
             // Adding the song to selected playlist
             try {
-                // TODO: DISPLAY DIALOG
+                // DISPLAY DIALOG
                 // Fetching the response from server
                 String result = AmpifyServices.addSongToPlaylist(selectedPlaylist.getId(), song.getSongID());
 
@@ -69,7 +71,8 @@ public class AddToPlaylistController {
                 } else if (result.equals("ALREADY_EXIST")) {
 
                     // Displaying the error in case of failure
-                    System.out.println("Song already present in the playlist!");
+                    Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"Song already present in the playlist!", ButtonType.OK);
+                    alert.showAndWait();
 
                 }
 
@@ -78,8 +81,9 @@ public class AddToPlaylistController {
             }
 
         } else {
-            // TODO: DISPLAY ERROR
-            System.out.println("No playlist selected!");
+            // DISPLAY ERROR
+            Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"NO PLAYLIST SELECTED!", ButtonType.OK);
+            alert.showAndWait();
         }
 
     }

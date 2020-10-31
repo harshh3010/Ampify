@@ -73,11 +73,14 @@ public class SongCellController extends ListCell<Song> {
                 String result = AmpifyServices.addToFavorites(song.getSongID());
 
                 if (result.equals(String.valueOf(Status.ALREADY_LIKED))) {
-                    System.out.println("Already present in favourites");
+                    Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"ALREADY PRESENT IN FAVOURITES!", ButtonType.OK);
+                    alert.showAndWait();
                 } else if (result.equals(String.valueOf(Status.SUCCESS))) {
-                    System.out.println("Added to favourites");
+                    Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"ADDED TO FAVOURITES!", ButtonType.OK);
+                    alert.showAndWait();
                 } else {
-                    System.out.println("Unable to add to favourites");
+                    Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"UNABLE TO ADD TO FAVOURITES!", ButtonType.OK);
+                    alert.showAndWait();
                 }
 
             } catch (IOException | ClassNotFoundException e) {

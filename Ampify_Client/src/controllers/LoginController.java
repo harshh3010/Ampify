@@ -7,6 +7,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import mainClass.Main;
@@ -69,9 +71,9 @@ public class LoginController {
 
                         Platform.runLater(() -> {
 
-                            // TODO: DISPLAY SUCCESS DIALOG
-
-                            System.out.println("Logged in successfully");
+                            // DISPLAY SUCCESS DIALOG
+                            Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"LOGGED IN SUCCESSFULLY!", ButtonType.OK);
+                            alert.showAndWait();
 
                             try {
 
@@ -124,11 +126,33 @@ public class LoginController {
                     else if (check.getUserLoginStatus().equals(String.valueOf(LoginStatus.WRONG_CREDENTIALS))) {
 
                         // TODO: DISPLAY ERROR
-                        Platform.runLater(() -> System.out.println("WRONG_CREDENTIALS"));
+
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                // TODO: DISPLAY ERROR
+                                Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"WRONG CREDENTIALS!", ButtonType.OK);
+                                alert.showAndWait();
+                            }
+                        });
                     } else if (check.getUserLoginStatus().equals(String.valueOf(LoginStatus.NO_SUCH_USER))) {
-                        Platform.runLater(() -> System.out.println("NO_SUCH_USER"));
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                // TODO: DISPLAY ERROR
+                                Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"NO SUCH USER!", ButtonType.OK);
+                                alert.showAndWait();
+                            }
+                        });
                     } else {
-                        Platform.runLater(() -> System.out.println("error occurred"));
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                // TODO: DISPLAY ERROR
+                                Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"ERROR OCCURRED!", ButtonType.OK);
+                                alert.showAndWait();
+                            }
+                        });
                     }
 
                 } catch (Exception e) {
@@ -138,7 +162,9 @@ public class LoginController {
 
         } else {
             // TODO: DISPLAY ERROR DIALOG
-            System.out.println("Fill details");
+            Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"FIRST FILL ALL THE DETAILS!", ButtonType.OK);
+            alert.showAndWait();
+
         }
     }
 

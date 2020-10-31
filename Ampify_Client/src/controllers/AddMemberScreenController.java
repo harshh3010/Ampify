@@ -3,6 +3,8 @@ package controllers;
 import Services.AmpifyServices;
 import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import model.Playlist;
 import utilities.Status;
@@ -38,30 +40,32 @@ public class AddMemberScreenController {
 
                 // Taking proper action based on response
                 if (usernameTF.getText().trim().equals(UserApi.getInstance().getEmail())) {
-
-                    System.out.println("Apne aap ko request bhej rha 🤦‍♂️");
+                    Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"BEING AN OWNER YOU ALREADY OWN THE MEMBERSHIP", ButtonType.OK);
+                    alert.showAndWait();
 
                 } else {
                     if (result.equals(String.valueOf(Status.SUCCESS))) {
-                        System.out.println("SUCCESS");
-
+                        Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"SUCCESS!", ButtonType.OK);
+                        alert.showAndWait();
                         Stage stage = (Stage) usernameTF.getScene().getWindow();
                         stage.close();
 
                     } else if (result.equals(String.valueOf(Status.ALREADY_EXIST))) {
 
-                        System.out.println("Already sent");
+                        Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"ALREADY SENT!", ButtonType.OK);
+                        alert.showAndWait();
 
                     } else {
-
-                        System.out.println("Error sending request");
+                        Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"ERROR SENDING REQUEST!", ButtonType.OK);
+                        alert.showAndWait();
 
                     }
                 }
 
             } else {
-                // TODO: DISPLAY ERROR
-                System.out.println("Username cannot be empty!");
+                // DISPLAY ERROR
+                Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"USERNAME CANNOT BE EMPTY!", ButtonType.OK);
+                alert.showAndWait();
             }
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
