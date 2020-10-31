@@ -1,3 +1,7 @@
+/*
+Enum for different responses received from the server
+*/
+
 package utilities;
 
 public enum  Status {

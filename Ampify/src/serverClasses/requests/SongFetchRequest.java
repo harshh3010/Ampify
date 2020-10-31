@@ -49,7 +49,6 @@ public class SongFetchRequest implements Serializable {
     }
 
     //when u want to fetch songs of particular id(whether artist or album )
-    //TODO Particular ALBUM ID SONGS CAN ALSO BE ACCESSED THRU THIS CONSTRUCTOR *_*
     public SongFetchRequest(String type, int ID, int offset, int rowcount) {
         this.type = type;
         this.ID = ID;

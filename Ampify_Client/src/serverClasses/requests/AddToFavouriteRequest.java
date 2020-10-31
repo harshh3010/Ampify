@@ -32,6 +32,7 @@ public class AddToFavouriteRequest implements Serializable {
 
         this.email = email;
     }
+
     @Override
     public String toString() {
 

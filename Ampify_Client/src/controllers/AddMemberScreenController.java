@@ -33,8 +33,6 @@ public class AddMemberScreenController {
             // Ensuring valid input
             if (!usernameTF.getText().trim().isEmpty()) {
 
-                // TODO: ADD INVALID USERNAME CASE
-
                 // Reading the response from the server after sending invite request
                 String result = AmpifyServices.sendNotification(usernameTF.getText().trim(), playlist.getId());
 

@@ -622,8 +622,6 @@ public class AmpifyServices {
         System.out.println(languagest);
         System.out.println(genrest);
         System.out.println(artistst);
-        //TODO USE INNER JOIN ;THIS IS SOMETHING NOT TO BE DONE BUT TAKEN LITE FOR NOW!
-        // :(
 
         String query = "SELECT artist.artistName,songs.songName," +
                 "songs.languages,songs.genre,songs.musicURL, songs.lyricsURL," +
@@ -1343,7 +1341,7 @@ public class AmpifyServices {
 
     /**
      * if req is to get songs of a particular playlist
-     * TODO CHECKS
+     *
      *
      * @param playlistRequest
      * @return
@@ -1561,7 +1559,6 @@ public class AmpifyServices {
 
                     preparedStatement.executeUpdate();
                     System.out.println("Added AS MEMBER");
-                    //TODO DELETE THAT PARTICULAR NOTIFICATION ALSO
                     query = "DELETE notification" +
                             " FROM notification" +
                             " WHERE notification.playlistID=\"" + notificationRequest.getPlaylistID() + "\"" +

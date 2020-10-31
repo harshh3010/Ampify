@@ -1,3 +1,7 @@
+/*
+Class to handle media services
+*/
+
 package Services;
 
 import CellFactories.SongsQueueCellFactory;

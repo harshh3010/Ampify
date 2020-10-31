@@ -14,7 +14,7 @@ public class Main extends Application {
 
     // Server's IP Address and Port number
     public static String serverIp = "localhost";
-    public static int serverPort = 50019;
+    public static int serverPort = 5018;
 
     // Declaring the user socket and input output streams
     public static Socket userSocket;

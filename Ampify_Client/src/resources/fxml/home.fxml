@@ -11,7 +11,6 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <StackPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.HomeController">
    <children>
       <AnchorPane id="anchorPane1" fx:id="homePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../css/style.css">
@@ -55,7 +54,7 @@
                           </children>
                       </Pane>
                       <Pane id="bottomControlBar" fx:id="bottomPane" layoutY="620.0" prefHeight="100.0" prefWidth="1280.0" />
-                      <JFXTextField id="searchBar" fx:id="searchBar" focusColor="#ffffff00" layoutX="265.0" layoutY="25.0" onMouseClicked="#onSearchBarClicked" prefHeight="33.0" prefWidth="651.0" promptText="Search music, artists, albums and more" unFocusColor="#ffffff00" />
+                      <JFXTextField id="searchBar" fx:id="searchBar" focusColor="#ffffff00" layoutX="265.0" layoutY="25.0" onMouseClicked="#onSearchBarClicked" prefHeight="33.0" prefWidth="589.0" promptText="Search music, artists, albums and more" unFocusColor="#ffffff00" />
                   <Pane fx:id="displayPane" layoutX="265.0" layoutY="79.0">
                      <children>
                </children>

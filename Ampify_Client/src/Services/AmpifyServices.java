@@ -1,3 +1,7 @@
+/*
+Class to handle all the data transfer between server and client
+*/
+
 package Services;
 
 import mainClass.Main;
@@ -30,7 +34,6 @@ public class AmpifyServices {
         return (List<Artist>) ois.readObject();
     }
 
-
     /*
     Function to get a list of top albums
      */
@@ -42,7 +45,6 @@ public class AmpifyServices {
 
         return (List<Album>) ois.readObject();
     }
-
 
     /*
     Function to get top songs
@@ -56,10 +58,8 @@ public class AmpifyServices {
         return (List<Song>) ois.readObject();
     }
 
-
-    /**
-     * Function to fetch songs of a particular artist
-     * also pass the offset coz server needs to know from which row number it has to start its job
+    /*
+    Function to fetch songs of a particular artist
      */
     public static List<Song> getSongsOfArtist(int artistId,int offset,int rowCount) throws IOException, ClassNotFoundException {
 
@@ -70,10 +70,8 @@ public class AmpifyServices {
         return (List<Song>) ois.readObject();
     }
 
-
-    /**
-     * Function to fetch songs of a particular album
-     * also pass the offset coz server needs to know from which row number it has to start its job
+    /*
+    Function to get songs of a particular album
      */
     public static List<Song> getSongsOfAlbum(int albumId,int offset,int rowCount) throws IOException, ClassNotFoundException {
 
@@ -84,11 +82,8 @@ public class AmpifyServices {
         return (List<Song>) ois.readObject();
     }
 
-
-    /**
-     * Function to fetch songs of user choice
-     * we pass row count , offset specific to this kind of fetching request
-     * defined above
+    /*
+    Function to get songs of user's choice
      */
     public static List<Song> getUserChoiceSongs(int offset, int rowCount) throws IOException, ClassNotFoundException {
 
@@ -100,11 +95,9 @@ public class AmpifyServices {
         return (List<Song>) ois.readObject();
     }
 
-    /**
-     * Function to fetch last played song of user
-     * we pass email of the current user logged in
-     * taken from UserApi saved instance
-     */
+    /*
+    Function to get last played song by the user
+    */
     public static Song getUserLastPlayedSong() throws IOException, ClassNotFoundException {
 
         SongFetchRequest songFetchRequest = new SongFetchRequest(String.valueOf(SongFetchType.LAST_PLAYED_SONG), userApi.getEmail());
@@ -115,10 +108,8 @@ public class AmpifyServices {
         return (Song) ois.readObject();
     }
 
-    /**
-     * Function to fetch RECENTY played song of user
-     * we pass email of the current user logged in
-     * taken from UserApi saved instance
+    /*
+    Function to fetch recently played songs by the user
      */
     public static List<Song> getUserRecentlyPlayedSong(int offset,int rowCount) throws IOException, ClassNotFoundException {
 
@@ -130,11 +121,8 @@ public class AmpifyServices {
         return (List<Song>) ois.readObject();
     }
 
-    /**
-     * Function to fetch MOSTLY PLAYED played song of user
-     * we pass email of the current user logged in
-     * taken from UserApi saved instance
-     * *we will return only 5 songs for this !!
+    /*
+    Function to get user's most played songs
      */
     public static List<Song> getUserMostPlayedSong() throws IOException, ClassNotFoundException {
 
@@ -146,11 +134,8 @@ public class AmpifyServices {
         return (List<Song>) ois.readObject();
     }
 
-    /**
-     * Function to fetch TRENDING SONGS
-     * we pass email of the current user logged in
-     * taken from UserApi saved instance
-     * *we will return only 5 songs for this !!
+    /*
+    Function to fetch trending songs
      */
     public static List<Song> getTrendingSongs() throws IOException, ClassNotFoundException {
 
@@ -162,12 +147,8 @@ public class AmpifyServices {
         return (List<Song>) ois.readObject();
     }
 
-
-    /**
-     * Function to fetch previously played SONGS by the user
-     * we pass email of the current user logged in
-     * taken from UserApi saved instance
-     * *we will return only 5 songs for this !!
+    /*
+    Function to fetch the songs played by user at same time in past
      */
     public static List<Song> getPreviouslyPlayedSongs() throws IOException, ClassNotFoundException {
 
@@ -179,9 +160,8 @@ public class AmpifyServices {
         return (List<Song>) ois.readObject();
     }
 
-
-    /**
-     * Function to fetch recent songs(released 5 days back!!)
+    /*
+    Function to fetch recently added songs to the server
      */
     public static List<Song> getRecentAddedSongs(int offset, int rowCount) throws IOException, ClassNotFoundException {
         SongFetchRequest songFetchRequest = new SongFetchRequest(String.valueOf(SongFetchType.RECENT_ADDED_SONGS), offset, rowCount);
@@ -192,8 +172,8 @@ public class AmpifyServices {
         return (List<Song>) ois.readObject();
     }
 
-    /**
-     * Function to add to history table a particular song played by user and sets is_playing attribute of a song to true
+    /*
+    Function to update song history
      */
     public static String addSongToHistory(int songID) throws IOException, ClassNotFoundException {
 
@@ -210,10 +190,8 @@ public class AmpifyServices {
         return (String) ois.readObject();
     }
 
-    /**
-     * Function to fetch user history
-     * we pass email of user logged in
-     * also offset to manage the number of rows to be queried passed( defined above)
+    /*
+    Function to fetch history of songs played by the user
      */
     public static List<UserHistory> getUserHistory(int offset, int rowCount) throws IOException, ClassNotFoundException {
 
@@ -225,13 +203,9 @@ public class AmpifyServices {
         return (List<UserHistory>) ois.readObject();
     }
 
-    /**
-     * this is to create playlist for the user
-     * convention is as follows
-     * if privacy public means 1 if private then 0
-     * same in category
-     * if group playlist then 1 ;if user's then 0
-     */
+    /*
+    Function to create a playlist
+    */
     public static String createPlaylist(String playlistName, String category, String privacy) throws IOException, ClassNotFoundException {
         PlaylistRequest playlistRequest = new PlaylistRequest(String.valueOf(PlaylistType.CREATE_PLAYLIST), playlistName, userApi.getEmail(), privacy, category);
 
@@ -241,7 +215,9 @@ public class AmpifyServices {
         return (String) ois.readObject();
     }
 
-    //for fetching personal plylists
+    /*
+    Function to fetch user's playlists
+     */
     public static List<Playlist> getMyPlaylists() throws IOException, ClassNotFoundException {
         PlaylistRequest playlistRequest = new PlaylistRequest(String.valueOf(PlaylistType.FETCH_USER_PLAYLISTS), userApi.getEmail());
 
@@ -252,18 +228,8 @@ public class AmpifyServices {
 
     }
 
-
-    /**
-     * this is to add song to the playlist user wants to
-     * we require the playlist ID he wants to add song to
-     * and song ID
-     * also checks in the backend required
-     * that if he has membership,or ownership for that particular playlist then only allow him to add the song
-     * or m2 is :: when
-     * *when he requests to add song to playlist
-     * *we will display only the playlists he belong to
-     * * so no chance of his adding to the playlist of which he is either owner nor mwmber
-     * TODO DISCUSS METHOD WHICH NEEDS TO BE FOLLOWED
+    /*
+    Function to add a song to the playlist
      */
     public static String addSongToPlaylist(int playlistID, int songID) throws IOException, ClassNotFoundException {
         PlaylistRequest playlistRequest = new PlaylistRequest(String.valueOf(PlaylistType.ADD_SONG_TO_A_PLAYLIST), playlistID, songID);
@@ -274,13 +240,9 @@ public class AmpifyServices {
         return (String) ois.readObject();
     }
 
-    /**
-     * this func is to get sngs of a particcular playlist(playist ID imp)
-     * no matter it's user's playlist or not
-     * u can view its songs if public
-     * (TODO PUBLIC PLAYLISTS TO BE VIEWED ONLY IF NOT MEMBER OR ELSE CAN VIEW if its his own playlist)
+    /*
+    Function to get songs of a particular playlist
      */
-
     public static List<Song> getSongsOfPlaylist(int playlistID) throws IOException, ClassNotFoundException {
         PlaylistRequest playlistRequest = new PlaylistRequest(String.valueOf(PlaylistType.FETCH_SONGS_OF_A_PLAYLIST), playlistID);
 
@@ -291,14 +253,9 @@ public class AmpifyServices {
 
     }
 
-    /**
-     * for deleting a paricular playlist
-     *
-     * @param playlistID
-     * @return
-     * @throws IOException
-     * @throws ClassNotFoundException
-     */
+    /*
+    Function to delete a playlist
+    */
     public static String deletePlaylist(int playlistID) throws IOException, ClassNotFoundException {
         PlaylistRequest playlistRequest = new PlaylistRequest(String.valueOf(PlaylistType.DELETE_PLAYLIST), userApi.getEmail(), playlistID);
         oos.writeObject(playlistRequest);
@@ -307,12 +264,9 @@ public class AmpifyServices {
         return (String) ois.readObject();
     }
 
-    /**
-     * *for sending notification to the user whom our client wants to add as member of a
-     * particular playlist
-     * sender==userApi.getEmail()
-     * receiver, playistID to be passed to this function
-     */
+    /*
+    Function to send an invitation to another user for joining a group playlist
+    */
     public static String sendNotification(String receiver, int playlistID) throws IOException, ClassNotFoundException {
         System.out.print("jj");
         NotificationRequest notificationRequest = new NotificationRequest(String.valueOf(NotificationType.SEND), userApi.getEmail(), receiver, playlistID);
@@ -322,13 +276,9 @@ public class AmpifyServices {
         return (String) ois.readObject();
     }
 
-    /**
-     * for receiving all the notifications present in server sent to user currently logged in
-     *
-     * @return
-     * @throws IOException
-     * @throws ClassNotFoundException
-     */
+    /*
+    Function to load invitations received by the user
+    */
     public static List<Notification> getMyNotifications() throws IOException, ClassNotFoundException {
 
         NotificationRequest notificationRequest = new NotificationRequest(String.valueOf(NotificationType.GET_NOTIFICATIONS), userApi.getEmail());
@@ -338,10 +288,9 @@ public class AmpifyServices {
         return (List<Notification>) ois.readObject();
     }
 
-    /**
-     * for confirming a particular notification
-     * task is to add this user as member in that particular playlist
-     */
+    /*
+    Function to accept an invitation
+    */
     public static String confirmNotification(int playlistID) throws IOException, ClassNotFoundException {
 
         NotificationRequest notificationRequest = new NotificationRequest(String.valueOf(NotificationType.CONFIRM_NOTIFICATION), userApi.getEmail(), playlistID);
@@ -351,9 +300,8 @@ public class AmpifyServices {
         return (String) ois.readObject();
     }
 
-    /**
-     * for deleting a particular notification
-     * playlistID and receiver are enough to idenify (both gr by primary)
+    /*
+    Function to decline the invitation
      */
     public static String deleteNotification(int playlistID) throws IOException, ClassNotFoundException {
 
@@ -364,10 +312,8 @@ public class AmpifyServices {
         return (String) ois.readObject();
     }
 
-
-    /**
-     * Function to fetch songs corr to the search string user entered
-     * also offset to manage the number of rows to be queried passed( defined above)
+    /*
+    Function to fetch songs according to a query
      */
     public static List<Song> getSearchResult(String text,int offset, int rowCount) throws IOException, ClassNotFoundException {
 
@@ -379,10 +325,9 @@ public class AmpifyServices {
         return (List<Song>) ois.readObject();
     }
 
-    /**
-     * Function to add a song to favourite song list :)
-     * pass the song Id to this function rest it will handle
-     */
+    /*
+    Function to add a song to favourites
+    */
     public static String addToFavorites(int songID) throws IOException, ClassNotFoundException {
 
         AddToFavouriteRequest addToFavouriteRequest = new AddToFavouriteRequest(songID, userApi.getEmail());
@@ -391,10 +336,9 @@ public class AmpifyServices {
 
         return (String) ois.readObject();
     }
-    /**
-     * Function to fetch favourite songs of user
-     * i.e. which are liked by him/her
-         * *
+
+    /*
+    Function to fetch user's favourite songs
      */
     public static List<Song> getUserFavouriteSong(int offset,int rowCount) throws IOException, ClassNotFoundException {
 

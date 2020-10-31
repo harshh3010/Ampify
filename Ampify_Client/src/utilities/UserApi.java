@@ -1,6 +1,6 @@
 /*
 UserApi class to allow global access to basic user details
- */
+*/
 
 package utilities;
 

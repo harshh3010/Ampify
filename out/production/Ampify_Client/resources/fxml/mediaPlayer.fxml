@@ -30,5 +30,6 @@
       <JFXSlider fx:id="volumeSlider" layoutX="1102.0" layoutY="43.0" />
       <Label layoutX="1133.0" layoutY="67.0" text="Adjust Volume" textFill="WHITE" />
       <JFXButton layoutX="951.0" layoutY="63.0" onAction="#onShuffleClick" text="Shuffle Play" textFill="WHITE" />
+      <JFXButton layoutX="886.0" layoutY="63.0" onAction="#onLyricsClicked" text="Lyrics" textFill="WHITE" />
     </children>
 </Pane>

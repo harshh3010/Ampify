@@ -1,3 +1,7 @@
+/*
+Enum for type of response for login request from server
+*/
+
 package utilities;
 
 public enum LoginStatus {

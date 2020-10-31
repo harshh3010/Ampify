@@ -1,3 +1,7 @@
+/*
+Enum for the pane being displayed in home screen's display pane
+*/
+
 package utilities;
 
 public enum HomeScreenDisplays {

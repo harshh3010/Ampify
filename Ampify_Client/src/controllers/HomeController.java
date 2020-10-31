@@ -190,7 +190,7 @@ public class HomeController implements Initializable {
 
     public void onLogoutClicked(ActionEvent actionEvent) throws IOException {
 
-        // TODO: STOP MEDIA PLAYER ON LOGOUT
+        MediaPlayerController.stopPlayingMedia();
 
         // Removing user's info from UserApi class
         UserApi userApi = UserApi.getInstance();

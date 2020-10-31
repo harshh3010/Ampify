@@ -45,8 +45,8 @@ public class MusicCardController extends ListCell<Song> {
     }
 
     /*
-Function to setup the menu to be displayed on click of menuButton
- */
+    Function to setup the menu to be displayed on click of menuButton
+    */
     private void setUpMenuButton(Song song) {
 
         // Creating the context menu
@@ -117,6 +117,19 @@ Function to setup the menu to be displayed on click of menuButton
         this.setOnMouseClicked(mouseEvent -> {
             if (mouseEvent.getButton().equals(MouseButton.SECONDARY)) {   // Open only when RMB is clicked
                 contextMenu.show(mainCard, mouseEvent.getScreenX(), mouseEvent.getScreenY());
+            } else if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {   // Play only when LMB is clicked
+                System.out.println("Mouse clicked once");
+                if (mouseEvent.getClickCount() == 2) {  // Play only in case of double click
+
+                    System.out.println("Mouse clicked twice");
+
+                    // Setting current song of media player to the selected song
+                    MediaPlayerService.currentPlaylist.clear();
+                    MediaPlayerService.currentPlaylist.addLast(song);
+
+                    MediaPlayerService.playSong(song);
+
+                }
             }
         });
 
@@ -132,25 +145,8 @@ Function to setup the menu to be displayed on click of menuButton
 
             // Setting the name of song in the label
             nameLabel.setText(song.getSongName());
-
             // TODO: ADD URLS IN DB
-
-            this.setOnMouseClicked(mouseEvent -> {
-                if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {   // Play only when LMB is clicked
-                    if (mouseEvent.getClickCount() == 2) {  // Play only in case of double click
-
-                        // Setting current song of media player to the selected song
-                        MediaPlayerService.currentPlaylist.clear();
-                        MediaPlayerService.currentPlaylist.addLast(song);
-
-                        MediaPlayerService.playSong(song);
-
-                    }
-                }
-            });
-
             setUpMenuButton(song);
-
             setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         }
     }

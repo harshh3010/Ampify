@@ -1,3 +1,7 @@
+/*
+Enum for type of request for fetching albums and artists
+*/
+
 package utilities;
 
 public enum ArtistsAlbumFetchType {

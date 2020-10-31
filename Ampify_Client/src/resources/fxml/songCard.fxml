@@ -10,7 +10,7 @@
    <graphic>
       <AnchorPane prefHeight="44.0" prefWidth="594.0">
          <children>
-            <Label fx:id="nameLabel" layoutX="14.0" layoutY="5.0" prefHeight="34.0" prefWidth="511.0" text="Song name" textFill="WHITE">
+            <Label fx:id="nameLabel" layoutX="14.0" layoutY="5.0" prefHeight="30.0" prefWidth="511.0" text="Song name" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>

@@ -9,10 +9,14 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
+import model.Playlist;
 import utilities.Status;
+import utilities.UserApi;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class CreatePlaylistController implements Initializable {
@@ -81,6 +85,25 @@ public class CreatePlaylistController implements Initializable {
                 // Closing the create playlist screen on success
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "SUCCESS", ButtonType.OK);
                 alert.showAndWait();
+
+                // Loading user's playlists
+                try {
+                    List<Playlist> playlists = AmpifyServices.getMyPlaylists();
+                    List<Playlist> personalPlaylists = new ArrayList<>();
+                    List<Playlist> groupPlaylists = new ArrayList<>();
+                    for (Playlist playlist : playlists) {
+                        if (playlist.getCategory().equals("GROUP")) {
+                            groupPlaylists.add(playlist);
+                        } else {
+                            personalPlaylists.add(playlist);
+                        }
+                    }
+                    UserApi.getInstance().setPersonalPlaylists(personalPlaylists);
+                    UserApi.getInstance().setGroupPlaylist(groupPlaylists);
+                } catch (IOException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+
                 Stage stage = (Stage) nameTextField.getScene().getWindow();
                 stage.close();
 

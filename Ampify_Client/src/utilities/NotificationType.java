@@ -1,3 +1,7 @@
+/*
+Enum for different type of group playlist requests
+*/
+
 package utilities;
 
 public enum NotificationType {

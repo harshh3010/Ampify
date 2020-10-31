@@ -1,3 +1,7 @@
+/*
+Enum for different types of requests for fetching songs
+*/
+
 package utilities;
 
 public enum SongFetchType {

@@ -7,6 +7,7 @@ import CellFactories.PlaylistCellFactory;
 import com.jfoenix.controls.JFXListView;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -201,5 +202,18 @@ public class HomeContentsPaneController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    // Called when user clicks personal playlist reload button
+    public void onReloadPersonalPlaylists() {
+        // Loading user's playlists
+        personalPlaylistListView.setItems(FXCollections.observableArrayList(UserApi.getInstance().getPersonalPlaylists()));
+        personalPlaylistListView.setCellFactory(new PlaylistCellFactory());
+    }
+
+    // Called when user clicks group playlist reload button
+    public void onReloadGroupPlaylists() {
+        groupPlaylistListView.setItems(FXCollections.observableArrayList(UserApi.getInstance().getGroupPlaylist()));
+        groupPlaylistListView.setCellFactory(new PlaylistCellFactory());
     }
 }

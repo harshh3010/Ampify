@@ -6,14 +6,22 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSlider;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.Song;
 import utilities.HomeScreenWidgets;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
@@ -29,7 +37,7 @@ public class MediaPlayerController implements Initializable {
     public Label artistNameLabel;
 
     // Media player implementation
-    private MediaPlayer mediaPlayer;
+    private static MediaPlayer mediaPlayer;
     private Duration duration;
     private boolean stopRequested = false;
     private boolean atEndOfMedia = false;
@@ -134,6 +142,11 @@ public class MediaPlayerController implements Initializable {
 
             }
         });
+
+    }
+
+    public static void stopPlayingMedia() {
+        mediaPlayer.stop();
     }
 
     // Function to update the progress of media in the UI
@@ -268,6 +281,36 @@ public class MediaPlayerController implements Initializable {
             List<Song> list = new ArrayList<>(MediaPlayerService.currentPlaylist);
             HomeScreenWidgets.nowPlayingList.setItems(FXCollections.observableArrayList(list));
             HomeScreenWidgets.nowPlayingList.setCellFactory(new SongsQueueCellFactory());
+        }
+    }
+
+    public void onLyricsClicked() {
+
+        String lyricsUrl = null;
+
+        if (MediaPlayerService.currentPlaylist.isEmpty()) {
+            if (MediaPlayerService.previousSong != null) {
+                lyricsUrl = MediaPlayerService.previousSong.getSongLyricsURL();
+            }
+        } else {
+            lyricsUrl = MediaPlayerService.currentPlaylist.peekFirst().getSongLyricsURL();
+        }
+
+        if (lyricsUrl != null) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/fxml/lyricsScreen.fxml"));
+                Parent parent = loader.load();
+                LyricsScreenController lyricsScreenController = loader.getController();
+                lyricsScreenController.displayLyrics(lyricsUrl);
+                Stage stage = new Stage();
+                stage.setScene(new Scene(parent));
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "No Lyrics file available for this song.", ButtonType.OK);
+            alert.showAndWait();
         }
     }
 }

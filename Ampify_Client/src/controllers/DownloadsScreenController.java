@@ -45,8 +45,7 @@ public class DownloadsScreenController implements Initializable {
                             song.setGenre("UNKNOWN");
                             song.setLanguage("UNKNOWN");
                             song.setReleaseDate("UNKNOWN");
-                            // TODO: ADD URL
-                            song.setSongLyricsURL("");
+                            song.setSongLyricsURL(null);
                             song.setSongRating(0);
                             song.setSongURL(new File("C:\\Ampify-Player\\Downloads\\" + fileName).toURI().toString());
 

@@ -1,3 +1,7 @@
+/*
+Class for allowing global access to certain home screen widgets
+*/
+
 package utilities;
 
 import com.jfoenix.controls.JFXListView;
@@ -17,12 +21,14 @@ public class HomeScreenWidgets {
     public static ProgressIndicator loadingIndicator;
     public static AnchorPane parentPane;
 
+    // Function to show the loading indicator
     public static void showProgressIndicator(){
         loadingIndicator.setVisible(true);
         parentPane.setDisable(true);
         loadingIndicator.setDisable(false);
     }
 
+    // Function to hide the loading indicator
     public static void hideProgressIndicator(){
         loadingIndicator.setVisible(false);
         parentPane.setDisable(false);

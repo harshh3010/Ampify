@@ -53,12 +53,12 @@ public class RegisterController {
                         ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
                         checkInput = (String) ois.readObject();
 
-                        if(checkInput.equals(String.valueOf(Status.SUCCESS))){
+                        if (checkInput.equals(String.valueOf(Status.SUCCESS))) {
                             Platform.runLater(new Runnable() {
                                 @Override
                                 public void run() {
                                     //  DISPLAY REGISTRATION SUCCESS
-                                    Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"REGISTRATION SUCCESS!", ButtonType.OK);
+                                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "REGISTRATION SUCCESS!", ButtonType.OK);
                                     alert.showAndWait();
                                     try {
                                         goToLoginScreen(actionEvent);
@@ -67,12 +67,11 @@ public class RegisterController {
                                     }
                                 }
                             });
-                        }else{
+                        } else {
                             Platform.runLater(new Runnable() {
                                 @Override
                                 public void run() {
-                                    // TODO: DISPLAY ERROR
-                                    Alert alert=new Alert(Alert.AlertType.ERROR,"ERROR IN REGISTRATION!", ButtonType.OK);
+                                    Alert alert = new Alert(Alert.AlertType.ERROR, "ERROR IN REGISTRATION!", ButtonType.OK);
                                     alert.showAndWait();
                                 }
                             });
@@ -86,7 +85,7 @@ public class RegisterController {
 
         } else {
             // DISPLAY ERROR DIALOG
-            Alert alert=new Alert(Alert.AlertType.ERROR,"ERROR!", ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.ERROR, "ERROR!", ButtonType.OK);
             alert.showAndWait();
         }
     }

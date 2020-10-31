@@ -1,3 +1,7 @@
+/*
+Enum for type of requests sent to the server
+*/
+
 package utilities;
 
 public enum ServerRequest {
@@ -11,21 +15,12 @@ public enum ServerRequest {
     GET_CHOICES("6"),
     SONG_SHOW("7"),
     ALBUM_SHOW("8"),
-    PLAY_SONG("9"),// TODO PLAY SONGS *_*
-    UPDATE_HISTORY("10"),
-    FETCH_USER_HISTORY("20"),
-    PLAYLIST_REQUEST("21"),
-    NOTIFICATION_REQUEST("22"),
-    SEARCH_REQUEST("23"),
-    ADD_TO_FAVOURITE("24"),
-    GET_TOP_ARTISTS("11"),   // TODO
-    GET_TOP_SONGS("12"),     // TODO
-    GET_FAVOURITE_SONGS("13"),
-    GET_PLAYLISTS("14"),
-    GET_TRENDING_SONGS("15"),
-    GET_TOP_ALBUMS("16"),       // TODO
-    GET_RECOMMENDED_SONGS("17"),    //TODO
-    GET_ALL_ALBUMS("18"),   //TODO
+    UPDATE_HISTORY("9"),
+    FETCH_USER_HISTORY("10"),
+    PLAYLIST_REQUEST("11"),
+    NOTIFICATION_REQUEST("12"),
+    SEARCH_REQUEST("13"),
+    ADD_TO_FAVOURITE("14"),
     ;
 
     ServerRequest(String s) {
