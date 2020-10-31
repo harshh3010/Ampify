@@ -9,9 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import mainClass.Main;
 import model.UserAuth;
@@ -25,8 +23,6 @@ import java.net.Socket;
 
 public class RegisterController {
 
-    public GridPane mainPane;
-    public ProgressIndicator progressIndicator;
     @FXML
     private TextField emailTF, passTF, cnfpassTF;
 
@@ -43,52 +39,54 @@ public class RegisterController {
             userAuth.setEmail(email);
             userAuth.setPassword(pass);
 
-            mainPane.setDisable(true);
-            progressIndicator.setVisible(true);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        SignUpRequest signUpRequest = new SignUpRequest(userAuth);
+                        Socket socket = new Socket(Main.serverIp, Main.serverPort);
 
-            new Thread(() -> {
-                try {
-                    SignUpRequest signUpRequest = new SignUpRequest(userAuth);
-                    Socket socket = new Socket(Main.serverIp, Main.serverPort);
+                        ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+                        oos.writeObject(signUpRequest);
+                        oos.flush();
 
-                    ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
-                    oos.writeObject(signUpRequest);
-                    oos.flush();
+                        ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+                        checkInput = (String) ois.readObject();
 
-                    ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
-                    checkInput = (String) ois.readObject();
+                        if(checkInput.equals(String.valueOf(Status.SUCCESS))){
+                            Platform.runLater(new Runnable() {
+                                @Override
+                                public void run() {
+                                    //  DISPLAY REGISTRATION SUCCESS
+                                    Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"REGISTRATION SUCCESS!", ButtonType.OK);
+                                    alert.showAndWait();
+                                    try {
+                                        goToLoginScreen(actionEvent);
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+                        }else{
+                            Platform.runLater(new Runnable() {
+                                @Override
+                                public void run() {
+                                    // TODO: DISPLAY ERROR
+                                    Alert alert=new Alert(Alert.AlertType.ERROR,"ERROR IN REGISTRATION!", ButtonType.OK);
+                                    alert.showAndWait();
+                                }
+                            });
+                        }
 
-                    if(checkInput.equals(String.valueOf(Status.SUCCESS))){
-                        Platform.runLater(() -> {
-                            //  DISPLAY REGISTRATION SUCCESS
-                            Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"REGISTRATION SUCCESS!", ButtonType.OK);
-                            alert.showAndWait();
-                            try {
-                                goToLoginScreen(actionEvent);
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        });
-                    }else{
-                        Platform.runLater(() -> {
-                            Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"ERROR IN REGISTRATION!", ButtonType.OK);
-                            alert.showAndWait();
-                        });
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
-
-                Platform.runLater(() -> {
-                    mainPane.setDisable(false);
-                    progressIndicator.setVisible(false);
-                    progressIndicator.setDisable(true);
-                });
             }).start();
 
         } else {
-            Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"ERROR!", ButtonType.OK);
+            // DISPLAY ERROR DIALOG
+            Alert alert=new Alert(Alert.AlertType.ERROR,"ERROR!", ButtonType.OK);
             alert.showAndWait();
         }
     }

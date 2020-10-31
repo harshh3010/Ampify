@@ -56,6 +56,7 @@ public class PlaylistCellController extends ListCell<Playlist> {
 
         // Setting action events for menu items
         item1.setOnAction(actionEvent -> {
+            // TODO: DISPLAY DIALOG, UPDATE UI
             try {
 
                 // Reading the response from the server
@@ -63,13 +64,13 @@ public class PlaylistCellController extends ListCell<Playlist> {
 
                 // Displaying proper message after reading the response
                 if (result.equals(String.valueOf(Status.SUCCESS))) {
-                    Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"PLAYLIST DELETED!", ButtonType.OK);
+                    Alert alert=new Alert(Alert.AlertType.INFORMATION,"PLAYLIST DELETED!", ButtonType.OK);
                     alert.showAndWait();
                 } else if (result.equals(String.valueOf(Status.NOT_OWNER))) {
-                    Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"You do not have permission to delete this playlist!", ButtonType.OK);
+                    Alert alert=new Alert(Alert.AlertType.ERROR,"You do not have permission to delete this playlist!", ButtonType.OK);
                     alert.showAndWait();
                 } else {
-                    Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"AN ERROR OCCURRED!", ButtonType.OK);
+                    Alert alert=new Alert(Alert.AlertType.ERROR,"AN ERROR OCCURRED!", ButtonType.OK);
                     alert.showAndWait();
                 }
 
@@ -115,8 +116,10 @@ public class PlaylistCellController extends ListCell<Playlist> {
                             e.printStackTrace();
                         }
                     } else {
-                        Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"YOU DO NOT HAVE PERMISSION TO PERFORM THIS ACTION!", ButtonType.OK);
+                        // DISPLAY ERROR
+                        Alert alert=new Alert(Alert.AlertType.ERROR,"YOU DO NOT HAVE PERMISSION TO PERFORM THIS ACTION!", ButtonType.OK);
                         alert.showAndWait();
+//
                     }
 
                 }

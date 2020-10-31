@@ -162,7 +162,7 @@ public class ChoiceController implements Initializable {
             } else {
                 //  DISPLAY ERROR
                 // Failure when saving choices
-                Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"Error saving the choices", ButtonType.OK);
+                Alert alert=new Alert(Alert.AlertType.ERROR,"Error saving the choices", ButtonType.OK);
                 alert.showAndWait();
             }
 

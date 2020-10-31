@@ -71,7 +71,7 @@ public class AddToPlaylistController {
                 } else if (result.equals("ALREADY_EXIST")) {
 
                     // Displaying the error in case of failure
-                    Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"Song already present in the playlist!", ButtonType.OK);
+                    Alert alert=new Alert(Alert.AlertType.ERROR,"Song already present in the playlist!", ButtonType.OK);
                     alert.showAndWait();
 
                 }
@@ -82,7 +82,7 @@ public class AddToPlaylistController {
 
         } else {
             // DISPLAY ERROR
-            Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"NO PLAYLIST SELECTED!", ButtonType.OK);
+            Alert alert=new Alert(Alert.AlertType.ERROR,"NO PLAYLIST SELECTED!", ButtonType.OK);
             alert.showAndWait();
         }
 

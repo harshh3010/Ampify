@@ -7,6 +7,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -78,9 +80,9 @@ public class LoginController {
 
                         Platform.runLater(() -> {
 
-                            // TODO: DISPLAY SUCCESS DIALOG
-
-                            System.out.println("Logged in successfully");
+                            // DISPLAY SUCCESS DIALOG
+                            Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"LOGGED IN SUCCESSFULLY!", ButtonType.OK);
+                            alert.showAndWait();
 
                             try {
 
@@ -132,12 +134,34 @@ public class LoginController {
                     // Displaying error in case of any failure during login
                     else if (check.getUserLoginStatus().equals(String.valueOf(LoginStatus.WRONG_CREDENTIALS))) {
 
-                        // TODO: DISPLAY ERROR
-                        Platform.runLater(() -> System.out.println("WRONG_CREDENTIALS"));
+                        // DISPLAY ERROR
+
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                //DISPLAY ERROR
+                                Alert alert=new Alert(Alert.AlertType.ERROR,"WRONG CREDENTIALS!", ButtonType.OK);
+                                alert.showAndWait();
+                            }
+                        });
                     } else if (check.getUserLoginStatus().equals(String.valueOf(LoginStatus.NO_SUCH_USER))) {
-                        Platform.runLater(() -> System.out.println("NO_SUCH_USER"));
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                //DISPLAY ERROR
+                                Alert alert=new Alert(Alert.AlertType.ERROR,"NO SUCH USER!", ButtonType.OK);
+                                alert.showAndWait();
+                            }
+                        });
                     } else {
-                        Platform.runLater(() -> System.out.println("error occurred"));
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                //DISPLAY ERROR
+                                Alert alert=new Alert(Alert.AlertType.ERROR,"ERROR OCCURRED!", ButtonType.OK);
+                                alert.showAndWait();
+                            }
+                        });
                     }
 
                 } catch (Exception e) {
@@ -151,7 +175,10 @@ public class LoginController {
             }).start();
 
         } else {
-            System.out.println("Fill details");
+            //DISPLAY ERROR DIALOG
+            Alert alert=new Alert(Alert.AlertType.ERROR,"FIRST FILL ALL THE DETAILS!", ButtonType.OK);
+            alert.showAndWait();
+
         }
     }
 
