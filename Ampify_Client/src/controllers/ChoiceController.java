@@ -1,6 +1,7 @@
 package controllers;
 
 import com.jfoenix.controls.JFXListView;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -12,7 +13,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import mainClass.Main;
 import model.Artist;
@@ -36,6 +39,8 @@ import java.util.ResourceBundle;
 
 public class ChoiceController implements Initializable {
 
+    public AnchorPane mainPane;
+    public ProgressIndicator progressIndicator;
     @FXML
     private JFXListView<Language> languageList;
     @FXML
@@ -56,51 +61,58 @@ public class ChoiceController implements Initializable {
         genreList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         artistList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                // Fetching the languages from the sever
-                try {
-                    LanguageFetchRequest languageFetchRequest = new LanguageFetchRequest();
-                    oos.writeObject(languageFetchRequest);
-                    oos.flush();
-                    languages = (List<Language>) ois.readObject();
+        mainPane.setDisable(true);
+        progressIndicator.setVisible(true);
 
-                    ObservableList<Language> languagesToDisplay = FXCollections.observableArrayList(languages);
-                    languageList.setItems(languagesToDisplay);
+        new Thread(() -> {
+            // Fetching the languages from the sever
+            try {
+                LanguageFetchRequest languageFetchRequest = new LanguageFetchRequest();
+                oos.writeObject(languageFetchRequest);
+                oos.flush();
+                languages = (List<Language>) ois.readObject();
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                ObservableList<Language> languagesToDisplay = FXCollections.observableArrayList(languages);
+                languageList.setItems(languagesToDisplay);
 
-                // Fetching the genres from the sever
-                try {
-                    GenresFetchRequest genresFetchRequest = new GenresFetchRequest();
-                    oos.writeObject(genresFetchRequest);
-                    oos.flush();
-                    genres = (List<Genres>) ois.readObject();
-
-                    ObservableList<Genres> genresToDisplay = FXCollections.observableArrayList(genres);
-                    genreList.setItems(genresToDisplay);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                try {
-                    ArtistFetchRequest artistsFetchRequest = new ArtistFetchRequest(String.valueOf(ArtistsAlbumFetchType.ALL));
-                    oos.writeObject(artistsFetchRequest);
-                    oos.flush();
-                    ObjectInputStream ois = Main.userInputStream;
-                    artists = (List<Artist>) ois.readObject();
-
-                    ObservableList<Artist> artistsToDisplay = FXCollections.observableArrayList(artists);
-                    artistList.setItems(artistsToDisplay);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+
+            // Fetching the genres from the sever
+            try {
+                GenresFetchRequest genresFetchRequest = new GenresFetchRequest();
+                oos.writeObject(genresFetchRequest);
+                oos.flush();
+                genres = (List<Genres>) ois.readObject();
+
+                ObservableList<Genres> genresToDisplay = FXCollections.observableArrayList(genres);
+                genreList.setItems(genresToDisplay);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            try {
+                ArtistFetchRequest artistsFetchRequest = new ArtistFetchRequest(String.valueOf(ArtistsAlbumFetchType.ALL));
+                oos.writeObject(artistsFetchRequest);
+                oos.flush();
+                ObjectInputStream ois = Main.userInputStream;
+                artists = (List<Artist>) ois.readObject();
+
+                ObservableList<Artist> artistsToDisplay = FXCollections.observableArrayList(artists);
+                artistList.setItems(artistsToDisplay);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            Platform.runLater(() -> {
+                mainPane.setDisable(false);
+                progressIndicator.setVisible(false);
+                progressIndicator.setDisable(true);
+            });
+
         }).start();
     }
 
@@ -108,6 +120,10 @@ public class ChoiceController implements Initializable {
     Called when user clicks continue button
      */
     public void onContinueClick(ActionEvent actionEvent) {
+
+        progressIndicator.setDisable(false);
+        progressIndicator.setVisible(true);
+        mainPane.setDisable(false);
 
         // Obtain user's selected choices
         ObservableList<Language> list1 = languageList.getSelectionModel().getSelectedItems();

@@ -39,7 +39,7 @@ public class SearchPageController {
         HomeScreenWidgets.showProgressIndicator();
 
         try {
-            List<Song> songList = AmpifyServices.getSearchResult(queryText, offset,rowCount);
+            List<Song> songList = AmpifyServices.getSearchResult(queryText, offset, rowCount);
             songsListView.setItems(FXCollections.observableArrayList(songList));
             songsListView.setCellFactory(new SongCellFactory());
         } catch (IOException | ClassNotFoundException e) {

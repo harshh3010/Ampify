@@ -31,25 +31,27 @@ public class DownloadsScreenController implements Initializable {
 
                 String[] contents = directoryPath.list();
 
-                for (String fileName : contents) {
-                    if (fileName.endsWith(".mp3") || fileName.endsWith(".wav")) {
-                        Song song = new Song();
-                        song.setSongName(fileName);
-                        song.setAlbumID(0);
-                        song.setArtistID(0);
-                        song.setArtistName("UNKNOWN");
-                        song.setSongID(0);
-                        // TODO: ADD URL
-                        song.setSongImageURL("");
-                        song.setGenre("UNKNOWN");
-                        song.setLanguage("UNKNOWN");
-                        song.setReleaseDate("UNKNOWN");
-                        // TODO: ADD URL
-                        song.setSongLyricsURL("");
-                        song.setSongRating(0);
-                        song.setSongURL(new File("C:\\Ampify-Player\\Downloads\\" + fileName).toURI().toString());
+                if (contents != null) {
+                    for (String fileName : contents) {
+                        if (fileName.endsWith(".mp3") || fileName.endsWith(".wav")) {
+                            Song song = new Song();
+                            song.setSongName(fileName);
+                            song.setAlbumID(0);
+                            song.setArtistID(0);
+                            song.setArtistName("UNKNOWN");
+                            song.setSongID(0);
+                            // TODO: ADD URL
+                            song.setSongImageURL("");
+                            song.setGenre("UNKNOWN");
+                            song.setLanguage("UNKNOWN");
+                            song.setReleaseDate("UNKNOWN");
+                            // TODO: ADD URL
+                            song.setSongLyricsURL("");
+                            song.setSongRating(0);
+                            song.setSongURL(new File("C:\\Ampify-Player\\Downloads\\" + fileName).toURI().toString());
 
-                        songs.add(song);
+                            songs.add(song);
+                        }
                     }
                 }
                 songListView.setItems(FXCollections.observableArrayList(songs));

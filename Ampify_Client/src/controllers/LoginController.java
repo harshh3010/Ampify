@@ -4,7 +4,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -12,7 +11,6 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import mainClass.Main;
 import model.User;
@@ -30,6 +28,7 @@ public class LoginController {
 
     public StackPane rootPane;
     public GridPane displayPane;
+    public ProgressIndicator progressIndicator;
     volatile User check;
     @FXML
     private TextField emailTF, passwordTF;
@@ -44,14 +43,11 @@ public class LoginController {
         // Checking the validity of email and password
         if (!email.isEmpty() && !pass.isEmpty()) {
 
-            ProgressIndicator progressIndicator = new ProgressIndicator();
-            VBox vBox = new VBox(progressIndicator);
-            vBox.setAlignment(Pos.CENTER);
-            displayPane.setDisable(true);
-            rootPane.getChildren().add(vBox);
-
             // Running a new thread to login the user if credentials are valid
             new Thread(() -> {
+
+                progressIndicator.setVisible(true);
+                displayPane.setDisable(true);
 
                 try {
                     Socket socket = new Socket(Main.serverIp, Main.serverPort);
@@ -147,10 +143,14 @@ public class LoginController {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+
+                progressIndicator.setVisible(false);
+                progressIndicator.setDisable(true);
+                displayPane.setDisable(false);
+
             }).start();
 
         } else {
-            // TODO: DISPLAY ERROR DIALOG
             System.out.println("Fill details");
         }
     }
@@ -187,14 +187,14 @@ public class LoginController {
     // Function to redirect the user to home screen
     private void goToHomeScreen(ActionEvent actionEvent) throws IOException {
         // Scene to be displayed
-        Parent languageChoiceScreenParent = FXMLLoader.load(getClass().getResource("/resources/fxml/home.fxml"));
-        Scene languageChoiceScreenScene = new Scene(languageChoiceScreenParent);
+        Parent homeScreen = FXMLLoader.load(getClass().getResource("/resources/fxml/home.fxml"));
+        Scene homeScreenScene = new Scene(homeScreen);
 
         // Getting the current stage window
         Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
 
         // Setting the new scene in the window
-        window.setScene(languageChoiceScreenScene);
+        window.setScene(homeScreenScene);
         window.show();
     }
 }

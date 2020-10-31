@@ -69,17 +69,16 @@ public class SongCellController extends ListCell<Song> {
         item1.setOnAction(actionEvent -> {
             try {
 
-                // TODO: DISPLAY DIALOG
                 String result = AmpifyServices.addToFavorites(song.getSongID());
 
                 if (result.equals(String.valueOf(Status.ALREADY_LIKED))) {
-                    Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"ALREADY PRESENT IN FAVOURITES!", ButtonType.OK);
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "ALREADY PRESENT IN FAVOURITES!", ButtonType.OK);
                     alert.showAndWait();
                 } else if (result.equals(String.valueOf(Status.SUCCESS))) {
-                    Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"ADDED TO FAVOURITES!", ButtonType.OK);
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "ADDED TO FAVOURITES!", ButtonType.OK);
                     alert.showAndWait();
                 } else {
-                    Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"UNABLE TO ADD TO FAVOURITES!", ButtonType.OK);
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "UNABLE TO ADD TO FAVOURITES!", ButtonType.OK);
                     alert.showAndWait();
                 }
 

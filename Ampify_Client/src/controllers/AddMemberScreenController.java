@@ -33,30 +33,28 @@ public class AddMemberScreenController {
             // Ensuring valid input
             if (!usernameTF.getText().trim().isEmpty()) {
 
-                // TODO: ADD INVALID USERNAME CASE
-
                 // Reading the response from the server after sending invite request
                 String result = AmpifyServices.sendNotification(usernameTF.getText().trim(), playlist.getId());
 
                 // Taking proper action based on response
                 if (usernameTF.getText().trim().equals(UserApi.getInstance().getEmail())) {
-                    Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"BEING AN OWNER YOU ALREADY OWN THE MEMBERSHIP", ButtonType.OK);
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "BEING AN OWNER YOU ALREADY OWN THE MEMBERSHIP", ButtonType.OK);
                     alert.showAndWait();
 
                 } else {
                     if (result.equals(String.valueOf(Status.SUCCESS))) {
-                        Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"SUCCESS!", ButtonType.OK);
+                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "SUCCESS!", ButtonType.OK);
                         alert.showAndWait();
                         Stage stage = (Stage) usernameTF.getScene().getWindow();
                         stage.close();
 
                     } else if (result.equals(String.valueOf(Status.ALREADY_EXIST))) {
 
-                        Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"ALREADY SENT!", ButtonType.OK);
+                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "ALREADY SENT!", ButtonType.OK);
                         alert.showAndWait();
 
                     } else {
-                        Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"ERROR SENDING REQUEST!", ButtonType.OK);
+                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "ERROR SENDING REQUEST!", ButtonType.OK);
                         alert.showAndWait();
 
                     }
@@ -64,7 +62,7 @@ public class AddMemberScreenController {
 
             } else {
                 // DISPLAY ERROR
-                Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"USERNAME CANNOT BE EMPTY!", ButtonType.OK);
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "USERNAME CANNOT BE EMPTY!", ButtonType.OK);
                 alert.showAndWait();
             }
         } catch (IOException | ClassNotFoundException e) {

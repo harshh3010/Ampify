@@ -75,12 +75,11 @@ public class CreatePlaylistController implements Initializable {
 
         // Creating a new playlist
         try {
-            // TODO: DISPLAY DIALOG
             String result = AmpifyServices.createPlaylist(nameTextField.getText().trim(), type, privacy);
             if (result.equals(String.valueOf(Status.SUCCESS))) {
 
                 // Closing the create playlist screen on success
-                Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"SUCCESS", ButtonType.OK);
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "SUCCESS", ButtonType.OK);
                 alert.showAndWait();
                 Stage stage = (Stage) nameTextField.getScene().getWindow();
                 stage.close();

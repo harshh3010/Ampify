@@ -20,10 +20,12 @@ public class HomeScreenWidgets {
     public static void showProgressIndicator(){
         loadingIndicator.setVisible(true);
         parentPane.setDisable(true);
+        loadingIndicator.setDisable(false);
     }
 
     public static void hideProgressIndicator(){
         loadingIndicator.setVisible(false);
         parentPane.setDisable(false);
+        loadingIndicator.setDisable(true);
     }
 }

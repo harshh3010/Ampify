@@ -56,7 +56,6 @@ public class PlaylistCellController extends ListCell<Playlist> {
 
         // Setting action events for menu items
         item1.setOnAction(actionEvent -> {
-            // TODO: DISPLAY DIALOG, UPDATE UI
             try {
 
                 // Reading the response from the server
@@ -116,10 +115,8 @@ public class PlaylistCellController extends ListCell<Playlist> {
                             e.printStackTrace();
                         }
                     } else {
-                        // TODO: DISPLAY ERROR
                         Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"YOU DO NOT HAVE PERMISSION TO PERFORM THIS ACTION!", ButtonType.OK);
                         alert.showAndWait();
-//
                     }
 
                 }

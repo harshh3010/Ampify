@@ -9,16 +9,12 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.Node;
 import javafx.scene.control.ProgressIndicator;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Album;
@@ -58,30 +54,16 @@ public class HomeController implements Initializable {
         HomeScreenWidgets.loadingIndicator = loadingIndicator;
         HomeScreenWidgets.parentPane = homePane;
 
-//        homePane.setDisable(true);
-//        loadingIndicator.setVisible(true);
+        new Thread(() -> {
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
+            loadDataFromServer();
 
-                loadDataFromServer();
+            Platform.runLater(this::displayData);
 
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        displayData();
-
-//                        homePane.setDisable(false);
-//                        loadingIndicator.setVisible(false);
-                    }
-                });
-
-            }
         }).start();
     }
 
-    private void loadDataFromServer(){
+    private void loadDataFromServer() {
         // Displaying top artists
         try {
             List<Artist> artists = AmpifyServices.getTopArtists();
@@ -165,7 +147,7 @@ public class HomeController implements Initializable {
         }
 
         // Loading trending songs from the server
-        try{
+        try {
             List<Song> songs = AmpifyServices.getTrendingSongs();
             userApi.setTrendingSongs(songs);
         } catch (IOException | ClassNotFoundException e) {
@@ -295,7 +277,7 @@ public class HomeController implements Initializable {
         }
     }
 
-    public void onSearchBarClicked(MouseEvent mouseEvent) {
+    public void onSearchBarClicked() {
         if (HomeScreenWidgets.currentDisplayPage != HomeScreenDisplays.SEARCH_PAGE) {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/fxml/searchPage.fxml"));
