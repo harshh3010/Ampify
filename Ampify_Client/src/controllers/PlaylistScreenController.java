@@ -4,8 +4,8 @@ import CellFactories.SongCellFactory;
 import Services.AmpifyServices;
 import Services.MediaPlayerService;
 import com.jfoenix.controls.JFXListView;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -34,14 +34,21 @@ public class PlaylistScreenController {
         // Displaying the name of playlist
         nameLabel.setText(playlist.getPlaylistName());
 
-        // Loading the songs of playlist from server
-        try {
-            songList = AmpifyServices.getSongsOfPlaylist(playlist.getId());
-            songsListView.setItems(FXCollections.observableArrayList(songList));
-            songsListView.setCellFactory(new SongCellFactory());
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        HomeScreenWidgets.showProgressIndicator();
+
+        new Thread(() -> {
+
+            // Loading the songs of playlist from server
+            try {
+                songList = AmpifyServices.getSongsOfPlaylist(playlist.getId());
+                songsListView.setItems(FXCollections.observableArrayList(songList));
+                songsListView.setCellFactory(new SongCellFactory());
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            Platform.runLater(HomeScreenWidgets::hideProgressIndicator);
+        }).start();
 
     }
 
@@ -61,7 +68,7 @@ public class PlaylistScreenController {
 
     }
 
-    public void onPlayAllClicked(ActionEvent actionEvent) {
+    public void onPlayAllClicked() {
 
         if (!songList.isEmpty()) {
             for (Song song : songList) {

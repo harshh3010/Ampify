@@ -5,6 +5,7 @@ import CellFactories.ArtistCellFactory;
 import CellFactories.MusicCardFactory;
 import CellFactories.PlaylistCellFactory;
 import com.jfoenix.controls.JFXListView;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -42,70 +43,63 @@ public class HomeContentsPaneController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        HomeScreenWidgets.showProgressIndicator();
+
+        new Thread(() -> {
+
+            displayContents();
+
+            Platform.runLater(HomeScreenWidgets::hideProgressIndicator);
+
+        }).start();
+
+    }
+
+    private void displayContents() {
+
         UserApi userApi = UserApi.getInstance();
 
-        new Thread(() -> {
-            // Displaying top artists
-            popularArtistsListView.setItems(FXCollections.observableArrayList(userApi.getPopularArtists()));
-            popularArtistsListView.setCellFactory(new ArtistCellFactory());
-        }).start();
+        // Displaying top artists
+        popularArtistsListView.setItems(FXCollections.observableArrayList(userApi.getPopularArtists()));
+        popularArtistsListView.setCellFactory(new ArtistCellFactory());
 
-        new Thread(() -> {
-            // Displaying recently played songs
-            recentlyPlayedListView.setItems(FXCollections.observableArrayList((userApi.getRecentlyPlayed())));
-            recentlyPlayedListView.setCellFactory(new MusicCardFactory());
-        }).start();
+        // Displaying recently played songs
+        recentlyPlayedListView.setItems(FXCollections.observableArrayList((userApi.getRecentlyPlayed())));
+        recentlyPlayedListView.setCellFactory(new MusicCardFactory());
 
-        new Thread(() -> {
-            // Displaying recently added songs
-            recentlyAddedListView.setItems(FXCollections.observableArrayList(userApi.getRecentlyAdded()));
-            recentlyAddedListView.setCellFactory(new MusicCardFactory());
-        }).start();
+        // Displaying recently added songs
+        recentlyAddedListView.setItems(FXCollections.observableArrayList(userApi.getRecentlyAdded()));
+        recentlyAddedListView.setCellFactory(new MusicCardFactory());
 
+        // Displaying recommended songs to the user (Based on choice of Artists, Languages, Genres)
+        recommendedSongsListView.setItems(FXCollections.observableArrayList(userApi.getRecommendedMusic()));
+        recommendedSongsListView.setCellFactory(new MusicCardFactory());
 
-        new Thread(() -> {
-            // Displaying recommended songs to the user (Based on choice of Artists, Languages, Genres)
-            recommendedSongsListView.setItems(FXCollections.observableArrayList(userApi.getRecommendedMusic()));
-            recommendedSongsListView.setCellFactory(new MusicCardFactory());
-        }).start();
+        // Displaying the top(4) songs to the user
+        topSongsListView.setItems(FXCollections.observableArrayList(userApi.getTopSongs()));
+        topSongsListView.setCellFactory(new MusicCardFactory());
 
-        new Thread(() -> {
-            // Displaying the top(4) songs to the user
-            topSongsListView.setItems(FXCollections.observableArrayList(userApi.getTopSongs()));
-            topSongsListView.setCellFactory(new MusicCardFactory());
-        }).start();
+        // Loading user's playlists
+        personalPlaylistListView.setItems(FXCollections.observableArrayList(userApi.getPersonalPlaylists()));
+        groupPlaylistListView.setItems(FXCollections.observableArrayList(userApi.getGroupPlaylist()));
+        personalPlaylistListView.setCellFactory(new PlaylistCellFactory());
+        groupPlaylistListView.setCellFactory(new PlaylistCellFactory());
 
-        new Thread(() -> {
-            // Loading user's playlists
-            personalPlaylistListView.setItems(FXCollections.observableArrayList(userApi.getPersonalPlaylists()));
-            groupPlaylistListView.setItems(FXCollections.observableArrayList(userApi.getGroupPlaylist()));
-            personalPlaylistListView.setCellFactory(new PlaylistCellFactory());
-            groupPlaylistListView.setCellFactory(new PlaylistCellFactory());
-        }).start();
+        // Displaying top albums to the user
+        topAlbumsListView.setItems(FXCollections.observableArrayList(userApi.getTopAlbums()));
+        topAlbumsListView.setCellFactory(new AlbumCardFactory());
 
-        new Thread(() -> {
-            // Displaying top albums to the user
-            topAlbumsListView.setItems(FXCollections.observableArrayList(userApi.getTopAlbums()));
-            topAlbumsListView.setCellFactory(new AlbumCardFactory());
-        }).start();
+        // Displaying most played music to the user
+        mostPlayedListView.setItems(FXCollections.observableArrayList(userApi.getMostPlayed()));
+        mostPlayedListView.setCellFactory(new MusicCardFactory());
 
-        new Thread(() -> {
-            // Displaying most played music to the user
-            mostPlayedListView.setItems(FXCollections.observableArrayList(userApi.getMostPlayed()));
-            mostPlayedListView.setCellFactory(new MusicCardFactory());
-        }).start();
+        // Displaying music played at same time in past
+        playedAtSameTimeListView.setItems(FXCollections.observableArrayList(userApi.getPreviouslyPlayed()));
+        playedAtSameTimeListView.setCellFactory(new MusicCardFactory());
 
-        new Thread(() -> {
-            // Displaying music played at same time in past
-            playedAtSameTimeListView.setItems(FXCollections.observableArrayList(userApi.getPreviouslyPlayed()));
-            playedAtSameTimeListView.setCellFactory(new MusicCardFactory());
-        }).start();
-
-        new Thread(() -> {
-            // Displaying trending songs to the user
-            trendingSongsListView.setItems(FXCollections.observableArrayList(userApi.getTrendingSongs()));
-            trendingSongsListView.setCellFactory(new MusicCardFactory());
-        }).start();
+        // Displaying trending songs to the user
+        trendingSongsListView.setItems(FXCollections.observableArrayList(userApi.getTrendingSongs()));
+        trendingSongsListView.setCellFactory(new MusicCardFactory());
     }
 
     // Called when view all button for recently played songs clicked

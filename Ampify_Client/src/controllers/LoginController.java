@@ -4,10 +4,15 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import mainClass.Main;
 import model.User;
@@ -23,6 +28,8 @@ import java.util.prefs.Preferences;
 
 public class LoginController {
 
+    public StackPane rootPane;
+    public GridPane displayPane;
     volatile User check;
     @FXML
     private TextField emailTF, passwordTF;
@@ -36,6 +43,12 @@ public class LoginController {
 
         // Checking the validity of email and password
         if (!email.isEmpty() && !pass.isEmpty()) {
+
+            ProgressIndicator progressIndicator = new ProgressIndicator();
+            VBox vBox = new VBox(progressIndicator);
+            vBox.setAlignment(Pos.CENTER);
+            displayPane.setDisable(true);
+            rootPane.getChildren().add(vBox);
 
             // Running a new thread to login the user if credentials are valid
             new Thread(() -> {

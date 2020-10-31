@@ -3,6 +3,7 @@ package controllers;
 import CellFactories.SongCellFactory;
 import Services.AmpifyServices;
 import com.jfoenix.controls.JFXListView;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -30,7 +31,7 @@ public class ArtistScreenController {
     public JFXListView<Song> songListView;
 
     private Artist artist;
-    private int offset,rowCount;
+    private int offset, rowCount;
 
     public void saveArtistDetails(Artist artist) {
         this.artist = artist;
@@ -45,14 +46,24 @@ public class ArtistScreenController {
 
         loadItems();
     }
-    private void loadItems(){
-        try {
-            List<Song> songList = AmpifyServices.getSongsOfArtist(artist.getArtistID(),offset,rowCount);
-            songListView.setItems(FXCollections.observableArrayList(songList));
-            songListView.setCellFactory(new SongCellFactory());
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+
+    private void loadItems() {
+
+        HomeScreenWidgets.showProgressIndicator();
+
+        new Thread(() -> {
+
+            try {
+                List<Song> songList = AmpifyServices.getSongsOfArtist(artist.getArtistID(), offset, rowCount);
+                songListView.setItems(FXCollections.observableArrayList(songList));
+                songListView.setCellFactory(new SongCellFactory());
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            Platform.runLater(HomeScreenWidgets::hideProgressIndicator);
+        }).start();
+
     }
 
     public void onBackClicked() {
@@ -66,6 +77,7 @@ public class ArtistScreenController {
             e.printStackTrace();
         }
     }
+
     // Called on click of previous button
     public void onPreviousClicked() {
         // Fetching the previous batch only if offset is not 0 (Offset = 0 specifies first batch)
@@ -74,6 +86,7 @@ public class ArtistScreenController {
             loadItems();
         }
     }
+
     // Called on click of next button
     public void onNextClicked() {
         // Fetching the next batch only if current one is non-empty (Empty specifies the end)

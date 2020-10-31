@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="530.0" prefWidth="975.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SearchPageController">
+   <children>
+      <Label layoutX="14.0" layoutY="14.0" text="Search Results" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="30.0" />
+         </font>
+      </Label>
+      <JFXListView fx:id="songsListView" layoutX="17.0" layoutY="59.0" prefHeight="400.0" prefWidth="939.0" />
+      <JFXButton layoutX="17.0" layoutY="467.0" onAction="#onPreviousClicked" prefHeight="25.0" prefWidth="124.0" text="Previous" textFill="WHITE" />
+      <JFXButton layoutX="832.0" layoutY="467.0" onAction="#onNextClicked" prefHeight="25.0" prefWidth="124.0" text="Next" textFill="WHITE" />
+   </children>
+</AnchorPane>

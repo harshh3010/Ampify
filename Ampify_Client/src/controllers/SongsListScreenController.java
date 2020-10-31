@@ -3,6 +3,7 @@ package controllers;
 import CellFactories.SongCellFactory;
 import Services.AmpifyServices;
 import com.jfoenix.controls.JFXListView;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,6 +17,8 @@ import utilities.HomeScreenWidgets;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static utilities.HomeScreenWidgets.*;
 
 public class SongsListScreenController {
 
@@ -57,25 +60,31 @@ public class SongsListScreenController {
 
     // Function to load data from the server
     private void loadItems() {
+        showProgressIndicator();
 
-        // Loading songs from the server based on type of request made
-        try {
-            List<Song> songs = new ArrayList<>();
-            if (songListType == SongListType.RECENTLY_ADDED_SONGS) {
-                songs = AmpifyServices.getRecentAddedSongs(offset, rowCount);
-            } else if (songListType == SongListType.RECOMMENDED_SONGS) {
-                songs = AmpifyServices.getUserChoiceSongs(offset, rowCount);
-            } else if (songListType == SongListType.TOP_SONGS) {
-                songs = AmpifyServices.getTopSongs(offset, rowCount);
+        new Thread(() -> {
+            // Loading songs from the server based on type of request made
+            try {
+                List<Song> songs = new ArrayList<>();
+                if (songListType == SongListType.RECENTLY_ADDED_SONGS) {
+                    songs = AmpifyServices.getRecentAddedSongs(offset, rowCount);
+                } else if (songListType == SongListType.RECOMMENDED_SONGS) {
+                    songs = AmpifyServices.getUserChoiceSongs(offset, rowCount);
+                } else if (songListType == SongListType.TOP_SONGS) {
+                    songs = AmpifyServices.getTopSongs(offset, rowCount);
+                }
+                else if(songListType == SongListType.LIKED_SONGS){
+                    songs = AmpifyServices.getUserFavouriteSong(offset,rowCount);
+                }
+                songListView.setItems(FXCollections.observableArrayList(songs));
+                songListView.setCellFactory(new SongCellFactory());
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
             }
-            else if(songListType == SongListType.LIKED_SONGS){
-                songs = AmpifyServices.getUserFavouriteSong(offset,rowCount);
-            }
-            songListView.setItems(FXCollections.observableArrayList(songs));
-            songListView.setCellFactory(new SongCellFactory());
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+
+            Platform.runLater(() -> hideProgressIndicator());
+
+        }).start();
     }
 
     // Called on click of back button
@@ -84,9 +93,9 @@ public class SongsListScreenController {
         // Redirecting the user to home page
         try {
             Pane newPane = FXMLLoader.load(getClass().getResource("/resources/fxml/homeContentsPane.fxml"));
-            HomeScreenWidgets.displayPane.getChildren().clear();
-            HomeScreenWidgets.displayPane.getChildren().add(newPane);
-            HomeScreenWidgets.currentDisplayPage = HomeScreenDisplays.MAIN_PAGE;
+            displayPane.getChildren().clear();
+            displayPane.getChildren().add(newPane);
+            currentDisplayPage = HomeScreenDisplays.MAIN_PAGE;
         } catch (IOException e) {
             e.printStackTrace();
         }

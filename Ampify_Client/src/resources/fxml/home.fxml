@@ -4,68 +4,76 @@
 <?import com.jfoenix.controls.JFXListView?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="anchorPane1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.HomeController">
-    <children>
-        <AnchorPane id="overlayAnchorPane2" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../css/style.css">
-            <children>
-                <Pane prefHeight="720.0" prefWidth="240.0" />
-                <Pane prefHeight="720.0" prefWidth="240.0" style="-fx-background-color: ;">
-                    <children>
-                        <Label layoutX="25.0" layoutY="243.0" prefHeight="30.0" prefWidth="191.0" text="Now Playing" textFill="WHITE">
-                            <font>
-                                <Font size="24.0" />
-                            </font>
+
+<StackPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.HomeController">
+   <children>
+      <AnchorPane id="anchorPane1" fx:id="homePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../css/style.css">
+          <children>
+              <AnchorPane id="overlayAnchorPane2" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../css/style.css">
+                  <children>
+                      <Pane prefHeight="720.0" prefWidth="240.0" />
+                      <Pane prefHeight="720.0" prefWidth="240.0" style="-fx-background-color: ;">
+                          <children>
+                              <Label layoutX="25.0" layoutY="243.0" prefHeight="30.0" prefWidth="191.0" text="Now Playing" textFill="WHITE">
+                                  <font>
+                                      <Font size="24.0" />
+                                  </font>
+                              </Label>
+                        <JFXListView fx:id="nowPlayingList" layoutX="20.0" layoutY="275.0" prefHeight="329.0" prefWidth="200.0" />
+                        <JFXButton layoutX="14.0" layoutY="93.0" onAction="#onHomeButtonClicked" prefHeight="32.0" prefWidth="200.0" style="-fx-alignment: left;" text="Home" textFill="WHITE">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </JFXButton>
+                        <JFXButton layoutX="14.0" layoutY="125.0" onAction="#historyButtonAction" prefHeight="32.0" prefWidth="200.0" style="-fx-alignment: left;" text="History" textFill="WHITE">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </JFXButton>
+                        <JFXButton layoutX="14.0" layoutY="157.0" onAction="#downloadsButtonAction" prefHeight="35.0" prefWidth="200.0" style="-fx-alignment: left;" text="Downloads" textFill="WHITE">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </JFXButton>
+                        <Label layoutX="25.0" layoutY="35.0" prefHeight="32.0" prefWidth="143.0" text="Ampify" textFill="WHITE">
+                           <font>
+                              <Font size="30.0" />
+                           </font>
                         </Label>
-                  <JFXListView fx:id="nowPlayingList" layoutX="20.0" layoutY="275.0" prefHeight="329.0" prefWidth="200.0" />
-                  <JFXButton layoutX="14.0" layoutY="93.0" onAction="#onHomeButtonClicked" prefHeight="32.0" prefWidth="200.0" style="-fx-alignment: left;" text="Home" textFill="WHITE">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton layoutX="14.0" layoutY="125.0" onAction="#historyButtonAction" prefHeight="32.0" prefWidth="200.0" style="-fx-alignment: left;" text="History" textFill="WHITE">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton layoutX="14.0" layoutY="157.0" onAction="#downloadsButtonAction" prefHeight="35.0" prefWidth="200.0" style="-fx-alignment: left;" text="Downloads" textFill="WHITE">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                  </JFXButton>
-                  <Label layoutX="25.0" layoutY="35.0" prefHeight="32.0" prefWidth="143.0" text="Ampify" textFill="WHITE">
-                     <font>
-                        <Font size="30.0" />
-                     </font>
-                  </Label>
-                  <JFXButton layoutX="14.0" layoutY="192.0" onAction="#onLocalMusicClicked" prefHeight="35.0" prefWidth="200.0" style="-fx-alignment: left;" text="Local Music" textFill="WHITE">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                  </JFXButton>
-                    </children>
-                </Pane>
-                <Pane id="bottomControlBar" fx:id="bottomPane" layoutY="620.0" prefHeight="100.0" prefWidth="1280.0" />
-            <Pane fx:id="displayPane" layoutX="265.0" layoutY="79.0">
-               <children>
+                        <JFXButton layoutX="14.0" layoutY="192.0" onAction="#onLocalMusicClicked" prefHeight="35.0" prefWidth="200.0" style="-fx-alignment: left;" text="Local Music" textFill="WHITE">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </JFXButton>
+                          </children>
+                      </Pane>
+                      <Pane id="bottomControlBar" fx:id="bottomPane" layoutY="620.0" prefHeight="100.0" prefWidth="1280.0" />
+                      <JFXTextField id="searchBar" fx:id="searchBar" focusColor="#ffffff00" layoutX="265.0" layoutY="25.0" onMouseClicked="#onSearchBarClicked" prefHeight="33.0" prefWidth="651.0" promptText="Search music, artists, albums and more" unFocusColor="#ffffff00" />
+                  <Pane fx:id="displayPane" layoutX="265.0" layoutY="79.0">
+                     <children>
                </children>
-            </Pane>
-                <JFXTextField id="searchBar" focusColor="#ffffff00" layoutX="265.0" layoutY="25.0" prefHeight="33.0" prefWidth="651.0" promptText="Search music, artists, albums and more" unFocusColor="#ffffff00" />
-            <JFXButton fx:id="logoutButton" layoutX="1200.0" layoutY="26.0" onAction="#onLogoutClicked" style="-fx-background-color: transparent;" text="Logout" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </JFXButton>
-            <Text fx:id="userEmailText" fill="WHITE" layoutX="933.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="RIGHT" wrappingWidth="252.9830722808838">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Text>
-            </children>
-        </AnchorPane>
-    </children>
-</AnchorPane>
+                  </Pane>
+                  <JFXButton fx:id="logoutButton" layoutX="1200.0" layoutY="26.0" onAction="#onLogoutClicked" style="-fx-background-color: transparent;" text="Logout" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </JFXButton>
+                  <Text fx:id="userEmailText" fill="WHITE" layoutX="933.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="RIGHT" wrappingWidth="252.9830722808838">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+                  </children>
+              </AnchorPane>
+          </children>
+      </AnchorPane>
+      <ProgressIndicator fx:id="loadingIndicator" />
+   </children>
+</StackPane>

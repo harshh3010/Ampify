@@ -1,6 +1,7 @@
 package controllers;
 
 import Services.AmpifyServices;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -8,6 +9,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.UserHistory;
+import utilities.HomeScreenWidgets;
 
 import java.io.IOException;
 import java.net.URL;
@@ -57,16 +59,27 @@ public class HistoryController implements Initializable {
             loadItems();
         }
     }
+
     // Function to load records from the server
     private void loadItems() {
-        // Displaying the song history to the user
-        try {
-            List<UserHistory> userHistoryList = AmpifyServices.getUserHistory(offset, rowCount);
-            historyTable.setItems(FXCollections.observableArrayList(userHistoryList));
-            songNameColumn.setCellValueFactory(new PropertyValueFactory<>("songName"));
-            timePlayedColumn.setCellValueFactory(new PropertyValueFactory<>("timePlayed"));
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+
+        HomeScreenWidgets.showProgressIndicator();
+
+        new Thread(() -> {
+
+            // Displaying the song history to the user
+            try {
+                List<UserHistory> userHistoryList = AmpifyServices.getUserHistory(offset, rowCount);
+                historyTable.setItems(FXCollections.observableArrayList(userHistoryList));
+                songNameColumn.setCellValueFactory(new PropertyValueFactory<>("songName"));
+                timePlayedColumn.setCellValueFactory(new PropertyValueFactory<>("timePlayed"));
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            Platform.runLater(HomeScreenWidgets::hideProgressIndicator);
+
+        }).start();
+
     }
 }

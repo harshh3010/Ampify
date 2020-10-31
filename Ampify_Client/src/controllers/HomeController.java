@@ -4,13 +4,21 @@ import Services.AmpifyServices;
 import Services.MediaPlayerService;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
+import com.jfoenix.controls.JFXTextField;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.Node;
+import javafx.scene.control.ProgressIndicator;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Album;
@@ -35,17 +43,45 @@ public class HomeController implements Initializable {
     public Pane bottomPane;
     public JFXListView<Song> nowPlayingList;
     public Text userEmailText;
+    public JFXTextField searchBar;
+    public AnchorPane homePane;
+    public ProgressIndicator loadingIndicator;
     UserApi userApi = UserApi.getInstance();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        displayUserData();
-
         HomeScreenWidgets.displayPane = displayPane;
         HomeScreenWidgets.bottomPane = bottomPane;
         HomeScreenWidgets.nowPlayingList = nowPlayingList;
+        HomeScreenWidgets.searchBar = searchBar;
+        HomeScreenWidgets.loadingIndicator = loadingIndicator;
+        HomeScreenWidgets.parentPane = homePane;
 
+//        homePane.setDisable(true);
+//        loadingIndicator.setVisible(true);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                loadDataFromServer();
+
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        displayData();
+
+//                        homePane.setDisable(false);
+//                        loadingIndicator.setVisible(false);
+                    }
+                });
+
+            }
+        }).start();
+    }
+
+    private void loadDataFromServer(){
         // Displaying top artists
         try {
             List<Artist> artists = AmpifyServices.getTopArtists();
@@ -70,7 +106,6 @@ public class HomeController implements Initializable {
             e.printStackTrace();
         }
 
-
         // Displaying recommended songs to the user (Based on choice of Artists, Languages, Genres)
         try {
             List<Song> songs = AmpifyServices.getUserChoiceSongs(0, 4);
@@ -87,7 +122,6 @@ public class HomeController implements Initializable {
             e.printStackTrace();
         }
 
-        // Loading user's playlists
         // Loading user's playlists
         try {
             List<Playlist> playlists = AmpifyServices.getMyPlaylists();
@@ -144,6 +178,11 @@ public class HomeController implements Initializable {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    private void displayData() {
+
+        userEmailText.setText(userApi.getEmail());
 
         // Displaying the last played song info in bottom pane
         if (MediaPlayerService.previousSong != null) {
@@ -165,12 +204,6 @@ public class HomeController implements Initializable {
             e.printStackTrace();
         }
 
-    }
-
-
-    private void displayUserData() {
-        System.out.println("display " + userApi.getEmail());
-        userEmailText.setText(userApi.getEmail());
     }
 
     public void onLogoutClicked(ActionEvent actionEvent) throws IOException {
@@ -256,6 +289,20 @@ public class HomeController implements Initializable {
                 displayPane.getChildren().clear();
                 displayPane.getChildren().add(newLoadedPane);
                 HomeScreenWidgets.currentDisplayPage = HomeScreenDisplays.LOCAL_MUSIC_SCREEN;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void onSearchBarClicked(MouseEvent mouseEvent) {
+        if (HomeScreenWidgets.currentDisplayPage != HomeScreenDisplays.SEARCH_PAGE) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/fxml/searchPage.fxml"));
+                Pane newLoadedPane = loader.load();
+                displayPane.getChildren().clear();
+                displayPane.getChildren().add(newLoadedPane);
+                HomeScreenWidgets.currentDisplayPage = HomeScreenDisplays.SEARCH_PAGE;
             } catch (IOException e) {
                 e.printStackTrace();
             }

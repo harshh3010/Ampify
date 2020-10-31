@@ -3,11 +3,13 @@ package controllers;
 import CellFactories.SongCellFactory;
 import Services.AmpifyServices;
 import com.jfoenix.controls.JFXListView;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import model.Album;
 import model.Song;
+import utilities.HomeScreenWidgets;
 
 import java.io.IOException;
 import java.util.List;
@@ -43,13 +45,22 @@ public class AlbumScreenController {
     }
     private void loadItems() {
 
-        try {
-            List<Song> songs = AmpifyServices.getSongsOfAlbum(album.getAlbumID(), offset, rowCount);
-            songsListView.setItems(FXCollections.observableArrayList(songs));
-            songsListView.setCellFactory(new SongCellFactory());
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        HomeScreenWidgets.showProgressIndicator();
+
+        new Thread(() -> {
+
+            try {
+                List<Song> songs = AmpifyServices.getSongsOfAlbum(album.getAlbumID(), offset, rowCount);
+                songsListView.setItems(FXCollections.observableArrayList(songs));
+                songsListView.setCellFactory(new SongCellFactory());
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            Platform.runLater(HomeScreenWidgets::hideProgressIndicator);
+
+        }).start();
+
     }
 
     // Called on click of previous button
