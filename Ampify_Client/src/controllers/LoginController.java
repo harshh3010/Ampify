@@ -1,5 +1,6 @@
 package controllers;
 
+import Services.Hashing;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.application.Platform;
@@ -40,10 +41,10 @@ public class LoginController {
 
         // Getting the email and password input by the user
         String email = emailTF.getText().trim();
-        String pass = passwordTF.getText();
+        String password = passwordTF.getText();
 
         // Checking the validity of email and password
-        if (!email.isEmpty() && !pass.isEmpty()) {
+        if (!email.isEmpty() && !password.isEmpty()) {
 
             // Running a new thread to login the user if credentials are valid
             new Thread(() -> {
@@ -55,7 +56,7 @@ public class LoginController {
                     Socket socket = new Socket(Main.serverIp, Main.serverPort);
 
                     // Creating a new user auth object
-                    UserAuth userAuth = new UserAuth(email, pass);
+                    UserAuth userAuth = new UserAuth(email, Hashing.hashPassword(password));
 
                     // Creating a login request from user auth object
                     LoginRequest loginrequest = new LoginRequest(userAuth);

@@ -1,5 +1,6 @@
 package controllers;
 
+import Services.Hashing;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -31,13 +32,14 @@ public class RegisterController {
     public void onRegisterClick(ActionEvent actionEvent) {
 
         String email = emailTF.getText().trim();
-        String pass = passTF.getText();
-        String cnfPass = cnfpassTF.getText();
+        String password = passTF.getText();
+        String confirmPassword = cnfpassTF.getText();
 
-        if (!email.isEmpty() && !pass.isEmpty() && pass.equals(cnfPass)) {
+        if (!email.isEmpty() && !password.isEmpty() && password.equals(confirmPassword)) {
             UserAuth userAuth = new UserAuth();
             userAuth.setEmail(email);
-            userAuth.setPassword(pass);
+            //we set hashed password in the userAuth class for client's safety
+            userAuth.setPassword(Hashing.hashPassword(password));
 
             new Thread(new Runnable() {
                 @Override

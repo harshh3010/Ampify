@@ -3,32 +3,39 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RegisterController">
-    <columnConstraints>
-        <ColumnConstraints />
-    </columnConstraints>
-    <rowConstraints>
-        <RowConstraints />
-    </rowConstraints>
-    <AnchorPane id="anchorPane1" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../css/style.css">
-        <AnchorPane id="overlayAnchorPane" prefHeight="720.0" prefWidth="1280.0">
-            <Text fill="WHITE" layoutX="544.0" layoutY="165.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sign Up">
-                <font>
-                    <Font size="55.0" />
-                </font>
-            </Text>
-            <JFXTextField id="emailTF" fx:id="emailTF" focusColor="#9bb4ff" layoutX="362.0" layoutY="251.0" prefHeight="33.0" prefWidth="556.0" promptText="Enter email address" style="-fx-prompt-text-fill: #ffffff;" unFocusColor="WHITE" />
-            <JFXPasswordField fx:id="passTF" focusColor="#9bb4ff" layoutX="362.0" layoutY="344.0" prefHeight="33.0" prefWidth="556.0" promptText="Create password" style="-fx-prompt-text-fill: #ffffff;" unFocusColor="WHITE" />
-            <JFXPasswordField fx:id="cnfpassTF" focusColor="#9bb4ff" layoutX="362.0" layoutY="433.0" prefHeight="33.0" prefWidth="556.0" promptText="Confirm password" style="-fx-prompt-text-fill: #ffffff;" unFocusColor="WHITE" />
-            <JFXButton fx:id="registerBTN" layoutX="504.0" layoutY="531.0" onAction="#onRegisterClick" prefHeight="43.0" prefWidth="272.0" style="-fx-background-color: #ffffff;" text="Register" textFill="#3498db" />
-            <JFXButton fx:id="loginBTN" layoutX="548.0" layoutY="602.0" onAction="#loginButtonClicked" text="Already have an account? Login" textFill="WHITE" />
-        </AnchorPane>
-    </AnchorPane>
-</GridPane>
+<StackPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RegisterController">
+   <children>
+      <GridPane fx:id="mainPane" alignment="center" hgap="10" vgap="10">
+          <columnConstraints>
+              <ColumnConstraints />
+          </columnConstraints>
+          <rowConstraints>
+              <RowConstraints />
+          </rowConstraints>
+          <AnchorPane id="anchorPane1" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../css/style.css">
+              <AnchorPane id="overlayAnchorPane" prefHeight="720.0" prefWidth="1280.0">
+                  <Text fill="WHITE" layoutX="544.0" layoutY="165.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sign Up">
+                      <font>
+                          <Font size="55.0" />
+                      </font>
+                  </Text>
+                  <JFXTextField id="emailTF" fx:id="emailTF" focusColor="#9bb4ff" layoutX="362.0" layoutY="251.0" prefHeight="33.0" prefWidth="556.0" promptText="Enter email address" style="-fx-prompt-text-fill: #ffffff;" unFocusColor="WHITE" />
+                  <JFXPasswordField fx:id="passTF" focusColor="#9bb4ff" layoutX="362.0" layoutY="344.0" prefHeight="33.0" prefWidth="556.0" promptText="Create password" style="-fx-prompt-text-fill: #ffffff;" unFocusColor="WHITE" />
+                  <JFXPasswordField fx:id="cnfpassTF" focusColor="#9bb4ff" layoutX="362.0" layoutY="433.0" prefHeight="33.0" prefWidth="556.0" promptText="Confirm password" style="-fx-prompt-text-fill: #ffffff;" unFocusColor="WHITE" />
+                  <JFXButton fx:id="registerBTN" layoutX="504.0" layoutY="531.0" onAction="#onRegisterClick" prefHeight="43.0" prefWidth="272.0" style="-fx-background-color: #ffffff;" text="Register" textFill="#3498db" />
+                  <JFXButton fx:id="loginBTN" layoutX="548.0" layoutY="602.0" onAction="#loginButtonClicked" text="Already have an account? Login" textFill="WHITE" />
+              </AnchorPane>
+          </AnchorPane>
+      </GridPane>
+      <ProgressIndicator fx:id="progressIndicator" visible="false" />
+   </children>
+</StackPane>
