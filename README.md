@@ -1,7 +1,7 @@
 <h1 align="center">Ampify</h1>
 
-> Work from home with a broken music system has made life too stressful for .
->So to keep him entertained during the tough times we thought to make one for him.
+> Work from home with a broken music system has made life too stressful for team vistArAkA .
+>So to keep them entertained during the tough times we thought to make one using java.
 <hr>
 
 # Table of Contents
