@@ -65,10 +65,6 @@ public class DownloadService implements Runnable {
             inputStream.close();
             System.out.println("Download complete");
 
-            // Displaying a success dialog
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Download Complete!", ButtonType.OK);
-            alert.showAndWait();
-
         } catch (IOException e) {
             e.printStackTrace();
         }

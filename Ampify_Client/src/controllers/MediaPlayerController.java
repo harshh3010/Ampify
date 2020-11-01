@@ -61,16 +61,18 @@ public class MediaPlayerController implements Initializable {
             songNameLabel.setText(MediaPlayerService.currentPlaylist.peekFirst().getSongName());
             artistNameLabel.setText(MediaPlayerService.currentPlaylist.peekFirst().getArtistName());
 
-            // Creating a background using image of song
-            BackgroundImage backgroundImage = new BackgroundImage(
-                    new Image(MediaPlayerService.currentPlaylist.peekFirst().getSongImageURL()),
-                    BackgroundRepeat.REPEAT,
-                    BackgroundRepeat.NO_REPEAT,
-                    BackgroundPosition.CENTER,
-                    new BackgroundSize(100, 100, true, true, false, true));
+            if(MediaPlayerService.currentPlaylist.peekFirst().getSongID() != 0){
+                // Creating a background using image of song
+                BackgroundImage backgroundImage = new BackgroundImage(
+                        new Image(MediaPlayerService.currentPlaylist.peekFirst().getSongImageURL()),
+                        BackgroundRepeat.REPEAT,
+                        BackgroundRepeat.NO_REPEAT,
+                        BackgroundPosition.CENTER,
+                        new BackgroundSize(100, 100, true, true, false, true));
 
-            // Setting the background in main artist card
-            imagePane.setBackground(new Background(backgroundImage));
+                // Setting the background in main artist card
+                imagePane.setBackground(new Background(backgroundImage));
+            }
 
             // Displaying the songs in queue on home screen
             List<Song> list = new ArrayList<>(MediaPlayerService.currentPlaylist);

@@ -100,29 +100,33 @@ public class LoginController {
 
                                     // Fetching user's choices from the database
                                     ChoicesFetchRequest choicesFetchRequest = new ChoicesFetchRequest(userApi.getEmail());
-                                    objectOutputStream.writeObject(choicesFetchRequest);
-                                    objectOutputStream.flush();
-                                    choicesFetchRequest = (ChoicesFetchRequest) objectInputStream.readObject();
+                                    Main.userOutputStream.writeObject(choicesFetchRequest);
+                                    Main.userOutputStream.flush();
+                                    choicesFetchRequest = (ChoicesFetchRequest) Main.userInputStream.readObject();
 
                                     if (choicesFetchRequest != null
                                             && !choicesFetchRequest.getArtistList().isEmpty()
                                             && !choicesFetchRequest.getLanguageList().isEmpty()
                                             && !choicesFetchRequest.getGenresList().isEmpty()
                                     ) {
-                                        // On successfully loading saving user's choices in UserApi class
+
+                                        // If choices present in database save them in UserApi class
                                         userApi.setLikedLanguages(choicesFetchRequest.getLanguageList());
                                         userApi.setLikedGenres(choicesFetchRequest.getGenresList());
                                         userApi.setLikedArtists(choicesFetchRequest.getArtistList());
 
                                         // Redirecting the user to home screen
                                         goToHomeScreen(actionEvent);
+
                                     } else {
 
-                                        // In case choices are not present, taking the user to choices screen
-                                        goToDetailsScreen(actionEvent);
+                                        // If user's choices not found then redirect the user to choices screen
+                                       goToDetailsScreen(actionEvent);
+
                                     }
 
                                 } catch (Exception e) {
+                                    System.out.println("Error establishing connection with the server!");
                                     e.printStackTrace();
                                 }
 
